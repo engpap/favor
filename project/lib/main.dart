@@ -42,8 +42,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return (CupertinoNavigationBar(
-      middle: Text(widget.title),
+    return (CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        middle: Text('Demo'),
+      ),
+      child: Center(
+        child: Text("Hi"),
+      ),
     ));
   }
 }
