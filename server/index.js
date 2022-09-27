@@ -2,7 +2,9 @@ import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
-import dotenv from 'dotenv'; // to read .env file
+import dotenv from "dotenv"; // to read .env file
+
+import userRoutes from './routes/user.js';
 
 const app = express();
 dotenv.config();
@@ -11,6 +13,8 @@ dotenv.config();
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
+
+app.use('/user', userRoutes);
 
 const PORT = process.env.PORT;
 
