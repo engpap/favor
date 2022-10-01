@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:project/services/tabs.dart';
+import 'package:project/functions/tabs.dart';
 
 // import 'package:project/screens/auth.dart';
 // import 'package:project/router.dart';
