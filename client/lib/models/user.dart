@@ -6,8 +6,13 @@ class User {
   final String password;
   final String confirmPassword;
 
-  User(this.id, this.email, this.password, this.confirmPassword, this.firstName,
-      this.lastName);
+  User(
+      {required this.id,
+      required this.firstName,
+      required this.lastName,
+      required this.email,
+      required this.password,
+      required this.confirmPassword});
 
   ///The following code has the purpose of JSON stringify the user object.
   User.fromJson(Map<String, dynamic> json)
