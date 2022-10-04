@@ -1,7 +1,7 @@
 /// TODO code to be replaced/removed
 
 import 'package:flutter/material.dart';
-import 'package:project/screens/auth.dart';
+import 'package:project/screens/authScreen.dart';
 
 Route<dynamic> generateRoute(RouteSettings routeSettings) {
   switch (routeSettings.name) {
