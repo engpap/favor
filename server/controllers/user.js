@@ -1,7 +1,10 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import dotenv from "dotenv"; // to read .env file
 
 import User from '../model/user.js';
+
+dotenv.config();
 
 export const signup = async (req, res) => {
     const { firstName, lastName, email, password, confirmPassword } = req.body;
@@ -18,9 +21,35 @@ export const signup = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 12);
 
         const newUser = await User.create({ email, password: hashedPassword, name: `${firstName} ${lastName}` });
-        response.status(201).json(newUser);
+        res.status(201).json(newUser);
 
     } catch (error) {
-        response.status(500).json({ message: "Something went wrong." });
+        res.status(500).json({ message: "Something went wrong." });
     }
+}
+
+
+export const signin = async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        const existingUser = await User.findOne({ email: email });
+
+        if (!existingUser)
+            return res.status(404).json({ message: "User does not exists" })
+
+        const isPasswordCorrect = await bcrypt.compare(password, existingUser.password);
+
+        if (!isPasswordCorrect)
+            return res.status(400).json({ message: "Wrong password" });
+
+        const token = jwt.sign({ id: existingUser._id }, process.env.KEY);
+        //The _doc field lets you access the "raw" document directly, 
+        // which was delivered through the mongodb driver, bypassing mongoose.
+        res.json({ token, ...existingUser._doc });
+
+    } catch (error) {
+        return res.status(500).json({ message: "Something went wrong" });
+    }
+
 }
