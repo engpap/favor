@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'home.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -19,6 +20,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       TextEditingController(text: "password");
   final TextEditingController _textController5 =
       TextEditingController(text: "Confirm password");
+  Color? signupColor = Colors.red[600];
+  // Color? signupColor = Colors.green[600];
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +54,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
             CupertinoTextField(
               controller: _textController5,
+            ),
+            CupertinoButton(
+              child: const Text("push al server"),
+              onPressed: () {
+                // TODO push al server
+              },
+            ),
+            Container(
+              margin: const EdgeInsets.all(10.0),
+              color: signupColor,
+              width: 48.0,
+              height: 48.0,
             ),
           ]),
         ),
