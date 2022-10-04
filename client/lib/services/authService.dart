@@ -33,4 +33,22 @@ class AuthService {
       print("error");
     }
   }
+
+  void signin({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      http.Response response = await http.post(
+        Uri.parse('$uri/user/signin'),
+        headers: <String, String>{
+          'Content-Type': 'application/json;charset=UTF-8',
+        },
+        body: jsonEncode({'email': email, 'password': password}),
+      );
+    } catch (error) {
+      // TODO
+      print("error");
+    }
+  }
 }
