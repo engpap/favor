@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'home.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -13,7 +14,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return CupertinoPageScaffold(
       backgroundColor: CupertinoColors.lightBackgroundGray,
       child: Center(
-        child: Text("Login"),
+        child: CupertinoButton(
+          child: const Text("go homeScreen"),
+          onPressed: () {
+            Navigator.push(
+              context,
+              CupertinoPageRoute(builder: (context) => const HomeScreen()),
+            );
+          },
+        ),
       ),
     );
   }
