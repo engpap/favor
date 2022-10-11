@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project/services/authService.dart';
-import 'home.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/services/authService.dart';
+import 'package:project/services/errors/error.dart';
+
+import 'home.dart';
+import 'login.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -72,7 +74,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         right: 9, left: 9 
                       ),
                       child: const Text(
-                        "Create Account", 
+                        "Create Account",
                         style: TextStyle(
                           color: Colors.white, 
                           fontSize: 35, 
@@ -89,7 +91,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         //keyboardType: TextInputType.emailAddress,
                         padding: EdgeInsets.only(top:9, bottom: 9),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: (_textControllerName.text == "error") ? Colors.red : Colors.white,
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
                             BoxShadow(
@@ -125,7 +127,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       )
                     ),
     
-                    /// spacer
+                    // TODO: completare con gli errori corretti. Creare style dell'errore
+                    if (_textControllerName.text == "error") Text("Messaggio d'errore", style: TextStyle(color: Colors.white),),
+
                     Divider(),
     
                     /// SURNAME
@@ -255,7 +259,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         onSubmitted: (value) => print('Submitted [_textControllerPassword.text]: $value'),
                       )
                     ),
-    
+
                     /// space
                     Divider(),
                     
@@ -300,10 +304,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       )
                     ),
                     
+                    Divider(height: Responsive.height(5, context)),
+
                     // Register button
                     // now: print "Submitted Register button" and push HomeScreen
                     Container(
-                      margin: EdgeInsets.only(top:Responsive.height(5, context), right: 9, left: 9, bottom: 9),
+                      margin: EdgeInsets.only(top:9, right: 9, left: 9, bottom: 9),
                       decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(
@@ -315,21 +321,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ],
                       ),
                       child: SizedBox(
-                        width: Responsive.width(50, context),
+                        width: Responsive.width(65, context),
                         child: CupertinoButton(
                           color: Colors.deepOrangeAccent,
-                          child: const Text("Register"),
+                          child: const Text("Register", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
                           onPressed: () {
                             // Console log
                             print('Pressed: Register button');
                             // send information to server
-                            _authService.signup(
+                            
+                            /*
+                            ErrorMessage signupResponse = _authService.signup(
                               firstName: _textControllerName.text,
                               lastName: _textControllerSurname.text,
                               email: _textControllerEmail.text,
                               password: _textControllerPassword.text,
                               confirmPassword: _textControllerPasswordConfirm.text,
                             );
+
+                            print(signupResponse.type);
+
+                            
+                            // funzione per controllare i diversi tipi di errore ricevuti.
+                            checkResponse(signupResponse){
+                              if (signupResponse.type == "pippo"){
+                              }
+                            }; */                           
+                            
+
                             print('run: _authService.signup');
                             // push homepage
                             Navigator.push(
@@ -341,12 +360,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ),
 
-                    Divider(),
-                    Text("- or -", style: TextStyle(color: Colors.white),),
+                    Divider(height: 50,),
+                    
+                    Text("Have an account?", style: TextStyle(color: Colors.white, fontSize: 16),),
                     Divider(),
 
                     // Login button
-                    // now: print "Submitted Log in button" and push HomeScreen
                     Container(
                       margin: EdgeInsets.only(top:9, right: 9, left: 9, bottom: 9),
                       decoration: BoxDecoration(
@@ -362,16 +381,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       child: SizedBox(
                         width: Responsive.width(50, context),
                         child: CupertinoButton(
+                          padding: EdgeInsets.symmetric(horizontal: 0,),
                           color: Colors.orangeAccent,
                           child: const Text("Log in"),
-                          onPressed: () {
-                            // Console log
-                            print('Submitted Log in button');
-                            // push homepage
-                            // TODO: substitute this navigation
+                          onPressed: () {                           
+                            print('Pressed: Login button -> push LoginScreen');
                             Navigator.push(
                               context,
-                              CupertinoPageRoute(builder: (context) => const HomeScreen()),
+                              CupertinoPageRoute(builder: (context) => const LoginScreen()),
                             );
                           },
                         ),

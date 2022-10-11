@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project/screens/singup.dart';
+import 'package:project/screens/welcome.dart';
 
 
 // import 'package:project/screens/auth.dart';
@@ -29,8 +29,7 @@ class MyApp extends StatelessWidget {
         ),
         //barBackgroundColor: Colors.deepOrangeAccent,
       ),
-      //home: HomeScreen(),
-      home: SignUpScreen(),
+      home: WelcomeScreen(),
     );
   }
 }
