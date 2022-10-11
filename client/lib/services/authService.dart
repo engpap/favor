@@ -1,4 +1,5 @@
 import 'package:project/constants/globalVars.dart';
+import 'package:project/constants/errorConstants.dart';
 import 'package:project/models/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:project/services/errors/error.dart';
@@ -32,10 +33,13 @@ class AuthService {
         body: jsonEncode(user.toJson()),
       );
 
-      return ErrorMessage(jsonDecode(response.body)['errorType'],
-          jsonDecode(response.body)['message']);
+      if (response.statusCode == 400 || response.statusCode == 404)
+        return ErrorMessage(jsonDecode(response.body)['errorType'],
+            jsonDecode(response.body)['message']);
+      else
+        return ErrorMessage(ErrorConstants.noError, 'noError');
     } catch (error) {
-      return ErrorMessage('client', 'Client error');
+      return ErrorMessage(ErrorConstants.client, 'Client error');
     }
   }
 
@@ -54,14 +58,18 @@ class AuthService {
         },
         body: jsonEncode({'email': email, 'password': password}),
       );
+
+      if (response.statusCode == 400 || response.statusCode == 404)
+        return ErrorMessage(jsonDecode(response.body)['errorType'],
+            jsonDecode(response.body)['message']);
+
       if (response.statusCode == 201) {
         //await prefs.setString('x-auth-token', jsonDecode(response.body)['token']);
         await prefs.setString('name', jsonDecode(response.body)['name']);
       }
-      return ErrorMessage(jsonDecode(response.body)['errorType'],
-          jsonDecode(response.body)['message']);
+      return ErrorMessage(ErrorConstants.noError, 'noError');
     } catch (error) {
-      return ErrorMessage('client', 'Client error');
+      return ErrorMessage(ErrorConstants.client, 'Client error');
     }
   }
 }
