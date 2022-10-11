@@ -1,7 +1,10 @@
 import 'package:project/constants/globalVars.dart';
 import 'package:project/models/user.dart';
 import 'package:http/http.dart' as http;
+import 'package:project/services/errors/error.dart';
 import 'dart:convert';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   void signup({
@@ -34,11 +37,14 @@ class AuthService {
     }
   }
 
-  void signin({
+  Future<ErrorMessage> signin({
     required String email,
     required String password,
   }) async {
     try {
+      //To save data recevied from the server in the client storage.
+      final prefs = await SharedPreferences.getInstance();
+
       http.Response response = await http.post(
         Uri.parse('$uri/user/signin'),
         headers: <String, String>{
@@ -46,9 +52,14 @@ class AuthService {
         },
         body: jsonEncode({'email': email, 'password': password}),
       );
+      if (response.statusCode == 201) {
+        //await prefs.setString('x-auth-token', jsonDecode(response.body)['token']);
+        await prefs.setString('name', jsonDecode(response.body)['name']);
+      }
+      return ErrorMessage(jsonDecode(response.body)['errorType'],
+          jsonDecode(response.body)['message']);
     } catch (error) {
-      // TODO
-      print("error");
+      return ErrorMessage('client', 'Client error');
     }
   }
 }
