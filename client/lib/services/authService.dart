@@ -7,7 +7,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
-  void signup({
+  Future<ErrorMessage> signup({
     required String firstName,
     required String lastName,
     required String email,
@@ -31,9 +31,11 @@ class AuthService {
         },
         body: jsonEncode(user.toJson()),
       );
+
+      return ErrorMessage(jsonDecode(response.body)['errorType'],
+          jsonDecode(response.body)['message']);
     } catch (error) {
-      // TODO
-      print("error");
+      return ErrorMessage('client', 'Client error');
     }
   }
 
