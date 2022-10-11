@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:project/functions/tabs.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -34,8 +35,10 @@ class HomeScreen extends StatelessWidget {
           return CupertinoTabView(
             builder: (context) {
               return CupertinoPageScaffold(
+                //backgroundColor: Color.fromARGB(160, 255, 109, 64),
                 navigationBar: CupertinoNavigationBar(
                   middle: Text(TabsName.values[i].name),
+                  //backgroundColor: Colors.deepOrangeAccent,
                 ),
                 child: Center(
                   child: CupertinoButton(

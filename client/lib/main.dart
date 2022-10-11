@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:project/screens/singup.dart';
+
 
 // import 'package:project/screens/auth.dart';
 // import 'package:project/router.dart';
@@ -19,12 +21,13 @@ class MyApp extends StatelessWidget {
           navLargeTitleTextStyle: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 50.0,
-            color: CupertinoColors.activeOrange,
+            color: Colors.deepOrangeAccent,
           ),
           actionTextStyle: TextStyle(
-            color: Color(0xFFE84817),
+            //color: Colors.black,
           ),
         ),
+        //barBackgroundColor: Colors.deepOrangeAccent,
       ),
       //home: HomeScreen(),
       home: SignUpScreen(),

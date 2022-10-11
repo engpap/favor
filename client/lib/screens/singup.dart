@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'home.dart';
+import 'package:project/functions/responsive.dart';
+import 'package:project/services/authService.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -10,213 +12,377 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final TextEditingController _textControllerName = TextEditingController(text: "Name");
-  final TextEditingController _textControllerSurname = TextEditingController(text: "Surname");
-  final TextEditingController _textControllerEmail = TextEditingController(text: "Email");
-  final TextEditingController _textControllerPassword = TextEditingController(text: "Password");
-  final TextEditingController _textControllerPasswordConfirm = TextEditingController(text: "Confirm your password");
-  
-  // variabili temporanee per test
-  Color? signupColor = Colors.red;
-  // Color? signupColor = Colors.green;
 
-  // TODO rivedere tutti i margin, e impostarli relativi
+  final String _PlaceholderName = "Name";
+  final String _PlaceholderSurname = "Surname";
+  final String _PlaceholderEmail = "Email address";
+  final String _PlaceholderPassword = "Password";
+  final String _PlaceholderPasswordConfirm = "Confirm your password";
+
+  final TextEditingController _textControllerName = TextEditingController(text: "");
+  final TextEditingController _textControllerSurname = TextEditingController(text: "");
+  final TextEditingController _textControllerEmail = TextEditingController(text: "");
+  final TextEditingController _textControllerPassword = TextEditingController(text: "");
+  final TextEditingController _textControllerPasswordConfirm = TextEditingController(text: "");
+  
+  final int _textMaxLength = 30;
+  final int _textMaxLines = 1;
+
+  final AuthService _authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      //backgroundColor: CupertinoColors.lightBackgroundGray,
+    return GestureDetector(
+      onTap: (){
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
       child: Container(
-        constraints: const BoxConstraints.expand(),
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/bg_music_02.jpg"),
             fit: BoxFit.cover,
             opacity: 1,
-              colorFilter: const ColorFilter.mode(
-               Colors.deepOrangeAccent,
-                BlendMode.modulate
-              )
+            colorFilter: const ColorFilter.mode(
+              //Color.fromARGB(100, 0, 0, 0),
+              //BlendMode.darken,
+              Colors.deepOrangeAccent,
+              BlendMode.modulate,
+            ),
           )
         ),
-        child: Center(
-          child: Container(
-            padding: const EdgeInsets.all(8.0),
-            margin: const EdgeInsets.only(top: 90.0),
-            child:
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start, 
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 9, right: 9, left: 9, bottom: 29),
-                    child: const Text(
-                      "Create Account", 
-                      style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold, color: Colors.white),
-                    ),
-                  ),
-                  // GO HOMESCREEN
-                  Container(
-                    margin: const EdgeInsets.only(top: 20.0),
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.4),
-                          spreadRadius: 1,
-                          blurRadius: 5,
-                          offset: Offset(0, 1), // changes position of shadow
+        child: CupertinoPageScaffold(
+          backgroundColor: Colors.transparent,
+          child: SafeArea(
+            child: Container(
+              padding: const EdgeInsets.only(top:8, bottom:8, left:16, right: 16),
+              child: SingleChildScrollView(
+                reverse: true,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start, 
+                  children: [
+                    /// PAGE TITLE
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: Responsive.height(10, context), 
+                        bottom: Responsive.height(5, context),
+                        right: 9, left: 9 
+                      ),
+                      child: const Text(
+                        "Create Account", 
+                        style: TextStyle(
+                          color: Colors.white, 
+                          fontSize: 35, 
+                          fontWeight: FontWeight.bold
                         ),
-                      ],
+                      ),
                     ),
-                    child: CupertinoButton(
-                      // TODO rivedere hover, colore, dimensione
-                      color: Colors.deepOrangeAccent,
-                      child: const Text("HomeScreen"),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          CupertinoPageRoute(builder: (context) => const HomeScreen()),
-                        );
-                      },
+                    
+                    /// NAME
+                    Container(
+                      margin: EdgeInsets.only(left:9, right:9),
+                      child: CupertinoTextField(
+                        textInputAction: TextInputAction.next,
+                        //keyboardType: TextInputType.emailAddress,
+                        padding: EdgeInsets.only(top:9, bottom: 9),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.4),
+                              spreadRadius: 1,
+                              blurRadius: 5,
+                              offset: Offset(0, 2), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        cursorColor: Colors.amber,
+                        cursorWidth: 3,
+                        cursorRadius: Radius.circular(10),
+                        // specific attributes
+                        prefix: CupertinoButton(
+                          padding: EdgeInsets.only(top:0, bottom: 0, left: 0, right: 0),
+                          child: Icon(CupertinoIcons.profile_circled, color: Colors.amber,), 
+                          onPressed: null,
+                        ),
+                        suffix:  CupertinoButton(
+                          padding: EdgeInsets.only(top:0, bottom: 0, left: 0, right: 0),
+                          child: Icon(CupertinoIcons.xmark_circle_fill, color: Colors.amber,), 
+                          onPressed: () => _textControllerName.clear(),
+                        ),
+                        //obscureText: false,
+                        //obscuringCharacter: "*",
+                        maxLength: _textMaxLength,
+                        maxLines: _textMaxLines,
+                        placeholder: _PlaceholderName,
+                        controller: _textControllerName,
+                        //onChanged: (_nameValue) => setState(() => this._nameValue = _nameValue),
+                        onSubmitted: (value) => print('Submitted [_textControllerName.text]: $value'),
+                      )
                     ),
-                  ),
+    
+                    /// spacer
+                    Divider(),
+    
+                    /// SURNAME
+                    Container(
+                      margin: EdgeInsets.only(left:9, right:9),
+                      child: CupertinoTextField(
+                        textInputAction: TextInputAction.next,
+                        padding: EdgeInsets.only(top:9, bottom: 9),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.4),
+                              spreadRadius: 1,
+                              blurRadius: 5,
+                              offset: Offset(0, 2), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        cursorColor: Colors.amber,
+                        cursorWidth: 3,
+                        cursorRadius: Radius.circular(10),
+                        // specific attributes
+                        prefix: CupertinoButton(
+                          padding: EdgeInsets.only(top:0, bottom: 0, left: 0, right: 0),
+                          child: Icon(CupertinoIcons.profile_circled, color: Colors.amber,), 
+                          onPressed: null,
+                        ),
+                        suffix:  CupertinoButton(
+                          padding: EdgeInsets.only(top:0, bottom: 0, left: 0, right: 0),
+                          child: Icon(CupertinoIcons.xmark_circle_fill, color: Colors.amber,), 
+                          onPressed: () => _textControllerSurname.clear(),
+                        ),
+                        maxLength: _textMaxLength,
+                        maxLines: _textMaxLines,
+                        placeholder: _PlaceholderSurname,
+                        controller: _textControllerSurname,
+                        onSubmitted: (value) => print('Submitted [_textControllerSurname.text]: $value'),
+                      )
+                    ),
+    
+                    /// space
+                    Divider(),
+    
+                    /// EMAIL
+                    Container(
+                      margin: EdgeInsets.only(left:9, right:9),
+                      child: CupertinoTextField(
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.emailAddress,
+                        padding: EdgeInsets.only(top:9, bottom: 9),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.4),
+                              spreadRadius: 1,
+                              blurRadius: 5,
+                              offset: Offset(0, 2), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        cursorColor: Colors.amber,
+                        cursorWidth: 3,
+                        cursorRadius: Radius.circular(10),
+                        // specific attributes
+                        prefix: CupertinoButton(
+                          padding: EdgeInsets.only(top:0, bottom: 0, left: 0, right: 0),
+                          child: Icon(CupertinoIcons.mail_solid, color: Colors.amber,), 
+                          onPressed: null,
+                        ),
+                        suffix:  CupertinoButton(
+                          padding: EdgeInsets.only(top:0, bottom: 0, left: 0, right: 0),
+                          child: Icon(CupertinoIcons.xmark_circle_fill, color: Colors.amber,), 
+                          onPressed: () => _textControllerEmail.clear(),
+                        ),
+                        maxLength: _textMaxLength,
+                        maxLines: _textMaxLines,
+                        placeholder: _PlaceholderEmail,
+                        controller: _textControllerEmail,
+                        onSubmitted: (value) => print('Submitted [_textControllerEmail.text]: $value'),
+                      )
+                    ),
+                    
+                    /// space
+                    Divider(),
+    
+                    /// PASSWORD
+                    Container(
+                      margin: EdgeInsets.only(left:9, right:9),
+                      child: CupertinoTextField(
+                        textInputAction: TextInputAction.next,
+                        padding: EdgeInsets.only(top:9, bottom: 9),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.4),
+                              spreadRadius: 1,
+                              blurRadius: 5,
+                              offset: Offset(0, 2), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        cursorColor: Colors.amber,
+                        cursorWidth: 3,
+                        cursorRadius: Radius.circular(10),
+                        // specific attributes
+                        prefix: CupertinoButton(
+                          padding: EdgeInsets.only(top:0, bottom: 0, left: 0, right: 0),
+                          child: Icon(CupertinoIcons.lock_circle_fill, color: Colors.amber,), 
+                          onPressed: null,
+                        ),
+                        suffix:  CupertinoButton(
+                          padding: EdgeInsets.only(top:0, bottom: 0, left: 0, right: 0),
+                          child: Icon(CupertinoIcons.xmark_circle_fill, color: Colors.amber,), 
+                          onPressed: () => _textControllerPassword.clear(),
+                        ),
+                        obscureText: true,
+                        maxLength: _textMaxLength,
+                        maxLines: _textMaxLines,
+                        placeholder: _PlaceholderPassword,
+                        controller: _textControllerPassword,
+                        onSubmitted: (value) => print('Submitted [_textControllerPassword.text]: $value'),
+                      )
+                    ),
+    
+                    /// space
+                    Divider(),
+                    
+                    /// PASSWORD CONFIRM
+                    Container(
+                      margin: EdgeInsets.only(left:9, right:9),
+                      child: CupertinoTextField(
+                        textInputAction: TextInputAction.done,
+                        padding: EdgeInsets.only(top:9, bottom: 9),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.4),
+                              spreadRadius: 1,
+                              blurRadius: 5,
+                              offset: Offset(0, 2), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        cursorColor: Colors.amber,
+                        cursorWidth: 3,
+                        cursorRadius: Radius.circular(10),
+                        // specific attributes
+                        prefix: CupertinoButton(
+                          padding: EdgeInsets.only(top:0, bottom: 0, left: 0, right: 0),
+                          child: Icon(CupertinoIcons.lock_circle_fill, color: Colors.amber,), 
+                          onPressed: null,
+                        ),
+                        suffix:  CupertinoButton(
+                          padding: EdgeInsets.only(top:0, bottom: 0, left: 0, right: 0),
+                          child: Icon(CupertinoIcons.xmark_circle_fill, color: Colors.amber,), 
+                          onPressed: () => _textControllerPasswordConfirm.clear(),
+                        ),
+                        obscureText: true,
+                        maxLength: _textMaxLength,
+                        maxLines: _textMaxLines,
+                        placeholder: _PlaceholderPasswordConfirm,
+                        controller: _textControllerPasswordConfirm,
+                        onSubmitted: (value) => print('Submitted [_textControllerPasswordConfirm.text]: $value'),
+                      )
+                    ),
+                    
+                    // Register button
+                    // now: print "Submitted Register button" and push HomeScreen
+                    Container(
+                      margin: EdgeInsets.only(top:Responsive.height(5, context), right: 9, left: 9, bottom: 9),
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.4),
+                            spreadRadius: 1,
+                            blurRadius: 5,
+                            offset: Offset(0, 1),
+                          ),
+                        ],
+                      ),
+                      child: SizedBox(
+                        width: Responsive.width(50, context),
+                        child: CupertinoButton(
+                          color: Colors.deepOrangeAccent,
+                          child: const Text("Register"),
+                          onPressed: () {
+                            // Console log
+                            print('Pressed: Register button');
+                            // send information to server
+                            _authService.signup(
+                              firstName: _textControllerName.text,
+                              lastName: _textControllerSurname.text,
+                              email: _textControllerEmail.text,
+                              password: _textControllerPassword.text,
+                              confirmPassword: _textControllerPasswordConfirm.text,
+                            );
+                            print('run: _authService.signup');
+                            // push homepage
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(builder: (context) => const HomeScreen()),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
 
-                  // RED BOX
-                  Container(
-                    margin: const EdgeInsets.only(top: 160.0, bottom: 20, left: 10, right: 320),
-                    color: signupColor,
-                    width: 48.0,
-                    height: 48.0,
-                  ),
+                    Divider(),
+                    Text("- or -", style: TextStyle(color: Colors.white),),
+                    Divider(),
 
-                  // TEXT FIELDS Name, Surname, Email, Password, PasswordConfirm
-                  Container(
-                    margin: EdgeInsets.all(9),
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.4),
-                          spreadRadius: 1,
-                          blurRadius: 5,
-                          offset: Offset(0, 1), // changes position of shadow
+                    // Login button
+                    // now: print "Submitted Log in button" and push HomeScreen
+                    Container(
+                      margin: EdgeInsets.only(top:9, right: 9, left: 9, bottom: 9),
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.4),
+                            spreadRadius: 1,
+                            blurRadius: 5,
+                            offset: Offset(0, 1),
+                          ),
+                        ],
+                      ),
+                      child: SizedBox(
+                        width: Responsive.width(50, context),
+                        child: CupertinoButton(
+                          color: Colors.orangeAccent,
+                          child: const Text("Log in"),
+                          onPressed: () {
+                            // Console log
+                            print('Submitted Log in button');
+                            // push homepage
+                            // TODO: substitute this navigation
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(builder: (context) => const HomeScreen()),
+                            );
+                          },
                         ),
-                      ],
+                      ),
                     ),
-                    child: CupertinoTextField(
-                      controller: _textControllerName, 
-                    )
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(9),
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.4),
-                          spreadRadius: 1,
-                          blurRadius: 5,
-                          offset: Offset(0, 1), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    child: CupertinoTextField(
-                      controller: _textControllerSurname, 
-                    )
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(9),
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.4),
-                          spreadRadius: 1,
-                          blurRadius: 5,
-                          offset: Offset(0, 1), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    child: CupertinoTextField(
-                      controller: _textControllerEmail, 
-                    )
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(9),
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.4),
-                          spreadRadius: 1,
-                          blurRadius: 5,
-                          offset: Offset(0, 1), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    child: CupertinoTextField(
-                      controller: _textControllerPassword, 
-                    )
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(9),
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.4),
-                          spreadRadius: 1,
-                          blurRadius: 5,
-                          offset: Offset(0, 1), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    child: CupertinoTextField(
-                      controller: _textControllerPasswordConfirm, 
-                    )
-                  ),
-
-                  // button push al server
-                  Container(
-                    margin: EdgeInsets.only(top:29, right: 9, left: 9, bottom: 19),
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.4),
-                          spreadRadius: 1,
-                          blurRadius: 5,
-                          offset: Offset(0, 1), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    child: CupertinoButton(
-                      // TODO rivedere hover, colore, dimensione
-                      color: Colors.deepOrangeAccent,
-                      child: const Text("push al server"),
-                      onPressed: () {
-                        // TODO push al server
-                      },
-                    ),
-                  ),
-
-                  
-
-                  
-                ]
+                  ]
+                ),
               ),
+            ),
           ),
         ),
       ),
     );
   }
 }
-
-/// TODO shadow class
-/* 
-class ShadowLogin extends BoxDecoration{
-  return BoxDecoration(
-    boxShadow: [
-      BoxShadow(
-        color: Colors.grey.withOpacity(0.5),
-        spreadRadius: 5,
-        blurRadius: 7,
-        offset: Offset(0, 3), // changes position of shadow
-      ),
-    ],
-  ),
-} 
-*/
