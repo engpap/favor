@@ -9,6 +9,9 @@ dotenv.config();
 export const signup = async (req, res) => {
     const { firstName, lastName, email, password, confirmPassword } = req.body;
     try {
+        if (!email.toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))
+            return res.status(404).json({message: "Wrong format of email address"});
+
         const existingUser = await User.findOne({ email });
 
         if (existingUser)
@@ -33,10 +36,13 @@ export const signin = async (req, res) => {
     const { email, password } = req.body;
 
     try {
+        if (!email.toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))
+            return res.status(404).json({message: "Wrong format of email address"});
+
         const existingUser = await User.findOne({ email: email });
 
         if (!existingUser)
-            return res.status(404).json({ message: "User does not exists" })
+            return res.status(404).json({ message: "User does not exists" });
 
         const isPasswordCorrect = await bcrypt.compare(password, existingUser.password);
 
