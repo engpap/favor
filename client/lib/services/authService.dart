@@ -1,10 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:project/constants/globalVars.dart';
 import 'package:project/constants/errorConstants.dart';
 import 'package:project/models/user.dart';
 import 'package:http/http.dart' as http;
+import 'package:project/providers/userProvider.dart';
 import 'package:project/services/errors/error.dart';
+import 'package:provider/provider.dart';
 import 'dart:convert';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
@@ -43,7 +45,8 @@ class AuthService {
     }
   }
 
-  Future<ErrorMessage> signin({
+  void signin({
+    required BuildContext context,
     required String email,
     required String password,
   }) async {
@@ -58,18 +61,14 @@ class AuthService {
         },
         body: jsonEncode({'email': email, 'password': password}),
       );
+      print("---->");
+      print(response.body);
 
-      if (response.statusCode == 400 || response.statusCode == 404)
-        return ErrorMessage(jsonDecode(response.body)['errorType'],
-            jsonDecode(response.body)['message']);
-
-      if (response.statusCode == 201) {
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        Provider.of<UserProvider>(context, listen: false)
+            .setUser(response.body);
         //await prefs.setString('x-auth-token', jsonDecode(response.body)['token']);
-        await prefs.setString('name', jsonDecode(response.body)['name']);
       }
-      return ErrorMessage(ErrorConstants.noError, 'noError');
-    } catch (error) {
-      return ErrorMessage(ErrorConstants.client, 'Client error');
-    }
+    } catch (error) {}
   }
 }

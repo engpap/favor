@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:project/functions/tabs.dart';
+import 'package:project/providers/getters.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -43,7 +43,7 @@ class HomeScreen extends StatelessWidget {
                 child: Center(
                   child: CupertinoButton(
                     child: Text(
-                      "This is tab ${TabsName.values[i].name}!",
+                      "This is tab ${TabsName.values[i].name}! and this the user received by server: ${getUserFromlocalStorage(context).toJson()}",
                       style: CupertinoTheme.of(context)
                           .textTheme
                           .actionTextStyle

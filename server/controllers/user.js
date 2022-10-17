@@ -23,7 +23,7 @@ export const signup = async (req, res) => {
         // Hash the password with a salt level of 12
         const hashedPassword = await bcrypt.hash(password, 12);
 
-        const newUser = await User.create({ email, password: hashedPassword, name: `${firstName} ${lastName}` });
+        const newUser = await User.create({ email, password: hashedPassword, firstName: firstName, lastName: lastName });
         res.status(201).json(newUser);
 
     } catch (error) {
@@ -36,6 +36,7 @@ export const signin = async (req, res) => {
     const { email, password } = req.body;
 
     try {
+
         if (!email.toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))
             return res.status(400).json({ message: "Wrong format of email address", error: "email" });
 
@@ -50,9 +51,10 @@ export const signin = async (req, res) => {
             return res.status(400).json({ message: "Wrong password", error: "password" });
 
         const token = jwt.sign({ id: existingUser._id }, process.env.KEY);
+
         //The _doc field lets you access the "raw" document directly, 
         // which was delivered through the mongodb driver, bypassing mongoose.
-        res.json({ token, ...existingUser._doc });
+        res.status(200).json({ token, ...existingUser._doc });
 
     } catch (error) {
         return res.status(500).json({ message: "Something went wrong" });

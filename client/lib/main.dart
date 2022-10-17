@@ -1,13 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project/providers/userProvider.dart';
 import 'package:project/screens/welcome.dart';
-
+import 'package:provider/provider.dart';
 
 // import 'package:project/screens/auth.dart';
 // import 'package:project/router.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(
+      providers: [ChangeNotifierProvider(create: (context) => UserProvider())],
+      child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -24,8 +27,8 @@ class MyApp extends StatelessWidget {
             color: Colors.deepOrangeAccent,
           ),
           actionTextStyle: TextStyle(
-            //color: Colors.black,
-          ),
+              //color: Colors.black,
+              ),
         ),
         //barBackgroundColor: Colors.deepOrangeAccent,
       ),
