@@ -50,7 +50,7 @@ export const signin = async (req, res) => {
         if (!isPasswordCorrect)
             return res.status(400).json({ message: "Wrong password", error: "password" });
 
-        const token = jwt.sign({ id: existingUser._id }, process.env.KEY);
+        const token = jwt.sign({ id: existingUser._id }, process.env.KEY, { expiresIn: "7d" });
 
         //The _doc field lets you access the "raw" document directly, 
         // which was delivered through the mongodb driver, bypassing mongoose.

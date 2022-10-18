@@ -52,7 +52,7 @@ class AuthService {
   }) async {
     try {
       //To save data recevied from the server in the client storage.
-      final prefs = await SharedPreferences.getInstance();
+      final _prefs = await SharedPreferences.getInstance();
 
       http.Response response = await http.post(
         Uri.parse('$uri/user/signin'),
@@ -65,12 +65,16 @@ class AuthService {
       if (response.statusCode == 201 || response.statusCode == 200) {
         Provider.of<UserProvider>(context, listen: false)
             .setUser(response.body);
-        //await prefs.setString('x-auth-token', jsonDecode(response.body)['token']);
+        await _prefs.setString('id', jsonDecode(response.body)['_id']);
+        await _prefs.setString('token', jsonDecode(response.body)['token']);
       }
     } catch (error) {}
   }
 
-  void signout({required BuildContext context}) {
+  void signout({required BuildContext context}) async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    _prefs.remove('id');
+    _prefs.remove('token');
     Provider.of<UserProvider>(context, listen: false).clearUser();
   }
 }
