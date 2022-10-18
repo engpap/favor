@@ -45,4 +45,4 @@ app.*.map.json
 
 
 #global variables
-lib/contains/globaVars.dart
+/lib/constants/globalVars.dart
