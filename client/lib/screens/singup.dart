@@ -328,6 +328,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           onPressed: () {
                             // Console log
                             print('Pressed: Register button');
+
+                            // check valide fields
+                            
+
+
                             // send information to server
                             
                             /*

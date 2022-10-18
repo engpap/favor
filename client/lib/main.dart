@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/providers/userProvider.dart';
-import 'package:project/screens/welcome.dart';
 import 'package:provider/provider.dart';
 
-// import 'package:project/screens/auth.dart';
-// import 'package:project/router.dart';
+import 'package:project/screens/welcome.dart';
 
 void main() {
   runApp(MultiProvider(

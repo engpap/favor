@@ -17,10 +17,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final String _PlaceholderEmail = "Email address";
   final String _PlaceholderPassword = "Password";
 
-  final TextEditingController _textControllerEmail =
-      TextEditingController(text: "");
-  final TextEditingController _textControllerPassword =
-      TextEditingController(text: "");
+  final TextEditingController _textControllerEmail = TextEditingController(text: "");
+  final TextEditingController _textControllerPassword = TextEditingController(text: "");
 
   final int _textMaxLength = 30;
   final int _textMaxLines = 1;

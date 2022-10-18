@@ -43,7 +43,7 @@ class HomeScreen extends StatelessWidget {
                 child: Center(
                   child: CupertinoButton(
                     child: Text(
-                      "This is tab ${TabsName.values[i].name}! and this the user received by server: ${getUserFromlocalStorage(context).toJson()}",
+                      "This is tab ${TabsName.values[i].name}! \n and this the user received by server: ${getUserFromlocalStorage(context).toJson()}",
                       style: CupertinoTheme.of(context)
                           .textTheme
                           .actionTextStyle
