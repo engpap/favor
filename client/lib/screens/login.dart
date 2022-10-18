@@ -17,8 +17,10 @@ class _LoginScreenState extends State<LoginScreen> {
   final String _PlaceholderEmail = "Email address";
   final String _PlaceholderPassword = "Password";
 
-  final TextEditingController _textControllerEmail = TextEditingController(text: "");
-  final TextEditingController _textControllerPassword = TextEditingController(text: "");
+  final TextEditingController _textControllerEmail =
+      TextEditingController(text: "");
+  final TextEditingController _textControllerPassword =
+      TextEditingController(text: "");
 
   final int _textMaxLength = 30;
   final int _textMaxLines = 1;
@@ -213,8 +215,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 email: _textControllerEmail.text,
                                 password: _textControllerPassword.text,
                               );
-
-                              //TODO implementare logica del server per il login
                               //se no errori push
                               Navigator.push(
                                 context,

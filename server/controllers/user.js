@@ -38,7 +38,7 @@ export const signin = async (req, res) => {
     try {
 
         if (!email.toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))
-            return res.status(400).json({ message: "Wrong format of email address", error: "email" });
+            return res.status(400).json({ message: "Wrong format of email address", errorType: "email" });
 
         const existingUser = await User.findOne({ email: email });
 
@@ -48,7 +48,7 @@ export const signin = async (req, res) => {
         const isPasswordCorrect = await bcrypt.compare(password, existingUser.password);
 
         if (!isPasswordCorrect)
-            return res.status(400).json({ message: "Wrong password", error: "password" });
+            return res.status(400).json({ message: "Wrong password", errorType: "password" });
 
         const token = jwt.sign({ id: existingUser._id }, process.env.KEY, { expiresIn: "7d" });
 
