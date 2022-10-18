@@ -61,8 +61,6 @@ class AuthService {
         },
         body: jsonEncode({'email': email, 'password': password}),
       );
-      print("---->");
-      print(response.body);
 
       if (response.statusCode == 201 || response.statusCode == 200) {
         Provider.of<UserProvider>(context, listen: false)
@@ -70,5 +68,9 @@ class AuthService {
         //await prefs.setString('x-auth-token', jsonDecode(response.body)['token']);
       }
     } catch (error) {}
+  }
+
+  void signout({required BuildContext context}) {
+    Provider.of<UserProvider>(context, listen: false).clearUser();
   }
 }
