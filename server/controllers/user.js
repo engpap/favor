@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from "dotenv"; // to read .env file
 
 import User from '../model/user.js';
+import { EMAIL_ERROR, PASSWORD_ERROR } from './constants/errorTypes'
 
 dotenv.config();
 
@@ -10,15 +11,15 @@ export const signup = async (req, res) => {
     const { firstName, lastName, email, password, confirmPassword } = req.body;
     try {
         if (!email.toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))
-            return res.status(400).json({ message: "Wrong format of email address", errorType: "email" });
+            return res.status(400).json({ message: "Wrong format of email address", errorType: EMAIL_ERROR });
 
         const existingUser = await User.findOne({ email });
 
         if (existingUser)
-            return res.status(400).json({ message: "User already signed up", errorType: "email" });
+            return res.status(400).json({ message: "User already signed up", errorType: EMAIL_ERROR });
 
         if (password !== confirmPassword)
-            return res.status(400).json({ message: "Confirm password is different from provided password", errorType: "password" })
+            return res.status(400).json({ message: "Confirm password is different from provided password", errorType: PASSWORD_ERROR })
 
         // Hash the password with a salt level of 12
         const hashedPassword = await bcrypt.hash(password, 12);
@@ -38,17 +39,17 @@ export const signin = async (req, res) => {
     try {
 
         if (!email.toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))
-            return res.status(400).json({ message: "Wrong format of email address", errorType: "email" });
+            return res.status(400).json({ message: "Wrong format of email address", errorType: EMAIL_ERROR });
 
         const existingUser = await User.findOne({ email: email });
 
         if (!existingUser)
-            return res.status(404).json({ message: "User does not exists", errorType: "email" });
+            return res.status(404).json({ message: "User does not exists", errorType: EMAIL_ERROR });
 
         const isPasswordCorrect = await bcrypt.compare(password, existingUser.password);
 
         if (!isPasswordCorrect)
-            return res.status(400).json({ message: "Wrong password", errorType: "password" });
+            return res.status(400).json({ message: "Wrong password", errorType: PASSWORD_ERROR });
 
         const token = jwt.sign({ id: existingUser._id }, process.env.KEY, { expiresIn: "7d" });
 

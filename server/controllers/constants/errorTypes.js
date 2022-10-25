@@ -1,0 +1,2 @@
+export const EMAIL_ERROR = 'EMAIL_ERROR';
+export const PASSWORD_ERROR = 'PASSWORD_ERROR';
