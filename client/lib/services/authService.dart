@@ -35,7 +35,9 @@ class AuthService {
         body: jsonEncode(user.toJson()),
       );
 
-      if (response.statusCode == 400 || response.statusCode == 404)
+      if (response.statusCode == 400 ||
+          response.statusCode == 404 ||
+          response.statusCode == 500)
         return ErrorMessage(jsonDecode(response.body)['errorType'],
             jsonDecode(response.body)['message']);
       else
@@ -45,7 +47,7 @@ class AuthService {
     }
   }
 
-  void signin({
+  Future<ErrorMessage> signin({
     required BuildContext context,
     required String email,
     required String password,
@@ -67,8 +69,14 @@ class AuthService {
             .setUser(response.body);
         await _prefs.setString('id', jsonDecode(response.body)['_id']);
         await _prefs.setString('token', jsonDecode(response.body)['token']);
+        return ErrorMessage(ErrorConstants.NO_ERROR, 'noError');
+      } else {
+        return ErrorMessage(jsonDecode(response.body)['errorType'],
+            jsonDecode(response.body)['message']);
       }
-    } catch (error) {}
+    } catch (error) {
+      return ErrorMessage(ErrorConstants.CLIENT_ERROR, 'Client error');
+    }
   }
 
   void signout({required BuildContext context}) async {

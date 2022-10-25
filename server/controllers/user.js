@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from "dotenv"; // to read .env file
 
 import User from '../model/user.js';
-import { EMAIL_ERROR, PASSWORD_ERROR } from './constants/errorTypes.js';
+import { EMAIL_ERROR, PASSWORD_ERROR, SERVER_ERROR } from './constants/errorTypes.js';
 
 dotenv.config();
 
@@ -28,7 +28,7 @@ export const signup = async (req, res) => {
         res.status(201).json(newUser);
 
     } catch (error) {
-        res.status(500).json({ message: "Something went wrong." });
+        res.status(500).json({ message: "Something went wrong.", errorType: SERVER_ERROR });
     }
 }
 
@@ -58,7 +58,7 @@ export const signin = async (req, res) => {
         res.status(200).json({ token, ...existingUser._doc });
 
     } catch (error) {
-        return res.status(500).json({ message: "Something went wrong" });
+        return res.status(500).json({ message: "Something went wrong", errorType: SERVER_ERROR });
     }
 
 }
