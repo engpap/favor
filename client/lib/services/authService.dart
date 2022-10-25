@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:project/constants/globalVars.dart';
-import 'package:project/constants/errorConstants.dart';
+import 'package:project/errors/errorConstants.dart';
 import 'package:project/models/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:project/providers/userProvider.dart';
-import 'package:project/services/errors/error.dart';
+import 'package:project/errors/error.dart';
 import 'package:provider/provider.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -39,9 +39,9 @@ class AuthService {
         return ErrorMessage(jsonDecode(response.body)['errorType'],
             jsonDecode(response.body)['message']);
       else
-        return ErrorMessage(ErrorConstants.noError, 'noError');
+        return ErrorMessage(ErrorConstants.NO_ERROR, 'noError');
     } catch (error) {
-      return ErrorMessage(ErrorConstants.client, 'Client error');
+      return ErrorMessage(ErrorConstants.CLIENT_ERROR, 'Client error');
     }
   }
 

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/services/authService.dart';
-import 'package:project/services/errors/error.dart';
+import 'package:project/errors/error.dart';
 
 import 'home.dart';
 import 'login.dart';
