@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/services/authService.dart';
 import 'package:project/errors/error.dart';
+import 'package:project/screens/components/customField.dart';
 
 import 'home.dart';
 import 'login.dart';
@@ -32,10 +33,69 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _textControllerPasswordConfirm =
       TextEditingController(text: "");
 
-  final int _textMaxLength = 30;
-  final int _textMaxLines = 1;
+  String _StatusName = "undefined";
+  String _StatusSurname = "undefined";
+  String _StatusEmail = "undefined";
+  String _StatusPassword = "undefined";
+  String _StatusPasswordConfirm = "undefined";
 
   final AuthService _authService = AuthService();
+
+  //TODO spostare tutte queste funzioni fuori dal widget e generalizzarle
+
+  // Update the status of the textsfields
+  UpdateFieldsStatus(ErrorMessage response) {
+    // check client side
+    // TODO : riscrivere meglio questi controlli, con tutti i casi necessari
+    (_textControllerName == "") ? _StatusName = "error" : _StatusName = "valid";
+    (_textControllerSurname == "")
+        ? _StatusSurname = "error"
+        : _StatusSurname = "valid";
+    //cambiare assulutamente questo controllo
+    (_textControllerEmail == "")
+        ? _StatusEmail = "error"
+        : _StatusEmail = "valid";
+    (_textControllerPassword == "")
+        ? _StatusPassword = "error"
+        : _StatusPassword = "undefined";
+    (_textControllerPasswordConfirm == "")
+        ? _StatusPasswordConfirm = "error"
+        : _StatusPasswordConfirm = "undefined";
+    (_textControllerPassword.text == _textControllerPasswordConfirm.text)
+        ? {_StatusPasswordConfirm = "valid", _StatusPassword = "valid"}
+        : {_StatusPasswordConfirm = "error", _StatusPassword = "error"};
+
+    //check server side
+    switch (response.type) {
+      case "email":
+        {
+          _StatusEmail = "error";
+        }
+        break;
+      case "password":
+        {
+          _StatusPassword = "error";
+          _StatusPasswordConfirm = "error";
+        }
+        break;
+    }
+    print(
+        "response.message: ${response.message}\nresponse.type: ${response.type}");
+    print(
+        "_StatusName: $_StatusName\n_StatusSurname: $_StatusSurname\n_StatusEmail: $_StatusEmail\n_StatusPassword: $_StatusPassword\n_StatusPasswordConfirm $_StatusPasswordConfirm");
+  }
+
+  // return TRUE only if all _StatusFields are set to valid
+  bool IsFieldsValid() {
+    if (_StatusName == "valid" &&
+        _StatusSurname == "valid" &&
+        _StatusEmail == "valid" &&
+        _StatusPassword == "valid" &&
+        _StatusPasswordConfirm == "valid")
+      return true;
+    else
+      return false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +133,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       /// PAGE TITLE
                       Container(
                         margin: EdgeInsets.only(
-                            top: Responsive.height(10, context),
+                            top: Responsive.height(2, context),
                             bottom: Responsive.height(5, context),
                             right: 9,
                             left: 9),
@@ -87,277 +147,60 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
 
                       /// NAME
-                      Container(
-                          margin: EdgeInsets.only(left: 9, right: 9),
-                          child: CupertinoTextField(
-                            textInputAction: TextInputAction.next,
-                            //keyboardType: TextInputType.emailAddress,
-                            padding: EdgeInsets.only(top: 9, bottom: 9),
-                            decoration: BoxDecoration(
-                              color: (_textControllerName.text == "error")
-                                  ? Colors.red
-                                  : Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.4),
-                                  spreadRadius: 1,
-                                  blurRadius: 5,
-                                  offset: Offset(
-                                      0, 2), // changes position of shadow
-                                ),
-                              ],
-                            ),
-                            cursorColor: Colors.amber,
-                            cursorWidth: 3,
-                            cursorRadius: Radius.circular(10),
-                            // specific attributes
-                            prefix: CupertinoButton(
-                              padding: EdgeInsets.only(
-                                  top: 0, bottom: 0, left: 0, right: 0),
-                              child: Icon(
-                                CupertinoIcons.profile_circled,
-                                color: Colors.amber,
-                              ),
-                              onPressed: null,
-                            ),
-                            suffix: CupertinoButton(
-                              padding: EdgeInsets.only(
-                                  top: 0, bottom: 0, left: 0, right: 0),
-                              child: Icon(
-                                CupertinoIcons.xmark_circle_fill,
-                                color: Colors.amber,
-                              ),
-                              onPressed: () => _textControllerName.clear(),
-                            ),
-                            //obscureText: false,
-                            //obscuringCharacter: "*",
-                            maxLength: _textMaxLength,
-                            maxLines: _textMaxLines,
-                            placeholder: _PlaceholderName,
-                            controller: _textControllerName,
-                            //onChanged: (_nameValue) => setState(() => this._nameValue = _nameValue),
-                            onSubmitted: (value) => print(
-                                'Submitted [_textControllerName.text]: $value'),
-                          )),
-
-                      // TODO: completare con gli errori corretti. Creare style dell'errore
-                      if (_textControllerName.text == "error")
-                        Text(
-                          "Messaggio d'errore",
-                          style: TextStyle(color: Colors.white),
-                        ),
-
-                      Divider(),
+                      CustomField(
+                        prefixIcon: CupertinoIcons.profile_circled,
+                        placeholder: _PlaceholderName,
+                        textController: _textControllerName,
+                        status: _StatusName,
+                      ),
+                      Divider(
+                        height: 5,
+                      ),
 
                       /// SURNAME
-                      Container(
-                          margin: EdgeInsets.only(left: 9, right: 9),
-                          child: CupertinoTextField(
-                            textInputAction: TextInputAction.next,
-                            padding: EdgeInsets.only(top: 9, bottom: 9),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.4),
-                                  spreadRadius: 1,
-                                  blurRadius: 5,
-                                  offset: Offset(
-                                      0, 2), // changes position of shadow
-                                ),
-                              ],
-                            ),
-                            cursorColor: Colors.amber,
-                            cursorWidth: 3,
-                            cursorRadius: Radius.circular(10),
-                            // specific attributes
-                            prefix: CupertinoButton(
-                              padding: EdgeInsets.only(
-                                  top: 0, bottom: 0, left: 0, right: 0),
-                              child: Icon(
-                                CupertinoIcons.profile_circled,
-                                color: Colors.amber,
-                              ),
-                              onPressed: null,
-                            ),
-                            suffix: CupertinoButton(
-                              padding: EdgeInsets.only(
-                                  top: 0, bottom: 0, left: 0, right: 0),
-                              child: Icon(
-                                CupertinoIcons.xmark_circle_fill,
-                                color: Colors.amber,
-                              ),
-                              onPressed: () => _textControllerSurname.clear(),
-                            ),
-                            maxLength: _textMaxLength,
-                            maxLines: _textMaxLines,
-                            placeholder: _PlaceholderSurname,
-                            controller: _textControllerSurname,
-                            onSubmitted: (value) => print(
-                                'Submitted [_textControllerSurname.text]: $value'),
-                          )),
-
-                      /// space
-                      Divider(),
+                      CustomField(
+                        prefixIcon: CupertinoIcons.profile_circled,
+                        placeholder: _PlaceholderSurname,
+                        textController: _textControllerSurname,
+                        status: _StatusSurname,
+                      ),
+                      Divider(
+                        height: 5,
+                      ),
 
                       /// EMAIL
-                      Container(
-                          margin: EdgeInsets.only(left: 9, right: 9),
-                          child: CupertinoTextField(
-                            textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.emailAddress,
-                            padding: EdgeInsets.only(top: 9, bottom: 9),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.4),
-                                  spreadRadius: 1,
-                                  blurRadius: 5,
-                                  offset: Offset(
-                                      0, 2), // changes position of shadow
-                                ),
-                              ],
-                            ),
-                            cursorColor: Colors.amber,
-                            cursorWidth: 3,
-                            cursorRadius: Radius.circular(10),
-                            // specific attributes
-                            prefix: CupertinoButton(
-                              padding: EdgeInsets.only(
-                                  top: 0, bottom: 0, left: 0, right: 0),
-                              child: Icon(
-                                CupertinoIcons.mail_solid,
-                                color: Colors.amber,
-                              ),
-                              onPressed: null,
-                            ),
-                            suffix: CupertinoButton(
-                              padding: EdgeInsets.only(
-                                  top: 0, bottom: 0, left: 0, right: 0),
-                              child: Icon(
-                                CupertinoIcons.xmark_circle_fill,
-                                color: Colors.amber,
-                              ),
-                              onPressed: () => _textControllerEmail.clear(),
-                            ),
-                            maxLength: _textMaxLength,
-                            maxLines: _textMaxLines,
-                            placeholder: _PlaceholderEmail,
-                            controller: _textControllerEmail,
-                            onSubmitted: (value) => print(
-                                'Submitted [_textControllerEmail.text]: $value'),
-                          )),
-
-                      /// space
-                      Divider(),
+                      CustomField(
+                        prefixIcon: CupertinoIcons.mail_solid,
+                        placeholder: _PlaceholderEmail,
+                        textController: _textControllerEmail,
+                        status: _StatusEmail,
+                        textInputType: TextInputType.emailAddress,
+                      ),
+                      Divider(
+                        height: 5,
+                      ),
 
                       /// PASSWORD
-                      Container(
-                          margin: EdgeInsets.only(left: 9, right: 9),
-                          child: CupertinoTextField(
-                            textInputAction: TextInputAction.next,
-                            padding: EdgeInsets.only(top: 9, bottom: 9),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.4),
-                                  spreadRadius: 1,
-                                  blurRadius: 5,
-                                  offset: Offset(
-                                      0, 2), // changes position of shadow
-                                ),
-                              ],
-                            ),
-                            cursorColor: Colors.amber,
-                            cursorWidth: 3,
-                            cursorRadius: Radius.circular(10),
-                            // specific attributes
-                            prefix: CupertinoButton(
-                              padding: EdgeInsets.only(
-                                  top: 0, bottom: 0, left: 0, right: 0),
-                              child: Icon(
-                                CupertinoIcons.lock_circle_fill,
-                                color: Colors.amber,
-                              ),
-                              onPressed: null,
-                            ),
-                            suffix: CupertinoButton(
-                              padding: EdgeInsets.only(
-                                  top: 0, bottom: 0, left: 0, right: 0),
-                              child: Icon(
-                                CupertinoIcons.xmark_circle_fill,
-                                color: Colors.amber,
-                              ),
-                              onPressed: () => _textControllerPassword.clear(),
-                            ),
-                            obscureText: true,
-                            maxLength: _textMaxLength,
-                            maxLines: _textMaxLines,
-                            placeholder: _PlaceholderPassword,
-                            controller: _textControllerPassword,
-                            onSubmitted: (value) => print(
-                                'Submitted [_textControllerPassword.text]: $value'),
-                          )),
+                      CustomField(
+                        prefixIcon: CupertinoIcons.lock_circle_fill,
+                        placeholder: _PlaceholderPassword,
+                        textController: _textControllerPassword,
+                        status: _StatusPassword,
+                        obcureText: true,
+                      ),
+                      Divider(
+                        height: 5,
+                      ),
 
-                      /// space
-                      Divider(),
-
-                      /// PASSWORD CONFIRM
-                      Container(
-                          margin: EdgeInsets.only(left: 9, right: 9),
-                          child: CupertinoTextField(
-                            textInputAction: TextInputAction.done,
-                            padding: EdgeInsets.only(top: 9, bottom: 9),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.4),
-                                  spreadRadius: 1,
-                                  blurRadius: 5,
-                                  offset: Offset(
-                                      0, 2), // changes position of shadow
-                                ),
-                              ],
-                            ),
-                            cursorColor: Colors.amber,
-                            cursorWidth: 3,
-                            cursorRadius: Radius.circular(10),
-                            // specific attributes
-                            prefix: CupertinoButton(
-                              padding: EdgeInsets.only(
-                                  top: 0, bottom: 0, left: 0, right: 0),
-                              child: Icon(
-                                CupertinoIcons.lock_circle_fill,
-                                color: Colors.amber,
-                              ),
-                              onPressed: null,
-                            ),
-                            suffix: CupertinoButton(
-                              padding: EdgeInsets.only(
-                                  top: 0, bottom: 0, left: 0, right: 0),
-                              child: Icon(
-                                CupertinoIcons.xmark_circle_fill,
-                                color: Colors.amber,
-                              ),
-                              onPressed: () =>
-                                  _textControllerPasswordConfirm.clear(),
-                            ),
-                            obscureText: true,
-                            maxLength: _textMaxLength,
-                            maxLines: _textMaxLines,
-                            placeholder: _PlaceholderPasswordConfirm,
-                            controller: _textControllerPasswordConfirm,
-                            onSubmitted: (value) => print(
-                                'Submitted [_textControllerPasswordConfirm.text]: $value'),
-                          )),
+                      /// PASSWORD CONFORM
+                      CustomField(
+                        prefixIcon: CupertinoIcons.lock_circle_fill,
+                        placeholder: _PlaceholderPasswordConfirm,
+                        textController: _textControllerPasswordConfirm,
+                        status: _StatusPasswordConfirm,
+                        obcureText: true,
+                        textInputAction: TextInputAction.done,
+                      ),
 
                       Divider(height: Responsive.height(5, context)),
 
@@ -388,11 +231,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             onPressed: () {
                               // Console log
                               print('Pressed: Register button');
-
-                              // check valide fields
-
-                              // send information to server
-
+                              print('run: _authService.signup');
+                              // Send information to server and wait for response
                               Future<ErrorMessage> signupResponse =
                                   _authService.signup(
                                 firstName: _textControllerName.text,
@@ -402,23 +242,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 confirmPassword:
                                     _textControllerPasswordConfirm.text,
                               );
-
-                              //print(signupResponse.type);
-
-                              /* funzione per controllare i diversi tipi di errore ricevuti.
-                            checkResponse(signupResponse){
-                              if (signupResponse.type == "pippo"){
-                              }
-                            };    
-                            */
-
-                              print('run: _authService.signup');
-                              // push homepage
-                              Navigator.push(
-                                context,
-                                CupertinoPageRoute(
-                                    builder: (context) => const HomeScreen()),
-                              );
+                              // when you recive server response run:
+                              signupResponse.then((value) {
+                                // Update fields status in base of the server response output
+                                UpdateFieldsStatus(value);
+                                // if fields are valid go to login screen, else stay in this page
+                                if (IsFieldsValid()) {
+                                  print(
+                                      'IsFieldsValid = TRUE: push HomeScreen()');
+                                  Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(
+                                        builder: (context) =>
+                                            const HomeScreen()),
+                                  );
+                                } else {
+                                  print('IsFieldsValid = FALSE!');
+                                }
+                              });
                             },
                           ),
                         ),
