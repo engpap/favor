@@ -11,8 +11,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   Future<ErrorMessage> signup({
-    required String firstName,
-    required String lastName,
+    required String name,
+    required String surname,
     required String email,
     required String password,
     required String confirmPassword,
@@ -20,8 +20,8 @@ class AuthService {
     try {
       User user = User(
         id: '',
-        firstName: firstName,
-        lastName: lastName,
+        name: name,
+        surname: surname,
         email: email,
         password: password,
         confirmPassword: confirmPassword,

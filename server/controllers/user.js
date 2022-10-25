@@ -8,7 +8,7 @@ import { EMAIL_ERROR, PASSWORD_ERROR, SERVER_ERROR } from './constants/errorType
 dotenv.config();
 
 export const signup = async (req, res) => {
-    const { firstName, lastName, email, password, confirmPassword } = req.body;
+    const { name, surname, email, password, confirmPassword } = req.body;
     try {
         if (!email.toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))
             return res.status(400).json({ message: "Wrong format of email address", errorType: EMAIL_ERROR });
@@ -24,7 +24,7 @@ export const signup = async (req, res) => {
         // Hash the password with a salt level of 12
         const hashedPassword = await bcrypt.hash(password, 12);
 
-        const newUser = await User.create({ email, password: hashedPassword, firstName: firstName, lastName: lastName });
+        const newUser = await User.create({ email, password: hashedPassword, name: name, surname: surname });
         res.status(201).json(newUser);
 
     } catch (error) {

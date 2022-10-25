@@ -235,8 +235,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               // Send information to server and wait for response
                               Future<ErrorMessage> signupResponse =
                                   _authService.signup(
-                                firstName: _textControllerName.text,
-                                lastName: _textControllerSurname.text,
+                                name: _textControllerName.text,
+                                surname: _textControllerSurname.text,
                                 email: _textControllerEmail.text,
                                 password: _textControllerPassword.text,
                                 confirmPassword:
