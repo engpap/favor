@@ -35,11 +35,7 @@ class AuthService {
         body: jsonEncode(user.toJson()),
       );
 
-      if (response.statusCode == 400 || response.statusCode == 404)
-        return ErrorMessage(jsonDecode(response.body)['errorType'],
-            jsonDecode(response.body)['message']);
-      else
-        return ErrorMessage(ErrorConstants.NO_ERROR, 'noError');
+      manageRespone(response);
     } catch (error) {
       return ErrorMessage(ErrorConstants.CLIENT_ERROR, 'Client error');
     }
@@ -76,5 +72,13 @@ class AuthService {
     _prefs.remove('id');
     _prefs.remove('token');
     Provider.of<UserProvider>(context, listen: false).clearUser();
+  }
+
+  void manageRespone(http.Response response) {
+    if (response.statusCode == 400 || response.statusCode == 404)
+      return ErrorMessage(jsonDecode(response.body)['errorType'],
+          jsonDecode(response.body)['message']);
+    else
+      return ErrorMessage(ErrorConstants.NO_ERROR, 'noError');
   }
 }
