@@ -164,7 +164,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         obcureText: true,
                       ),
                       Divider(height: 5,),
-                      /// PASSWORD CONFORM
+                      /// PASSWORD CONFIRM
                       CustomField(
                         prefixIcon: CupertinoIcons.lock_circle_fill,
                         placeholder: _PlaceholderPasswordConfirm,
