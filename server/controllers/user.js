@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from "dotenv"; // to read .env file
 
 import User from '../model/user.js';
-import { EMAIL_ERROR, PASSWORD_ERROR } from './constants/errorTypes'
+import { EMAIL_ERROR, PASSWORD_ERROR } from './constants/errorTypes.js';
 
 dotenv.config();
 
