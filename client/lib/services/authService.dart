@@ -8,6 +8,7 @@ import 'package:project/errors/error.dart';
 import 'package:provider/provider.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
   Future<ErrorMessage> signup({
@@ -76,6 +77,23 @@ class AuthService {
       }
     } catch (error) {
       return ErrorMessage(ErrorConstants.CLIENT_ERROR, 'Client error');
+    }
+  }
+
+  GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: [
+      'email',
+      'https://www.googleapis.com/auth/contacts.readonly',
+    ],
+  );
+
+  Future<void> googleSignIn({required BuildContext context}) async {
+    try {
+      final GoogleSignInAccount? user = await _googleSignIn.signIn();
+      if (user != null)
+        Provider.of<UserProvider>(context, listen: false).setGoogleUser(user);
+    } catch (error) {
+      print(error);
     }
   }
 
