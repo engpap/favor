@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project/errors/errorConstants.dart';
 import 'package:project/functions/responsive.dart';
+import 'package:project/functions/stringExtensions.dart';
 import 'package:project/services/authService.dart';
 import 'package:project/errors/error.dart';
 import 'package:project/screens/components/customField.dart';
@@ -33,11 +35,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _textControllerPasswordConfirm =
       TextEditingController(text: "");
 
-  String _StatusName = "undefined";
-  String _StatusSurname = "undefined";
-  String _StatusEmail = "undefined";
-  String _StatusPassword = "undefined";
-  String _StatusPasswordConfirm = "undefined";
+  String _StatusName = ErrorConstants.UNCHECKED_ERROR;
+  String _StatusSurname = ErrorConstants.UNCHECKED_ERROR;
+  String _StatusEmail = ErrorConstants.UNCHECKED_ERROR;
+  String _StatusPassword = ErrorConstants.UNCHECKED_ERROR;
+  String _StatusPasswordConfirm = ErrorConstants.UNCHECKED_ERROR;
 
   final AuthService _authService = AuthService();
 
@@ -46,39 +48,44 @@ class _SignUpScreenState extends State<SignUpScreen> {
   // Update the status of the textsfields
   UpdateFieldsStatus(ErrorMessage response) {
     // check client side
-    // TODO : riscrivere meglio questi controlli, con tutti i casi necessari
-    (_textControllerName == "") ? _StatusName = "error" : _StatusName = "valid";
-    (_textControllerSurname == "")
-        ? _StatusSurname = "error"
-        : _StatusSurname = "valid";
-    //cambiare assulutamente questo controllo
-    (_textControllerEmail == "")
-        ? _StatusEmail = "error"
-        : _StatusEmail = "valid";
-    (_textControllerPassword == "")
-        ? _StatusPassword = "error"
-        : _StatusPassword = "undefined";
-    (_textControllerPasswordConfirm == "")
-        ? _StatusPasswordConfirm = "error"
-        : _StatusPasswordConfirm = "undefined";
+    (_textControllerName.toString().isWhitespace())
+        ? _StatusName = ErrorConstants.NAME_ERROR
+        : _StatusName = ErrorConstants.NO_ERROR;
+    (_textControllerSurname.toString().isWhitespace())
+        ? _StatusSurname = ErrorConstants.SURNAME_ERROR
+        : _StatusSurname = ErrorConstants.NO_ERROR;
+    (_textControllerEmail.toString().isValidEmail())
+        ? _StatusEmail = ErrorConstants.NO_ERROR
+        : _StatusEmail = ErrorConstants.EMAIL_ERROR;
+    (_textControllerPassword.toString().isValidPassword())
+        ? _StatusPassword = ErrorConstants.PASSWORD_ERROR
+        : {} ;
+    (_textControllerPasswordConfirm.toString().isValidPassword())
+        ? _StatusPasswordConfirm = ErrorConstants.PASSWORD_ERROR
+        : {} ;
     (_textControllerPassword.text == _textControllerPasswordConfirm.text)
-        ? {_StatusPasswordConfirm = "valid", _StatusPassword = "valid"}
-        : {_StatusPasswordConfirm = "error", _StatusPassword = "error"};
+        ? {
+            _StatusPasswordConfirm = ErrorConstants.NO_ERROR,
+            _StatusPassword = ErrorConstants.NO_ERROR
+         }
+        : {
+            _StatusPasswordConfirm = ErrorConstants.PASSWORD_ERROR,
+            _StatusPassword = ErrorConstants.PASSWORD_ERROR
+          };
 
     //check server side
-    switch (response.type) {
-      case "email":
-        {
-          _StatusEmail = "error";
-        }
-        break;
-      case "password":
-        {
-          _StatusPassword = "error";
-          _StatusPasswordConfirm = "error";
-        }
-        break;
-    }
+    if (response.type.toString() == ErrorConstants.EMAIL_ERROR)
+      _StatusEmail = ErrorConstants.EMAIL_ERROR;
+    else if (response.type.toString() == ErrorConstants.PASSWORD_ERROR)
+      {
+        _StatusPassword = ErrorConstants.PASSWORD_ERROR;
+        _StatusPasswordConfirm = ErrorConstants.PASSWORD_ERROR;
+      }
+    else if (response.type.toString() == ErrorConstants.SERVER_ERROR)
+      {
+        //TODO far comparire un pop up
+      }
+    
     print(
         "response.message: ${response.message}\nresponse.type: ${response.type}");
     print(
@@ -87,11 +94,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   // return TRUE only if all _StatusFields are set to valid
   bool IsFieldsValid() {
-    if (_StatusName == "valid" &&
-        _StatusSurname == "valid" &&
-        _StatusEmail == "valid" &&
-        _StatusPassword == "valid" &&
-        _StatusPasswordConfirm == "valid")
+    if (_StatusName == ErrorConstants.NO_ERROR &&
+        _StatusSurname == ErrorConstants.NO_ERROR &&
+        _StatusEmail == ErrorConstants.NO_ERROR &&
+        _StatusPassword == ErrorConstants.NO_ERROR &&
+        _StatusPasswordConfirm == ErrorConstants.NO_ERROR)
       return true;
     else
       return false;

@@ -10,4 +10,7 @@ extension EmailValidator on String {
   bool isValidDouble() => double.tryParse(this) != null;
 
   bool isValidInt() => int.tryParse(this) != null;
+
+  //TODO creare criteri per cui la password non è valida (tipo lunghezza, caratteri, ecc)
+  bool isValidPassword() => this.isWhitespace();
 }
