@@ -4,8 +4,8 @@ import 'package:project/models/user.dart';
 class UserProvider extends ChangeNotifier {
   User _user = User(
     id: '',
-    firstName: '',
-    lastName: '',
+    name: '',
+    surname: '',
     email: '',
     password: '',
     token: '',
@@ -19,12 +19,7 @@ class UserProvider extends ChangeNotifier {
   }
 
   void clearUser() {
-    _user = User(
-        id: '',
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
-        token: '');
+    _user =
+        User(id: '', name: '', surname: '', email: '', password: '', token: '');
   }
 }
