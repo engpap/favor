@@ -45,4 +45,4 @@ app.*.map.json
 
 
 #global variables
-lib/constants/globalVars.dart
+lib/constants/
