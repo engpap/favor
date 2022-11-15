@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import dotenv from "dotenv"; // to read .env file
 
-import User from '../model/user.js';
+import User from '../models/user.js';
 import { EMAIL_ERROR, PASSWORD_ERROR, SERVER_ERROR } from './constants/errorTypes.js';
 
 dotenv.config();
