@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../errors/errorConstants.dart';
+
 class CustomField extends StatefulWidget {
   /// REQUIRED PARAMETERS
   //pass <CupertinoIcons.something> for the prefix
@@ -40,9 +42,10 @@ class _CustomFieldState extends State<CustomField> {
 
   // Can return error color, valid color or default/base one
   Color colorStatus(Color base) {
-    if(widget.status == "error")
+    if(widget.status != ErrorConstants.NO_ERROR 
+      && widget.status != ErrorConstants.UNCHECKED_ERROR)
       return Colors.redAccent;
-    else if (widget.status == "valid")
+    else if (widget.status == ErrorConstants.NO_ERROR)
       return Colors.blueAccent;
     else return base;
   }
