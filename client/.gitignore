@@ -43,6 +43,5 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-
-#global variables
+# Files that contain private information (such as IDs, IP addresses)
 lib/constants/

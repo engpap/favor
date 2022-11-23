@@ -11,3 +11,9 @@ GeneratedPluginRegistrant.java
 key.properties
 **/*.keystore
 **/*.jks
+
+# For making Google Sign In work and have a token in Android devices
+# This file should be shared across developers otherwise Google Sign In would not work properly
+# string.xml needs to be gitignored because it contains web_client_id
+# reference: https://github.com/flutter/flutter/issues/33261
+/app/src/main/res/values/string.xml

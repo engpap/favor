@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:project/constants/globalVars.dart';
 import 'package:project/errors/errorConstants.dart';
+import 'package:project/helpers/authHelper.dart';
 import 'package:project/models/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:project/providers/userProvider.dart';
@@ -80,22 +81,30 @@ class AuthService {
     }
   }
 
+  // ref https://github.com/flutter/flutter/issues/33261
+
   GoogleSignIn _googleSignIn = GoogleSignIn(
+    clientId: AuthHelper().clientID(),
     scopes: [
-      'email',
-      'https://www.googleapis.com/auth/contacts.readonly',
+      'https://www.googleapis.com/auth/userinfo.email',
+      'openid',
+      'https://www.googleapis.com/auth/userinfo.profile',
     ],
   );
 
   Future<void> googleSignIn({required BuildContext context}) async {
     try {
       final GoogleSignInAccount? user = await _googleSignIn.signIn();
-      if (user != null)
+      if (user != null) {
         Provider.of<UserProvider>(context, listen: false).setGoogleUser(user);
+        // TODO: save toke, ect...
+      }
     } catch (error) {
       print(error);
     }
   }
+
+  //TODO: initAuth from https://medium.com/codex/how-to-build-a-google-sign-in-in-flutter-without-firebase-5d0d379b2f64
 
   void signout({required BuildContext context}) async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
