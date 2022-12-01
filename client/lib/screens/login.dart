@@ -4,7 +4,7 @@ import 'package:project/functions/responsive.dart';
 import 'package:project/services/authService.dart';
 
 import 'home.dart';
-import 'singup.dart';
+import './signup/signup.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

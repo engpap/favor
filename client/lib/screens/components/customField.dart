@@ -62,6 +62,7 @@ class _CustomFieldState extends State<CustomField> {
             padding: EdgeInsets.only(top: 9, bottom: 9),
             style: TextStyle(
               fontWeight: FontWeight.w500,
+              color: Colors.black,
               //backgroundColor: colorStatus(Colors.white).withOpacity(0.1),
               /* shadows: [Shadow(
                 color: colorStatus(Colors.white),
@@ -107,11 +108,15 @@ class _CustomFieldState extends State<CustomField> {
             maxLength: 30, // reasonable value
             maxLines: 1, // reasonable value
             placeholder: widget.placeholder,
+            placeholderStyle: TextStyle(
+            color: Colors.black26,
+            ),
             controller: widget.textController,
             onSubmitted: (value) =>
                 print('Submitted [${widget.textController}]: $value'),
           ),
         ),
+        // error string under the text box. The text is transparent if status != error 
         (widget.status == "error") 
         ? Container(
           margin: EdgeInsets.only(left: 38, right: 9, top: 0),

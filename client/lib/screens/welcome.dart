@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:project/functions/responsive.dart';
 
 import 'login.dart';
-import 'singup.dart';
+import 'signup/signup.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
