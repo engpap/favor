@@ -59,6 +59,14 @@ class _SignUpScreen_TState extends State<SignUpScreen_T> {
                           fontSize: 16),
                       ),
                       SignUp_loginButton(),
+                      Divider(height: 50,),
+                      Text(
+                        "Prefer google?",
+                        style: TextStyle(
+                          color: Colors.white, 
+                          fontSize: 16),
+                      ),
+                      SignUp_googleButton(),
                     ]),
                 ),
               ),
