@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:project/constants/globalVars.dart';
 import 'package:project/errors/errorConstants.dart';
+import 'package:project/helpers/authHelper.dart';
 import 'package:project/models/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:project/providers/userProvider.dart';
@@ -8,6 +9,7 @@ import 'package:project/errors/error.dart';
 import 'package:provider/provider.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
   Future<ErrorMessage> signup({
@@ -78,6 +80,37 @@ class AuthService {
       return ErrorMessage(ErrorConstants.CLIENT_ERROR, 'Client error');
     }
   }
+
+  // ref https://github.com/flutter/flutter/issues/33261
+
+  GoogleSignIn _googleSignIn = GoogleSignIn(
+    clientId: AuthHelper().clientID(),
+    scopes: [
+      'https://www.googleapis.com/auth/userinfo.email',
+      'openid',
+      'https://www.googleapis.com/auth/userinfo.profile',
+    ],
+  );
+
+  Future<ErrorMessage> googleSignIn({required BuildContext context}) async {
+    try {
+      final _prefs = await SharedPreferences.getInstance();
+      final GoogleSignInAccount? user = await _googleSignIn.signIn();
+      if (user != null) {
+        Provider.of<UserProvider>(context, listen: false).setGoogleUser(user);
+        //await _prefs.setString('id', user.id); //CHECK IF THIS ALREADY PRESENT IN USERPROVIDER TODO, implement in user provider
+        //await _prefs.setString('token', user._idToken);
+        return ErrorMessage(ErrorConstants.NO_ERROR, 'noError');
+      } else
+        return ErrorMessage(ErrorConstants.CLIENT_ERROR,
+            'Retrieved a null user object from "Continue with Google" API');
+    } catch (error) {
+      return ErrorMessage(ErrorConstants.CLIENT_ERROR,
+          'Client error for "Continue with Google"');
+    }
+  }
+
+  //TODO: initAuth from https://medium.com/codex/how-to-build-a-google-sign-in-in-flutter-without-firebase-5d0d379b2f64
 
   void signout({required BuildContext context}) async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:project/models/user.dart';
 
 class UserProvider extends ChangeNotifier {
@@ -15,6 +16,12 @@ class UserProvider extends ChangeNotifier {
 
   void setUser(String user) {
     _user = User.fromJson(user);
+    notifyListeners();
+  }
+
+  void setGoogleUser(GoogleSignInAccount user) {
+    _user = User(
+        id: user.id, name: '', surname: '', email: user.email, password: '');
     notifyListeners();
   }
 
