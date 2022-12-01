@@ -92,15 +92,21 @@ class AuthService {
     ],
   );
 
-  Future<void> googleSignIn({required BuildContext context}) async {
+  Future<ErrorMessage> googleSignIn({required BuildContext context}) async {
     try {
+      final _prefs = await SharedPreferences.getInstance();
       final GoogleSignInAccount? user = await _googleSignIn.signIn();
       if (user != null) {
         Provider.of<UserProvider>(context, listen: false).setGoogleUser(user);
-        // TODO: save toke, ect...
-      }
+        //await _prefs.setString('id', user.id); //CHECK IF THIS ALREADY PRESENT IN USERPROVIDER TODO, implement in user provider
+        //await _prefs.setString('token', user._idToken);
+        return ErrorMessage(ErrorConstants.NO_ERROR, 'noError');
+      } else
+        return ErrorMessage(ErrorConstants.CLIENT_ERROR,
+            'Retrieved a null user object from "Continue with Google" API');
     } catch (error) {
-      print(error);
+      return ErrorMessage(ErrorConstants.CLIENT_ERROR,
+          'Client error for "Continue with Google"');
     }
   }
 
