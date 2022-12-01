@@ -21,7 +21,12 @@ class UserProvider extends ChangeNotifier {
 
   void setGoogleUser(GoogleSignInAccount user) {
     _user = User(
-        id: user.id, name: '', surname: '', email: user.email, password: '');
+        id: user.id,
+        name: user.displayName,
+        surname: '', // TODO: split name
+        email: user.email,
+        token: '' //TODO: insert google tokn
+        );
     notifyListeners();
   }
 

@@ -98,8 +98,8 @@ class AuthService {
       final GoogleSignInAccount? user = await _googleSignIn.signIn();
       if (user != null) {
         Provider.of<UserProvider>(context, listen: false).setGoogleUser(user);
-        //await _prefs.setString('id', user.id); //CHECK IF THIS ALREADY PRESENT IN USERPROVIDER TODO, implement in user provider
-        //await _prefs.setString('token', user._idToken);
+        await _prefs.setString('id', user.id);
+        //await _prefs.setString('token', user._googleSignIn._idToken);
         return ErrorMessage(ErrorConstants.NO_ERROR, 'noError');
       } else
         return ErrorMessage(ErrorConstants.CLIENT_ERROR,
