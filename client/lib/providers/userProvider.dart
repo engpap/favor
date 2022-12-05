@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:project/models/user.dart';
 
 class UserProvider extends ChangeNotifier {
@@ -8,7 +7,6 @@ class UserProvider extends ChangeNotifier {
     name: '',
     surname: '',
     email: '',
-    password: '',
     token: '',
   );
 
@@ -19,19 +17,7 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setGoogleUser(GoogleSignInAccount user) {
-    _user = User(
-        id: user.id,
-        name: user.displayName,
-        surname: '', // TODO: split name
-        email: user.email,
-        token: '' //TODO: insert google tokn
-        );
-    notifyListeners();
-  }
-
   void clearUser() {
-    _user =
-        User(id: '', name: '', surname: '', email: '', password: '', token: '');
+    _user = User(id: '', name: '', surname: '', email: '', token: '');
   }
 }
