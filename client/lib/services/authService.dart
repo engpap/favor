@@ -97,13 +97,36 @@ class AuthService {
       final _prefs = await SharedPreferences.getInstance();
       final GoogleSignInAccount? user = await _googleSignIn.signIn();
       if (user != null) {
-        Provider.of<UserProvider>(context, listen: false).setGoogleUser(user);
-        await _prefs.setString('id', user.id);
-        //await _prefs.setString('token', user._googleSignIn._idToken);
-        return ErrorMessage(ErrorConstants.NO_ERROR, 'noError');
-      } else
+        final googleAuth = await user.authentication;
+        //print(googleAuth.idToken);
+        //print(googleAuth.accessToken);
+        http.Response response = await http.post(
+          Uri.parse('$uri/user/continue'),
+          headers: <String, String>{
+            'Content-Type': 'application/json;charset=UTF-8',
+          },
+          body: jsonEncode({
+            'name': user.displayName,
+            'surname': '',
+            'email': user.email,
+            'tokenId': googleAuth.idToken,
+            //photoUrl: user.
+          }),
+        );
+
+        if (response.statusCode == 201 || response.statusCode == 200) {
+          Provider.of<UserProvider>(context, listen: false)
+              .setUser(response.body);
+          await _prefs.setString('id', jsonDecode(response.body)['_id']);
+          await _prefs.setString('token', jsonDecode(response.body)['token']);
+          return ErrorMessage(ErrorConstants.NO_ERROR, 'noError');
+        } else
+          return ErrorMessage(jsonDecode(response.body)['errorType'],
+              jsonDecode(response.body)['message']);
+      } else {
         return ErrorMessage(ErrorConstants.CLIENT_ERROR,
             'Retrieved a null user object from "Continue with Google" API');
+      }
     } catch (error) {
       return ErrorMessage(ErrorConstants.CLIENT_ERROR,
           'Client error for "Continue with Google"');
