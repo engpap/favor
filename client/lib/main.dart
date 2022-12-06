@@ -14,9 +14,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of the application.
   Widget build(BuildContext context) {
     return const CupertinoApp(
-    home: WelcomeScreen(),
+      home: WelcomeScreen(),
       //  theme: CupertinoThemeData(
-      //    textTheme: CupertinoTextThemeData(), 
+      //    textTheme: CupertinoTextThemeData(),
       //  ),
     );
   }

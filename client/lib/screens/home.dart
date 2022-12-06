@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:project/functions/tabs.dart';
 import 'package:project/providers/getters.dart';
-
+import 'package:project/providers/storage.dart';
 import 'package:project/screens/account.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -34,11 +34,11 @@ class HomeScreen extends StatelessWidget {
           }) */
         ),
         tabBuilder: (context, i) {
-        // INIZIO Controllo solo per il test dell'account page
+          // INIZIO Controllo solo per il test dell'account page
           if (i == 2)
             return AccountScreen();
           else
-        // FINE controllo
+            // FINE controllo
             return CupertinoTabView(
               builder: (context) {
                 return CupertinoPageScaffold(
@@ -49,13 +49,19 @@ class HomeScreen extends StatelessWidget {
                   ),
                   child: Center(
                     child: CupertinoButton(
-                      child: Text(
-                        "This is tab ${TabsName.values[i].name}! \n and this the user received by server: ${getUserFromlocalStorage(context).toJson()}",
-                        style: CupertinoTheme.of(context)
-                            .textTheme
-                            .actionTextStyle
-                            .copyWith(fontSize: 32),
-                      ),
+                      child: FutureBuilder<String?>(
+                          future: Storage.getUserToken(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Text(
+                                  'Token got from server: ${snapshot.data!}');
+                            } else if (snapshot.hasError) {
+                              return Text('${snapshot.error}');
+                            }
+                            // By default, show a loading spinner.
+                            return CupertinoActivityIndicator(
+                                animating: false, radius: 10);
+                          }),
                       onPressed: () {
                         Navigator.of(context).push(
                           CupertinoPageRoute(builder: (context) {
