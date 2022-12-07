@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:project/providers/userProvider.dart';
 import 'package:provider/provider.dart';
-import 'package:project/screens/welcome.dart';
+
+import 'package:project/screens/introduction/introduction-1.dart';
 
 void main() {
   runApp(MultiProvider(
@@ -14,10 +15,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of the application.
   Widget build(BuildContext context) {
     return const CupertinoApp(
-      home: WelcomeScreen(),
-      //  theme: CupertinoThemeData(
-      //    textTheme: CupertinoTextThemeData(),
-      //  ),
+      home: Introduction1Screen(),
     );
   }
 }
