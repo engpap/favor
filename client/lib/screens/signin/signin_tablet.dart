@@ -10,8 +10,7 @@ class SignInScreen_T extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding:
-        const EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16),
+      padding: const EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -80,16 +79,16 @@ class SignInScreen_T extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
+                        SignIn_googleButton(),
+
+                        Divider(height: Responsive.height(4, context), color: Colors.transparent,),
+
                         Text(
                           "not a member?",
                           style: TextStyle(
                             color: Colors.black, 
                             fontSize: 20),
                         ),
-                        Divider(height: Responsive.height(2, context), color: Colors.transparent,),
-
-                        SignIn_googleButton(),
-
                         Divider(height: Responsive.height(1, context), color: Colors.transparent,),
 
                         SignIn_signUpButton(),

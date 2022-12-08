@@ -2,23 +2,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/errors/error.dart';
 import 'package:project/functions/responsive.dart';
-import 'package:project/screens/home.dart';
-import 'package:project/screens/login.dart';
 import 'package:project/screens/responsiveLayout.dart';
-import 'package:project/screens/signup/signup_mobile.dart';
-import 'package:project/screens/signup/signup_tablet.dart';
 import 'package:project/screens/components/customField.dart';
 
+import 'package:project/screens/home.dart';
+import 'package:project/screens/signin/signin.dart';
+import 'package:project/screens/signup/signup_mobile.dart';
+import 'package:project/screens/signup/signup_tablet.dart';
+
+import 'package:project/functions/favorColors.dart' as favorColors;
 import 'globals.dart' as globals;
 
-class SignUpScreen extends StatefulWidget {
+class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
-
-  @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
-}
-
-class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
@@ -30,21 +26,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
         }
       },
       child: Container(
+
+        //BCKGROUND GRADIENT IMAGE
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/bg_music_02.jpg"),
+            image: AssetImage("assets/images/bg_blue_gradient.jpg"),
             fit: BoxFit.cover,
             opacity: 1,
             colorFilter: const ColorFilter.mode(
-              //Color.fromARGB(100, 0, 0, 0),
-              //BlendMode.darken,
-              Colors.deepOrangeAccent,
-              BlendMode.modulate,
+              Colors.grey,
+              BlendMode.softLight,
             ),
           )
         ),
+
         child: CupertinoPageScaffold(
-          backgroundColor: Colors.transparent,
+          // .withAlpha(180) is used to add transparency, in order to see the bg-image
+          backgroundColor: favorColors.IntroBg.withAlpha(180),
           child: SafeArea(
             child: ResponsiveLeayout(
               mobileBody: SignUpScreen_M(),
@@ -56,7 +54,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 }
-
 
 /// COLUMN of 5 customField: 
 /// Name, Surname, Email, Password, PasswordConfirm
@@ -131,13 +128,12 @@ class SignUp_registerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-          top: 9, right: 9, left: 9, bottom: 9),
+      margin: EdgeInsets.only(top: 9, right: 9, left: 9, bottom: 9),
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.4),
-            spreadRadius: 1,
+            color: Colors.black.withOpacity(0.1),
+            spreadRadius: 0.5,
             blurRadius: 5,
             offset: Offset(0, 1),
           ),
@@ -146,15 +142,14 @@ class SignUp_registerButton extends StatelessWidget {
       child: SizedBox(
         width: Responsive.width(65, context),
         child: CupertinoButton(
-          color: Colors.deepOrangeAccent,
+          color: favorColors.PrimaryBlue,
           child: const Text(
             "Register",
-            style: TextStyle(
-              fontSize: 20, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           onPressed: () {
             // Console log
-            print('Pressed: Register button');
+            print('Pressed: SignUp_registerButton');
             print('run: authService.signup');
             // Send information to server and wait for response
             Future<ErrorMessage> signupResponse =
@@ -189,41 +184,38 @@ class SignUp_registerButton extends StatelessWidget {
 }
 
 
-/// BUTTON login.
-/// push LoginScreen()
+/// SIGNIN BUTTON
 class SignUp_loginButton extends StatelessWidget {
   const SignUp_loginButton({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-          top: 9, right: 9, left: 9, bottom: 9),
+      margin: EdgeInsets.only(top: 9, right: 9, left: 9, bottom: 9),
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.4),
-            spreadRadius: 1,
+            color: Colors.black.withOpacity(0.1),
+            spreadRadius: 0.5,
             blurRadius: 5,
             offset: Offset(0, 1),
           ),
         ],
       ),
       child: SizedBox(
-        width: Responsive.width(50, context),
+        width: Responsive.width(65, context),
         child: CupertinoButton(
-          padding: EdgeInsets.symmetric(
-            horizontal: 0,
+          color: favorColors.SecondaryBlue,
+          child: const Text(
+            "Sign In",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)
           ),
-          color: Colors.orangeAccent,
-          child: const Text("Log in"),
           onPressed: () {
-            print(
-                'Pressed: Login button -> push LoginScreen');
-            Navigator.push(
+            print('Pressed: SignUp_loginButton');
+            Navigator.pop(
               context,
               CupertinoPageRoute(
-                  builder: (context) => const LoginScreen()),
+                builder: (context) => const SignInScreen()),
             );
           },
         ),
@@ -232,6 +224,8 @@ class SignUp_loginButton extends StatelessWidget {
   }
 }
 
+// TODO: remove this class it's not used
+// 
 /// BUTTON google login
 class SignUp_googleButton extends StatelessWidget {
   const SignUp_googleButton({super.key});

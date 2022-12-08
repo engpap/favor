@@ -1,66 +1,70 @@
 import 'package:flutter/material.dart';
-import 'package:project/screens/signup/signup.dart';
 import 'package:project/functions/responsive.dart';
 
-class SignUpScreen_M extends StatefulWidget {
+import 'package:project/functions/favorColors.dart' as favorColors;
+import 'package:project/screens/signup/signup.dart';
+
+class SignUpScreen_M extends StatelessWidget {
   const SignUpScreen_M({super.key});
 
   @override
-  State<SignUpScreen_M> createState() => _SignUpScreen_MState();
-}
-
-class _SignUpScreen_MState extends State<SignUpScreen_M> {
-  @override
   Widget build(BuildContext context) {
     return Container(
-      padding:
-        const EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16),
-      child: SingleChildScrollView(
-        reverse: true,
-        child: Center(
+      padding: EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16),
+      child: Center(
+        child: SingleChildScrollView(
+          reverse: true,
           child: ConstrainedBox(
             constraints: BoxConstraints(
               //TODO: use a global variable, not 370 
               maxWidth: 370,
             ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 /// PAGE TITLE
                 Container(
-                  margin: EdgeInsets.only(
-                    top: Responsive.height(2, context),
-                    bottom: Responsive.height(5, context),
-                    right: 9,
-                    left: 9),
-                  child: const Text(
+                  width: Responsive.width(100, context), 
+                  margin: EdgeInsets.only(right: 9, left: 9),
+                  child: Text(
                     "Create Account",
                     style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 35,
+                      color: favorColors.PrimaryBlue,
+                      fontSize: 37,
+                      fontWeight: FontWeight.bold),
+                  ),
+                ),
+                /// DESCRIPTION
+                Container(
+                  width: Responsive.width(100, context),
+                  margin: EdgeInsets.only(
+                    top: Responsive.height(1, context),
+                    bottom: Responsive.height(3, context),
+                    right: 9,
+                    left: 9),
+                  child: Text(
+                    "Please fill all informations below.",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: favorColors.PrimaryBlue,
+                      fontSize: 18,
                       fontWeight: FontWeight.bold),
                   ),
                 ),
 
                 SignUp_form(),
-                Divider(height: Responsive.height(5, context),),
+                Divider(height: Responsive.height(7, context), color: Colors.transparent,),
                 SignUp_registerButton(),
-                Divider(height: 50,),
+                Divider(height: Responsive.height(2, context), color: Colors.transparent,),
+
                 Text(
                   "Have an account?",
                   style: TextStyle(
-                    color: Colors.white, 
+                    color: Colors.black, 
                     fontSize: 16),
                 ),
+                Divider(height: Responsive.height(1, context), color: Colors.transparent,),
+
                 SignUp_loginButton(),
-                Divider(height: 50,),
-                Text(
-                  "Prefer google?",
-                  style: TextStyle(
-                    color: Colors.white, 
-                    fontSize: 16),
-                ),
-                SignUp_googleButton(),
               ]),
           ),
         ),

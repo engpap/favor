@@ -35,12 +35,14 @@ class SignInScreen_M extends StatelessWidget {
                 ),
                 /// DESCRIPTION
                 Container(
+                  width: Responsive.width(100, context),
                   margin: EdgeInsets.only(
                     top: Responsive.height(1, context),
                     bottom: Responsive.height(3, context),
                     right: 9,
                     left: 9),
                   child: Text(
+                    textAlign: TextAlign.left,
                     "Please enter your registration email and password.",
                     style: TextStyle(
                       color: favorColors.PrimaryBlue,
@@ -55,6 +57,17 @@ class SignInScreen_M extends StatelessWidget {
 
                 SignIn_loginButton(),
 
+                Divider(height: Responsive.height(1, context), color: Colors.transparent,),
+                
+                Text(
+                  "or",
+                  style: TextStyle(
+                    color: Colors.black, 
+                    fontSize: 16),
+                ),
+
+                SignIn_googleButton(),
+
                 Divider(height: Responsive.height(7, context), color: Colors.transparent,),
                 Text(
                   "not a member?",
@@ -63,10 +76,6 @@ class SignInScreen_M extends StatelessWidget {
                     fontSize: 16),
                 ),
                 Divider(height: Responsive.height(2, context), color: Colors.transparent,),
-
-                SignIn_googleButton(),
-
-                Divider(height: Responsive.height(1, context), color: Colors.transparent,),
 
                 SignIn_signUpButton(),
 

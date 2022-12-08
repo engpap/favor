@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/screens/responsiveLayout.dart';
+import 'package:project/screens/signin/signin.dart';
 import 'package:project/screens/welcome.dart';
 import 'package:project/functions/favorColors.dart' as favorColors;
 
@@ -49,7 +50,7 @@ class Introduction3Screen_M extends StatelessWidget {
                 Navigator.pushReplacement(
                   context,
                   CupertinoPageRoute(
-                    builder: (context) => const WelcomeScreen()),
+                    builder: (context) => const SignInScreen()),
                 );
               },          
               child: Container(

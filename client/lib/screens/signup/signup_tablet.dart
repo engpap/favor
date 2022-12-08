@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:project/screens/signup/signup.dart';
 import 'package:project/functions/responsive.dart';
+
+import 'package:project/functions/favorColors.dart' as favorColors;
+import 'package:project/screens/signup/signup.dart';
 
 class SignUpScreen_T extends StatefulWidget {
   const SignUpScreen_T({super.key});
@@ -13,62 +15,85 @@ class _SignUpScreen_TState extends State<SignUpScreen_T> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding:
-        const EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16),
+      padding: const EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16),
       child: Center(
-        
-          child: Row(
-            //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Expanded(
-                //flex: 2,
-                /// PAGE TITLE
-                child: Container(
-                  height: Responsive.height(80, context),
-                  decoration: BoxDecoration(
-                    //TODO: change this background
-                    color: Color.fromARGB(135, 116, 29, 223),
-                    backgroundBlendMode: BlendMode.color
-                  ),
-                  child: Center(
-                    child: const Text(
-                      "Create Account",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 70,
-                        fontWeight: FontWeight.bold),
-                    ),
-                  ),),),
-              SingleChildScrollView(
-                reverse: true,
-                child: Container(
-                  //TODO: use a global variable, not 370 
-                  width: 370,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SignUp_form(),
-                      Divider(height: Responsive.height(5, context),),
-                      SignUp_registerButton(),
-                      Divider(height: Responsive.height(5, context)),
-                      Text(
-                        "Have an account?",
-                        style: TextStyle(
-                          color: Colors.white, 
-                          fontSize: 16),
-                      ),
-                      SignUp_loginButton(),
-                      Divider(height: 50,),
-                      Text(
-                        "Prefer google?",
-                        style: TextStyle(
-                          color: Colors.white, 
-                          fontSize: 16),
-                      ),
-                      SignUp_googleButton(),
-                    ]),
+              /// TITLE
+            Container(
+              width: Responsive.width(100, context),           
+              margin: EdgeInsets.only(right: 9, left: 9, bottom: Responsive.height(5,context)),  
+              child: Center(
+                child: Text(
+                  "Create Account",
+                  style: TextStyle(
+                    color: favorColors.PrimaryBlue,
+                    fontSize: 50,
+                    fontWeight: FontWeight.bold),
                 ),
+              ),
+            ),
+            /// TWO BLOCKS: register & signUpForm
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  /// BLOCK: register
+                  SingleChildScrollView(
+                    reverse: true,
+                    child: Container(
+                      //TODO: use a global variable, not 370 
+                      width: 370,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                        /// DESCRIPTION
+                        Container(
+                          margin: EdgeInsets.only(
+                            top: Responsive.height(1, context),
+                            bottom: Responsive.height(3, context),
+                            right: 9,
+                            left: 9),
+                          child: Text(
+                            "Please fill all informations on the right.",
+                            style: TextStyle(
+                              color: favorColors.PrimaryBlue,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                          SignUp_registerButton(),
+                          //Expanded(child: Container()),
+                          Divider(height: Responsive.height(10, context), color: Colors.transparent,),
+                          Text(
+                            "Have an account?",
+                            style: TextStyle(
+                              color: Colors.black, 
+                              fontSize: 20),
+                          ),
+                          SignUp_loginButton(),
+                        ]),
+                    ),
+                  ),
+
+                  /// BLOCK: register
+                  SingleChildScrollView(
+                    reverse: true,
+                    child: Container(
+                      //TODO: use a global variable, not 370 
+                      width: 370,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          
+                          SignUp_form(),
+                        ]),
+                    ),
+                  ),
+                  
+
+                ],
               ),
             ],
           ),

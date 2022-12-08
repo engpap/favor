@@ -8,8 +8,9 @@ import 'package:project/screens/signin/signin_mobile.dart';
 import 'package:project/screens/signin/signin_tablet.dart';
 
 import 'package:project/screens/responsiveLayout.dart';
-import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/screens/signup/signup.dart';
+
+import 'package:project/functions/favorColors.dart' as favorColors;
 import 'globals.dart' as globals;
 
 class SignInScreen extends StatelessWidget {
@@ -145,8 +146,7 @@ class SignIn_googleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-          top: 9, right: 9, left: 9, bottom: 9),
+      margin: EdgeInsets.only(top: 9, right: 9, left: 9, bottom: 9),
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
