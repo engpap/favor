@@ -75,9 +75,7 @@ class SignUp_form extends StatelessWidget {
             textController: globals.textControllerName,
             status: globals.StatusName,
           ),
-          Divider(
-            height: 5,
-          ),
+          Divider(height: 5, color: Colors.transparent,),
 
           /// SURNAME
           CustomField(
@@ -86,9 +84,7 @@ class SignUp_form extends StatelessWidget {
             textController: globals.textControllerSurname,
             status: globals.StatusSurname,
           ),
-          Divider(
-            height: 5,
-          ),
+          Divider(height: 5, color: Colors.transparent,),
 
           /// EMAIL
           CustomField(
@@ -98,9 +94,7 @@ class SignUp_form extends StatelessWidget {
             status: globals.StatusEmail,
             textInputType: TextInputType.emailAddress,
           ),
-          Divider(
-            height: 5,
-          ),
+          Divider(height: 5, color: Colors.transparent,),
 
           /// PASSWORD
           CustomField(
@@ -110,9 +104,7 @@ class SignUp_form extends StatelessWidget {
             status: globals.StatusPassword,
             obcureText: true,
           ),
-          Divider(
-            height: 5,
-          ),
+          Divider(height: 5, color: Colors.transparent,),
 
           /// PASSWORD CONFIRM
           CustomField(
