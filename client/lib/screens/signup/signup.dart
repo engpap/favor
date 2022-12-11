@@ -19,43 +19,38 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        FocusScopeNode currentFocus = FocusScope.of(context);
-        if (!currentFocus.hasPrimaryFocus) {
-          currentFocus.unfocus();
-        }
-      },
-      child: Container(
+        onTap: () {
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          if (!currentFocus.hasPrimaryFocus) {
+            currentFocus.unfocus();
+          }
+        },
+        child: Container(
 
-        //BCKGROUND GRADIENT IMAGE
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/bg_blue_gradient.jpg"),
-            fit: BoxFit.cover,
-            opacity: 1,
-            colorFilter: const ColorFilter.mode(
-              Colors.grey,
-              BlendMode.softLight,
-            ),
-          )
-        ),
-
-        child: CupertinoPageScaffold(
-          // .withAlpha(180) is used to add transparency, in order to see the bg-image
-          backgroundColor: favorColors.IntroBg.withAlpha(180),
-          child: SafeArea(
-            child: ResponsiveLeayout(
-              mobileBody: SignUpScreen_M(),
-              tabletBody: SignUpScreen_T(),
-            ),
-          )
-        )
-      )
-    );
+            //BCKGROUND GRADIENT IMAGE
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+              image: AssetImage("assets/images/bg_blue_gradient.jpg"),
+              fit: BoxFit.cover,
+              opacity: 1,
+              colorFilter: const ColorFilter.mode(
+                Colors.grey,
+                BlendMode.softLight,
+              ),
+            )),
+            child: CupertinoPageScaffold(
+                // .withAlpha(180) is used to add transparency, in order to see the bg-image
+                backgroundColor: favorColors.IntroBg.withAlpha(180),
+                child: SafeArea(
+                  child: ResponsiveLeayout(
+                    mobileBody: SignUpScreen_M(),
+                    tabletBody: SignUpScreen_T(),
+                  ),
+                ))));
   }
 }
 
-/// COLUMN of 5 customField: 
+/// COLUMN of 5 customField:
 /// Name, Surname, Email, Password, PasswordConfirm
 class SignUp_form extends StatelessWidget {
   const SignUp_form({super.key});
@@ -72,7 +67,10 @@ class SignUp_form extends StatelessWidget {
             textController: globals.textControllerName,
             status: globals.StatusName,
           ),
-          Divider(height: 5, color: Colors.transparent,),
+          Divider(
+            height: 5,
+            color: Colors.transparent,
+          ),
 
           /// SURNAME
           CustomField(
@@ -81,7 +79,10 @@ class SignUp_form extends StatelessWidget {
             textController: globals.textControllerSurname,
             status: globals.StatusSurname,
           ),
-          Divider(height: 5, color: Colors.transparent,),
+          Divider(
+            height: 5,
+            color: Colors.transparent,
+          ),
 
           /// EMAIL
           CustomField(
@@ -91,7 +92,10 @@ class SignUp_form extends StatelessWidget {
             status: globals.StatusEmail,
             textInputType: TextInputType.emailAddress,
           ),
-          Divider(height: 5, color: Colors.transparent,),
+          Divider(
+            height: 5,
+            color: Colors.transparent,
+          ),
 
           /// PASSWORD
           CustomField(
@@ -101,7 +105,10 @@ class SignUp_form extends StatelessWidget {
             status: globals.StatusPassword,
             obcureText: true,
           ),
-          Divider(height: 5, color: Colors.transparent,),
+          Divider(
+            height: 5,
+            color: Colors.transparent,
+          ),
 
           /// PASSWORD CONFIRM
           CustomField(
@@ -118,9 +125,8 @@ class SignUp_form extends StatelessWidget {
   }
 }
 
-
-/// BUTTON register. 
-/// checks information validity both client and server sides. 
+/// BUTTON register.
+/// checks information validity both client and server sides.
 /// if all good push HomeScreen()
 class SignUp_registerButton extends StatelessWidget {
   const SignUp_registerButton({super.key});
@@ -152,25 +158,24 @@ class SignUp_registerButton extends StatelessWidget {
             print('Pressed: SignUp_registerButton');
             print('run: authService.signup');
             // Send information to server and wait for response
-            Future<ErrorMessage> signupResponse =
-              globals.authService.signup(
-                name: globals.textControllerName.text,
-                surname: globals.textControllerSurname.text,
-                email: globals.textControllerEmail.text,
-                password: globals.textControllerPassword.text,
-                confirmPassword: globals.textControllerPasswordConfirm.text,
+            Future<ErrorMessage> signupResponse = globals.authService.signup(
+              name: globals.textControllerName.text,
+              surname: globals.textControllerSurname.text,
+              email: globals.textControllerEmail.text,
+              password: globals.textControllerPassword.text,
+              confirmPassword: globals.textControllerPasswordConfirm.text,
             );
             // when you recive server response run:
             signupResponse.then((value) {
-              // Update fields status in base of client check and the server response output 
+              // Update fields status in base of client check and the server response output
               globals.UpdateFieldsStatus(value);
-              // if fields are valid go to login screen, else stay in this page
+              // if fields are valid go to signin screen, else stay in this page
               if (globals.IsFieldsValid()) {
-                print('IsFieldsValid = TRUE: push HomeScreen()');
+                print('IsFieldsValid = TRUE: push SingInScreen()');
                 Navigator.push(
                   context,
                   CupertinoPageRoute(
-                    builder: (context) => const HomeScreen()),
+                      builder: (context) => const SignInScreen()),
                 );
               } else {
                 print('IsFieldsValid = FALSE!');
@@ -182,7 +187,6 @@ class SignUp_registerButton extends StatelessWidget {
     );
   }
 }
-
 
 /// SIGNIN BUTTON
 class SignUp_loginButton extends StatelessWidget {
@@ -206,16 +210,13 @@ class SignUp_loginButton extends StatelessWidget {
         width: Responsive.width(65, context),
         child: CupertinoButton(
           color: favorColors.SecondaryBlue,
-          child: const Text(
-            "Sign In",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)
-          ),
+          child: const Text("Sign In",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           onPressed: () {
             print('Pressed: SignUp_loginButton');
             Navigator.pop(
               context,
-              CupertinoPageRoute(
-                builder: (context) => const SignInScreen()),
+              CupertinoPageRoute(builder: (context) => const SignInScreen()),
             );
           },
         ),
@@ -225,7 +226,7 @@ class SignUp_loginButton extends StatelessWidget {
 }
 
 // TODO: remove this class it's not used
-// 
+//
 /// BUTTON google login
 class SignUp_googleButton extends StatelessWidget {
   const SignUp_googleButton({super.key});
@@ -233,8 +234,7 @@ class SignUp_googleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-          top: 9, right: 9, left: 9, bottom: 9),
+      margin: EdgeInsets.only(top: 9, right: 9, left: 9, bottom: 9),
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
@@ -251,8 +251,7 @@ class SignUp_googleButton extends StatelessWidget {
           color: Colors.deepOrangeAccent,
           child: const Text(
             "Continue with Google",
-            style: TextStyle(
-                fontSize: 20, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           onPressed: () {
             // Console log
@@ -261,8 +260,7 @@ class SignUp_googleButton extends StatelessWidget {
             globals.authService.googleSignIn(context: context);
             Navigator.push(
               context,
-              CupertinoPageRoute(
-                  builder: (context) => const HomeScreen()),
+              CupertinoPageRoute(builder: (context) => const HomeScreen()),
             );
           },
         ),
