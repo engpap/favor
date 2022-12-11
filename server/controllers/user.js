@@ -4,7 +4,7 @@ import dotenv from "dotenv"; // to read .env file
 import { OAuth2Client } from 'google-auth-library';
 
 import User from '../models/user.js';
-import { EMAIL_ERROR, PASSWORD_ERROR, SERVER_ERROR } from './constants/errorTypes.js';
+import { EMAIL_ERROR, PASSWORD_ERROR, SERVER_ERROR } from '../constants/errorTypes.js';
 
 dotenv.config();
 

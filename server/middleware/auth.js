@@ -11,6 +11,7 @@ const auth = async (request, response, next) => {
     try {
      
         const token = request.headers.authorization?.split(" ")[1];
+        console.log(token)
         const isCustomAuth = token?.length < 500;
 
         let decodedData;
