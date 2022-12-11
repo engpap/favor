@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
-import PostMessage from '../models/post.js';
+import Post from '../models/post.js';
+import User from '../models/user.js';
 import axios from 'axios';
 import FormData from 'form-data';
 
@@ -32,7 +33,7 @@ export const createPost = async (request, res) => {
     data.append('api_secret', process.env.SIGHTENGINE_SECRET_API);
 
 
-    try{
+    try {
         console.log('>>> createPost: Sending request to Sightengine...');
         const apiResponse = await axios({
             url: 'https://api.sightengine.com/1.0/text/check.json',
@@ -40,20 +41,20 @@ export const createPost = async (request, res) => {
             data: data,
             headers: data.getHeaders()
         })
-        if(apiResponse?.data?.profanity?.matches.length){ //if profanity.matches array has a length grater than 0, then some inappropriate data has been found
+        if (apiResponse?.data?.profanity?.matches.length) { //if profanity.matches array has a length grater than 0, then some inappropriate data has been found
             console.log("Sightengine API response", apiResponse?.data);
             return res.status(409).json({ message: error.message });
         }
-        else{
+        else {
             console.log('>>> createPost: Description does not contain inappropriate data');
         }
-            
-    }catch(error){
+
+    } catch (error) {
         return res.status(400).json({ message: "Post description contains inappropriate data" });
     }
 
     console.log('>>> createPost: Creating post...');
-    const newPost = new PostMessage({ ...request.body, creatorId: request.userId, createdAt: new Date().toISOString() });
+    const newPost = new Post({ ...request.body, creatorId: request.userId, createdAt: new Date().toISOString() });
 
     try {
         await newPost.save();
@@ -61,5 +62,60 @@ export const createPost = async (request, res) => {
         res.status(201).json(newPost);
     } catch (error) {
         res.status(409).json({ message: error.message });
+    }
+}
+
+
+/**
+ * 
+ * @param {*} request contaning the query parameter about the page
+ * @param {*} response contaning a maximum number of posts equals to LIMIT value, the current page, the total number of pages
+ */
+export const getPosts = async (request, response) => {
+    const { page } = request.query;
+    try {
+        const LIMIT = 4;
+        const pageStartIndex = (Number(page) - 1) * LIMIT;
+
+        const total = await Post.countDocuments({});
+
+        // To return all documents in a collection, omit parameter of find().  
+        // To sort posts from newest to oldest order, pass -1 as the parameter of sort().
+        // To skip the posts before the current page start index.
+        const posts = await Post.find().sort({ _id: -1 }).limit(LIMIT).skip(pageStartIndex);
+
+        console.log(">>> getPosts: Updating posts with users data...");
+        var newPosts = []
+        for (const document of posts) {
+            var user = await User.findById(document.creatorId);
+            var newDocument = { ...document._doc, name: user.name, surname: user.surname}
+            console.log(newDocument);
+            newPosts = [...newPosts, newDocument]
+        }
+
+    response.status(200).json({ data: newPosts, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) });
+    console.log(">>> getPosts: Sent posts to client");
+} catch (error) {
+    response.status(404).json({ message: error.message });
+}
+}
+
+
+/**
+ * 
+ * @param {*} request containing as parameter the id of the post the client wants to retrieve
+ * @param {*} response containing the requested post
+ */
+export const getPost = async (request, response) => {
+    const { id } = request.params;
+    try {
+        const post = await Post.findById(id);
+        console.log('>>> getPost: Found post by the given id...');
+        const user = await User.findById(post.creatorId)
+        console.log('>>> getPost: Found post creator data');
+        response.status(200).json({ ...post._doc, name: user.name, surname: user.surname });
+        console.log('>>> getPost: Sent post with name and surname of creator to client');
+    } catch (error) {
+        response.status(404).json({ message: error.message });
     }
 }
