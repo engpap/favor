@@ -79,6 +79,7 @@ class Introduction2Screen_T extends StatelessWidget {
 }
 
 
+/// BOTTOM NAVIGATION BAR
 class IntroNavBar extends StatelessWidget {
   const IntroNavBar({super.key});
 

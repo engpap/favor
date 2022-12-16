@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/screens/responsiveLayout.dart';
 import 'package:project/screens/signin/signin.dart';
-import 'package:project/screens/welcome.dart';
 import 'package:project/functions/favorColors.dart' as favorColors;
 
 import 'introduction-1.dart';
@@ -80,6 +79,7 @@ class Introduction3Screen_T extends StatelessWidget {
 }
 
 
+/// BOTTOM NAVIGATION BAR
 class IntroNavBar extends StatelessWidget {
   const IntroNavBar({super.key});
 
