@@ -4,7 +4,7 @@ import dotenv from "dotenv"; // to read .env file
 import { OAuth2Client } from 'google-auth-library';
 
 import User from '../models/user.js';
-import { EMAIL_ERROR, PASSWORD_ERROR, SERVER_ERROR } from './constants/errorTypes.js';
+import { EMAIL_ERROR, PASSWORD_ERROR, SERVER_ERROR } from '../constants/errorTypes.js';
 
 dotenv.config();
 
@@ -61,6 +61,7 @@ export const signin = async (req, res) => {
         //The _doc field lets you access the "raw" document directly, 
         // which was delivered through the mongodb driver, bypassing mongoose.
         console.log(">>> SignIn: Sending response to user");
+        console.log("Following user logged in successfully: ",existingUser._doc);
         res.status(200).json({ token, ...existingUser._doc });
 
     } catch (error) {

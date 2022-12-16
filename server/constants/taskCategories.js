@@ -1,0 +1,4 @@
+export const DOG_SITTING = 'DOG_SITTING';
+export const HOME_REPAIR = 'HOME_REPAIR';
+export const HOME_CLEANING = 'HOME_CLEANING';
+export const OUTDOOR_CLEANING = 'OUTDOOR_CLEANING';

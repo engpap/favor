@@ -17,18 +17,20 @@ class SignInScreen_T extends StatelessWidget {
           children: [
             /// TITLE
             Container(
-              width: Responsive.width(100, context),           
-              margin: EdgeInsets.only(right: 9, left: 9, bottom: Responsive.height(5,context)),  
+              width: Responsive.width(100, context),
+              margin: EdgeInsets.only(
+                  right: 9, left: 9, bottom: Responsive.height(5, context)),
               child: Center(
                 child: Text(
                   "Welcome to Favor",
                   style: TextStyle(
-                    color: favorColors.PrimaryBlue,
-                    fontSize: 50,
-                    fontWeight: FontWeight.bold),
+                      color: favorColors.PrimaryBlue,
+                      fontSize: 50,
+                      fontWeight: FontWeight.bold),
                 ),
               ),
             ),
+
             /// TWO BLOCKS: actual signIn & register or google
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -39,70 +41,69 @@ class SignInScreen_T extends StatelessWidget {
                   reverse: true,
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
-                      //TODO: use a global variable, not 370 
+                      //TODO: use a global variable, not 370
                       maxWidth: 370,
                     ),
-                    child: Column(
-                      children: [
-                        /// DESCRIPTION
-                        Container(
-                          margin: EdgeInsets.only(
+                    child: Column(children: [
+                      /// DESCRIPTION
+                      Container(
+                        margin: EdgeInsets.only(
                             top: Responsive.height(1, context),
                             bottom: Responsive.height(3, context),
                             right: 9,
                             left: 9),
-                          child: Text(
-                            "Please enter your registration email and password.",
-                            style: TextStyle(
+                        child: Text(
+                          "Please enter your registration email and password.",
+                          style: TextStyle(
                               color: favorColors.PrimaryBlue,
                               fontSize: 18,
                               fontWeight: FontWeight.bold),
-                          ),
                         ),
+                      ),
 
-                        SignIn_form(),
+                      SignIn_form(),
 
-                        Divider(height: Responsive.height(2, context), color: Colors.transparent,),
+                      Divider(
+                        height: Responsive.height(2, context),
+                        color: Colors.transparent,
+                      ),
 
-                        SignIn_loginButton(),
-
-                      ]),
+                      SignIn_loginButton(),
+                    ]),
                   ),
                 ),
+
                 /// BLOCK: register or google
                 SingleChildScrollView(
                   reverse: true,
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
-                      //TODO: use a global variable, not 370 
+                      //TODO: use a global variable, not 370
                       maxWidth: 370,
                     ),
-                    child: Column(
-                      children: [
-                        SignIn_googleButton(),
-
-                        Divider(height: Responsive.height(4, context), color: Colors.transparent,),
-
-                        Text(
-                          "not a member?",
-                          style: TextStyle(
-                            color: Colors.black, 
-                            fontSize: 20),
-                        ),
-                        Divider(height: Responsive.height(1, context), color: Colors.transparent,),
-
-                        SignIn_signUpButton(),
-
-                      ]),
+                    child: Column(children: [
+                      SignIn_googleButton(),
+                      Divider(
+                        height: Responsive.height(4, context),
+                        color: Colors.transparent,
+                      ),
+                      Text(
+                        "Not a member yet?",
+                        style: TextStyle(color: Colors.black, fontSize: 20),
+                      ),
+                      Divider(
+                        height: Responsive.height(1, context),
+                        color: Colors.transparent,
+                      ),
+                      SignIn_signUpButton(),
+                    ]),
                   ),
                 ),
               ],
             ),
           ],
         ),
-
       ),
     );
   }
 }
-
