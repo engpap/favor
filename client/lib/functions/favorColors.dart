@@ -9,3 +9,4 @@ Color Yellow = Color.fromARGB(255, 255, 172, 36);
 //introduction background
 Color IntroBg = Color.fromARGB(255, 250, 250, 251);
 
+Color LightGrey = Color.fromARGB(255, 241, 241, 241);

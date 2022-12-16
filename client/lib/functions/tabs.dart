@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 /// Enumeration of the Tabs present in the BottomNavigationBar
-enum TabsName { home, search, settings }
+enum TabsName { home, chat, favor, leaderboard, account }
 
 /// List of Icons present in the BottomNavigationBar
 extension TabsIcon on TabsName {
@@ -14,13 +14,21 @@ extension TabsIcon on TabsName {
             //color: Color(0xFFE84817),
           );
         }
-      case TabsName.search:
+      case TabsName.chat:
         {
-          return const Icon(CupertinoIcons.search);
+          return const Icon(CupertinoIcons.chat_bubble_2);
         }
-      case TabsName.settings:
+      case TabsName.favor:
         {
-          return const Icon(CupertinoIcons.settings);
+          return const Icon(CupertinoIcons.add_circled);
+        }
+      case TabsName.leaderboard:
+        {
+          return const Icon(CupertinoIcons.rectangle_stack_person_crop);
+        }
+      case TabsName.account:
+        {
+          return const Icon(CupertinoIcons.profile_circled);
         }
     }
   }
