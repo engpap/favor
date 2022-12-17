@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/functions/responsive.dart';
+import 'package:project/screens/favorInformationPage/favorInformationPage.dart';
 import 'package:project/screens/responsiveLayout.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
@@ -73,6 +74,7 @@ class FavorScreen_M extends StatelessWidget {
                   heading: globals.categoryHeading,
                   prefixIcon: globals.categoryPrefixIcon,
                   textController: globals.categoryTextController,
+                  flag: 1, //if possible remove this
                 ),
                 Divider(height: Responsive.height(2, context), color: Colors.transparent,),
                 //PICKER area
@@ -82,6 +84,7 @@ class FavorScreen_M extends StatelessWidget {
                   heading: globals.areaHeading,
                   prefixIcon: globals.areaPrefixIcon,
                   textController: globals.areaTextController,
+                  flag: 2, //if possible remove this
                 ),
                 Divider(height: Responsive.height(2, context), color: Colors.transparent,),
                 //PICKER startTime
@@ -91,6 +94,7 @@ class FavorScreen_M extends StatelessWidget {
                   heading: globals.startTimeHeading,
                   prefixIcon: globals.startTimePrefixIcon,
                   textController: globals.startTimeTextController,
+                  flag: 3, //if possible remove this
                 ),
                 Divider(height: Responsive.height(2, context), color: Colors.transparent,),
                 //PICKER endTime
@@ -100,6 +104,7 @@ class FavorScreen_M extends StatelessWidget {
                   heading: globals.endTimeHeading,
                   prefixIcon: globals.endTimePrefixIcon,
                   textController: globals.endTimeTextController,
+                  flag: 4, //if possible remove this
                 ),
                 Divider(height: Responsive.height(2, context), color: Colors.transparent,),
                 //Description
@@ -132,6 +137,8 @@ class Favor_pickerMenu extends StatefulWidget {
   final IconData prefixIcon;
   // to manipulate the content of the texfield
   TextEditingController textController;
+  // !! funziana solo con le flag 1-2-3-4 per il form menu dei nuovi favor. Non riutilizzare questo widget a caso
+  int flag = 0;
 
   Favor_pickerMenu({
     super.key,
@@ -140,6 +147,7 @@ class Favor_pickerMenu extends StatefulWidget {
     required this.contentList,
     required this.prefixIcon,
     required this.textController,
+    required this.flag
   });
 
   @override
@@ -195,7 +203,19 @@ class _Favor_pickerMenuState extends State<Favor_pickerMenu> {
                       onSelectedItemChanged: (int value) {
                         setState(() {
                           selectedValue = value;
-                          globals.categoryTextController = TextEditingController(text:'${widget.contentList.elementAt(selectedValue).data}');
+                          // TODO: if possible remove these flags and use a cleaner approach
+                          if (widget.flag == 1){
+                            globals.categoryTextController  = TextEditingController(text:'${widget.contentList.elementAt(selectedValue).data}');
+                          }
+                          if (widget.flag == 2){
+                            globals.areaTextController  = TextEditingController(text:'${widget.contentList.elementAt(selectedValue).data}');
+                          }
+                          if (widget.flag == 3){
+                            globals.startTimeTextController  = TextEditingController(text:'${widget.contentList.elementAt(selectedValue).data}');
+                          }
+                          if (widget.flag == 4){
+                            globals.endTimeTextController  = TextEditingController(text:'${widget.contentList.elementAt(selectedValue).data}');
+                          }
                         });
                       },
                     ),
@@ -278,6 +298,14 @@ class Favor_publishFavorButton extends StatelessWidget {
           onPressed: () {
             print('Pressed: Favor_publishFavorButton');
             //TODO: add server function and client response
+            
+            // temporary function
+            Navigator.of(context).push(
+              CupertinoPageRoute(builder: (context) {
+                return favorInformationPage_Screen();
+              }),
+            );
+                      
           },
         ),
       ),
