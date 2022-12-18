@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/functions/responsive.dart';
+import 'package:project/screens/home.dart';
 import 'package:project/screens/responsiveLayout.dart';
+
+import 'package:project/models/post.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'globals.dart' as globals;
@@ -74,7 +77,10 @@ class FavorScreen_M extends StatelessWidget {
                   prefixIcon: globals.categoryPrefixIcon,
                   textController: globals.categoryTextController,
                 ),
-                Divider(height: Responsive.height(2, context), color: Colors.transparent,),
+                Divider(
+                  height: Responsive.height(2, context),
+                  color: Colors.transparent,
+                ),
                 //PICKER area
                 Favor_pickerMenu(
                   contentList: globals.area,
@@ -83,7 +89,10 @@ class FavorScreen_M extends StatelessWidget {
                   prefixIcon: globals.areaPrefixIcon,
                   textController: globals.areaTextController,
                 ),
-                Divider(height: Responsive.height(2, context), color: Colors.transparent,),
+                Divider(
+                  height: Responsive.height(2, context),
+                  color: Colors.transparent,
+                ),
                 //PICKER startTime
                 Favor_pickerMenu(
                   contentList: globals.startTime,
@@ -92,7 +101,10 @@ class FavorScreen_M extends StatelessWidget {
                   prefixIcon: globals.startTimePrefixIcon,
                   textController: globals.startTimeTextController,
                 ),
-                Divider(height: Responsive.height(2, context), color: Colors.transparent,),
+                Divider(
+                  height: Responsive.height(2, context),
+                  color: Colors.transparent,
+                ),
                 //PICKER endTime
                 Favor_pickerMenu(
                   contentList: globals.endTime,
@@ -101,7 +113,10 @@ class FavorScreen_M extends StatelessWidget {
                   prefixIcon: globals.endTimePrefixIcon,
                   textController: globals.endTimeTextController,
                 ),
-                Divider(height: Responsive.height(2, context), color: Colors.transparent,),
+                Divider(
+                  height: Responsive.height(2, context),
+                  color: Colors.transparent,
+                ),
                 //Description
                 Favor_boxDescription(
                   placeholder: globals.informationsPlaceholder,
@@ -111,7 +126,11 @@ class FavorScreen_M extends StatelessWidget {
               ],
             ),
           ),
-          Divider(height: Responsive.height(2, context), color: Colors.transparent,),
+          Divider(
+            height: Responsive.height(2, context),
+            color: Colors.transparent,
+          ),
+
           ///PUBLISH BUTTON
           Favor_publishFavorButton(),
         ],
@@ -159,11 +178,16 @@ class _Favor_pickerMenuState extends State<Favor_pickerMenu> {
             //DESCRIPTION
             SizedBox(
               width: Responsive.width(100, context),
-              child: Text("${widget.heading}", 
-                style: TextStyle(fontSize: 18), textAlign: TextAlign.left,
+              child: Text(
+                "${widget.heading}",
+                style: TextStyle(fontSize: 18),
+                textAlign: TextAlign.left,
               ),
             ),
-            Divider(height: Responsive.height(1, context), color: Colors.transparent,),
+            Divider(
+              height: Responsive.height(1, context),
+              color: Colors.transparent,
+            ),
             // TEXTFIELD
             CupertinoTextField(
               prefix: CupertinoButton(
@@ -179,27 +203,34 @@ class _Favor_pickerMenuState extends State<Favor_pickerMenu> {
               suffix: CupertinoButton(
                 // text instead of icon inside the button
                 //child: Text('${widget.contentList.elementAt(selectedValue).data}'), // value of the selected item
-                child: Icon(CupertinoIcons.arrowtriangle_down_circle, color: favorColors.SecondaryBlue,),
+                child: Icon(
+                  CupertinoIcons.arrowtriangle_down_circle,
+                  color: favorColors.SecondaryBlue,
+                ),
                 onPressed: (() => showCupertinoModalPopup(
-                  context: context,
-                  builder: (_) => SizedBox(
-                    width: Responsive.width(100, context),
-                    height: Responsive.height(20, context),
-                    child: CupertinoPicker(
-                      backgroundColor: Colors.white,
-                      itemExtent: Responsive.height(5, context), //height of current item
-                      scrollController: FixedExtentScrollController(
-                        initialItem: selectedValue,
-                      ),
-                      children: widget.contentList,
-                      onSelectedItemChanged: (int value) {
-                        setState(() {
-                          selectedValue = value;
-                          globals.categoryTextController = TextEditingController(text:'${widget.contentList.elementAt(selectedValue).data}');
-                        });
-                      },
-                    ),
-                  ))),
+                    context: context,
+                    builder: (_) => SizedBox(
+                          width: Responsive.width(100, context),
+                          height: Responsive.height(20, context),
+                          child: CupertinoPicker(
+                            backgroundColor: Colors.white,
+                            itemExtent: Responsive.height(
+                                5, context), //height of current item
+                            scrollController: FixedExtentScrollController(
+                              initialItem: selectedValue,
+                            ),
+                            children: widget.contentList,
+                            onSelectedItemChanged: (int value) {
+                              setState(() {
+                                selectedValue = value;
+                                globals.categoryTextController =
+                                    TextEditingController(
+                                        text:
+                                            '${widget.contentList.elementAt(selectedValue).data}');
+                              });
+                            },
+                          ),
+                        ))),
               ),
             ),
           ],
@@ -210,7 +241,7 @@ class _Favor_pickerMenuState extends State<Favor_pickerMenu> {
 }
 
 class Favor_boxDescription extends StatelessWidget {
-   // menu placeholder
+  // menu placeholder
   final String placeholder;
   // menu description
   final String heading;
@@ -231,11 +262,13 @@ class Favor_boxDescription extends StatelessWidget {
         children: [
           SizedBox(
             width: Responsive.width(100, context),
-            child: Text("${heading}", 
-                style: TextStyle(fontSize: 18), textAlign: TextAlign.left
-              ),
+            child: Text("${heading}",
+                style: TextStyle(fontSize: 18), textAlign: TextAlign.left),
           ),
-          Divider(height: Responsive.height(1, context), color: Colors.transparent,),
+          Divider(
+            height: Responsive.height(1, context),
+            color: Colors.transparent,
+          ),
           CupertinoTextField(
             placeholder: this.placeholder,
             controller: this.textController,
@@ -247,7 +280,6 @@ class Favor_boxDescription extends StatelessWidget {
     );
   }
 }
-
 
 /// PUSBLISH FAVOR BUTTON
 class Favor_publishFavorButton extends StatelessWidget {
@@ -277,7 +309,28 @@ class Favor_publishFavorButton extends StatelessWidget {
           ),
           onPressed: () {
             print('Pressed: Favor_publishFavorButton');
-            //TODO: add server function and client response
+            FutureBuilder<Post>(
+              future: globals.postService.publishProviderFavor(
+                context: context,
+                taskCategory: globals.categoryTextController.text,
+                location: globals.areaTextController.text,
+                taskStartTime: DateTime.now(), //TODO: change
+                taskEndTime: DateTime.now(), //TODO: change
+                description: globals.informationsTextController.text,
+              ),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (context) => const HomeScreen()));
+                } else if (snapshot.hasError) {
+                  return Text('${snapshot.error}');
+                }
+                // By default, show a loading spinner.
+                return CupertinoActivityIndicator(animating: false, radius: 10);
+              },
+            );
           },
         ),
       ),

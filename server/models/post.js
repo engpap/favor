@@ -25,12 +25,13 @@ const postSchema = mongoose.Schema({
     // name and surname are queired when needed on creatorId
     userType: { type: String, enum: userTypes, required: true }, //caller or provider
     taskCategory: { type: String, enum: taskCategories, required: true }, //category of the activity
-    location: {
+    location:  String,
+    /*location: {
         address: { type: String, required: true },
         city: { type: String, required: true },
         postalCode: { type: String, required: true },
         country: { type: String, required: true },
-    },
+    },*/
 
     //Dates are passed thought the internet as a ISO format string
     taskStartTime: Date, // it is null for provider's posts

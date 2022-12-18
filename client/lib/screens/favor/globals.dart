@@ -1,6 +1,7 @@
 library globals;
 
 import 'package:flutter/cupertino.dart';
+import 'package:project/services/postService.dart';
 
 /// CATEGORY
 List<Text> category = [
@@ -18,7 +19,6 @@ IconData categoryPrefixIcon = CupertinoIcons.square_list;
 TextEditingController categoryTextController = TextEditingController(text: "");
 String categoryPlaceholder = "ex. activity0";
 
-
 /// AREA
 List<Text> area = [
   Text("area0"),
@@ -34,7 +34,6 @@ IconData areaPrefixIcon = CupertinoIcons.location_solid;
 
 TextEditingController areaTextController = TextEditingController(text: "");
 String areaPlaceholder = "ex. area0";
-
 
 /// STARTIME
 List<Text> startTime = [
@@ -58,7 +57,6 @@ IconData startTimePrefixIcon = CupertinoIcons.time;
 TextEditingController startTimeTextController = TextEditingController(text: "");
 String startTimePlaceholder = "ex. 8:00";
 
-
 /// ENDTIME
 List<Text> endTime = [
   Text("1:00"),
@@ -81,9 +79,11 @@ IconData endTimePrefixIcon = CupertinoIcons.time;
 TextEditingController endTimeTextController = TextEditingController(text: "");
 String endTimePlaceholder = "ex. 12:00";
 
-
 /// Favor INFORMATIONS
 
-TextEditingController informationsTextController = TextEditingController(text: "");
+TextEditingController informationsTextController =
+    TextEditingController(text: "");
 String informationsPlaceholder = "ex. this is a description";
 String informationsHeading = "Breatly describe the favor:";
+
+final PostService postService = PostService();

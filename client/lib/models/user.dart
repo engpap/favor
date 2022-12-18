@@ -7,7 +7,7 @@ class User {
   final String email;
   final String? password;
   final String? confirmPassword;
-  final String? token;
+  final String token;
 
   User({
     required this.id,
@@ -16,7 +16,7 @@ class User {
     required this.email,
     this.password,
     this.confirmPassword,
-    this.token,
+    required this.token,
   });
 
   ///The following code has the purpose of JSON stringify the user object.
