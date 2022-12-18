@@ -6,8 +6,27 @@ import 'package:project/providers/userProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:project/constants/globalVars.dart';
 import 'package:project/models/post.dart';
+import 'package:project/models/favorConstants.dart';
 
 class PostService {
+  Future<FavorConstants> getFavorConstants(
+      {required BuildContext context}) async {
+    try {
+      http.Response response =
+          await http.get(Uri.parse('$uri/posts/getFavorConstants'), headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      });
+      if (response.statusCode == 200)
+        return FavorConstants.fromJson(jsonDecode(response.body));
+      else
+        throw Exception('Failed to get favor constants! Error message: ' +
+            jsonDecode(response.body)['message']);
+    } catch (error) {
+      throw Exception(
+          'Failed to get favor contstants! Error: ' + error.toString());
+    }
+  }
+
   Future<Post> publishProviderFavor(
       {required BuildContext context,
       required String taskCategory,

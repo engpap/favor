@@ -4,8 +4,9 @@ import User from '../models/user.js';
 import axios from 'axios';
 import FormData from 'form-data';
 
-import { PROVIDER, CALLER, ADMIN } from '../constants/userTypes.js';
-
+import { PROVIDER, CALLER, ADMIN, USER_TYPES } from '../constants/userTypes.js';
+import { FAVOR_CATEGORIES } from '../constants/favorCategories.js'
+import { LOCATIONS } from '../constants/locations.js'
 
 export const createPost = async (req, res) => {
     const { userType, taskStartTime, availabilityStartTime, availabilityEndTime, description } = req.body;
@@ -123,3 +124,17 @@ export const getPost = async (request, response) => {
         response.status(404).json({ message: error.message });
     }
 }
+
+
+export const getFavorConstants = async (request, response) => {
+
+    try {
+        console.log("inside")
+        console.log(JSON.stringify({USER_TYPES,FAVOR_CATEGORIES,LOCATIONS}))
+        response.status(200).json(JSON.stringify([USER_TYPES,FAVOR_CATEGORIES,LOCATIONS]));
+        console.log('>>> getFavorConstants: Returned constants useful for creating a favor post!');
+    } catch (error) {
+        response.status(404).json({ message: error.message });
+    }
+}
+
