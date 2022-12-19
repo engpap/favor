@@ -9,8 +9,7 @@ import 'package:project/models/post.dart';
 import 'package:project/models/favorConstants.dart';
 
 class PostService {
-  Future<FavorConstants> getFavorConstants(
-      {required BuildContext context}) async {
+  Future<FavorConstants> getFavorConstants() async {
     try {
       http.Response response =
           await http.get(Uri.parse('$uri/posts/getFavorConstants'), headers: {

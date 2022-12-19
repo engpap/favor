@@ -131,7 +131,7 @@ export const getFavorConstants = async (request, response) => {
     try {
         console.log("inside")
         console.log(JSON.stringify({USER_TYPES,FAVOR_CATEGORIES,LOCATIONS}))
-        response.status(200).json(JSON.stringify([USER_TYPES,FAVOR_CATEGORIES,LOCATIONS]));
+        response.status(200).json(JSON.stringify({USER_TYPES,FAVOR_CATEGORIES,LOCATIONS}));
         console.log('>>> getFavorConstants: Returned constants useful for creating a favor post!');
     } catch (error) {
         response.status(404).json({ message: error.message });

@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
+
 class FavorConstants {
-  List<String> _userTypes;
-  List<String> _favorCategories;
-  List<String> _locations;
+  List<Text> _userTypes;
+  List<Text> _favorCategories;
+  List<Text> _locations;
 
   FavorConstants({
     required userTypes,
@@ -13,19 +15,29 @@ class FavorConstants {
         _favorCategories = favorCategories,
         _locations = locations;
 
-  FavorConstants.fromMap(Map<String, dynamic> json)
-      : _userTypes =
-            (jsonDecode(json['USER_TYPES']) as List<dynamic>).cast<String>(),
-        _favorCategories =
-            (jsonDecode(json['FAVOR_CATEGORIES']) as List<dynamic>)
-                .cast<String>(),
-        _locations =
-            (jsonDecode(json['LOCATIONS']) as List<dynamic>).cast<String>();
+  FavorConstants.fromMap(String json)
+      : _userTypes = convertJsonToTextList(json, 'USER_TYPES'),
+        _favorCategories = convertJsonToTextList(json, 'FAVOR_CATEGORIES'),
+        _locations = convertJsonToTextList(json, 'LOCATIONS');
 
   factory FavorConstants.fromJson(String source) =>
-      FavorConstants.fromMap(json.decode(source));
+      FavorConstants.fromMap(source);
 
-  List<String> get userTypes => _userTypes;
-  List<String> get favorCategories => _favorCategories;
-  List<String> get locations => _locations;
+  List<Text> get userTypes => _userTypes;
+  List<Text> get favorCategories => _favorCategories;
+  List<Text> get locations => _locations;
+}
+
+List<Text> convertJsonToTextList(String source, String fieldName) {
+  var list = jsonDecode(source)[fieldName];
+  List<String> stringList = List.from(list);
+  return convertToTextList(stringList);
+}
+
+List<Text> convertToTextList(List<String> source) {
+  List<Text> result = [];
+  for (String string in source) {
+    result.add(Text(string));
+  }
+  return result;
 }
