@@ -17,6 +17,7 @@ TextEditingController areaTextController = TextEditingController(text: "");
 String areaPlaceholder = "Ex. Lambrate, Milan";
 
 /// STARTIME
+// TODO: DateTime e modifica guardando post.js
 List<Text> startTime = [
   Text("1:00"),
   Text("2:00"),

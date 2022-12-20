@@ -364,7 +364,7 @@ class Favor_publishFavorButton extends StatelessWidget {
                   Navigator.push(
                       context,
                       CupertinoPageRoute(
-                          builder: (context) => const HomeScreen()));
+                          builder: (context) => const favorInformationPage_Screen()));
                 } else if (snapshot.hasError) {
                   return Text('${snapshot.error}');
                 }
