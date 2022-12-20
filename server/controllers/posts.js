@@ -4,23 +4,27 @@ import User from '../models/user.js';
 import axios from 'axios';
 import FormData from 'form-data';
 
-import { PROVIDER, CALLER, ADMIN } from '../constants/userTypes.js';
+import { PROVIDER, CALLER, ADMIN, USER_TYPES } from '../constants/userTypes.js';
+import { FAVOR_CATEGORIES } from '../constants/favorCategories.js'
+import { LOCATIONS } from '../constants/locations.js'
 
-
-export const createPost = async (request, res) => {
-    const { userType, taskStartTime, availabilityStartTime, availabilityEndTime, description } = request.body;
+export const createPost = async (req, res) => {
+    const { userType, taskStartTime, availabilityStartTime, availabilityEndTime, description } = req.body;
 
     // Check if post fields respects the user type
     if (userType == PROVIDER) {
-        if (taskStartTime)
-            res.status(400).json({ message: "Provider cannot have taskStartTime value" });
+        console.log("Provider and: ",taskStartTime)
+        if (!taskStartTime)
+            return res.status(400).json({ message: "Provider cannot have taskStartTime value" });
     }
     else if (userType == CALLER) {
-        if (availabilityStartTime || availabilityEndTime)
-            res.status(400).json({ message: "Caller cannot have availabilityStartTime and availabilityEndTime values" });
+        console.log("Caller and: ",availabilityStartTime)
+        if (!availabilityStartTime || !availabilityEndTime)
+            return res.status(400).json({ message: "Caller cannot have availabilityStartTime and availabilityEndTime values" });
     }
     else {
-        res.status(400).json({ message: "Post creator should be a CALLER or a PROVIDER" });
+        console.log("Else")
+        return res.status(400).json({ message: "Post creator should be a CALLER or a PROVIDER" });
     }
 
     // Use Sightengine API to moderate description text
@@ -54,13 +58,14 @@ export const createPost = async (request, res) => {
     }
 
     console.log('>>> createPost: Creating post...');
-    const newPost = new Post({ ...request.body, creatorId: request.userId, createdAt: new Date().toISOString() });
-
+    const newPost = new Post({ ...req.body, creatorId: req.userId, createdAt: new Date().toISOString() });
+    console.log(newPost)
     try {
         await newPost.save();
         console.log('>>> createPost: Post created!');
         res.status(201).json(newPost);
     } catch (error) {
+        console.log(error.message);
         res.status(409).json({ message: error.message });
     }
 }
@@ -119,3 +124,17 @@ export const getPost = async (request, response) => {
         response.status(404).json({ message: error.message });
     }
 }
+
+
+export const getFavorConstants = async (request, response) => {
+
+    try {
+        console.log("inside")
+        console.log(JSON.stringify({USER_TYPES,FAVOR_CATEGORIES,LOCATIONS}))
+        response.status(200).json(JSON.stringify({USER_TYPES,FAVOR_CATEGORIES,LOCATIONS}));
+        console.log('>>> getFavorConstants: Returned constants useful for creating a favor post!');
+    } catch (error) {
+        response.status(404).json({ message: error.message });
+    }
+}
+

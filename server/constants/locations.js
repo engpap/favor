@@ -1,0 +1,1 @@
+export const LOCATIONS =['LAMBRATE','CITTA STUDI', 'LORETO']

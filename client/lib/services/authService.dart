@@ -27,6 +27,7 @@ class AuthService {
         email: email,
         password: password,
         confirmPassword: confirmPassword,
+        token: '',
       );
 
       http.Response response = await http.post(

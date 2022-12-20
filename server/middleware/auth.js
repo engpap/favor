@@ -9,25 +9,41 @@ import jwt from 'jsonwebtoken';
  */
 const auth = async (request, response, next) => {
     try {
-     
-        const token = request.headers.authorization?.split(" ")[1];
+        console.log(request)
+        const token = request.header("x-auth-token");
         console.log(token)
+
+        if (!token)
+            return response.status(401).json({ message: "No auth token, access denied" });
+
+        const verified = jwt.verify(token, process.env.GOOGLE_CLIENT_SECRET);
+        if (!verified)
+            return response.status(401).json({ message: "Token verification failed, authorization denied." });
+
+        request.userId = verified.id;
+        console.log(">>> User authenticated!");
+
+        /*
         const isCustomAuth = token?.length < 500;
 
         let decodedData;
 
+    
         // CUSTOM AUTH
         if (token && isCustomAuth) { 
             decodedData = jwt.verify(token, process.env.GOOGLE_CLIENT_SECRET);
             // Adding a property to request
             request.userId = decodedData?.id;
+            console.log("Authenticating user...")
         }
         // GOOGLE AUTH
         else { 
             decodedData = jwt.decode(token);    
             // Adding a property to request
             request.userId = decodedData?.sub;
+            console.log("Authenticating Google user...")
         }
+        */
         next();
     } catch (error) {
         console.log(error);
