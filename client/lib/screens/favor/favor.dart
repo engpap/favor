@@ -304,8 +304,7 @@ class Favor_publishFavorButton extends StatelessWidget {
               CupertinoPageRoute(builder: (context) {
                 return favorInformationPage_Screen();
               }),
-            );
-                      
+            );        
           },
         ),
       ),

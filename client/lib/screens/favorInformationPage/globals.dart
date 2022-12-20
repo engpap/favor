@@ -7,27 +7,31 @@ import 'package:project/functions/favorColors.dart' as favorColors;
 
 /// FAVOR
 // TODO: il suo valore essere ritornato dal server
-String heading = "Prova di un heading";
+String heading = "Heading di Ping Pong";
 // TODO: il suo valore essere ritornato dal server
 String information =
-    "questo favor riguarda il ping pong, il piru piru e altre belle cose.";
+    "Questo favor riguarda il ping pong, il piru piru e altre belle cose." +
+    "\nQuesto favor riguarda il ping pong, il piru piru e altre belle cose." +
+    "\nQuesto favor riguarda il ping pong, il piru piru e altre belle cose.";
 
 /// PERSON
 // TODO: il suo valore essere ritornato dal server
 String headingPerson = "Marta Heading";
+String rolePerson = "Provider";
 // TODO: il suo valore essere ritornato dal server
 String informationPerson =
-    "Sono Marco e sono un professionista di ping pong, nel tempo libero faccio il business.";
+    "Sono Marta e sono una professionista di ping pong, nel tempo libero faccio il business." +
+    "\nSono Marta e sono una professionista di ping pong, nel tempo libero faccio il business.";
 
 // TODO: il suo valore essere ritornato dal server
 DateTime startTime = DateTime.parse('1969-07-20 06:00:04Z'); // 6:00am
 DateTime endTime = DateTime.parse('1969-07-20 20:18:04Z'); // 8:18pm
 
 // https://stackoverflow.com/questions/16126579/how-do-i-format-a-date-with-dart
-final DateFormat formatter = DateFormat('jm');
+final DateFormat formatter = DateFormat('Hm');
 
 // TODO: il suo valore essere ritornato dal server
-String area = "Area A";
+String area = "Via della via, n. num, city A";
 
 // TODO: colors based on the number of stars, data retrieved from server
 List<Color> starsColor = [
@@ -46,3 +50,5 @@ List<Color> updateStarsColor(List<Color> starsColor, int starsNumber) {
   }
   return starsColor;
 }
+
+String totalRatings = "42.300";
