@@ -5,7 +5,6 @@ import 'package:project/functions/responsive.dart';
 import 'package:project/screens/responsiveLayout.dart';
 import 'package:project/screens/components/customField.dart';
 
-import 'package:project/screens/home.dart';
 import 'package:project/screens/signin/signin.dart';
 import 'package:project/screens/signup/signup_mobile.dart';
 import 'package:project/screens/signup/signup_tablet.dart';
@@ -217,50 +216,6 @@ class SignUp_loginButton extends StatelessWidget {
             Navigator.pop(
               context,
               CupertinoPageRoute(builder: (context) => const SignInScreen()),
-            );
-          },
-        ),
-      ),
-    );
-  }
-}
-
-// TODO: remove this class it's not used
-//
-/// BUTTON google login
-class SignUp_googleButton extends StatelessWidget {
-  const SignUp_googleButton({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: 9, right: 9, left: 9, bottom: 9),
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.4),
-            spreadRadius: 1,
-            blurRadius: 5,
-            offset: Offset(0, 1),
-          ),
-        ],
-      ),
-      child: SizedBox(
-        width: Responsive.width(65, context),
-        child: CupertinoButton(
-          color: Colors.deepOrangeAccent,
-          child: const Text(
-            "Continue with Google",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          onPressed: () {
-            // Console log
-            print('Pressed: Continue with Google button');
-            print('run: ...');
-            globals.authService.googleSignIn(context: context);
-            Navigator.push(
-              context,
-              CupertinoPageRoute(builder: (context) => const HomeScreen()),
             );
           },
         ),

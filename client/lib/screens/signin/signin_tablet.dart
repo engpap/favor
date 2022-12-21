@@ -41,8 +41,7 @@ class SignInScreen_T extends StatelessWidget {
                   reverse: true,
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
-                      //TODO: use a global variable, not 370
-                      maxWidth: 370,
+                      maxWidth: Responsive.fixedWidth(),
                     ),
                     child: Column(children: [
                       /// DESCRIPTION
@@ -78,8 +77,7 @@ class SignInScreen_T extends StatelessWidget {
                   reverse: true,
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
-                      //TODO: use a global variable, not 370
-                      maxWidth: 370,
+                      maxWidth: Responsive.fixedWidth(),
                     ),
                     child: Column(children: [
                       SignIn_googleButton(),

@@ -68,16 +68,6 @@ class Introduction3Screen_M extends StatelessWidget {
   }
 }
 
-//TODO do we need this?
-class Introduction3Screen_T extends StatelessWidget {
-  const Introduction3Screen_T({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
-
 
 /// BOTTOM NAVIGATION BAR
 class IntroNavBar extends StatelessWidget {

@@ -16,8 +16,7 @@ class SignInScreen_M extends StatelessWidget {
           reverse: true,
           child: ConstrainedBox(
             constraints: BoxConstraints(
-              //TODO: use a global variable, not 370
-              maxWidth: 370,
+              maxWidth: Responsive.fixedWidth(),
             ),
             child: Column(children: [
               /// PAGE TITLE

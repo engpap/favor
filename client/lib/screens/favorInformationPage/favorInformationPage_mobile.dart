@@ -218,7 +218,7 @@ class favorInformationPage_person_M extends StatelessWidget {
                   constraints: BoxConstraints(
                     minHeight: Responsive.width(25, context)
                   ),
-                  width: Responsive.width(65, context), // TODO: tablet more than 63
+                  width: Responsive.width(65, context),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,

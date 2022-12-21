@@ -17,7 +17,7 @@ class favorInformationPage_Screen_T extends StatelessWidget {
         SingleChildScrollView(
           reverse: true,
           child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 370,),//TODO: use a global variable, not 370
+            constraints: BoxConstraints(maxWidth: Responsive.fixedWidth(),),
             child: Column(
               children: [
                 // FAVOR INFORMATION

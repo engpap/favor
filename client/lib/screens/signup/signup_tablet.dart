@@ -43,8 +43,7 @@ class _SignUpScreen_TState extends State<SignUpScreen_T> {
                   SingleChildScrollView(
                     reverse: true,
                     child: Container(
-                      //TODO: use a global variable, not 370 
-                      width: 370,
+                      width: Responsive.fixedWidth(),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -81,8 +80,7 @@ class _SignUpScreen_TState extends State<SignUpScreen_T> {
                   SingleChildScrollView(
                     reverse: true,
                     child: Container(
-                      //TODO: use a global variable, not 370 
-                      width: 370,
+                      width: Responsive.fixedWidth(),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [

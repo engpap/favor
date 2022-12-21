@@ -39,13 +39,6 @@ class HomeScreen extends StatelessWidget {
               label: TabsName.values[4].name,
             ),
           ],
-          // TODO: substitute this list with a for each
-          /* TabsName.values.forEach((element) {
-              BottomNavigationBarItem(
-              icon: TabsName.values[element].icon,
-              label: TabsName.values[element].name,
-            )
-          }) */
         ),
         tabBuilder: (context, i) {
           // INIZIO Controlli
