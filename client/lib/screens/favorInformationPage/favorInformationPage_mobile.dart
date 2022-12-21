@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/functions/responsive.dart';
-import 'package:project/screens/favorInformationPage/favorInformationPage.dart';
-import 'package:project/screens/responsiveLayout.dart';
 import 'globals.dart' as globals;
 
 class favorInformationPage_Screen_M extends StatelessWidget {
@@ -17,7 +15,7 @@ class favorInformationPage_Screen_M extends StatelessWidget {
         children:[
           Container(
             margin: EdgeInsets.all(9),
-            padding: EdgeInsets.only(left:18, right:18, top:9, bottom: 9), //
+            padding: EdgeInsets.only(left:18, right:18, top:9, bottom: 9),
             decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
@@ -192,8 +190,8 @@ class favorInformationPage_person_M extends StatelessWidget {
               children: [
                 // IMAGE
                 Container(
-                  width: Responsive.width(25, context), // TODO: 15 tablet 25 phone
-                  height: Responsive.width(25, context), // TODO: 15 tablet 25 phone
+                  width: Responsive.width(25, context),
+                  height: Responsive.width(25, context),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     image: DecorationImage(
@@ -216,7 +214,6 @@ class favorInformationPage_person_M extends StatelessWidget {
                 ),
                 // PERSONAL INFO
                 Container(
-                  //color: Colors.blueAccent,
                   padding: EdgeInsets.only(left: Responsive.width(5, context),),
                   constraints: BoxConstraints(
                     minHeight: Responsive.width(25, context)
@@ -265,12 +262,11 @@ class favorInformationPage_person_M extends StatelessWidget {
                   children: [
                     // CHAT BUTTON
                     Container(
-                      //color: Colors.amber,
-                      width: Responsive.width(25, context), // TODO: 15 tablet 25 phone
+                      width: Responsive.width(25, context),
                       child: Align(
                         child: Container(
-                          width: Responsive.width(12, context), //TODO: 12 phone, 6 tablet
-                          height: Responsive.width(12, context), //TODO: 12 phone, 6 tablet
+                          width: Responsive.width(12, context), 
+                          height: Responsive.width(12, context),
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
@@ -304,12 +300,11 @@ class favorInformationPage_person_M extends StatelessWidget {
                     Divider(height: Responsive.height(2, context), color: Colors.transparent,),
                     // BOOK BUTTON
                     Container(
-                      //color: Colors.amber,
-                      width: Responsive.width(25, context), // TODO: 15 tablet 25 phone
+                      width: Responsive.width(25, context),
                       child: Align(
                         child: Container(
-                          width: Responsive.width(12, context), //TODO: 12 phone, 6 tablet
-                          height: Responsive.width(12, context), //TODO: 12 phone, 6 tablet
+                          width: Responsive.width(12, context), 
+                          height: Responsive.width(12, context),
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
@@ -344,13 +339,10 @@ class favorInformationPage_person_M extends StatelessWidget {
                 ),
                 // INFORMATION
                 Container(
-                  //constraints: BoxConstraints(minHeight: Responsive.height(25, context)),
-                  //color: Colors.pink,
                   width: Responsive.width(65, context),
                   //height: ,
                   padding: EdgeInsets.only(left: Responsive.width(5, context)),
                   child: Align(
-                    //alignment: Alignment.bottomCenter,
                     child: Text("${globals.informationPerson}", 
                       style: TextStyle(fontSize: 18), textAlign: TextAlign.start,
                     ),

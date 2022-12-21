@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/functions/responsive.dart';
-import 'package:project/screens/favorInformationPage/favorInformationPage.dart';
-import 'package:project/screens/favorInformationPage/favorInformationPage_mobile.dart';
-import 'package:project/screens/responsiveLayout.dart';
 import 'globals.dart' as globals;
 
 class favorInformationPage_Screen_T extends StatelessWidget {
@@ -26,7 +23,7 @@ class favorInformationPage_Screen_T extends StatelessWidget {
                 // FAVOR INFORMATION
                 Container(
                   margin: EdgeInsets.all(9),
-                  padding: EdgeInsets.only(left:18, right:18, top:9, bottom: 9), //
+                  padding: EdgeInsets.only(left:18, right:18, top:9, bottom: 9), 
                   decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
@@ -107,7 +104,7 @@ class favorInformationPage_Screen_T extends StatelessWidget {
                             ),
                             */
                             Padding(
-                              padding: const EdgeInsets.only(left: 30.0), // 8
+                              padding: const EdgeInsets.only(left: 30.0),
                               child: Flexible(
                                 child: Text(" ${globals.area}",
                                 overflow: TextOverflow.fade,
@@ -126,7 +123,7 @@ class favorInformationPage_Screen_T extends StatelessWidget {
                 // PERSONAL INFORMATION
                 Container(
                   margin: EdgeInsets.all(9),
-                  padding: EdgeInsets.only(left:18, right:18, top:9, bottom: 9), //
+                  padding: EdgeInsets.only(left:18, right:18, top:9, bottom: 9),
                   decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
@@ -152,8 +149,8 @@ class favorInformationPage_Screen_T extends StatelessWidget {
                           children: [
                             // IMAGE
                             Container(
-                              width: Responsive.width(10, context), // TODO: 15 tablet 25 phone
-                              height: Responsive.width(10, context), // TODO: 15 tablet 25 phone
+                              width: Responsive.width(10, context), 
+                              height: Responsive.width(10, context), 
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
@@ -236,12 +233,10 @@ class favorInformationPage_Screen_T extends StatelessWidget {
                             Column(
                               children: [
                                 Container(
-                                  //color: Colors.amber,
-                                  //width: Responsive.width(10, context), // TODO: 15 tablet 25 phone
                                   child: Align(
                                     child: Container(
-                                      width: Responsive.width(6, context), //TODO: 12 phone, 6 tablet
-                                      height: Responsive.width(6, context), //TODO: 12 phone, 6 tablet
+                                      width: Responsive.width(6, context), 
+                                      height: Responsive.width(6, context), 
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                         border: Border.all(
@@ -280,8 +275,8 @@ class favorInformationPage_Screen_T extends StatelessWidget {
                                 Container(
                                   child: Align(
                                     child: Container(
-                                      width: Responsive.width(6, context), //TODO: 12 phone, 6 tablet
-                                      height: Responsive.width(6, context), //TODO: 12 phone, 6 tablet
+                                      width: Responsive.width(6, context), 
+                                      height: Responsive.width(6, context),
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                         border: Border.all(
@@ -332,7 +327,6 @@ class favorInformationPage_Screen_T extends StatelessWidget {
           fit: FlexFit.tight,
           child: Container(
             margin: EdgeInsets.all(9),
-            //width: Responsive.width(10, context),
             height: Responsive.height(90, context),
             decoration: BoxDecoration(
               shape: BoxShape.rectangle,
