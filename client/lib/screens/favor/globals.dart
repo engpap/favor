@@ -1,7 +1,6 @@
 library globals;
 
 import 'package:flutter/cupertino.dart';
-import 'package:project/models/favorConstants.dart';
 import 'package:project/services/postService.dart';
 
 String categoryHeading = "Select a category";
