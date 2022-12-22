@@ -40,37 +40,43 @@ class FavorCategoryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        // IMAGE
-        Container(
-          width: Responsive.width(25, context),
-          height: Responsive.width(25, context),
-          decoration: BoxDecoration(
-            shape: BoxShape.rectangle,
-            image: DecorationImage(
-              image: AssetImage("assets/images/bg_music_01.jpg"),
-              fit: BoxFit.cover,
-            ),
-            border: Border.all(
-              color: favorColors.LightGrey,
-              width: 2.0,
-            ),
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                spreadRadius: 0.5,
-                blurRadius: 5,
-                offset: Offset(0, 1),
+    return Container(
+      padding: EdgeInsets.zero,
+      margin: EdgeInsets.zero,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // IMAGE
+          Container(
+            width: Responsive.width(25, context),
+            height: Responsive.width(25, context),
+            decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              image: DecorationImage(
+                image: AssetImage("assets/images/bg_music_01.jpg"),
+                fit: BoxFit.cover,
               ),
-            ],
+              border: Border.all(
+                color: favorColors.LightGrey,
+                width: 2.0,
+              ),
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  spreadRadius: 0.5,
+                  blurRadius: 5,
+                  offset: Offset(0, 1),
+                ),
+              ],
+            ),
           ),
-        ),
-        Divider(height: Responsive.height(0.5, context), color: Colors.transparent,),
-        Text("${1} favor", 
-          style: TextStyle(fontSize: 16),),
-      ],
+          Divider(height: Responsive.height(0.5, context), color: Colors.transparent,),
+          Text("${1} favor", 
+            style: TextStyle(fontSize: 16),),
+        ],
+      ),
     );
   }
 }
@@ -93,7 +99,7 @@ class FavorReccomendationWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomCard(
-      customHeight: 64,
+      customHeight: 59,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -261,6 +267,8 @@ class FavorReccomendationWidget extends StatelessWidget {
                   Divider(height: Responsive.height(1, context), color: Colors.transparent,),
                   // MORE BUTTON
                   Container(
+                    height: 26,
+                    width: Responsive.width(100, context),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(
@@ -277,10 +285,15 @@ class FavorReccomendationWidget extends StatelessWidget {
                       ],
                     ),
                     child: CupertinoButton(
-                      padding: EdgeInsets.all(9),
+                      padding: EdgeInsets.all(0),
                       color: favorColors.PrimaryBlue,
                       borderRadius: BorderRadius.circular(90),
-                      child: Text("More"),
+                      child: Text("More   >",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
                       onPressed: () {
                         print('Pressed: _moreButton');
                         //TODO: add server function and client response 
