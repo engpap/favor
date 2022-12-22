@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/functions/responsive.dart';
 import 'package:project/screens/components/customCard.dart';
+import 'package:project/screens/favorInformationPage/favorInformationPage.dart';
 import 'package:project/screens/feed/feed_mobile.dart';
 import 'package:project/screens/feed/feed_tablet.dart';
 import 'package:project/screens/responsiveLayout.dart';
@@ -281,8 +282,13 @@ class FavorReccomendationWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(90),
                       child: Text("More"),
                       onPressed: () {
-                        print('Pressed: _chatButton');
-                        //TODO: add server function and client response      
+                        print('Pressed: _moreButton');
+                        //TODO: add server function and client response 
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => const favorInformationPage_Screen()),
+                        );     
                       },
                     ),
                   ),
