@@ -30,16 +30,16 @@ class PostService {
       {required BuildContext context,
       required String taskCategory,
       required String location,
-      required taskStartTime,
-      required taskEndTime,
+      required favorStartTime,
+      required favorEndTime,
       required description}) async {
     try {
       Post post = Post(
           userType: 'PROVIDER',
           taskCategory: taskCategory,
           location: location,
-          taskStartTime: taskStartTime,
-          taskEndTime: taskEndTime,
+          favorStartTime: favorStartTime,
+          favorEndTime: favorEndTime,
           description: description);
 
       final userProvider = Provider.of<UserProvider>(context, listen: false);

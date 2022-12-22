@@ -81,7 +81,7 @@ class _FavorScreen_M extends State<FavorScreen_M> {
                   Radius.circular(10),
                 ),
               ),
-    
+
               /// FIELDS
               child: FutureBuilder<FavorConstants>(
                   future: favorConstants,
@@ -160,7 +160,7 @@ class _FavorScreen_M extends State<FavorScreen_M> {
               height: Responsive.height(2, context),
               color: Colors.transparent,
             ),
-    
+
             ///PUBLISH BUTTON
             Favor_publishFavorButton(),
           ],
@@ -185,15 +185,14 @@ class Favor_pickerMenu extends StatefulWidget {
   // !! funziana solo con le flag 1-2-3-4 per il form menu dei nuovi favor. Non riutilizzare questo widget a caso
   int flag = 0;
 
-  Favor_pickerMenu({
-    super.key,
-    required this.placeholder,
-    required this.heading,
-    required this.contentList,
-    required this.prefixIcon,
-    required this.textController,
-    required this.flag
-  });
+  Favor_pickerMenu(
+      {super.key,
+      required this.placeholder,
+      required this.heading,
+      required this.contentList,
+      required this.prefixIcon,
+      required this.textController,
+      required this.flag});
 
   @override
   State<Favor_pickerMenu> createState() => _Favor_pickerMenuState();
@@ -258,17 +257,29 @@ class _Favor_pickerMenuState extends State<Favor_pickerMenu> {
                               setState(() {
                                 selectedValue = value;
                                 // TODO: if possible remove these flags and use a cleaner approach
-                                if (widget.flag == 1){
-                                  globals.categoryTextController  = TextEditingController(text:'${widget.contentList.elementAt(selectedValue).data}');
+                                if (widget.flag == 1) {
+                                  globals.categoryTextController =
+                                      TextEditingController(
+                                          text:
+                                              '${widget.contentList.elementAt(selectedValue).data}');
                                 }
-                                if (widget.flag == 2){
-                                  globals.areaTextController  = TextEditingController(text:'${widget.contentList.elementAt(selectedValue).data}');
+                                if (widget.flag == 2) {
+                                  globals.areaTextController =
+                                      TextEditingController(
+                                          text:
+                                              '${widget.contentList.elementAt(selectedValue).data}');
                                 }
-                                if (widget.flag == 3){
-                                  globals.startTimeTextController  = TextEditingController(text:'${widget.contentList.elementAt(selectedValue).data}');
+                                if (widget.flag == 3) {
+                                  globals.startTimeTextController =
+                                      TextEditingController(
+                                          text:
+                                              '${widget.contentList.elementAt(selectedValue).data}');
                                 }
-                                if (widget.flag == 4){
-                                  globals.endTimeTextController  = TextEditingController(text:'${widget.contentList.elementAt(selectedValue).data}');
+                                if (widget.flag == 4) {
+                                  globals.endTimeTextController =
+                                      TextEditingController(
+                                          text:
+                                              '${widget.contentList.elementAt(selectedValue).data}');
                                 }
                               });
                             },
@@ -357,8 +368,8 @@ class Favor_publishFavorButton extends StatelessWidget {
                 context: context,
                 taskCategory: globals.categoryTextController.text,
                 location: globals.areaTextController.text,
-                taskStartTime: DateTime.now(), //TODO: change
-                taskEndTime: DateTime.now(), //TODO: change
+                favorStartTime: DateTime.now(), //TODO: change
+                favorEndTime: DateTime.now(), //TODO: change
                 description: globals.informationsTextController.text,
               ),
               builder: (context, snapshot) {
@@ -366,7 +377,8 @@ class Favor_publishFavorButton extends StatelessWidget {
                   Navigator.push(
                       context,
                       CupertinoPageRoute(
-                          builder: (context) => const favorInformationPage_Screen()));
+                          builder: (context) =>
+                              const favorInformationPage_Screen()));
                 } else if (snapshot.hasError) {
                   return Text('${snapshot.error}');
                 }
