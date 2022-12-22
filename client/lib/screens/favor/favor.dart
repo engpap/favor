@@ -53,116 +53,118 @@ class _FavorScreen_M extends State<FavorScreen_M> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: Responsive.width(100, context),
-      color: Colors.white,
-      child: Column(
-        children: [
-          ///FORM
-          Container(
-            margin: EdgeInsets.all(9),
-            padding: EdgeInsets.all(9),
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  spreadRadius: 0.5,
-                  blurRadius: 5,
-                  offset: Offset(0, 1),
+    return SingleChildScrollView(
+      child: Container(
+        width: Responsive.width(100, context),
+        color: Colors.white,
+        child: Column(
+          children: [
+            ///FORM
+            Container(
+              margin: EdgeInsets.all(9),
+              padding: EdgeInsets.all(9),
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    spreadRadius: 0.5,
+                    blurRadius: 5,
+                    offset: Offset(0, 1),
+                  ),
+                ],
+                color: favorColors.IntroBg,
+                border: Border.all(
+                    color: favorColors.LightGrey,
+                    width: 1.0,
+                    style: BorderStyle.solid),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10),
                 ),
-              ],
-              color: favorColors.IntroBg,
-              border: Border.all(
-                  color: favorColors.LightGrey,
-                  width: 1.0,
-                  style: BorderStyle.solid),
-              borderRadius: BorderRadius.all(
-                Radius.circular(10),
               ),
+    
+              /// FIELDS
+              child: FutureBuilder<FavorConstants>(
+                  future: favorConstants,
+                  builder: ((context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Column(
+                        children: [
+                          //PICKER category
+                          Favor_pickerMenu(
+                            contentList: snapshot.data!.favorCategories,
+                            placeholder: globals.categoryPlaceholder,
+                            heading: globals.categoryHeading,
+                            prefixIcon: globals.categoryPrefixIcon,
+                            textController: globals.categoryTextController,
+                            flag: 1, //if possible remove this
+                          ),
+                          Divider(
+                            height: Responsive.height(2, context),
+                            color: Colors.transparent,
+                          ),
+                          //PICKER area
+                          Favor_pickerMenu(
+                            contentList: snapshot.data!.locations,
+                            placeholder: globals.areaPlaceholder,
+                            heading: globals.areaHeading,
+                            prefixIcon: globals.areaPrefixIcon,
+                            textController: globals.areaTextController,
+                            flag: 2, //if possible remove this
+                          ),
+                          Divider(
+                            height: Responsive.height(2, context),
+                            color: Colors.transparent,
+                          ),
+                          //PICKER startTime
+                          Favor_pickerMenu(
+                            contentList: globals.startTime,
+                            placeholder: globals.startTimePlaceholder,
+                            heading: globals.startTimeHeading,
+                            prefixIcon: globals.startTimePrefixIcon,
+                            textController: globals.startTimeTextController,
+                            flag: 3, //if possible remove this
+                          ),
+                          Divider(
+                            height: Responsive.height(2, context),
+                            color: Colors.transparent,
+                          ),
+                          //PICKER endTime
+                          Favor_pickerMenu(
+                            contentList: globals.endTime,
+                            placeholder: globals.endTimePlaceholder,
+                            heading: globals.endTimeHeading,
+                            prefixIcon: globals.endTimePrefixIcon,
+                            textController: globals.endTimeTextController,
+                            flag: 4, //if possible remove this
+                          ),
+                          Divider(
+                            height: Responsive.height(2, context),
+                            color: Colors.transparent,
+                          ),
+                          //Description
+                          Favor_boxDescription(
+                            placeholder: globals.informationsPlaceholder,
+                            heading: globals.informationsHeading,
+                            textController: globals.informationsTextController,
+                          ),
+                        ],
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text('${snapshot.error}');
+                    }
+                    return CupertinoActivityIndicator(
+                        animating: false, radius: 10);
+                  })),
             ),
-
-            /// FIELDS
-            child: FutureBuilder<FavorConstants>(
-                future: favorConstants,
-                builder: ((context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Column(
-                      children: [
-                        //PICKER category
-                        Favor_pickerMenu(
-                          contentList: snapshot.data!.favorCategories,
-                          placeholder: globals.categoryPlaceholder,
-                          heading: globals.categoryHeading,
-                          prefixIcon: globals.categoryPrefixIcon,
-                          textController: globals.categoryTextController,
-                          flag: 1, //if possible remove this
-                        ),
-                        Divider(
-                          height: Responsive.height(2, context),
-                          color: Colors.transparent,
-                        ),
-                        //PICKER area
-                        Favor_pickerMenu(
-                          contentList: snapshot.data!.locations,
-                          placeholder: globals.areaPlaceholder,
-                          heading: globals.areaHeading,
-                          prefixIcon: globals.areaPrefixIcon,
-                          textController: globals.areaTextController,
-                          flag: 2, //if possible remove this
-                        ),
-                        Divider(
-                          height: Responsive.height(2, context),
-                          color: Colors.transparent,
-                        ),
-                        //PICKER startTime
-                        Favor_pickerMenu(
-                          contentList: globals.startTime,
-                          placeholder: globals.startTimePlaceholder,
-                          heading: globals.startTimeHeading,
-                          prefixIcon: globals.startTimePrefixIcon,
-                          textController: globals.startTimeTextController,
-                          flag: 3, //if possible remove this
-                        ),
-                        Divider(
-                          height: Responsive.height(2, context),
-                          color: Colors.transparent,
-                        ),
-                        //PICKER endTime
-                        Favor_pickerMenu(
-                          contentList: globals.endTime,
-                          placeholder: globals.endTimePlaceholder,
-                          heading: globals.endTimeHeading,
-                          prefixIcon: globals.endTimePrefixIcon,
-                          textController: globals.endTimeTextController,
-                          flag: 4, //if possible remove this
-                        ),
-                        Divider(
-                          height: Responsive.height(2, context),
-                          color: Colors.transparent,
-                        ),
-                        //Description
-                        Favor_boxDescription(
-                          placeholder: globals.informationsPlaceholder,
-                          heading: globals.informationsHeading,
-                          textController: globals.informationsTextController,
-                        ),
-                      ],
-                    );
-                  } else if (snapshot.hasError) {
-                    return Text('${snapshot.error}');
-                  }
-                  return CupertinoActivityIndicator(
-                      animating: false, radius: 10);
-                })),
-          ),
-          Divider(
-            height: Responsive.height(2, context),
-            color: Colors.transparent,
-          ),
-
-          ///PUBLISH BUTTON
-          Favor_publishFavorButton(),
-        ],
+            Divider(
+              height: Responsive.height(2, context),
+              color: Colors.transparent,
+            ),
+    
+            ///PUBLISH BUTTON
+            Favor_publishFavorButton(),
+          ],
+        ),
       ),
     );
   }
@@ -364,7 +366,7 @@ class Favor_publishFavorButton extends StatelessWidget {
                   Navigator.push(
                       context,
                       CupertinoPageRoute(
-                          builder: (context) => const HomeScreen()));
+                          builder: (context) => const favorInformationPage_Screen()));
                 } else if (snapshot.hasError) {
                   return Text('${snapshot.error}');
                 }
