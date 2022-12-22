@@ -1,15 +1,14 @@
-
 import 'package:flutter/material.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/functions/favorColors.dart' as favorColors;
 
 class CustomCard extends StatelessWidget {
-   CustomCard({
+  CustomCard({
     super.key,
     required this.child,
     required this.customHeight,
-    });
-    
+  });
+
   Widget child;
   double customHeight;
 
@@ -18,7 +17,7 @@ class CustomCard extends StatelessWidget {
     return Container(
       height: Responsive.width(customHeight, context),
       margin: EdgeInsets.all(9),
-      padding: EdgeInsets.only(top:9, bottom: 9),
+      padding: EdgeInsets.only(top: 9, bottom: 9),
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
@@ -30,14 +29,12 @@ class CustomCard extends StatelessWidget {
         ],
         color: favorColors.IntroBg,
         border: Border.all(
-            color: favorColors.LightGrey,
-            width: 1.0,
-            style: BorderStyle.solid),
+            color: favorColors.LightGrey, width: 1.0, style: BorderStyle.solid),
         borderRadius: BorderRadius.all(
           Radius.circular(10),
         ),
       ),
       child: child,
-      );
+    );
   }
 }
