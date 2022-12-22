@@ -10,11 +10,25 @@ import 'package:project/screens/favor/favor.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
 
-
 // global variables inside the home to controll the user status when they're doing an action.
 bool providerStatus = true;
 bool callerStatus = false;
 
+// use this function to change their value
+void setUserMode(String mode) {
+  if (mode == "provider") {
+    providerStatus = true;
+    callerStatus = false;
+    print("UserMode: Provider");
+  } else if (mode == "caller") {
+    providerStatus = false;
+    callerStatus = true;
+    print("UserMode: Caller");
+  } else {
+    print("Wrong input in setUserMode()");
+  }
+  return;
+}
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -114,7 +128,8 @@ class DetailScreen extends StatelessWidget {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar_favor(
         border: Border(),
-        backgroundColor: Colors.white, //TODO: change image background in order to change also this one. now set Colors.white to match
+        backgroundColor: Colors
+            .white, //TODO: change image background in order to change also this one. now set Colors.white to match
         //trailing: Text("${navBar}"),
         middle: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -125,11 +140,9 @@ class DetailScreen extends StatelessWidget {
         ),
       ),
       child: topic,
-
     );
   }
 }
-
 
 /// ROW composed of 2 buttons. Press to change mode in Provider or Caller
 class UserMode extends StatefulWidget {
@@ -140,7 +153,6 @@ class UserMode extends StatefulWidget {
 }
 
 class _UserModeState extends State<UserMode> {
-
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -151,25 +163,35 @@ class _UserModeState extends State<UserMode> {
           width: Responsive.width(40, context),
           height: 26,
           child: CupertinoButton(
-            padding: EdgeInsets.zero,
-            color: providerStatus ? favorColors.PrimaryBlue : Colors.transparent,
-            borderRadius: BorderRadius.circular(90),
-            child: providerStatus 
-            ? Text("Provider", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),) 
-            : (Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Change to ", style: TextStyle(color: favorColors.PrimaryBlue, fontWeight: FontWeight.normal)), 
-                  Text("Provider", style: TextStyle(color: favorColors.Yellow, fontWeight: FontWeight.bold)),
-                ],)
-              ),
-            onPressed: () {
-              setState(() {
-                providerStatus = true;
-                callerStatus = false;
-              });
-              print("UserMode: Provider");  
-            }),
+              padding: EdgeInsets.zero,
+              color:
+                  providerStatus ? favorColors.PrimaryBlue : Colors.transparent,
+              borderRadius: BorderRadius.circular(90),
+              child: providerStatus
+                  ? Text(
+                      "Provider",
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    )
+                  : (Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Change to ",
+                            style: TextStyle(
+                                color: favorColors.PrimaryBlue,
+                                fontWeight: FontWeight.normal)),
+                        Text("Provider",
+                            style: TextStyle(
+                                color: favorColors.Yellow,
+                                fontWeight: FontWeight.bold)),
+                      ],
+                    )),
+              onPressed: () {
+                setState(() {
+                  setUserMode("provider");
+                });
+                
+              }),
         ),
 
         /// CALLER
@@ -177,32 +199,39 @@ class _UserModeState extends State<UserMode> {
           width: Responsive.width(40, context),
           height: 26,
           child: CupertinoButton(
-            padding: EdgeInsets.zero,
-            color: callerStatus ? favorColors.PrimaryBlue : Colors.transparent, 
-            borderRadius: BorderRadius.circular(90),
-            child: callerStatus 
-              ? Text("Caller", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),) 
-              : (Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Change to ", style: TextStyle(color: favorColors.PrimaryBlue, fontWeight: FontWeight.normal)), 
-                  Text("Caller", style: TextStyle(color: favorColors.Yellow, fontWeight: FontWeight.bold)),
-                ],)
-              ), 
-            onPressed: () {
-              setState(() {
-                providerStatus = false;
-                callerStatus = true;
-              });
-              print("UserMode: Caller");            
-            }
-          ),
+              padding: EdgeInsets.zero,
+              color:
+                  callerStatus ? favorColors.PrimaryBlue : Colors.transparent,
+              borderRadius: BorderRadius.circular(90),
+              child: callerStatus
+                  ? Text(
+                      "Caller",
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    )
+                  : (Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Change to ",
+                            style: TextStyle(
+                                color: favorColors.PrimaryBlue,
+                                fontWeight: FontWeight.normal)),
+                        Text("Caller",
+                            style: TextStyle(
+                                color: favorColors.Yellow,
+                                fontWeight: FontWeight.bold)),
+                      ],
+                    )),
+              onPressed: () {
+                setState(() {
+                  setUserMode("caller");
+                });
+              }),
         ),
       ],
     );
   }
 }
-
 
 class FavorNavImage extends StatelessWidget {
   const FavorNavImage({super.key});
@@ -210,17 +239,17 @@ class FavorNavImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return // IMAGE
-      Container(
-        width: Responsive.width(25, context),
-        height: 40,
-        decoration: BoxDecoration(
-          shape: BoxShape.rectangle,
-          image: DecorationImage(
-            image: AssetImage("assets/images/favor.png"),
-            fit: BoxFit.fitHeight,
-          ),
+        Container(
+      width: Responsive.width(25, context),
+      height: 40,
+      decoration: BoxDecoration(
+        shape: BoxShape.rectangle,
+        image: DecorationImage(
+          image: AssetImage("assets/images/favor.png"),
+          fit: BoxFit.fitHeight,
         ),
-      );
+      ),
+    );
   }
 }
 
