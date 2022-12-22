@@ -10,6 +10,12 @@ import 'package:project/screens/favor/favor.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
 
+
+// global variables inside the home to controll the user status when they're doing an action.
+bool providerStatus = true;
+bool callerStatus = false;
+
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -124,9 +130,6 @@ class DetailScreen extends StatelessWidget {
   }
 }
 
-
-bool providerStatus = true;
-bool callerStatus = false;
 
 /// ROW composed of 2 buttons. Press to change mode in Provider or Caller
 class UserMode extends StatefulWidget {
