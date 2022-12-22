@@ -9,7 +9,7 @@ import { LOCATIONS } from '../constants/locations.js'
     - userType
     - taskCategory
     - location
-    - taskStartTime (if userType is CALLER)
+    - favorStartTime (if userType is CALLER)
     - availabilityStartTime (if userType is PROVIDER)
     - availabilityEndTime (if userType is PROVIDER)
     - description
@@ -26,7 +26,7 @@ const postSchema = mongoose.Schema({
     location:  { type: String, enum: LOCATIONS, required: true },
     
     //Dates are passed thought the internet as a ISO format string
-    taskStartTime: Date, // it is null for provider's posts
+    favorStartTime: Date, // it is null for provider's posts
     availabilityStartTime: Date, // it is null for caller's posts
     availabilityEndTime: Date, // it is null for caller's posts
 

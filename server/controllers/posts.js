@@ -9,13 +9,13 @@ import { FAVOR_CATEGORIES } from '../constants/favorCategories.js'
 import { LOCATIONS } from '../constants/locations.js'
 
 export const createPost = async (req, res) => {
-    const { userType, taskStartTime, availabilityStartTime, availabilityEndTime, description } = req.body;
+    const { userType, favorStartTime, availabilityStartTime, availabilityEndTime, description } = req.body;
 
     // Check if post fields respects the user type
     if (userType == PROVIDER) {
-        console.log("Provider and: ",taskStartTime)
-        if (!taskStartTime)
-            return res.status(400).json({ message: "Provider cannot have taskStartTime value" });
+        console.log("Provider and: ",favorStartTime)
+        if (!favorStartTime)
+            return res.status(400).json({ message: "Provider cannot have favorStartTime value" });
     }
     else if (userType == CALLER) {
         console.log("Caller and: ",availabilityStartTime)

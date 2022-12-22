@@ -7,8 +7,8 @@ class Post {
   final String userType;
   final String taskCategory;
   final String location;
-  final DateTime taskStartTime;
-  final DateTime taskEndTime;
+  final DateTime favorStartTime;
+  final DateTime favorEndTime;
   final String description;
 
   Post({
@@ -18,8 +18,8 @@ class Post {
     required this.userType,
     required this.taskCategory,
     required this.location,
-    required this.taskStartTime,
-    required this.taskEndTime,
+    required this.favorStartTime,
+    required this.favorEndTime,
     required this.description,
   });
 
@@ -27,8 +27,8 @@ class Post {
         'userType': userType,
         'taskCategory': taskCategory,
         'location': location,
-        'taskStartTime': taskStartTime.toIso8601String(),
-        'taskEndTime': taskEndTime.toIso8601String(),
+        'favorStartTime': favorStartTime.toIso8601String(),
+        'favorEndTime': favorEndTime.toIso8601String(),
         'description': description,
       };
 
@@ -39,8 +39,8 @@ class Post {
         userType = json['userType'],
         taskCategory = json['taskCategory'],
         location = json['location'],
-        taskStartTime = json['taskStartTime'],
-        taskEndTime = json['taskEndTime'],
+        favorStartTime = json['favorStartTime'],
+        favorEndTime = json['favorEndTime'],
         description = json['description'];
 
   factory Post.fromJson(String source) => Post.fromMap(json.decode(source));
