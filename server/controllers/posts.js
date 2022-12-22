@@ -10,22 +10,27 @@ import { LOCATIONS } from '../constants/locations.js'
 
 export const createPost = async (req, res) => {
     const { userType, favorStartTime, availabilityStartTime, availabilityEndTime, description } = req.body;
+    console.log(userType, favorStartTime,availabilityStartTime, availabilityStartTime)
 
     // Check if post fields respects the user type
     if (userType == PROVIDER) {
-        console.log("Provider and: ",favorStartTime)
-        if (!favorStartTime)
+        if (favorStartTime){
+            console.log("Provider is trying to create a post but 'favorStartTime' is not null!")
             return res.status(400).json({ message: "Provider cannot have favorStartTime value" });
+        }
     }
     else if (userType == CALLER) {
-        console.log("Caller and: ",availabilityStartTime)
-        if (!availabilityStartTime || !availabilityEndTime)
-            return res.status(400).json({ message: "Caller cannot have availabilityStartTime and availabilityEndTime values" });
+        if (availabilityStartTime || availabilityEndTime){
+            console.log("Caller is trying to create a post but 'availabilityStartTime' and 'availabilityEndTime' are not null!")
+            return res.status(400).json({ message: "Caller cannot have availabilityStartTime and availabilityEndTime values" }); 
+        }
     }
     else {
-        console.log("Else")
+        console.log("Trying to create a post but userType is neither caller not provider!")
         return res.status(400).json({ message: "Post creator should be a CALLER or a PROVIDER" });
     }
+
+    console.log("Check on userType for Post creation is successfully passed!")
 
     // Use Sightengine API to moderate description text
     const data = new FormData();

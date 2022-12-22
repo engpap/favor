@@ -364,14 +364,22 @@ class Favor_publishFavorButton extends StatelessWidget {
           onPressed: () {
             print('Pressed: Favor_publishFavorButton');
             FutureBuilder<Post>(
-              future: globals.postService.publishProviderFavor(
-                context: context,
-                taskCategory: globals.categoryTextController.text,
-                location: globals.areaTextController.text,
-                favorStartTime: DateTime.now(), //TODO: change
-                favorEndTime: DateTime.now(), //TODO: change
-                description: globals.informationsTextController.text,
-              ),
+              future: isUserModeAsProvider()
+                  ? globals.postService.publishProviderFavor(
+                      context: context,
+                      taskCategory: globals.categoryTextController.text,
+                      location: globals.areaTextController.text,
+                      availabilityStartTime: DateTime.now(), //TODO: change
+                      availabilityEndTime: DateTime.now(), //TODO: change
+                      description: globals.informationsTextController.text,
+                    )
+                  : globals.postService.publishCallerFavor(
+                      context: context,
+                      taskCategory: globals.categoryTextController.text,
+                      location: globals.areaTextController.text,
+                      favorStartTime: DateTime.now(), //TODO: change
+                      description: globals.informationsTextController.text,
+                    ),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   Navigator.push(

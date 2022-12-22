@@ -13,6 +13,7 @@ import 'package:project/functions/favorColors.dart' as favorColors;
 // global variables inside the home to controll the user status when they're doing an action.
 bool providerStatus = true;
 bool callerStatus = false;
+bool adminStatus = false;
 
 // use this function to change their value
 void setUserMode(String mode) {
@@ -28,6 +29,29 @@ void setUserMode(String mode) {
     print("Wrong input in setUserMode()");
   }
   return;
+}
+
+bool isUserModeAsProvider() {
+  return providerStatus && !callerStatus;
+}
+
+bool isUserModeAsCaller() {
+  return callerStatus && !providerStatus;
+}
+
+String getUserMode() {
+  if (providerStatus) {
+    print("UserMode: Provider");
+    return 'provider';
+  } else if (callerStatus) {
+    print("UserMode: Caller");
+    return 'caller';
+  } else if (adminStatus) {
+    print("UserMode: Admin");
+    return 'admin';
+  } else {
+    throw Exception("No UserMode set, this situation should not occur");
+  }
 }
 
 class HomeScreen extends StatelessWidget {
@@ -190,7 +214,6 @@ class _UserModeState extends State<UserMode> {
                 setState(() {
                   setUserMode("provider");
                 });
-                
               }),
         ),
 
