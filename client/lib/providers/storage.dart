@@ -28,4 +28,28 @@ class Storage {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     _prefs.setString('token', token);
   }
+
+  static void removeToken() async {
+    print(">>> Removing token in storage");
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    _prefs.remove('token');
+  }
+
+  static Future<String?> getUserId() async {
+    print(">>> Returning userId stored in storage");
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    return _prefs.getString('id');
+  }
+
+  static void setUserId(String userId) async {
+    print(">>> Storing userId in storage");
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    _prefs.setString('userId', userId);
+  }
+
+  static void removeUserId() async {
+    print(">>> Removing userId in storage");
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    _prefs.remove('userId');
+  }
 }

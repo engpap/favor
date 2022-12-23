@@ -4,6 +4,7 @@ import 'package:project/errors/errorConstants.dart';
 import 'package:project/helpers/authHelper.dart';
 import 'package:project/models/user.dart';
 import 'package:http/http.dart' as http;
+import 'package:project/providers/storage.dart';
 import 'package:project/providers/userProvider.dart';
 import 'package:project/errors/error.dart';
 import 'package:provider/provider.dart';
@@ -56,9 +57,6 @@ class AuthService {
     required String password,
   }) async {
     try {
-      //To save data recevied from the server in the client storage.
-      final _prefs = await SharedPreferences.getInstance();
-
       http.Response response = await http.post(
         Uri.parse('$uri/user/signin'),
         headers: <String, String>{
@@ -70,8 +68,8 @@ class AuthService {
       if (response.statusCode == 201 || response.statusCode == 200) {
         Provider.of<UserProvider>(context, listen: false)
             .setUser(response.body);
-        await _prefs.setString('id', jsonDecode(response.body)['_id']);
-        await _prefs.setString('token', jsonDecode(response.body)['token']);
+        Storage.setUserToken(jsonDecode(response.body)['token']);
+        Storage.setUserId(jsonDecode(response.body)['_id']);
         return ErrorMessage(ErrorConstants.NO_ERROR, 'noError');
       } else {
         return ErrorMessage(jsonDecode(response.body)['errorType'],
@@ -95,7 +93,6 @@ class AuthService {
 
   Future<ErrorMessage> googleSignIn({required BuildContext context}) async {
     try {
-      final _prefs = await SharedPreferences.getInstance();
       final GoogleSignInAccount? user = await _googleSignIn.signIn();
       if (user != null) {
         final googleAuth = await user.authentication;
@@ -118,8 +115,8 @@ class AuthService {
         if (response.statusCode == 201 || response.statusCode == 200) {
           Provider.of<UserProvider>(context, listen: false)
               .setUser(response.body);
-          await _prefs.setString('id', jsonDecode(response.body)['_id']);
-          await _prefs.setString('token', jsonDecode(response.body)['token']);
+          Storage.setUserId(jsonDecode(response.body)['_id']);
+          Storage.setUserToken(jsonDecode(response.body)['token']);
           return ErrorMessage(ErrorConstants.NO_ERROR, 'noError');
         } else
           return ErrorMessage(jsonDecode(response.body)['errorType'],
@@ -137,9 +134,8 @@ class AuthService {
   //TODO: initAuth from https://medium.com/codex/how-to-build-a-google-sign-in-in-flutter-without-firebase-5d0d379b2f64
 
   void signout({required BuildContext context}) async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-    _prefs.remove('id');
-    _prefs.remove('token');
+    Storage.removeUserId();
+    Storage.removeToken();
     Provider.of<UserProvider>(context, listen: false).clearUser();
   }
 }
