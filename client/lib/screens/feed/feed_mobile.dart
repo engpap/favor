@@ -21,27 +21,36 @@ class Carosel_FavorCategoryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
+        Divider(height: Responsive.height(1, context), color: Colors.transparent,),
         // FAVOR CATEGORIES
-        CustomCard(
-          customHeight: 45,
+        Container(
+          padding: EdgeInsets.only(left:8, right: 8),
+          height: Responsive.height(20, context),
           // CATEGORY LIST (scrollable horizontaly) 
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               //HEADING
               Container(
                 width: Responsive.width(100, context),
                 padding: EdgeInsets.only(right: 9, left: 9),
-                //height: 20,
                 child: Text("${globals.categoryListHeading}", 
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold,
-                    color: favorColors.PrimaryBlue,),
+                  style: TextStyle(
+                    fontSize: 22, 
+                    fontWeight: FontWeight.bold,
+                    color: favorColors.PrimaryBlue,
+                  ),
                   textAlign: TextAlign.left,
                 ),
               ),
               Divider(height: Responsive.height(1, context), color: Colors.transparent,),
               //ELEMENTS
-              Expanded(
+              Container(
+                constraints: BoxConstraints(
+                  maxHeight: Responsive.height(15, context)
+                ),
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: [
@@ -58,10 +67,11 @@ class Carosel_FavorCategoryWidget extends StatelessWidget {
             ],
           ),
         ),
-        
+        Divider(height: Responsive.height(1, context), color: Colors.transparent,),
         // FAVOR RECOMMENDATIONS
-        CustomCard(
-          customHeight: 100,
+        Container(
+          padding: EdgeInsets.only(left:8, right: 8),
+          height: Responsive.height(50, context),
           // RECOMMENDATION LIST (scrollable vertically) 
           child: Column(
             children: [
@@ -69,11 +79,12 @@ class Carosel_FavorCategoryWidget extends StatelessWidget {
               Container(
                 width: Responsive.width(100, context),
                 padding: EdgeInsets.only(right: 9, left: 9),
-                //height: 20,
                 child: Text("${globals.reccomendationListHeading}", 
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold,
-                    color: favorColors.PrimaryBlue,),
-                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 22, 
+                    fontWeight: FontWeight.bold,
+                    color: favorColors.PrimaryBlue,
+                  ),
                 ),
               ),
               Divider(height: Responsive.height(1, context), color: Colors.transparent,),

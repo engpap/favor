@@ -152,8 +152,7 @@ class DetailScreen extends StatelessWidget {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar_favor(
         border: Border(),
-        backgroundColor: Colors
-            .white, //TODO: change image background in order to change also this one. now set Colors.white to match
+        backgroundColor: Colors.white, //TODO: change image background in order to change also this one. now set Colors.white to match
         //trailing: Text("${navBar}"),
         middle: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
