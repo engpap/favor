@@ -18,4 +18,9 @@ abstract class Post {
     required this.location,
     required this.description,
   });
+
+  static String getUserType(String source) {
+    var jsonString = json.decode(source);
+    return jsonString['userType'];
+  }
 }
