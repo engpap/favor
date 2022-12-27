@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:project/functions/responsive.dart';
+import 'package:project/models/providerPost.dart';
 import 'package:project/screens/components/customCard.dart';
 import 'package:project/screens/feed/feed.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'globals.dart' as globals;
+import '../favorInformationPage/globals.dart' as globals_fip;
 
 class Feed_Screen_M extends StatelessWidget {
   const Feed_Screen_M({super.key});
@@ -55,12 +57,30 @@ class Carosel_FavorCategoryWidget extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   children: [
                     //TODO: passare quali widget diplayare
-                    FavorCategoryWidget(),
-                    FavorCategoryWidget(),
-                    FavorCategoryWidget(),
-                    FavorCategoryWidget(),
-                    FavorCategoryWidget(),
-                    FavorCategoryWidget(),
+                    FavorCategoryWidget(
+                      categoryImage: "assets/images/bg_music_01.jpg",
+                      categoryName: "Category 1",
+                    ),
+                    FavorCategoryWidget(
+                      categoryImage: "assets/images/bg_music_02.jpg",
+                      categoryName: "Category 2",
+                    ),      
+                    FavorCategoryWidget(
+                      categoryImage: "assets/images/bg_music_01.jpg",
+                      categoryName: "Category 3",
+                    ),                    
+                    FavorCategoryWidget(
+                      categoryImage: "assets/images/bg_music_02.jpg",
+                      categoryName: "Category 4",
+                    ),                    
+                    FavorCategoryWidget(
+                      categoryImage: "assets/images/bg_music_02.jpg",
+                      categoryName: "Category 5",
+                    ),                    
+                    FavorCategoryWidget(
+                      categoryImage: "assets/images/bg_music_01.jpg",
+                      categoryName: "Category 6",
+                    ),
                   ]
                 ),
               ),
@@ -94,12 +114,32 @@ class Carosel_FavorCategoryWidget extends StatelessWidget {
                   scrollDirection: Axis.vertical,
                   children: [
                     //TODO: passare quali widget diplayare
-                    FavorReccomendationWidget(),
-                    FavorReccomendationWidget(),
-                    FavorReccomendationWidget(),
-                    FavorReccomendationWidget(),
-                    FavorReccomendationWidget(),
-                    FavorReccomendationWidget(),
+                    FavorReccomendationWidget(
+                      heading: globals_fip.heading ,
+                      area: globals_fip.area,
+                      information: globals_fip.information,
+                      startTime: globals_fip.formatter.format(globals_fip.startTime),
+                      endTime: globals_fip.formatter.format(globals_fip.endTime),
+                      personImage: globals_fip.personImage,
+                      personName: globals_fip.personName,
+                      personRole: globals_fip.personRole,
+                      personRating: globals_fip.personRating,
+                      starsColor: globals_fip.starsColor,
+                    ),
+                    /**
+                       avorReccomendationWidget(
+                        heading: ,
+                        area: ,
+                        information: ,
+                        startTime: ,
+                        endTime: ,
+                        personImage: ,
+                        personName: ,
+                        personRole: ,
+                        personRating: ,
+                        starsColor: ,
+                       ),
+                    */
                   ]
                 ),
               ),

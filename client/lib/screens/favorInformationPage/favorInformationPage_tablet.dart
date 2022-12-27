@@ -183,18 +183,18 @@ class favorInformationPage_Screen_T extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   // NAME AND SURNAME
-                                  Text("${globals.headingPerson}", 
+                                  Text("${globals.personName}", 
                                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold), 
                                     textAlign: TextAlign.left,
                                   ),
                                   // role
-                                  Text("${globals.rolePerson}", 
+                                  Text("${globals.personRole}", 
                                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: favorColors.SecondaryBlue), 
                                     textAlign: TextAlign.left,
                                   ),
                                   
                                   Divider(height: Responsive.height(1.5, context), color: Colors.transparent,),
-                                  Text("${globals.totalRatings} RATINGS", 
+                                  Text("${globals.personRating} RATINGS", 
                                     style: TextStyle(fontSize: 14),),
                                   Divider(height: Responsive.height(0.5, context), color: Colors.transparent,),
                                   // STARS

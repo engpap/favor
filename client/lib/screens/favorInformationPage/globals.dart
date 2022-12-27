@@ -16,8 +16,9 @@ String information =
 
 /// PERSON
 // TODO: il suo valore essere ritornato dal server
-String headingPerson = "Marta Heading";
-String rolePerson = "Provider";
+String personImage = "assets/images/chris.jpg";
+String personName = "Marta Heading";
+String personRole = "Provider";
 // TODO: il suo valore essere ritornato dal server
 String informationPerson =
     "Sono Marta e sono una professionista di ping pong, nel tempo libero faccio il business." +
@@ -51,4 +52,4 @@ List<Color> updateStarsColor(List<Color> starsColor, int starsNumber) {
   return starsColor;
 }
 
-String totalRatings = "42.300";
+String personRating = "42.300";
