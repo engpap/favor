@@ -9,6 +9,7 @@ import 'package:project/screens/responsiveLayout.dart';
 import 'package:project/models/post.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
+import 'package:project/screens/signin/signin.dart';
 import 'package:project/services/postService.dart';
 import 'globals.dart' as globals;
 
@@ -363,7 +364,7 @@ class Favor_publishFavorButton extends StatelessWidget {
           ),
           onPressed: () {
             print('Pressed: Favor_publishFavorButton');
-            FutureBuilder<Post>(
+            FutureBuilder<Post?>(
               future: isUserModeAsProvider()
                   ? globals.postService.publishProviderFavor(
                       context: context,
@@ -388,6 +389,7 @@ class Favor_publishFavorButton extends StatelessWidget {
                           builder: (context) =>
                               const favorInformationPage_Screen()));
                 } else if (snapshot.hasError) {
+                  print(">>> Error: '${snapshot.error.toString()}'");
                   return Text('${snapshot.error}');
                 }
                 // By default, show a loading spinner.

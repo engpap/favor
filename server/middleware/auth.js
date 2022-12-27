@@ -46,6 +46,7 @@ const auth = async (request, response, next) => {
         next();
     } catch (error) {
         console.log(error);
+        return response.status(400).json({ message: "Authorization failed!" });
     }
 }
 

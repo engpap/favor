@@ -7,6 +7,7 @@ import 'dart:convert';
 
 import 'package:project/providers/userProvider.dart';
 import 'package:project/screens/home.dart';
+import 'package:project/screens/signin/signin.dart';
 import 'package:provider/provider.dart';
 import 'package:project/constants/globalVars.dart';
 import 'package:project/models/post.dart';
@@ -30,7 +31,7 @@ class PostService {
     }
   }
 
-  Future<Post> publishProviderFavor(
+  Future<Post?> publishProviderFavor(
       {required BuildContext context,
       required String taskCategory,
       required String location,
@@ -62,7 +63,11 @@ class PostService {
 
       if (response.statusCode == 201)
         return ProviderPost.fromJson(jsonDecode(response.body));
-      else
+      else if (response.statusCode == 400) {
+        Navigator.push(context,
+            CupertinoPageRoute(builder: (context) => const SignInScreen()));
+        return null;
+      } else
         throw Exception('Failed to create favor! Error message: ' +
             jsonDecode(response.body)['message']);
     } catch (error) {
@@ -70,7 +75,7 @@ class PostService {
     }
   }
 
-  Future<Post> publishCallerFavor(
+  Future<Post?> publishCallerFavor(
       {required BuildContext context,
       required String taskCategory,
       required String location,
@@ -100,7 +105,11 @@ class PostService {
 
       if (response.statusCode == 201)
         return CallerPost.fromJson(jsonDecode(response.body));
-      else
+      else if (response.statusCode == 400) {
+        Navigator.push(context,
+            CupertinoPageRoute(builder: (context) => const SignInScreen()));
+        return null;
+      } else
         throw Exception('Failed to create favor! Error message: ' +
             jsonDecode(response.body)['message']);
     } catch (error) {
