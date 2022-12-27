@@ -115,7 +115,7 @@ export const getPosts = async (request, response) => {
  * 
  * @param {*} request containing as parameter the id of the post the client wants to retrieve
  * @param {*} response containing the requested post
- */
+ 
 export const getPost = async (request, response) => {
     const { id } = request.params;
     try {
@@ -129,7 +129,7 @@ export const getPost = async (request, response) => {
         response.status(404).json({ message: error.message });
     }
 }
-
+*/
 
 export const getFavorConstants = async (request, response) => {
 
@@ -143,3 +143,21 @@ export const getFavorConstants = async (request, response) => {
     }
 }
 
+
+export const getPostsBySearch = async (request, response) => {
+    const { searchQuery } = request.query;
+    console.log(">>> getPostsBySearch: Search query is " + searchQuery);
+    try {
+        // the flag 'i' ignores the case of the string.
+        const taskCategory = new RegExp(searchQuery, 'i');
+        console.log(">>> getPostsByCategory: taskCategory is " + taskCategory)
+        const location = new RegExp(searchQuery, 'i');
+
+        // Find all the posts that matches the taskCategory or location.
+        const posts = await Post.find({ $or: [{ taskCategory }, { location }] });
+        console.log(">>> getPostsBySearch: Posts found: " + posts);
+        response.json({ data: posts });
+    } catch (error) {
+        response.status(404).json({ message: error.message });
+    }
+}
