@@ -126,7 +126,7 @@ class SignIn_loginButton extends StatelessWidget {
             //TODO: check conditions in signinResponse
             signinResponse.then((value) {
               if (value.type == ErrorConstants.NO_ERROR) {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   CupertinoPageRoute(builder: (context) => const HomeScreen()),
                 );

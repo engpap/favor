@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:project/screens/introduction/introduction-1.dart';
 import 'package:project/screens/home.dart';
 import 'screens/favorInformationPage/favorInformationPage.dart';
-import 'screens/feed/feed.dart';
+
 
 void main() {
   runApp(MultiProvider(
@@ -20,7 +20,6 @@ class MyApp extends StatelessWidget {
       home: Introduction1Screen(),
       //home: HomeScreen(),
       //home: favorInformationPage_Screen(),
-      //home:Feed_Screen(),
     );
   }
 }
