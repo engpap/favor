@@ -157,34 +157,4 @@ class PostService {
     }
     return posts;
   }
-
-  Future<Post> getPost(
-      {required BuildContext context, required String id}) async {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
-    Post post;
-    try {
-      http.Response response =
-          await http.get(Uri.parse('$uri/posts/${id}'), headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-        'x-auth-token': userProvider.user.token,
-      });
-
-      if (response.statusCode == 200) {
-        if (Post.getUserType(response.body) == 'provider')
-          post = ProviderPost.fromJson(
-            jsonEncode(jsonDecode(response.body)),
-          );
-        else if (Post.getUserType(response.body) == 'caller')
-          post = CallerPost.fromJson(jsonEncode(jsonDecode(response.body)));
-        else
-          throw Exception(
-              'Failed to get favor due to wrong userType attribute!');
-      } else
-        throw Exception('Failed to get favors! Server error message: ' +
-            jsonDecode(response.body)['message']);
-    } catch (error) {
-      throw Exception(error.toString());
-    }
-    return post;
-  }
 }
