@@ -109,7 +109,7 @@ class FavorReccomendationWidget extends StatelessWidget {
     required this.starsColor,
   });
 
-  //TODO: renderle variabili di input
+  //TODO: passare un post e non i valori
   String heading;
   String area;
   String information;
@@ -341,12 +341,14 @@ class FavorReccomendationWidget extends StatelessWidget {
                       onPressed: () {
                         print('Pressed: _moreButton');
                         //TODO: add server function and client response
+                        /** 
                         Navigator.push(
                           context,
                           CupertinoPageRoute(
                               builder: (context) =>
                                   const favorInformationPage_Screen()),
                         );
+                        */
                       },
                     ),
                   ),
