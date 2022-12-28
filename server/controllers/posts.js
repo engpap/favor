@@ -70,7 +70,7 @@ export const createPost = async (req, res) => {
         console.log('>>> createPost: Post created!');
         var user = await User.findById(newPost.creatorId);
         console.log({...newPost._doc, name: user.name, surname: user.surname, profilePicture: '' ,averageStars: user.averageStars, rankingPosition: 1, rankingLocation : 'to_define'});
-        res.status(201).json({...newPost._doc, name: user.name, surname: user.surname, profilePicture: user.profilePicture ,averageStars: user.averageStars, rankingPosition: 1, rankingLocation : 'to_define'});
+        res.status(201).json({...newPost._doc, name: user.name, surname: user.surname, profilePicture: user.profilePicture, bio: user.bio, averageStars: user.averageStars, rankingPosition: 1, rankingLocation : 'to_define'});
     } catch (error) {
         console.log(error.message);
         res.status(409).json({ message: error.message });
@@ -102,7 +102,7 @@ export const getPosts = async (request, response) => {
         var newPosts = []
         for (const document of posts) {
             var user = await User.findById(document.creatorId);
-            var newDocument = { ...document._doc, name: user.name, surname: user.surname, profilePicture: user.profilePicture ,averageStars: user.averageStars, rankingPosition: 1, rankingLocation : 'to_define'}
+            var newDocument = { ...document._doc, name: user.name, surname: user.surname, profilePicture: user.profilePicture , bio: user.bio, averageStars: user.averageStars, rankingPosition: 1, rankingLocation : 'to_define'}
             newPosts = [...newPosts, newDocument]
         }
 

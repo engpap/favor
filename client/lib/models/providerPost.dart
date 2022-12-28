@@ -22,6 +22,7 @@ class ProviderPost extends Post {
     super.averageStars,
     super.rankingPosition,
     super.rankingLocation,
+    super.bio,
   });
 
   Map<String, dynamic> toJson() => {
@@ -50,13 +51,15 @@ class ProviderPost extends Post {
       averageStars: json['averageStars'],
       rankingPosition: json['rankingPosition'],
       rankingLocation: json['rankingLocation'],
+      bio: json['bio'],
     );
   }
 
   factory ProviderPost.fromJson(Map<String, dynamic> source) =>
       customFromMap(source);
 
-  DateTime getfavorStartTime() =>throw Exception("This method should not be called here");
+  DateTime getfavorStartTime() =>
+      throw Exception("This method should not be called here");
   DateTime getavailabilityStartTime() => this.availabilityEndTime;
   DateTime getavailabilityEndTime() => this.availabilityEndTime;
 }

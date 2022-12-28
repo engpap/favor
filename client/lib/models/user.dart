@@ -13,6 +13,7 @@ class User {
   final String token;
   final int? rankingPoints;
   final double? averageStars;
+  final String? bio;
 
   User({
     required this.id,
@@ -25,6 +26,7 @@ class User {
     required this.token,
     this.rankingPoints,
     this.averageStars,
+    this.bio,
   });
 
   ///The following code has the purpose of JSON stringify the user object.
@@ -38,7 +40,8 @@ class User {
         confirmPassword = json['confirmPassword'],
         token = json['token'],
         rankingPoints = json['rankingPoints'],
-        averageStars = json['averageStars'];
+        averageStars = json['averageStars'],
+        bio = json['bio'];
 
   Map<String, dynamic> toJson() => {
         'id': id,

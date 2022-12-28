@@ -21,6 +21,7 @@ class CallerPost extends Post {
     super.averageStars,
     super.rankingPosition,
     super.rankingLocation,
+    super.bio,
   });
 
   // FOR INPUT FORM
@@ -49,14 +50,16 @@ class CallerPost extends Post {
       averageStars: json['averageStars'],
       rankingPosition: json['rankingPosition'],
       rankingLocation: json['rankingLocation'],
+      bio: json['bio'],
     );
   }
 
   factory CallerPost.fromJson(Map<String, dynamic> source) =>
       customFromMap(source);
-  
-  
+
   DateTime getfavorStartTime() => this.favorStartTime;
-  DateTime getavailabilityStartTime() => throw Exception("This method should not be called here");
-  DateTime getavailabilityEndTime() =>throw Exception("This method should not be called here");
+  DateTime getavailabilityStartTime() =>
+      throw Exception("This method should not be called here");
+  DateTime getavailabilityEndTime() =>
+      throw Exception("This method should not be called here");
 }

@@ -16,6 +16,7 @@ const userSchema = mongoose.Schema({
     password: { type: String },
 
     profilePicture: { type: String, default: noProfilePicture64String },
+    bio : { type: String, default: "Hi, I am available to do favors!" },
 
     rankingPoints: { type: Number, default: 0 },
     averageStars: { type: Number, default: 0.1 },

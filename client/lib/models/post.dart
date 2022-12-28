@@ -18,6 +18,7 @@ abstract class Post {
   final double? averageStars;
   final int? rankingPosition;
   final String? rankingLocation;
+  final String? bio;
 
   Post({
     this.id,
@@ -33,6 +34,7 @@ abstract class Post {
     this.averageStars,
     this.rankingPosition,
     this.rankingLocation,
+    this.bio,
   });
 
   static String getUserType(Map<String, dynamic> jsonString) {
@@ -42,5 +44,4 @@ abstract class Post {
   DateTime getfavorStartTime();
   DateTime getavailabilityStartTime();
   DateTime getavailabilityEndTime();
-
 }
