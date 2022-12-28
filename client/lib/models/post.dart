@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:project/models/callerPost.dart';
+import 'package:project/services/postService.dart';
 
 abstract class Post {
   final String? id;
@@ -37,4 +39,9 @@ abstract class Post {
     var jsonString = json.decode(source);
     return jsonString['userType'];
   }
+
+  DateTime getfavorStartTime();
+  DateTime getavailabilityStartTime();
+  DateTime getavailabilityEndTime();
+
 }

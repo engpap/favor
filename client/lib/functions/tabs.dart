@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:project/screens/account.dart';
 import 'package:project/screens/favor/favor.dart';
 import 'package:project/screens/feed/feed.dart';
+import 'package:project/screens/leaderboard/leaderboard.dart';
 
 /// Enumeration of the Tabs present in the BottomNavigationBar
 enum TabsName { home, chat, favor, leaderboard, account }
@@ -57,7 +58,7 @@ extension TabsScreen on TabsName {
         }
       case TabsName.leaderboard:
         {
-          return Text(""); //TODO
+          return Leaderboard_Screen();
         }
       case TabsName.account:
         {

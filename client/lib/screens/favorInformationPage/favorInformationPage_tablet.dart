@@ -3,10 +3,16 @@ import 'package:flutter/material.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/functions/responsive.dart';
+import 'package:project/models/post.dart';
 import 'globals.dart' as globals;
 
 class favorInformationPage_Screen_T extends StatelessWidget {
-  const favorInformationPage_Screen_T({super.key});
+  favorInformationPage_Screen_T({
+    super.key,
+    required this.post,  
+  });
+
+  Post? post;
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +26,7 @@ class favorInformationPage_Screen_T extends StatelessWidget {
             constraints: BoxConstraints(maxWidth: Responsive.fixedWidth(),),
             child: Column(
               children: [
+                Text(post!.taskCategory), //DELETE
                 // FAVOR INFORMATION
                 Container(
                   margin: EdgeInsets.all(9),

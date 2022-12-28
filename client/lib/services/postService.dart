@@ -65,7 +65,7 @@ class PostService {
         Navigator.push(
             context,
             CupertinoPageRoute(
-                builder: (context) => const favorInformationPage_Screen()));
+                builder: (context) => favorInformationPage_Screen(post: ProviderPost.fromJson(jsonDecode(response.body)))));
         //return ProviderPost.fromJson(jsonDecode(response.body));
       } else if (response.statusCode == 400) {
         Navigator.push(context,
@@ -111,7 +111,7 @@ class PostService {
         Navigator.push(
             context,
             CupertinoPageRoute(
-                builder: (context) => const favorInformationPage_Screen()));
+                builder: (context) =>favorInformationPage_Screen(post: CallerPost.fromJson(jsonDecode(response.body)))));
         //return CallerPost.fromJson(jsonDecode(response.body));
       } else if (response.statusCode == 400 &&
           jsonDecode(response.body)['message'] == "Authorization failed!") {

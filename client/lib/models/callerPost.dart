@@ -54,4 +54,9 @@ class CallerPost extends Post {
 
   factory CallerPost.fromJson(Map<String, dynamic> source) =>
       customFromMap(source);
+  
+  
+  DateTime getfavorStartTime() => this.favorStartTime;
+  DateTime getavailabilityStartTime() => throw Exception("This method should not be called here");
+  DateTime getavailabilityEndTime() =>throw Exception("This method should not be called here");
 }
