@@ -46,7 +46,6 @@ class favorInformationPage_Screen_M extends StatelessWidget {
           ),
           child: favorInformationPage_favor_M(post: post),
         ),
-
         CustomCard_2(
           child: favorInformationPage_person_M(post: post),
         ),
@@ -64,8 +63,9 @@ class favorInformationPage_favor_M extends StatelessWidget {
   Post? post;
   //TODO: use CallerPost ( favorStartTime, )
   //      or ProviderPost ( availabilityStartTime, availabilityEndTime, )
-  
-  String time = "${globals.formatter.format(globals.startTime)} - ${globals.formatter.format(globals.endTime)}";
+
+  String time =
+      "${globals.formatter.format(globals.startTime)} - ${globals.formatter.format(globals.endTime)}";
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +76,8 @@ class favorInformationPage_favor_M extends StatelessWidget {
             //HEADING
             SizedBox(
               width: Responsive.width(100, context),
-                child: Text(post!.taskCategory,
+              child: Text(
+                post!.taskCategory,
                 style: TextStyle(
                   fontSize: 26,
                   fontWeight: FontWeight.bold,
@@ -93,8 +94,10 @@ class favorInformationPage_favor_M extends StatelessWidget {
             SizedBox(
               width: Responsive.width(90, context),
               child: Flexible(
-                child: Text(post!.description,
-                  style: TextStyle(fontSize: 18), textAlign: TextAlign.left,
+                child: Text(
+                  post!.description,
+                  style: TextStyle(fontSize: 18),
+                  textAlign: TextAlign.left,
                   overflow: TextOverflow.fade,
                 ),
               ),
@@ -119,8 +122,9 @@ class favorInformationPage_favor_M extends StatelessWidget {
                   ),
                   Flexible(
                     child: Text(
-                      (post is CallerPost) ? "${globals.formatter.format(post!.getfavorStartTime())}" 
-                      : "${globals.formatter.format(post!.getavailabilityStartTime())} - ${globals.formatter.format(post!.getavailabilityEndTime())}",
+                      (post is CallerPost)
+                          ? "${globals.formatter.format(post!.getFavorStartTime())}"
+                          : "${globals.formatter.format(post!.getAvailabilityStartTime())} - ${globals.formatter.format(post!.getAvailabilityEndTime())}",
                       //time,
                       overflow: TextOverflow.fade,
                       style: TextStyle(
@@ -151,7 +155,8 @@ class favorInformationPage_favor_M extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 30.0), // 8
                     child: Flexible(
-                      child: Text(post!.location,
+                      child: Text(
+                        post!.location,
                         overflow: TextOverflow.fade,
                         style: TextStyle(
                           fontSize: 15,
@@ -258,13 +263,15 @@ class favorInformationPage_person_M extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // NAME AND SURNAME
-                      Text("${post!.name} ${post!.surname}",
+                      Text(
+                        "${post!.name} ${post!.surname}",
                         style: TextStyle(
                             fontSize: 24, fontWeight: FontWeight.bold),
                         textAlign: TextAlign.left,
                       ),
                       // role
-                      Text(post!.userType,
+                      Text(
+                        post!.userType,
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -276,7 +283,8 @@ class favorInformationPage_person_M extends StatelessWidget {
                         height: Responsive.height(1.5, context),
                         color: Colors.transparent,
                       ),
-                      Text("${post!.rankingPosition} in ${post!.rankingLocation}",
+                      Text(
+                        "${post!.rankingPosition} in ${post!.rankingLocation}",
                         style: TextStyle(fontSize: 14),
                       ),
                       Divider(
@@ -401,9 +409,10 @@ class favorInformationPage_person_M extends StatelessWidget {
                   //height: ,
                   padding: EdgeInsets.only(left: Responsive.width(5, context)),
                   child: Align(
-                    child: Text("${globals.informationPerson}",
-                    //TODO: aggiungere campo 
-                    //child: Text( post!. ** ,
+                    child: Text(
+                      "${globals.informationPerson}",
+                      //TODO: aggiungere campo
+                      //child: Text( post!. ** ,
                       style: TextStyle(fontSize: 18),
                       textAlign: TextAlign.start,
                     ),

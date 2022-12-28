@@ -41,7 +41,7 @@ abstract class Post {
     return jsonString['userType'];
   }
 
-  DateTime getfavorStartTime();
-  DateTime getavailabilityStartTime();
-  DateTime getavailabilityEndTime();
+  DateTime getFavorStartTime();
+  DateTime getAvailabilityStartTime();
+  DateTime getAvailabilityEndTime();
 }

@@ -58,8 +58,8 @@ class ProviderPost extends Post {
   factory ProviderPost.fromJson(Map<String, dynamic> source) =>
       customFromMap(source);
 
-  DateTime getfavorStartTime() =>
+  DateTime getFavorStartTime() =>
       throw Exception("This method should not be called here");
-  DateTime getavailabilityStartTime() => this.availabilityEndTime;
-  DateTime getavailabilityEndTime() => this.availabilityEndTime;
+  DateTime getAvailabilityStartTime() => this.availabilityEndTime;
+  DateTime getAvailabilityEndTime() => this.availabilityEndTime;
 }
