@@ -33,8 +33,7 @@ abstract class Post {
     this.rankingLocation,
   });
 
-  static String getUserType(String source) {
-    var jsonString = json.decode(source);
+  static String getUserType(Map<String, dynamic> jsonString) {
     return jsonString['userType'];
   }
 }

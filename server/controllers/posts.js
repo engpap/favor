@@ -103,7 +103,6 @@ export const getPosts = async (request, response) => {
         for (const document of posts) {
             var user = await User.findById(document.creatorId);
             var newDocument = { ...document._doc, name: user.name, surname: user.surname, profilePicture: user.profilePicture ,averageStars: user.averageStars, rankingPosition: 1, rankingLocation : 'to_define'}
-            console.log(newDocument);
             newPosts = [...newPosts, newDocument]
         }
 

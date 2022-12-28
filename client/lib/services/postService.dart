@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:project/models/callerPost.dart';
 import 'package:project/models/providerPost.dart';
+import 'package:project/providers/storage.dart';
 import 'dart:convert';
 
 import 'package:project/providers/userProvider.dart';
@@ -126,29 +127,28 @@ class PostService {
     }
   }
 
-  Future<List<Post>> getPosts(
-      {required BuildContext context, required int pageNumber}) async {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
+  Future<List<Post>> getPosts(int pageNumber) async {
     List<Post> posts = [];
     try {
       http.Response response =
           await http.get(Uri.parse('$uri/posts?page=${pageNumber}'), headers: {
         'Content-Type': 'application/json;charset=UTF-8',
-        'x-auth-token': userProvider.user.token,
       });
 
       if (response.statusCode == 200) {
-        for (int i = 0; i < jsonDecode(response.body).length; i++) {
-          if (Post.getUserType(response.body) == 'provider')
+        for (int i = 0; i < jsonDecode(response.body)['data'].length; i++) {
+          if (Post.getUserType(jsonDecode(response.body)['data'][i]) ==
+              'provider')
             posts.add(
               ProviderPost.fromJson(
-                jsonDecode(response.body)[i],
+                jsonDecode(response.body)['data'][i],
               ),
             );
-          else if (Post.getUserType(response.body) == 'caller')
+          else if (Post.getUserType(jsonDecode(response.body)['data'][i]) ==
+              'caller')
             posts.add(
               CallerPost.fromJson(
-                jsonDecode(response.body)[i],
+                jsonDecode(response.body)['data'][i],
               ),
             );
           else
@@ -177,17 +177,18 @@ class PostService {
           });
 
       if (response.statusCode == 200) {
-        for (int i = 0; i < jsonDecode(response.body).length; i++) {
-          if (Post.getUserType(response.body) == 'provider')
+        for (int i = 0; i < jsonDecode(response.body)['data'].length; i++) {
+          if (Post.getUserType(jsonDecode(response.body)['data']) == 'provider')
             posts.add(
               ProviderPost.fromJson(
-                jsonDecode(response.body)[i],
+                jsonDecode(response.body)['data'][i],
               ),
             );
-          else if (Post.getUserType(response.body) == 'caller')
+          else if (Post.getUserType(jsonDecode(response.body)['data']) ==
+              'caller')
             posts.add(
               CallerPost.fromJson(
-                jsonDecode(response.body)[i],
+                jsonDecode(response.body)['data'][i],
               ),
             );
           else

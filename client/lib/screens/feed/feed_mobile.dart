@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:project/functions/responsive.dart';
+import 'package:project/models/post.dart';
 import 'package:project/models/providerPost.dart';
 import 'package:project/screens/components/customCard.dart';
 import 'package:project/screens/feed/feed.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
+import 'package:project/services/postService.dart';
 import 'globals.dart' as globals;
 import '../favorInformationPage/globals.dart' as globals_fip;
 
@@ -96,8 +98,42 @@ class Feed_Screen_M extends StatelessWidget {
   }
 }
 
-class Carosel_FavorCategoryWidget extends StatelessWidget {
+class Carosel_FavorCategoryWidget extends StatefulWidget {
   const Carosel_FavorCategoryWidget({super.key});
+
+  @override
+  State<Carosel_FavorCategoryWidget> createState() =>
+      _Carosel_FavorCategoryWidgetState();
+}
+
+class _Carosel_FavorCategoryWidgetState
+    extends State<Carosel_FavorCategoryWidget> {
+  static const _pageSize = 4;
+  final PagingController<int, Post> _pagingController =
+      PagingController(firstPageKey: 0);
+
+  @override
+  void initState() {
+    _pagingController.addPageRequestListener((pageKey) {
+      _fetchPage(pageKey);
+    });
+    super.initState();
+  }
+
+  Future<void> _fetchPage(int pageKey) async {
+    try {
+      final newItems = await PostService().getPosts(pageKey);
+      final isLastPage = newItems.length < _pageSize;
+      if (isLastPage) {
+        _pagingController.appendLastPage(newItems);
+      } else {
+        final nextPageKey = pageKey + newItems.length;
+        _pagingController.appendPage(newItems, nextPageKey);
+      }
+    } catch (error) {
+      _pagingController.error = error;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -131,33 +167,83 @@ class Carosel_FavorCategoryWidget extends StatelessWidget {
   }
 }
 
-
 class Carosel_FavorReccomenderWidget extends StatefulWidget {
   const Carosel_FavorReccomenderWidget({super.key});
 
   @override
-  State<Carosel_FavorReccomenderWidget> createState() => _Carosel_FavorReccomenderWidgetState();
+  State<Carosel_FavorReccomenderWidget> createState() =>
+      _Carosel_FavorReccomenderWidgetState();
 }
 
-class _Carosel_FavorReccomenderWidgetState extends State<Carosel_FavorReccomenderWidget> {
+class _Carosel_FavorReccomenderWidgetState
+    extends State<Carosel_FavorReccomenderWidget> {
+  static const _pageSize = 4;
+  final PagingController<int, Post> _pagingController =
+      PagingController(firstPageKey: 1);
+
+  @override
+  void initState() {
+    _pagingController.addPageRequestListener((pageKey) {
+      _fetchPage(pageKey);
+    });
+    super.initState();
+  }
+
+  Future<void> _fetchPage(int pageKey) async {
+    try {
+      final newItems = await PostService().getPosts(pageKey);
+      final isLastPage = newItems.length < _pageSize;
+      if (isLastPage) {
+        _pagingController.appendLastPage(newItems);
+      } else {
+        final nextPageKey = pageKey + newItems.length;
+        _pagingController.appendPage(newItems, nextPageKey);
+      }
+    } catch (error) {
+      _pagingController.error = error;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    return PagedListView<int, Post>(
+      pagingController: _pagingController,
+      builderDelegate: PagedChildBuilderDelegate<Post>(
+          itemBuilder: (context, item, index) => FavorReccomendationWidget(
+                heading: item.taskCategory,
+                area: item.location,
+                information: item.description,
+                startTime: globals_fip.formatter.format(
+                    globals_fip.startTime), // TODO: item.availabilityStartTime
+                endTime: globals_fip.formatter.format(
+                    globals_fip.endTime), // TODO: item.availabilityEndTime
+                personImage:
+                    globals_fip.personImage, // TODO: item.profilePicture,
+                personName: globals_fip.personName, // TODO: item.name,
+                personRole: item.userType, //ProviderPost.userType
+                personRating:
+                    globals_fip.personRating, // TODO:  item.rankingPosition,
+                starsColor: globals_fip.starsColor, //TODO: item.averageStars
+              )),
+    );
+    /*
     return ListView(scrollDirection: Axis.vertical, children: [
       //TODO: passare quali widget diplayare
       FavorReccomendationWidget(
         heading: globals_fip.heading, //ProviderPost.taskCategory
         area: globals_fip.area, //ProviderPost.location
         information: globals_fip.information, //ProviderPost.description
-        startTime: globals_fip.formatter.format(globals_fip.startTime), //ProviderPost.availabilityStartTime
-        endTime: globals_fip.formatter.format(globals_fip.endTime), //ProviderPost.availabilityEndTime
-        personImage: globals_fip.personImage, //TODO: 
+        startTime: globals_fip.formatter
+            .format(globals_fip.startTime), //ProviderPost.availabilityStartTime
+        endTime: globals_fip.formatter
+            .format(globals_fip.endTime), //ProviderPost.availabilityEndTime
+        personImage: globals_fip.personImage, //TODO:
         personName: globals_fip.personName, //TODO:
         personRole: globals_fip.personRole, //ProviderPost.userType
         personRating: globals_fip.personRating, //posizione classifica TODO:
         starsColor: globals_fip.starsColor, //TODO:
       ),
-
-    ]);
+    ]);*/
   }
 }
 
