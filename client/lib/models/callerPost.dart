@@ -39,13 +39,12 @@ class CallerPost extends Post {
       creatorId: json['creatorId'],
       name: json['name'],
       surname: json['surname'],
-      profilePicture: Image.asset(
-          "assets/images/default_profile_picture.png"), //TODO: change with server image
+      profilePicture: Image.memory(base64Decode(json['profilePicture'])),
       createdAt: json['createdAt'],
       userType: json['userType'],
       taskCategory: json['taskCategory'],
       location: json['location'],
-      favorStartTime: json['favorStartTime'],
+      favorStartTime: DateTime.parse(json['favorStartTime']),
       description: json['description'],
       averageStars: json['averageStars'],
       rankingPosition: json['rankingPosition'],
@@ -53,6 +52,6 @@ class CallerPost extends Post {
     );
   }
 
-  factory CallerPost.fromJson(String source) =>
-      customFromMap(json.decode(source));
+  factory CallerPost.fromJson(Map<String, dynamic> source) =>
+      customFromMap(source);
 }

@@ -32,7 +32,7 @@ class User {
       : id = json['_id'],
         name = json['name'],
         surname = json['surname'],
-        profilePicture = null,
+        profilePicture = Image.memory(base64Decode(json['profilePicture'])),
         email = json['email'],
         password = json['password'],
         confirmPassword = json['confirmPassword'],

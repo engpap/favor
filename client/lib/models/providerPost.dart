@@ -39,14 +39,13 @@ class ProviderPost extends Post {
       creatorId: json['creatorId'],
       name: json['name'],
       surname: json['surname'],
-      profilePicture: Image.asset(
-          "assets/images/default_profile_picture.png"), //TODO: change with dynamic image got from server
+      profilePicture: Image.memory(base64Decode(json['profilePicture'])),
       createdAt: json['createdAt'],
       userType: json['userType'],
       taskCategory: json['taskCategory'],
       location: json['location'],
-      availabilityStartTime: json['availabilityStartTime'],
-      availabilityEndTime: json['availabilityEndTime'],
+      availabilityStartTime: DateTime.parse(json['availabilityStartTime']),
+      availabilityEndTime: DateTime.parse(json['availabilityEndTime']),
       description: json['description'],
       averageStars: json['averageStars'],
       rankingPosition: json['rankingPosition'],
@@ -54,6 +53,6 @@ class ProviderPost extends Post {
     );
   }
 
-  factory ProviderPost.fromJson(String source) =>
-      customFromMap(json.decode(source));
+  factory ProviderPost.fromJson(Map<String, dynamic> source) =>
+      customFromMap(source);
 }

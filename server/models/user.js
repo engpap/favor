@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import  fs from 'fs'; 
+import { noProfilePicture64String } from '../assets/base64stringImages.js'
 
 const userSchema = mongoose.Schema({
     id: { type: String }, //created by db
@@ -14,7 +15,7 @@ const userSchema = mongoose.Schema({
     email: { type: String, required: true },
     password: { type: String },
 
-    profilePicture: { type: String, default: null },
+    profilePicture: { type: String, default: noProfilePicture64String },
 
     rankingPoints: { type: Number, default: 0 },
     averageStars: { type: Number, default: 0.1 },

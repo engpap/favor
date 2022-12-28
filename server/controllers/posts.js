@@ -64,11 +64,13 @@ export const createPost = async (req, res) => {
 
     console.log('>>> createPost: Creating post...');
     const newPost = new Post({ ...req.body, creatorId: req.userId, createdAt: new Date().toISOString() });
-    console.log(newPost)
+    console.log(newPost);
     try {
         await newPost.save();
         console.log('>>> createPost: Post created!');
-        res.status(201).json(newPost);
+        var user = await User.findById(newPost.creatorId);
+        console.log({...newPost._doc, name: user.name, surname: user.surname, profilePicture: '' ,averageStars: user.averageStars, rankingPosition: 1, rankingLocation : 'to_define'});
+        res.status(201).json({...newPost._doc, name: user.name, surname: user.surname, profilePicture: user.profilePicture ,averageStars: user.averageStars, rankingPosition: 1, rankingLocation : 'to_define'});
     } catch (error) {
         console.log(error.message);
         res.status(409).json({ message: error.message });
@@ -100,7 +102,7 @@ export const getPosts = async (request, response) => {
         var newPosts = []
         for (const document of posts) {
             var user = await User.findById(document.creatorId);
-            var newDocument = { ...document._doc, name: user.name, surname: user.surname, profilePicture: user.profilePicture,averageStars: user.averageStars, rankingPosition: 1, rankingLocation : 'to_define'}
+            var newDocument = { ...document._doc, name: user.name, surname: user.surname, profilePicture: user.profilePicture ,averageStars: user.averageStars, rankingPosition: 1, rankingLocation : 'to_define'}
             console.log(newDocument);
             newPosts = [...newPosts, newDocument]
         }
@@ -136,7 +138,6 @@ export const getPost = async (request, response) => {
 export const getFavorConstants = async (request, response) => {
 
     try {
-        console.log("inside")
         console.log(JSON.stringify({USER_TYPES,FAVOR_CATEGORIES,LOCATIONS}))
         response.status(200).json(JSON.stringify({USER_TYPES,FAVOR_CATEGORIES,LOCATIONS}));
         console.log('>>> getFavorConstants: Returned constants useful for creating a favor post!');

@@ -383,6 +383,7 @@ class Favor_publishFavorButton extends StatelessWidget {
                     ),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
+                  print(">>> Post created! Redirecting to Information page...");
                   Navigator.push(
                       context,
                       CupertinoPageRoute(

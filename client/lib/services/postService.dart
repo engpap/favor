@@ -104,7 +104,8 @@ class PostService {
 
       if (response.statusCode == 201)
         return CallerPost.fromJson(jsonDecode(response.body));
-      else if (response.statusCode == 400) {
+      else if (response.statusCode == 400 &&
+          jsonDecode(response.body)['message'] == "Authorization failed!") {
         Navigator.push(context,
             CupertinoPageRoute(builder: (context) => const SignInScreen()));
         return null;
@@ -132,17 +133,13 @@ class PostService {
           if (Post.getUserType(response.body) == 'provider')
             posts.add(
               ProviderPost.fromJson(
-                jsonEncode(
-                  jsonDecode(response.body)[i],
-                ),
+                jsonDecode(response.body)[i],
               ),
             );
           else if (Post.getUserType(response.body) == 'caller')
             posts.add(
               CallerPost.fromJson(
-                jsonEncode(
-                  jsonDecode(response.body)[i],
-                ),
+                jsonDecode(response.body)[i],
               ),
             );
           else
@@ -175,17 +172,13 @@ class PostService {
           if (Post.getUserType(response.body) == 'provider')
             posts.add(
               ProviderPost.fromJson(
-                jsonEncode(
-                  jsonDecode(response.body)[i],
-                ),
+                jsonDecode(response.body)[i],
               ),
             );
           else if (Post.getUserType(response.body) == 'caller')
             posts.add(
               CallerPost.fromJson(
-                jsonEncode(
-                  jsonDecode(response.body)[i],
-                ),
+                jsonDecode(response.body)[i],
               ),
             );
           else
