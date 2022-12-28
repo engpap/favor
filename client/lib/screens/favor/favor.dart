@@ -337,8 +337,16 @@ class Favor_boxDescription extends StatelessWidget {
 }
 
 /// PUSBLISH FAVOR BUTTON
-class Favor_publishFavorButton extends StatelessWidget {
+class Favor_publishFavorButton extends StatefulWidget {
   const Favor_publishFavorButton({super.key});
+
+  @override
+  State<Favor_publishFavorButton> createState() =>
+      _Favor_publishFavorButtonState();
+}
+
+class _Favor_publishFavorButtonState extends State<Favor_publishFavorButton> {
+  late Future<Post> post;
 
   @override
   Widget build(BuildContext context) {
@@ -382,18 +390,13 @@ class Favor_publishFavorButton extends StatelessWidget {
                       description: globals.informationsTextController.text,
                     ),
               builder: (context, snapshot) {
+                print("insid!!! ");
                 if (snapshot.hasData) {
                   print(">>> Post created! Redirecting to Information page...");
-                  Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                          builder: (context) =>
-                              const favorInformationPage_Screen()));
                 } else if (snapshot.hasError) {
                   print(">>> Error: '${snapshot.error.toString()}'");
                   return Text('${snapshot.error}');
                 }
-                // By default, show a loading spinner.
                 return CupertinoActivityIndicator(animating: false, radius: 10);
               },
             );

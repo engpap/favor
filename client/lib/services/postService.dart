@@ -5,6 +5,7 @@ import 'package:project/models/providerPost.dart';
 import 'dart:convert';
 
 import 'package:project/providers/userProvider.dart';
+import 'package:project/screens/favorInformationPage/favorInformationPage.dart';
 import 'package:project/screens/home.dart';
 import 'package:project/screens/signin/signin.dart';
 import 'package:provider/provider.dart';
@@ -60,9 +61,13 @@ class PostService {
         body: jsonEncode(post.toJson()),
       );
 
-      if (response.statusCode == 201)
-        return ProviderPost.fromJson(jsonDecode(response.body));
-      else if (response.statusCode == 400) {
+      if (response.statusCode == 201) {
+        Navigator.push(
+            context,
+            CupertinoPageRoute(
+                builder: (context) => const favorInformationPage_Screen()));
+        //return ProviderPost.fromJson(jsonDecode(response.body));
+      } else if (response.statusCode == 400) {
         Navigator.push(context,
             CupertinoPageRoute(builder: (context) => const SignInScreen()));
         return null;
@@ -102,9 +107,13 @@ class PostService {
         body: jsonEncode(post.toJson()),
       );
 
-      if (response.statusCode == 201)
-        return CallerPost.fromJson(jsonDecode(response.body));
-      else if (response.statusCode == 400 &&
+      if (response.statusCode == 201) {
+        Navigator.push(
+            context,
+            CupertinoPageRoute(
+                builder: (context) => const favorInformationPage_Screen()));
+        //return CallerPost.fromJson(jsonDecode(response.body));
+      } else if (response.statusCode == 400 &&
           jsonDecode(response.body)['message'] == "Authorization failed!") {
         Navigator.push(context,
             CupertinoPageRoute(builder: (context) => const SignInScreen()));
