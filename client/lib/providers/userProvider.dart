@@ -6,8 +6,11 @@ class UserProvider extends ChangeNotifier {
     id: '',
     name: '',
     surname: '',
+    profilePicture: null,
     email: '',
     token: '',
+    rankingPoints: null,
+    averageStars: null,
   );
 
   User get user => _user;
@@ -18,6 +21,14 @@ class UserProvider extends ChangeNotifier {
   }
 
   void clearUser() {
-    _user = User(id: '', name: '', surname: '', email: '', token: '');
+    _user = User(
+        id: '',
+        name: '',
+        surname: '',
+        profilePicture: null,
+        email: '',
+        token: '',
+        rankingPoints: null,
+        averageStars: null);
   }
 }

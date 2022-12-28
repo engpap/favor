@@ -17,7 +17,7 @@ const userSchema = mongoose.Schema({
     profilePicture: { type: String, default: null },
 
     rankingPoints: { type: Number, default: 0 },
-    averageStars: { type: Number, default: 0 },
+    averageStars: { type: Number, default: 0.1 },
 
 });
 
