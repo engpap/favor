@@ -94,11 +94,13 @@ export const getPosts = async (request, response) => {
         // To skip the posts before the current page start index.
         const posts = await Post.find().sort({ _id: -1 }).limit(LIMIT).skip(pageStartIndex);
 
+        //TODO: calcola il rankingPosition in maniera dinamica e restituisce la location ranking
+
         console.log(">>> getPosts: Updating posts with users data...");
         var newPosts = []
         for (const document of posts) {
             var user = await User.findById(document.creatorId);
-            var newDocument = { ...document._doc, name: user.name, surname: user.surname}
+            var newDocument = { ...document._doc, name: user.name, surname: user.surname, averageStars: user.averageStars, rankingPosition: 1, rankingLocation : 'to_define'}
             console.log(newDocument);
             newPosts = [...newPosts, newDocument]
         }

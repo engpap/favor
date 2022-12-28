@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-
+import  fs from 'fs'; 
 
 const userSchema = mongoose.Schema({
     id: { type: String }, //created by db
@@ -8,11 +8,16 @@ const userSchema = mongoose.Schema({
         default: null,
     },
     externalSignInService: { type: String, default: null },
-    
+
     name: { type: String, required: true },
     surname: { type: String }, //TODO: make required (proper algorithm with google)
     email: { type: String, required: true },
     password: { type: String },
+
+    profilePicture: { type: String, default: null },
+
+    rankingPoints: { type: Number, default: 0 },
+    averageStars: { type: Number, default: 0 },
 
 });
 
