@@ -5,9 +5,11 @@ import 'package:project/screens/feed/feed.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/services/postService.dart';
-import 'globals.dart' as globals;
 
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+
+String categoryListHeading = "Favor Categories";
+String reccomendationListHeading = "Recommended for you";
 
 class Feed_Screen_M extends StatelessWidget {
   const Feed_Screen_M({super.key});
@@ -34,7 +36,7 @@ class Feed_Screen_M extends StatelessWidget {
                 width: Responsive.width(100, context),
                 padding: EdgeInsets.only(right: 9, left: 9),
                 child: Text(
-                  "${globals.categoryListHeading}",
+                  "${categoryListHeading}",
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
@@ -71,7 +73,7 @@ class Feed_Screen_M extends StatelessWidget {
                 width: Responsive.width(100, context),
                 padding: EdgeInsets.only(right: 9, left: 9),
                 child: Text(
-                  "${globals.reccomendationListHeading}",
+                  "${reccomendationListHeading}",
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
