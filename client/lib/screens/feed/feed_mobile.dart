@@ -193,10 +193,12 @@ class _Carosel_FavorReccomenderWidgetState
     try {
       final newItems = await PostService().getPosts(pageKey);
       final isLastPage = newItems.length < _pageSize;
+      // debug line
+      // print("pageKey: $pageKey - items: $newItems - isLastPage: $isLastPage");
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
       } else {
-        final nextPageKey = pageKey + newItems.length;
+        final nextPageKey = pageKey + 1;
         _pagingController.appendPage(newItems, nextPageKey);
       }
     } catch (error) {
@@ -209,22 +211,19 @@ class _Carosel_FavorReccomenderWidgetState
     return PagedListView<int, Post>(
       pagingController: _pagingController,
       builderDelegate: PagedChildBuilderDelegate<Post>(
-          itemBuilder: (context, item, index) => FavorReccomendationWidget(
-                heading: item.taskCategory,
-                area: item.location,
-                information: item.description,
-                startTime: globals_fip.formatter.format(
-                    globals_fip.startTime), // TODO: item.availabilityStartTime
-                endTime: globals_fip.formatter.format(
-                    globals_fip.endTime), // TODO: item.availabilityEndTime
-                personImage:
-                    globals_fip.personImage, // TODO: item.profilePicture,
-                personName: globals_fip.personName, // TODO: item.name,
-                personRole: item.userType, //ProviderPost.userType
-                personRating:
-                    globals_fip.personRating, // TODO:  item.rankingPosition,
-                starsColor: globals_fip.starsColor, //TODO: item.averageStars
-              )),
+        itemBuilder: (context, item, index) => FavorReccomendationWidget(
+          heading: item.taskCategory,
+          area: item.location,
+          information: item.description,
+          startTime: globals_fip.formatter.format(globals_fip.startTime), // TODO: item.availabilityStartTime
+          endTime: globals_fip.formatter.format(globals_fip.endTime), // TODO: item.availabilityEndTime
+          personImage: globals_fip.personImage, // TODO: item.profilePicture,
+          personName: globals_fip.personName, // TODO: item.name,
+          personRole: item.userType,
+          personRating: globals_fip.personRating, // TODO:  item.rankingPosition,
+          starsColor: globals_fip.starsColor, //TODO: item.averageStars
+        )
+        ),
     );
     /*
     return ListView(scrollDirection: Axis.vertical, children: [

@@ -32,7 +32,7 @@ List<Text> startTime = [
   Text("12:00"),
 ];
 
-String startTimeHeading = "From which type?";
+String startTimeHeading = "From which time?";
 IconData startTimePrefixIcon = CupertinoIcons.time;
 
 TextEditingController startTimeTextController = TextEditingController(text: "");
