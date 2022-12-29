@@ -1,15 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/functions/responsive.dart';
 import 'package:project/models/callerPost.dart';
-import 'package:project/models/providerPost.dart';
 import 'package:project/models/post.dart';
 import 'package:project/screens/components/customCard.dart';
 import 'package:project/screens/components/starsWidget.dart';
-//import 'package:project/screens/favorInformationPage/favorInformationPage.dart';
-import 'globals.dart' as globals;
+
+import 'package:project/functions/favorColors.dart' as favorColors;
+import 'package:project/functions/favorTime.dart' as favorTime;
 
 class favorInformationPage_Screen_M extends StatelessWidget {
   favorInformationPage_Screen_M({
@@ -61,11 +59,6 @@ class favorInformationPage_favor_M extends StatelessWidget {
   });
 
   Post? post;
-  //TODO: use CallerPost ( favorStartTime, )
-  //      or ProviderPost ( availabilityStartTime, availabilityEndTime, )
-
-  String time =
-      "${globals.formatter.format(globals.startTime)} - ${globals.formatter.format(globals.endTime)}";
 
   @override
   Widget build(BuildContext context) {
@@ -91,15 +84,13 @@ class favorInformationPage_favor_M extends StatelessWidget {
               color: Colors.transparent,
             ),
             //INFORMATION
-            SizedBox(
+            Container(
               width: Responsive.width(90, context),
-              child: Flexible(
-                child: Text(
-                  post!.description,
-                  style: TextStyle(fontSize: 18),
-                  textAlign: TextAlign.left,
-                  overflow: TextOverflow.fade,
-                ),
+              child: Text(
+                post!.description,
+                style: TextStyle(fontSize: 18),
+                textAlign: TextAlign.left,
+                overflow: TextOverflow.fade,
               ),
             ),
             Divider(
@@ -120,11 +111,11 @@ class favorInformationPage_favor_M extends StatelessWidget {
                       size: 24, //
                     ),
                   ),
-                  Flexible(
+                  Container(
                     child: Text(
                       (post is CallerPost)
-                          ? "${globals.formatter.format(post!.getFavorStartTime())}"
-                          : "${globals.formatter.format(post!.getAvailabilityStartTime())} - ${globals.formatter.format(post!.getAvailabilityEndTime())}",
+                          ? "${favorTime.formatter.format(post!.getFavorStartTime())}"
+                          : "${favorTime.formatter.format(post!.getAvailabilityStartTime())} - ${favorTime.formatter.format(post!.getAvailabilityEndTime())}",
                       //time,
                       overflow: TextOverflow.fade,
                       style: TextStyle(
@@ -145,16 +136,9 @@ class favorInformationPage_favor_M extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  /** 
-                  Icon(
-                    CupertinoIcons.location_solid, 
-                    color: favorColors.PrimaryBlue,
-                    size: 24, // 
-                  ),
-                  */
                   Padding(
                     padding: const EdgeInsets.only(left: 30.0), // 8
-                    child: Flexible(
+                    child: Container(
                       child: Text(
                         post!.location,
                         overflow: TextOverflow.fade,
@@ -203,19 +187,6 @@ class favorInformationPage_person_M extends StatelessWidget {
   });
 
   Post? post;
-  //TODO: image
-  // Image image = post!.profilePicture
-  //TODO: stars
-  // post!.averageStars
-  /** 
-    List<Color> starsColor = [
-      Colors.black,
-      Colors.black,
-      Colors.black,
-      Colors.black,
-      Colors.black
-    ];
-  */
 
   @override
   Widget build(BuildContext context) {
@@ -233,7 +204,7 @@ class favorInformationPage_person_M extends StatelessWidget {
                     shape: BoxShape.circle,
                     image: DecorationImage(
                       image: AssetImage("assets/images/chris.jpg"),
-                      //image: image, TODO:
+                      //image: image, TODO: post!.profilePicture
                       fit: BoxFit.cover,
                     ),
                     border: Border.all(
@@ -250,7 +221,7 @@ class favorInformationPage_person_M extends StatelessWidget {
                     ],
                   ),
                 ),
-                // PERSONAL INFO
+                // PERSONAL...
                 Container(
                   padding: EdgeInsets.only(
                     left: Responsive.width(5, context),
@@ -269,7 +240,7 @@ class favorInformationPage_person_M extends StatelessWidget {
                             fontSize: 24, fontWeight: FontWeight.bold),
                         textAlign: TextAlign.left,
                       ),
-                      // role
+                      // ROLE
                       Text(
                         post!.userType,
                         style: TextStyle(
@@ -283,6 +254,7 @@ class favorInformationPage_person_M extends StatelessWidget {
                         height: Responsive.height(1.5, context),
                         color: Colors.transparent,
                       ),
+                      // RANK
                       Text(
                         "${post!.rankingPosition} in ${post!.rankingLocation}",
                         style: TextStyle(fontSize: 14),
@@ -403,16 +375,13 @@ class favorInformationPage_person_M extends StatelessWidget {
                     ),
                   ],
                 ),
-                // INFORMATION
+                // BIO
                 Container(
                   width: Responsive.width(65, context),
-                  //height: ,
                   padding: EdgeInsets.only(left: Responsive.width(5, context)),
                   child: Align(
                     child: Text(
-                      "${globals.informationPerson}",
-                      //TODO: aggiungere campo
-                      //child: Text( post!. ** ,
+                      post!.bio!,
                       style: TextStyle(fontSize: 18),
                       textAlign: TextAlign.start,
                     ),

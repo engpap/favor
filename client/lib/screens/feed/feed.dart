@@ -1,15 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/functions/responsive.dart';
+import 'package:project/models/callerPost.dart';
+import 'package:project/models/post.dart';
 import 'package:project/screens/components/customCard.dart';
-import 'package:project/screens/favor/globals.dart';
+import 'package:project/screens/components/starsWidget.dart';
 import 'package:project/screens/favorInformationPage/favorInformationPage.dart';
 import 'package:project/screens/feed/feed_mobile.dart';
 import 'package:project/screens/feed/feed_tablet.dart';
 import 'package:project/screens/responsiveLayout.dart';
+import 'package:project/functions/favorColors.dart' as favorColors;
+import 'package:project/functions/favorTime.dart' as favorTime;
 
-import '../favorInformationPage/globals.dart' as globals_fip;
 
 class Feed_Screen extends StatelessWidget {
   const Feed_Screen({super.key});
@@ -97,31 +99,10 @@ class FavorCategoryWidget extends StatelessWidget {
 class FavorReccomendationWidget extends StatelessWidget {
   FavorReccomendationWidget({
     super.key,
-    required this.heading,
-    required this.area,
-    required this.information,
-    required this.startTime,
-    required this.endTime,
-    required this.personImage,
-    required this.personName,
-    required this.personRole,
-    required this.personRating,
-    required this.starsColor,
+    required this.post,
   });
 
-  //TODO: passare un post e non i valori
-  String heading;
-  String area;
-  String information;
-
-  String startTime;
-  String endTime;
-
-  String personImage;
-  String personName;
-  String personRole;
-  String personRating;
-  List<Color> starsColor;
+  Post? post;
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +123,7 @@ class FavorReccomendationWidget extends StatelessWidget {
                   //HEADING
                   Container(
                     child: Text(
-                      "${heading}",
+                      post!.taskCategory,
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -161,7 +142,7 @@ class FavorReccomendationWidget extends StatelessWidget {
                     child: Container(
                       //color: Colors.amber,
                       child: Text(
-                        "${area}",
+                        post!.location,
                         style: TextStyle(
                           fontSize: 16,
                           color: favorColors.PrimaryBlue,
@@ -179,7 +160,7 @@ class FavorReccomendationWidget extends StatelessWidget {
                   Container(
                     //color: Colors.pink,
                     child: Text(
-                      "${information}",
+                      post!.description,
                       style: TextStyle(
                         fontSize: 16,
                       ),
@@ -209,7 +190,9 @@ class FavorReccomendationWidget extends StatelessWidget {
                         //actual time
                         Container(
                           child: Text(
-                            startTime + " - " + endTime,
+                            (post is CallerPost)
+                              ? "${favorTime.formatter.format(post!.getFavorStartTime())}"
+                              : "${favorTime.formatter.format(post!.getAvailabilityStartTime())} - ${favorTime.formatter.format(post!.getAvailabilityEndTime())}",
                             style: TextStyle(
                               fontSize: 18,
                               color: favorColors.PrimaryBlue,
@@ -240,7 +223,8 @@ class FavorReccomendationWidget extends StatelessWidget {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                        image: AssetImage(personImage),
+                        image: AssetImage("assets/images/chris.jpg"),
+                        //image: image, TODO: post!.profilePicture
                         fit: BoxFit.cover,
                       ),
                       border: Border.all(
@@ -258,10 +242,10 @@ class FavorReccomendationWidget extends StatelessWidget {
                       ],
                     ),
                   ),
-                  // Name
+                  // Name and Surname
                   Container(
                     child: Text(
-                      personName,
+                      "${post!.name} ${post!.surname}",
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                       maxLines: 1,
@@ -271,7 +255,7 @@ class FavorReccomendationWidget extends StatelessWidget {
                   // ROLE
                   Container(
                     child: Text(
-                      personRole,
+                      post!.userType,
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
@@ -284,10 +268,10 @@ class FavorReccomendationWidget extends StatelessWidget {
                     height: Responsive.height(1, context),
                     color: Colors.transparent,
                   ),
-                  // RATING
+                  // RANK
                   Container(
                     child: Text(
-                      personRating + " RATINGS",
+                      "${post!.rankingPosition} in ${post!.rankingLocation}",
                       style: TextStyle(
                         fontSize: 14,
                       ),
@@ -296,16 +280,7 @@ class FavorReccomendationWidget extends StatelessWidget {
                     ),
                   ),
                   // STARS
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.star, size: 18, color: starsColor[0]),
-                      Icon(Icons.star, size: 18, color: starsColor[1]),
-                      Icon(Icons.star, size: 18, color: starsColor[2]),
-                      Icon(Icons.star, size: 18, color: starsColor[3]),
-                      Icon(Icons.star, size: 18, color: starsColor[4]),
-                    ],
-                  ),
+                  StarsWidget(number: post!.averageStars),
                   Divider(
                     height: Responsive.height(1, context),
                     color: Colors.transparent,
@@ -340,15 +315,11 @@ class FavorReccomendationWidget extends StatelessWidget {
                       ),
                       onPressed: () {
                         print('Pressed: _moreButton');
-                        //TODO: add server function and client response
-                        /** 
                         Navigator.push(
                           context,
                           CupertinoPageRoute(
-                              builder: (context) =>
-                                  const favorInformationPage_Screen()),
+                              builder: (context) => favorInformationPage_Screen(post: post,)),
                         );
-                        */
                       },
                     ),
                   ),
@@ -361,46 +332,3 @@ class FavorReccomendationWidget extends StatelessWidget {
     );
   }
 }
-
-// TODO: REMOVE
-/*
-class FavorReccomendationWidget extends StatelessWidget {
-  const FavorReccomendationWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        // IMAGE
-        Container(
-          width: Responsive.width(100, context),
-          height: Responsive.width(35, context),
-          decoration: BoxDecoration(
-            shape: BoxShape.rectangle,
-            image: DecorationImage(
-              image: AssetImage("assets/images/bg_music_01.jpg"),
-              fit: BoxFit.cover,
-            ),
-            border: Border.all(
-              color: favorColors.LightGrey,
-              width: 2.0,
-            ),
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                spreadRadius: 0.5,
-                blurRadius: 5,
-                offset: Offset(0, 1),
-              ),
-            ],
-          ),
-        ),
-        Divider(height: Responsive.height(0.5, context), color: Colors.transparent,),
-        Text("${1} favor", 
-          style: TextStyle(fontSize: 16),),
-      ],
-    );
-  }
-}
-*/
