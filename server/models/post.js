@@ -31,6 +31,8 @@ const postSchema = mongoose.Schema({
     availabilityEndTime: Date, // it is null for caller's posts
 
     description: { type: String, required: true },
+
+    toHide: { type: Boolean, default: false,required: true }, // true when is booked or completed
 });
 
 const Post = mongoose.model('Post', postSchema);

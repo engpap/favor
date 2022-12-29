@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import BookedFavor from '../models/bookedFavor.js';
 import Post from '../models/post.js';
 import User from '../models/user.js';
 import axios from 'axios';
@@ -163,3 +164,47 @@ export const getPostsBySearch = async (request, response) => {
         response.status(404).json({ message: error.message });
     }
 }
+
+
+export const bookFavor = async (request, response) => {
+    const { id } = request.body;
+    console.log(">>> bookFavor: Favor id to book is " + id);
+    try {
+
+        if (!request.userId)
+            return response.json({ message: 'Unauthenticated' });
+
+        if (!mongoose.Types.ObjectId.isValid(id))
+            return response.status(404).send(`No post with id: ${id}`);
+
+        const postToBook = await Post.findById(id);
+
+        var providerId='';
+        var callerId='';
+        console.log(postToBook.userType)
+        if(postToBook._doc.userType==PROVIDER){
+            providerId = postToBook.creatorId;
+            callerId = request.userId;
+        }
+        else if(postToBook._doc.userType==CALLER){
+            providerId = request.userId;
+            callerId = postToBook.creatorId;
+        }
+        else
+            return response.status(404).json({ message: "Error on userType in the post to book!" });
+    
+        const newBookedFavor = new BookedFavor({ bookedAt: new Date().toISOString(), providerId: providerId, callerId: callerId, post: postToBook._doc, isTerminated: false });
+        await newBookedFavor.save();
+        console.log("This is the new booked favor: ", newBookedFavor);
+
+        //await Post.findByIdAndRemove(id);
+        postToBook.toHide = true;
+        await Post.findByIdAndUpdate(id, postToBook, { new: true });
+
+        return response.json({ message: 'Favor booked successfully.' });
+
+    } catch (error) {
+        response.status(404).json({ message: error.message });
+    }
+}
+

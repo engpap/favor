@@ -21,6 +21,7 @@ const auth = async (request, response, next) => {
 
         request.userId = verified.id;
         console.log(">>> User authenticated!");
+        console.log(">>> user id: ",request.userId);
 
         /*
         const isCustomAuth = token?.length < 500;
