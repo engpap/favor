@@ -30,7 +30,7 @@ class Feed_Screen extends StatelessWidget {
             child: SafeArea(
           child: ResponsiveLeayout(
             mobileBody: Feed_Screen_M(),
-            tabletBody: Feed_Screen_T(),
+            tabletBody: Feed_Screen_M(),
           ),
         )));
   }

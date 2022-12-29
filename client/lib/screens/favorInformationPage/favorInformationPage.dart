@@ -7,7 +7,7 @@ import 'package:project/screens/favorInformationPage/favorInformationPage_mobile
 import 'package:project/screens/favorInformationPage/favorInformationPage_tablet.dart';
 import 'package:project/screens/responsiveLayout.dart';
 
-import '../favorInformationPage/globals.dart' as globals_fip;
+
 
 class favorInformationPage_Screen extends StatelessWidget {
   favorInformationPage_Screen({super.key,

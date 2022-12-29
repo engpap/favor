@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/functions/responsive.dart';
+import 'package:project/models/callerPost.dart';
 import 'package:project/models/post.dart';
-import 'globals.dart' as globals;
+import 'package:project/screens/components/starsWidget.dart';
+
+import 'package:project/functions/favorColors.dart' as favorColors;
+import 'package:project/functions/favorTime.dart' as favorTime;
 
 class favorInformationPage_Screen_T extends StatelessWidget {
   favorInformationPage_Screen_T({
@@ -26,7 +29,6 @@ class favorInformationPage_Screen_T extends StatelessWidget {
             constraints: BoxConstraints(maxWidth: Responsive.fixedWidth(),),
             child: Column(
               children: [
-                Text(post!.taskCategory), //DELETE
                 // FAVOR INFORMATION
                 Container(
                   margin: EdgeInsets.all(9),
@@ -54,7 +56,7 @@ class favorInformationPage_Screen_T extends StatelessWidget {
                       //HEADING
                       SizedBox(
                         width: Responsive.width(100, context),
-                        child: Text("${globals.heading}", 
+                        child: Text(post!.taskCategory, 
                           style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold,
                             color: favorColors.PrimaryBlue,),
                           textAlign: TextAlign.left,
@@ -65,8 +67,10 @@ class favorInformationPage_Screen_T extends StatelessWidget {
                       SizedBox(
                         width: Responsive.width(90, context),
                         child: Flexible(
-                          child: Text("${globals.information}", 
-                            style: TextStyle(fontSize: 18), textAlign: TextAlign.left,
+                          child: Text(
+                            post!.description, 
+                            style: TextStyle(fontSize: 18), 
+                            textAlign: TextAlign.left,
                             overflow: TextOverflow.fade,
                           ),
                         ),
@@ -87,7 +91,10 @@ class favorInformationPage_Screen_T extends StatelessWidget {
                               ),
                             ),
                             Flexible(
-                              child: Text("${globals.formatter.format(globals.startTime)} - ${globals.formatter.format(globals.endTime)}",
+                              child: Text(
+                                (post is CallerPost)
+                                ? "${favorTime.formatter.format(post!.getFavorStartTime())}"
+                                : "${favorTime.formatter.format(post!.getAvailabilityStartTime())} - ${favorTime.formatter.format(post!.getAvailabilityEndTime())}",
                               overflow: TextOverflow.fade,
                               style: TextStyle(
                                 color: favorColors.PrimaryBlue,
@@ -97,23 +104,17 @@ class favorInformationPage_Screen_T extends StatelessWidget {
                         ),
                       ),
                       Divider(height: Responsive.height(0, context), color: Colors.transparent,),
-                      // AREA
+                      // LOCATION
                       Container(
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            /** 
-                            Icon(
-                              CupertinoIcons.location_solid, 
-                              color: favorColors.PrimaryBlue,
-                              size: 24, // 
-                            ),
-                            */
                             Padding(
                               padding: const EdgeInsets.only(left: 30.0),
                               child: Flexible(
-                                child: Text(" ${globals.area}",
+                                child: Text(
+                                  post!.location,
                                 overflow: TextOverflow.fade,
                                 style: TextStyle(
                                   fontSize: 15,
@@ -162,6 +163,7 @@ class favorInformationPage_Screen_T extends StatelessWidget {
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
                                   image: AssetImage("assets/images/chris.jpg"),
+                                  //image: image, TODO: post!.profilePicture
                                   fit: BoxFit.cover,
                                 ),
                                 border: Border.all(
@@ -178,9 +180,8 @@ class favorInformationPage_Screen_T extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            // PERSONAL INFO
+                            // PERSONAL...
                             Container(
-                              //color: Colors.blueAccent,
                               padding: EdgeInsets.only(left: Responsive.width(1, context),),
                               constraints: BoxConstraints(
                                 minHeight: Responsive.width(10, context)
@@ -190,43 +191,40 @@ class favorInformationPage_Screen_T extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   // NAME AND SURNAME
-                                  Text("${globals.personName}", 
+                                  Text(
+                                    "${post!.name} ${post!.surname}",
                                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold), 
                                     textAlign: TextAlign.left,
                                   ),
-                                  // role
-                                  Text("${globals.personRole}", 
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: favorColors.SecondaryBlue), 
+                                  // ROLE
+                                  Text(
+                                    post!.userType, 
+                                    style: TextStyle(
+                                      fontSize: 18, 
+                                      fontWeight: FontWeight.bold, 
+                                      color: favorColors.SecondaryBlue), 
                                     textAlign: TextAlign.left,
                                   ),
-                                  
                                   Divider(height: Responsive.height(1.5, context), color: Colors.transparent,),
-                                  Text("${globals.personRating} RATINGS", 
+                                  // RANK
+                                  Text(
+                                    "${post!.rankingPosition} in ${post!.rankingLocation}",
                                     style: TextStyle(fontSize: 14),),
                                   Divider(height: Responsive.height(0.5, context), color: Colors.transparent,),
                                   // STARS
-                                  Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Icon(Icons.star, size: 18, color: globals.starsColor[0]),
-                                      Icon(Icons.star, size: 18, color: globals.starsColor[0]),
-                                      Icon(Icons.star, size: 18, color: globals.starsColor[0]),
-                                      Icon(Icons.star, size: 18, color: globals.starsColor[0]),
-                                      Icon(Icons.star, size: 18, color: globals.starsColor[0]),
-                                    ],
-                                  ),
+                                  StarsWidget(number: post!.averageStars),
                                 ],
                               ),
                             ),
                           ],
                         ),
                         Divider(height: Responsive.height(1, context), color: Colors.transparent,),
-                        // INFORMATION
+                        // BIO
                         Container(
-                          //color: Colors.pink,
                           width: Responsive.width(65, context),
                           child: Align(
-                            child: Text("${globals.informationPerson}", 
+                            child: Text(
+                              post!.bio!, 
                               style: TextStyle(fontSize: 18), textAlign: TextAlign.start,
                             ),
                           ),

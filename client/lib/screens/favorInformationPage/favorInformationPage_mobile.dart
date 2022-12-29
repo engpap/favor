@@ -116,7 +116,6 @@ class favorInformationPage_favor_M extends StatelessWidget {
                       (post is CallerPost)
                           ? "${favorTime.formatter.format(post!.getFavorStartTime())}"
                           : "${favorTime.formatter.format(post!.getAvailabilityStartTime())} - ${favorTime.formatter.format(post!.getAvailabilityEndTime())}",
-                      //time,
                       overflow: TextOverflow.fade,
                       style: TextStyle(
                         color: favorColors.PrimaryBlue,
@@ -130,7 +129,7 @@ class favorInformationPage_favor_M extends StatelessWidget {
               height: Responsive.height(0, context),
               color: Colors.transparent,
             ),
-            // AREA
+            // LOCATION
             Container(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -249,7 +248,6 @@ class favorInformationPage_person_M extends StatelessWidget {
                             color: favorColors.SecondaryBlue),
                         textAlign: TextAlign.left,
                       ),
-
                       Divider(
                         height: Responsive.height(1.5, context),
                         color: Colors.transparent,
