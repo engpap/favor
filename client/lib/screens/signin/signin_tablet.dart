@@ -37,64 +37,70 @@ class SignInScreen_T extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 /// BLOCK: actual signIn
-                SingleChildScrollView(
-                  reverse: true,
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxWidth: Responsive.fixedWidth(),
-                    ),
-                    child: Column(children: [
-                      /// DESCRIPTION
-                      Container(
-                        margin: EdgeInsets.only(
-                            top: Responsive.height(1, context),
-                            bottom: Responsive.height(3, context),
-                            right: 9,
-                            left: 9),
-                        child: Text(
-                          "Please enter your registration email and password.",
-                          style: TextStyle(
-                              color: favorColors.PrimaryBlue,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
+                SizedBox(
+                  width: 280, //TODO: rendere RESPONSIVE
+                  child: SingleChildScrollView(
+                    reverse: true,
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxWidth: Responsive.fixedWidth(),
+                      ),
+                      child: Column(children: [
+                        /// DESCRIPTION
+                        Container(
+                          margin: EdgeInsets.only(
+                              top: Responsive.height(1, context),
+                              bottom: Responsive.height(3, context),
+                              right: 9,
+                              left: 9),
+                          child: Text(
+                            "Please enter your registration email and password.",
+                            style: TextStyle(
+                                color: favorColors.PrimaryBlue,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
-                      ),
 
-                      SignIn_form(),
+                        SignIn_form(),
 
-                      Divider(
-                        height: Responsive.height(2, context),
-                        color: Colors.transparent,
-                      ),
+                        Divider(
+                          height: Responsive.height(2, context),
+                          color: Colors.transparent,
+                        ),
 
-                      SignIn_loginButton(),
-                    ]),
+                        SignIn_loginButton(),
+                      ]),
+                    ),
                   ),
                 ),
 
                 /// BLOCK: register or google
-                SingleChildScrollView(
-                  reverse: true,
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxWidth: Responsive.fixedWidth(),
+                SizedBox(
+                  width: 280, //TODO: rendere RESPONSIVE
+                  child: SingleChildScrollView(
+                    reverse: true,
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxWidth: Responsive.fixedWidth(),
+                      ),
+                      child: Column(children: [
+                        SignIn_googleButton(),
+                        Divider(
+                          height: Responsive.height(4, context),
+                          color: Colors.transparent,
+                        ),
+                        Text(
+                          "Not a member yet?",
+                          style: TextStyle(color: Colors.black, fontSize: 20),
+                        ),
+                        Divider(
+                          height: Responsive.height(1, context),
+                          color: Colors.transparent,
+                        ),
+                        SignIn_signUpButton(),
+                      ]),
                     ),
-                    child: Column(children: [
-                      SignIn_googleButton(),
-                      Divider(
-                        height: Responsive.height(4, context),
-                        color: Colors.transparent,
-                      ),
-                      Text(
-                        "Not a member yet?",
-                        style: TextStyle(color: Colors.black, fontSize: 20),
-                      ),
-                      Divider(
-                        height: Responsive.height(1, context),
-                        color: Colors.transparent,
-                      ),
-                      SignIn_signUpButton(),
-                    ]),
                   ),
                 ),
               ],
