@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:project/functions/responsive.dart';
+import 'package:project/models/bookedFavor.dart';
 import 'package:project/models/post.dart';
 import 'package:project/screens/feed/feed.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
+import 'package:project/services/bookedFavorService.dart';
 import 'package:project/services/postService.dart';
 
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -56,7 +58,7 @@ class Feed_Screen_M extends StatelessWidget {
               Container(
                   constraints:
                       BoxConstraints(maxHeight: Responsive.height(15, context)),
-                  child: Carosel_FavorBookedWidget()),
+                  child: Carousel_BookedFavorWidget()),
             ],
           ),
         ),
@@ -95,7 +97,7 @@ class Feed_Screen_M extends StatelessWidget {
               Container(
                   constraints:
                       BoxConstraints(maxHeight: Responsive.height(15, context)),
-                  child: Carosel_FavorCategoryWidget()),
+                  child: Carousel_FavorCategoryWidget()),
             ],
           ),
         ),
@@ -130,7 +132,7 @@ class Feed_Screen_M extends StatelessWidget {
               ),
               //ELEMENTS
               Expanded(
-                child: Carosel_FavorReccomenderWidget(),
+                child: Carousel_RecommendedFavorWidget(),
               ),
             ],
           ),
@@ -140,16 +142,16 @@ class Feed_Screen_M extends StatelessWidget {
   }
 }
 
-class Carosel_FavorCategoryWidget extends StatefulWidget {
-  const Carosel_FavorCategoryWidget({super.key});
+class Carousel_FavorCategoryWidget extends StatefulWidget {
+  const Carousel_FavorCategoryWidget({super.key});
 
   @override
-  State<Carosel_FavorCategoryWidget> createState() =>
-      _Carosel_FavorCategoryWidgetState();
+  State<Carousel_FavorCategoryWidget> createState() =>
+      _Carousel_FavorCategoryWidgetState();
 }
 
-class _Carosel_FavorCategoryWidgetState
-    extends State<Carosel_FavorCategoryWidget> {
+class _Carousel_FavorCategoryWidgetState
+    extends State<Carousel_FavorCategoryWidget> {
   static const _pageSize = 4;
   final PagingController<int, Post> _pagingController =
       PagingController(firstPageKey: 0);
@@ -209,16 +211,16 @@ class _Carosel_FavorCategoryWidgetState
   }
 }
 
-class Carosel_FavorReccomenderWidget extends StatefulWidget {
-  const Carosel_FavorReccomenderWidget({super.key});
+class Carousel_RecommendedFavorWidget extends StatefulWidget {
+  const Carousel_RecommendedFavorWidget({super.key});
 
   @override
-  State<Carosel_FavorReccomenderWidget> createState() =>
-      _Carosel_FavorReccomenderWidgetState();
+  State<Carousel_RecommendedFavorWidget> createState() =>
+      _Carousel_RecommendedFavorWidgetState();
 }
 
-class _Carosel_FavorReccomenderWidgetState
-    extends State<Carosel_FavorReccomenderWidget> {
+class _Carousel_RecommendedFavorWidgetState
+    extends State<Carousel_RecommendedFavorWidget> {
   static const _pageSize = 4;
   final PagingController<int, Post> _pagingController =
       PagingController(firstPageKey: 1);
@@ -258,18 +260,19 @@ class _Carosel_FavorReccomenderWidgetState
   }
 }
 
-//TODO: da controllare la funzione del server (ho fatto solo copia ed incolla dal Carosel_FavorCategoryWidget)
-class Carosel_FavorBookedWidget extends StatefulWidget {
-  const Carosel_FavorBookedWidget({super.key});
+//TODO: da controllare la funzione del server (ho fatto solo copia ed incolla dal Carousel_FavorCategoryWidget)
+class Carousel_BookedFavorWidget extends StatefulWidget {
+  const Carousel_BookedFavorWidget({super.key});
 
   @override
-  State<Carosel_FavorBookedWidget> createState() =>
-      _Carosel_FavorBookedWidgetState();
+  State<Carousel_BookedFavorWidget> createState() =>
+      _Carousel_BookedFavorWidgetState();
 }
 
-class _Carosel_FavorBookedWidgetState extends State<Carosel_FavorBookedWidget> {
+class _Carousel_BookedFavorWidgetState
+    extends State<Carousel_BookedFavorWidget> {
   static const _pageSize = 4;
-  final PagingController<int, Post> _pagingController =
+  final PagingController<int, BookedFavor> _pagingController =
       PagingController(firstPageKey: 0);
 
   @override
@@ -282,7 +285,8 @@ class _Carosel_FavorBookedWidgetState extends State<Carosel_FavorBookedWidget> {
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final newItems = await PostService().getPosts(context, pageKey);
+      final newItems =
+          await BookedFavorService().getBookedFavors(context, pageKey);
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
@@ -299,27 +303,27 @@ class _Carosel_FavorBookedWidgetState extends State<Carosel_FavorBookedWidget> {
   Widget build(BuildContext context) {
     return ListView(scrollDirection: Axis.horizontal, children: [
       //TODO: passare quali widget diplayare
-      FavorBookedWidget(
+      BookedFavorWidget(
         categoryImage: "assets/images/bg_music_01.jpg",
         categoryName: "Booked 1",
       ),
-      FavorBookedWidget(
+      BookedFavorWidget(
         categoryImage: "assets/images/bg_music_02.jpg",
         categoryName: "Booked 2",
       ),
-      FavorBookedWidget(
+      BookedFavorWidget(
         categoryImage: "assets/images/bg_music_01.jpg",
         categoryName: "Booked 3",
       ),
-      FavorBookedWidget(
+      BookedFavorWidget(
         categoryImage: "assets/images/bg_music_02.jpg",
         categoryName: "Booked 4",
       ),
-      FavorBookedWidget(
+      BookedFavorWidget(
         categoryImage: "assets/images/bg_music_02.jpg",
         categoryName: "Booked 5",
       ),
-      FavorBookedWidget(
+      BookedFavorWidget(
         categoryImage: "assets/images/bg_music_01.jpg",
         categoryName: "Booked 6",
       ),

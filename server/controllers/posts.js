@@ -234,9 +234,9 @@ export const getBookedFavors = async (request, response) => {
             if (!document.isTerminated) {
                 console.log(document.post.toHexString())
                 var post = await Post.findById(document.post.toHexString());
-                console.log(post)
                 var user = await User.findById(post._doc.creatorId);
-                var newDocument = { ...document._doc, name: user.name, surname: user.surname, profilePicture: user.profilePicture, bio: user.bio, averageStars: user.averageStars, rankingPosition: 1, rankingLocation: 'to_define' }
+                var jsonPost = {...post._doc, name: user.name, surname: user.surname, profilePicture: user.profilePicture, bio: user.bio, averageStars: user.averageStars, rankingPosition: 1, rankingLocation: 'to_define'}
+                var newDocument = { ...document._doc, post:{ ...jsonPost}}
                 newBookedFavors = [...newBookedFavors, newDocument]
             }
         }
