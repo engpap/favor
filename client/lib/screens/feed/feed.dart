@@ -332,3 +332,78 @@ class FavorReccomendationWidget extends StatelessWidget {
     );
   }
 }
+
+class FavorBookedWidget extends StatelessWidget {
+  FavorBookedWidget({
+    super.key,
+    required this.categoryImage,
+    required this.categoryName,
+    //required this.post,
+  });
+
+  //TODO: change assets with network image
+  String categoryImage; 
+  String categoryName;
+  //Post? post;
+  String fieldsName = "IO ZONO IO";
+  String personStatus = "provider";
+  String time = "18.00";
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: CustomCard_2(
+        child: Container(
+          width: Responsive.width(45, context),
+          height: Responsive.width(21, context),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // IMAGE
+              Container(
+                width: Responsive.width(10, context),
+                height: Responsive.width(10, context),
+                decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  //TODO: change assets with network image
+                  image: AssetImage(categoryImage),
+                  fit: BoxFit.cover,
+                  opacity: 0.2,
+                ),
+                border: Border.all(
+                  color: favorColors.LightGrey,
+                  width: 2.0,
+                ),
+                //borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    spreadRadius: 0.5,
+                    blurRadius: 5,
+                    offset: Offset(0, 1),
+                  ),
+                ],
+              ),
+              ),
+              // FIELDS
+              Container(
+                width: Responsive.width(30, context),
+                child: Column(
+                  children: [
+                    Text(categoryName),
+                    Text(fieldsName),
+                    Text(personStatus),
+                    Text(time),
+                  ]
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

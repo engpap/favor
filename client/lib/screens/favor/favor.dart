@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/models/favorConstants.dart';
 import 'package:project/models/post.dart';
-import 'package:project/screens/home.dart';
+import 'package:project/screens/home.dart'; 
 import 'package:project/screens/responsiveLayout.dart';
 import 'package:project/services/postService.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'globals.dart' as globals;
+
 
 class FavorScreen extends StatelessWidget {
   const FavorScreen({super.key});
