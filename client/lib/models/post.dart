@@ -37,7 +37,7 @@ abstract class Post {
     this.bio,
   });
 
-  static String getUserType(Map<String, dynamic> jsonString) {
+  static String getUserTypeGivenJsonString(Map<String, dynamic> jsonString) {
     return jsonString['userType'];
   }
 

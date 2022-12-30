@@ -172,12 +172,15 @@ export const bookFavor = async (request, response) => {
     try {
 
         if (!request.userId)
-            return response.json({ message: 'Unauthenticated' });
+            return response.status(401).json({ message: 'Unauthenticated' });
 
         if (!mongoose.Types.ObjectId.isValid(id))
-            return response.status(404).send(`No post with id: ${id}`);
+            return response.status(400).send(`No post with id: ${id}`);
 
         const postToBook = await Post.findById(id);
+
+        if (!request.userId==postToBook.creatorId)
+            return response.status(400).json({ message: 'Cannot book your own favor!' });
 
         var providerId='';
         var callerId='';
@@ -191,7 +194,7 @@ export const bookFavor = async (request, response) => {
             callerId = postToBook.creatorId;
         }
         else
-            return response.status(404).json({ message: "Error on userType in the post to book!" });
+            return response.status(400).json({ message: "Error on userType in the post to book!" });
     
         const newBookedFavor = new BookedFavor({ bookedAt: new Date().toISOString(), providerId: providerId, callerId: callerId, post: postToBook._doc, isTerminated: false });
         await newBookedFavor.save();
@@ -201,7 +204,7 @@ export const bookFavor = async (request, response) => {
         postToBook.toHide = true;
         await Post.findByIdAndUpdate(id, postToBook, { new: true });
 
-        return response.json({ message: 'Favor booked successfully.' });
+        return response.status(200).json({ message: 'Favor booked successfully.' });
 
     } catch (error) {
         response.status(404).json({ message: error.message });

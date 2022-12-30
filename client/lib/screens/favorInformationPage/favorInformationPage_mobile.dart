@@ -8,6 +8,7 @@ import 'package:project/screens/components/starsWidget.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/functions/favorTime.dart' as favorTime;
+import 'package:project/services/postService.dart';
 
 class favorInformationPage_Screen_M extends StatelessWidget {
   favorInformationPage_Screen_M({
@@ -355,7 +356,8 @@ class favorInformationPage_person_M extends StatelessWidget {
                             child: Icon(CupertinoIcons.bookmark),
                             onPressed: () {
                               print('Pressed: _bookButton');
-                              //TODO: add server function and client response
+                              PostService()
+                                  .bookFavor(context: context, post: post);
                             },
                           ),
                         ),

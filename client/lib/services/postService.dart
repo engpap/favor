@@ -7,6 +7,7 @@ import 'dart:convert';
 
 import 'package:project/providers/userProvider.dart';
 import 'package:project/screens/favorInformationPage/favorInformationPage.dart';
+import 'package:project/screens/feed/feed.dart';
 import 'package:project/screens/home.dart';
 import 'package:project/screens/signin/signin.dart';
 import 'package:provider/provider.dart';
@@ -63,13 +64,14 @@ class PostService {
       );
 
       if (response.statusCode == 201) {
-        Navigator.push(
+        Navigator.pushReplacement(
             context,
             CupertinoPageRoute(
-                builder: (context) => favorInformationPage_Screen(post: ProviderPost.fromJson(jsonDecode(response.body)))));
+                builder: (context) => favorInformationPage_Screen(
+                    post: ProviderPost.fromJson(jsonDecode(response.body)))));
         //return ProviderPost.fromJson(jsonDecode(response.body));
-      } else if (response.statusCode == 400) {
-        Navigator.push(context,
+      } else if (response.statusCode == 401) {
+        Navigator.pushReplacement(context,
             CupertinoPageRoute(builder: (context) => const SignInScreen()));
         return null;
       } else
@@ -109,14 +111,15 @@ class PostService {
       );
 
       if (response.statusCode == 201) {
-        Navigator.push(
+        Navigator.pushReplacement(
             context,
             CupertinoPageRoute(
-                builder: (context) =>favorInformationPage_Screen(post: CallerPost.fromJson(jsonDecode(response.body)))));
+                builder: (context) => favorInformationPage_Screen(
+                    post: CallerPost.fromJson(jsonDecode(response.body)))));
         //return CallerPost.fromJson(jsonDecode(response.body));
       } else if (response.statusCode == 400 &&
           jsonDecode(response.body)['message'] == "Authorization failed!") {
-        Navigator.push(context,
+        Navigator.pushReplacement(context,
             CupertinoPageRoute(builder: (context) => const SignInScreen()));
         return null;
       } else
@@ -137,14 +140,16 @@ class PostService {
 
       if (response.statusCode == 200) {
         for (int i = 0; i < jsonDecode(response.body)['data'].length; i++) {
-          if (Post.getUserType(jsonDecode(response.body)['data'][i]) ==
+          if (Post.getUserTypeGivenJsonString(
+                  jsonDecode(response.body)['data'][i]) ==
               'provider')
             posts.add(
               ProviderPost.fromJson(
                 jsonDecode(response.body)['data'][i],
               ),
             );
-          else if (Post.getUserType(jsonDecode(response.body)['data'][i]) ==
+          else if (Post.getUserTypeGivenJsonString(
+                  jsonDecode(response.body)['data'][i]) ==
               'caller')
             posts.add(
               CallerPost.fromJson(
@@ -178,13 +183,16 @@ class PostService {
 
       if (response.statusCode == 200) {
         for (int i = 0; i < jsonDecode(response.body)['data'].length; i++) {
-          if (Post.getUserType(jsonDecode(response.body)['data']) == 'provider')
+          if (Post.getUserTypeGivenJsonString(
+                  jsonDecode(response.body)['data']) ==
+              'provider')
             posts.add(
               ProviderPost.fromJson(
                 jsonDecode(response.body)['data'][i],
               ),
             );
-          else if (Post.getUserType(jsonDecode(response.body)['data']) ==
+          else if (Post.getUserTypeGivenJsonString(
+                  jsonDecode(response.body)['data']) ==
               'caller')
             posts.add(
               CallerPost.fromJson(
@@ -202,5 +210,40 @@ class PostService {
       throw Exception(error.toString());
     }
     return posts;
+  }
+
+  Future<void> bookFavor({
+    required BuildContext context,
+    required Post? post,
+  }) async {
+    try {
+      if (post?.userType == getUserMode())
+        throw new Exception(
+            "Cannot book favor if userMode is the same of publisher!");
+
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
+
+      http.Response response = await http.post(
+        Uri.parse('$uri/posts/bookFavor'),
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8',
+          'x-auth-token': userProvider.user.token,
+        },
+        body: jsonEncode({'id': post?.id}),
+      );
+
+      if (response.statusCode == 200) {
+        Navigator.pushReplacement(
+            context, CupertinoPageRoute(builder: (context) => Feed_Screen()));
+      } else if (response.statusCode == 401) {
+        Navigator.pushReplacement(context,
+            CupertinoPageRoute(builder: (context) => const SignInScreen()));
+      } else
+        throw Exception('Failed to create favor! Error message: ' +
+            jsonDecode(response.body)['message']);
+      //TODO vedi se fare snackbar
+    } catch (error) {
+      throw Exception('Failed to create favor! Error: ' + error.toString());
+    }
   }
 }
