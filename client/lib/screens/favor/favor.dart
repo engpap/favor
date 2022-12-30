@@ -2,15 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/models/favorConstants.dart';
-import 'package:project/screens/home.dart';
-import 'package:project/screens/favorInformationPage/favorInformationPage.dart';
-import 'package:project/screens/responsiveLayout.dart';
-
 import 'package:project/models/post.dart';
+import 'package:project/screens/home.dart';
+import 'package:project/screens/responsiveLayout.dart';
+import 'package:project/services/postService.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
-import 'package:project/screens/signin/signin.dart';
-import 'package:project/services/postService.dart';
 import 'globals.dart' as globals;
 
 class FavorScreen extends StatelessWidget {
@@ -103,50 +100,70 @@ class _FavorScreen_M extends State<FavorScreen_M> {
                             height: Responsive.height(2, context),
                             color: Colors.transparent,
                           ),
-                          //PICKER area
+                          //PICKER location
                           Favor_pickerMenu(
                             contentList: snapshot.data!.locations,
-                            placeholder: globals.areaPlaceholder,
-                            heading: globals.areaHeading,
-                            prefixIcon: globals.areaPrefixIcon,
-                            textController: globals.areaTextController,
+                            placeholder: globals.locationPlaceholder,
+                            heading: globals.locationHeading,
+                            prefixIcon: globals.locationPrefixIcon,
+                            textController: globals.locationTextController,
                             flag: 2, //if possible remove this
                           ),
                           Divider(
                             height: Responsive.height(2, context),
                             color: Colors.transparent,
                           ),
-                          //PICKER startTime
-                          Favor_pickerMenu(
-                            contentList: globals.startTime,
-                            placeholder: globals.startTimePlaceholder,
-                            heading: globals.startTimeHeading,
-                            prefixIcon: globals.startTimePrefixIcon,
-                            textController: globals.startTimeTextController,
-                            flag: 3, //if possible remove this
+
+                          isUserModeAsProvider() 
+                          ? (
+                            Column(
+                              children: [
+                                //PICKER availabilityStartTime - PROVIDER
+                                Favor_pickerMenu(
+                                  contentList: globals.availabilityStartTime,
+                                  placeholder: globals.availabilityStartTimePlaceholder,
+                                  heading: globals.availabilityStartTimeHeading,
+                                  prefixIcon: globals.availabilityStartTimePrefixIcon,
+                                  textController: globals.availabilityStartTimeTextController,
+                                  flag: 3, //if possible remove this
+                                ),
+                                Divider(
+                                  height: Responsive.height(2, context),
+                                  color: Colors.transparent,
+                                ),
+                                //PICKER availabilityEndTime - PROVIDER
+                                Favor_pickerMenu(
+                                  contentList: globals.availabilityEndTime,
+                                  placeholder: globals.availabilityEndTimePlaceholder,
+                                  heading: globals.availabilityEndTimeHeading,
+                                  prefixIcon: globals.availabilityEndTimePrefixIcon,
+                                  textController: globals.availabilityEndTimeTextController,
+                                  flag: 4, //if possible remove this
+                                )
+                              ],
+                            )
+                          ) 
+                          : (
+                            //PICKER favorStartTime - CALLER
+                            Favor_pickerMenu(
+                              contentList: globals.favorStartTime,
+                              placeholder: globals.favorStartTimePlaceholder,
+                              heading: globals.favorStartTimeHeading,
+                              prefixIcon: globals.favorStartTimePrefixIcon,
+                              textController: globals.favorStartTimeTextController,
+                              flag: 5, //if possible remove this
+                            )
                           ),
+
                           Divider(
                             height: Responsive.height(2, context),
                             color: Colors.transparent,
                           ),
-                          //PICKER endTime
-                          Favor_pickerMenu(
-                            contentList: globals.endTime,
-                            placeholder: globals.endTimePlaceholder,
-                            heading: globals.endTimeHeading,
-                            prefixIcon: globals.endTimePrefixIcon,
-                            textController: globals.endTimeTextController,
-                            flag: 4, //if possible remove this
-                          ),
-                          Divider(
-                            height: Responsive.height(2, context),
-                            color: Colors.transparent,
-                          ),
-                          //Description
+                          //boxDescription
                           Favor_boxDescription(
-                            placeholder: globals.informationsPlaceholder,
-                            heading: globals.informationsHeading,
-                            textController: globals.informationsTextController,
+                            placeholder: globals.boxDescriptionPlaceholder,
+                            heading: globals.boxDescriptionHeading,
+                            textController: globals.boxDescriptionTextController,
                           ),
                         ],
                       );
@@ -183,7 +200,7 @@ class Favor_pickerMenu extends StatefulWidget {
   final IconData prefixIcon;
   // to manipulate the content of the texfield
   TextEditingController textController;
-  // !! funziana solo con le flag 1-2-3-4 per il form menu dei nuovi favor. Non riutilizzare questo widget a caso
+  // !! funziana solo con le flag 1-2-3-4-5 per il form menu dei nuovi favor. Non riutilizzare questo widget a caso
   int flag = 0;
 
   Favor_pickerMenu(
@@ -235,8 +252,6 @@ class _Favor_pickerMenuState extends State<Favor_pickerMenu> {
               controller: widget.textController,
               // PICKER BUTTON
               suffix: CupertinoButton(
-                // text instead of icon inside the button
-                //child: Text('${widget.contentList.elementAt(selectedValue).data}'), // value of the selected item
                 child: Icon(
                   CupertinoIcons.arrowtriangle_down_circle,
                   color: favorColors.SecondaryBlue,
@@ -248,8 +263,7 @@ class _Favor_pickerMenuState extends State<Favor_pickerMenu> {
                           height: Responsive.height(20, context),
                           child: CupertinoPicker(
                             backgroundColor: Colors.white,
-                            itemExtent: Responsive.height(
-                                5, context), //height of current item
+                            itemExtent: Responsive.height(5, context), //height of current item
                             scrollController: FixedExtentScrollController(
                               initialItem: selectedValue,
                             ),
@@ -265,19 +279,25 @@ class _Favor_pickerMenuState extends State<Favor_pickerMenu> {
                                               '${widget.contentList.elementAt(selectedValue).data}');
                                 }
                                 if (widget.flag == 2) {
-                                  globals.areaTextController =
+                                  globals.locationTextController =
                                       TextEditingController(
                                           text:
                                               '${widget.contentList.elementAt(selectedValue).data}');
                                 }
                                 if (widget.flag == 3) {
-                                  globals.startTimeTextController =
+                                  globals.availabilityStartTimeTextController =
                                       TextEditingController(
                                           text:
                                               '${widget.contentList.elementAt(selectedValue).data}');
                                 }
                                 if (widget.flag == 4) {
-                                  globals.endTimeTextController =
+                                  globals.availabilityEndTimeTextController =
+                                      TextEditingController(
+                                          text:
+                                              '${widget.contentList.elementAt(selectedValue).data}');
+                                }
+                                if (widget.flag == 5) {
+                                  globals.favorStartTimeTextController =
                                       TextEditingController(
                                           text:
                                               '${widget.contentList.elementAt(selectedValue).data}');
@@ -377,17 +397,17 @@ class _Favor_publishFavorButtonState extends State<Favor_publishFavorButton> {
                   ? globals.postService.publishProviderFavor(
                       context: context,
                       taskCategory: globals.categoryTextController.text,
-                      location: globals.areaTextController.text,
+                      location: globals.locationTextController.text,
                       availabilityStartTime: DateTime.now(), //TODO: change
                       availabilityEndTime: DateTime.now(), //TODO: change
-                      description: globals.informationsTextController.text,
+                      description: globals.boxDescriptionTextController.text,
                     )
                   : globals.postService.publishCallerFavor(
                       context: context,
                       taskCategory: globals.categoryTextController.text,
-                      location: globals.areaTextController.text,
+                      location: globals.locationTextController.text,
                       favorStartTime: DateTime.now(), //TODO: change
-                      description: globals.informationsTextController.text,
+                      description: globals.boxDescriptionTextController.text,
                     ),
               builder: (context, snapshot) {
                 print("insid!!! ");
