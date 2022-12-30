@@ -35,7 +35,7 @@ class PostService {
     }
   }
 
-  Future<Post?> publishProviderFavor(
+  Future<void> publishProviderFavor(
       {required BuildContext context,
       required String taskCategory,
       required String location,
@@ -65,26 +65,23 @@ class PostService {
         body: jsonEncode(post.toJson()),
       );
 
-      if (response.statusCode == 201) {
-        Navigator.pushReplacement(
-            context,
-            CupertinoPageRoute(
-                builder: (context) => favorInformationPage_Screen(
-                    post: ProviderPost.fromJson(jsonDecode(response.body)))));
-        //return ProviderPost.fromJson(jsonDecode(response.body));
-      } else if (response.statusCode == 401) {
-        Navigator.pushReplacement(context,
-            CupertinoPageRoute(builder: (context) => const SignInScreen()));
-        return null;
-      } else
-        throw Exception('Failed to create favor! Error message: ' +
-            jsonDecode(response.body)['message']);
+      httpErrorHandle(
+        response: response,
+        context: context,
+        onSuccess: () {
+          Navigator.pushReplacement(
+              context,
+              CupertinoPageRoute(
+                  builder: (context) => favorInformationPage_Screen(
+                      post: ProviderPost.fromJson(jsonDecode(response.body)))));
+        },
+      );
     } catch (error) {
-      throw Exception('Failed to create favor! Error: ' + error.toString());
+      showToast(context, error.toString());
     }
   }
 
-  Future<Post?> publishCallerFavor(
+  Future<void> publishCallerFavor(
       {required BuildContext context,
       required String taskCategory,
       required String location,
@@ -112,27 +109,23 @@ class PostService {
         body: jsonEncode(post.toJson()),
       );
 
-      if (response.statusCode == 201) {
-        Navigator.pushReplacement(
-            context,
-            CupertinoPageRoute(
-                builder: (context) => favorInformationPage_Screen(
-                    post: CallerPost.fromJson(jsonDecode(response.body)))));
-        //return CallerPost.fromJson(jsonDecode(response.body));
-      } else if (response.statusCode == 400 &&
-          jsonDecode(response.body)['message'] == "Authorization failed!") {
-        Navigator.pushReplacement(context,
-            CupertinoPageRoute(builder: (context) => const SignInScreen()));
-        return null;
-      } else
-        throw Exception('Failed to create favor! Error message: ' +
-            jsonDecode(response.body)['message']);
+      httpErrorHandle(
+        response: response,
+        context: context,
+        onSuccess: () {
+          Navigator.pushReplacement(
+              context,
+              CupertinoPageRoute(
+                  builder: (context) => favorInformationPage_Screen(
+                      post: ProviderPost.fromJson(jsonDecode(response.body)))));
+        },
+      );
     } catch (error) {
-      throw Exception('Failed to create favor! Error: ' + error.toString());
+      showToast(context, error.toString());
     }
   }
 
-  Future<List<Post>> getPosts(int pageNumber) async {
+  Future<List<Post>> getPosts(BuildContext context, int pageNumber) async {
     List<Post> posts = [];
     try {
       http.Response response =
@@ -140,33 +133,35 @@ class PostService {
         'Content-Type': 'application/json;charset=UTF-8',
       });
 
-      if (response.statusCode == 200) {
-        for (int i = 0; i < jsonDecode(response.body)['data'].length; i++) {
-          if (Post.getUserTypeGivenJsonString(
-                  jsonDecode(response.body)['data'][i]) ==
-              'provider')
-            posts.add(
-              ProviderPost.fromJson(
-                jsonDecode(response.body)['data'][i],
-              ),
-            );
-          else if (Post.getUserTypeGivenJsonString(
-                  jsonDecode(response.body)['data'][i]) ==
-              'caller')
-            posts.add(
-              CallerPost.fromJson(
-                jsonDecode(response.body)['data'][i],
-              ),
-            );
-          else
-            throw Exception(
-                'Failed to get favor due to wrong userType attribute!');
-        }
-      } else
-        throw Exception('Failed to get favors! Server error message: ' +
-            jsonDecode(response.body)['message']);
+      httpErrorHandle(
+        response: response,
+        context: context,
+        onSuccess: () {
+          for (int i = 0; i < jsonDecode(response.body)['data'].length; i++) {
+            if (Post.getUserTypeGivenJsonString(
+                    jsonDecode(response.body)['data'][i]) ==
+                'provider')
+              posts.add(
+                ProviderPost.fromJson(
+                  jsonDecode(response.body)['data'][i],
+                ),
+              );
+            else if (Post.getUserTypeGivenJsonString(
+                    jsonDecode(response.body)['data'][i]) ==
+                'caller')
+              posts.add(
+                CallerPost.fromJson(
+                  jsonDecode(response.body)['data'][i],
+                ),
+              );
+            else
+              showToast(context,
+                  'Failed to get favor due to wrong userType attribute!');
+          }
+        },
+      );
     } catch (error) {
-      throw Exception(error.toString());
+      showToast(context, error.toString());
     }
     return posts;
   }
@@ -183,33 +178,35 @@ class PostService {
             'x-auth-token': userProvider.user.token,
           });
 
-      if (response.statusCode == 200) {
-        for (int i = 0; i < jsonDecode(response.body)['data'].length; i++) {
-          if (Post.getUserTypeGivenJsonString(
-                  jsonDecode(response.body)['data']) ==
-              'provider')
-            posts.add(
-              ProviderPost.fromJson(
-                jsonDecode(response.body)['data'][i],
-              ),
-            );
-          else if (Post.getUserTypeGivenJsonString(
-                  jsonDecode(response.body)['data']) ==
-              'caller')
-            posts.add(
-              CallerPost.fromJson(
-                jsonDecode(response.body)['data'][i],
-              ),
-            );
-          else
-            throw Exception(
-                'Failed to get favor due to wrong userType attribute!');
-        }
-      } else
-        throw Exception('Failed to get favors! Server error message: ' +
-            jsonDecode(response.body)['message']);
+      httpErrorHandle(
+        response: response,
+        context: context,
+        onSuccess: () {
+          for (int i = 0; i < jsonDecode(response.body)['data'].length; i++) {
+            if (Post.getUserTypeGivenJsonString(
+                    jsonDecode(response.body)['data']) ==
+                'provider')
+              posts.add(
+                ProviderPost.fromJson(
+                  jsonDecode(response.body)['data'][i],
+                ),
+              );
+            else if (Post.getUserTypeGivenJsonString(
+                    jsonDecode(response.body)['data']) ==
+                'caller')
+              posts.add(
+                CallerPost.fromJson(
+                  jsonDecode(response.body)['data'][i],
+                ),
+              );
+            else
+              showToast(context,
+                  'Failed to get favor due to wrong userType attribute!');
+          }
+        },
+      );
     } catch (error) {
-      throw Exception(error.toString());
+      showToast(context, error.toString());
     }
     return posts;
   }

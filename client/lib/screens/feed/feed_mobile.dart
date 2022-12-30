@@ -25,7 +25,6 @@ class Feed_Screen_M extends StatelessWidget {
           color: Colors.transparent,
         ),
 
-
         // FAVOR BOOKED
         // TODO: far comparire solo se il server ritorna dei booked favors
         Container(
@@ -66,7 +65,6 @@ class Feed_Screen_M extends StatelessWidget {
           color: Colors.transparent,
         ),
 
-
         // FAVOR CATEGORIES
         Container(
           padding: EdgeInsets.only(left: 8, right: 8),
@@ -106,7 +104,6 @@ class Feed_Screen_M extends StatelessWidget {
           color: Colors.transparent,
         ),
 
-
         // FAVOR RECOMMENDATIONS
         Container(
           padding: EdgeInsets.only(left: 8, right: 8),
@@ -143,7 +140,6 @@ class Feed_Screen_M extends StatelessWidget {
   }
 }
 
-
 class Carosel_FavorCategoryWidget extends StatefulWidget {
   const Carosel_FavorCategoryWidget({super.key});
 
@@ -168,7 +164,7 @@ class _Carosel_FavorCategoryWidgetState
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final newItems = await PostService().getPosts(pageKey);
+      final newItems = await PostService().getPosts(context, pageKey);
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
@@ -213,7 +209,6 @@ class _Carosel_FavorCategoryWidgetState
   }
 }
 
-
 class Carosel_FavorReccomenderWidget extends StatefulWidget {
   const Carosel_FavorReccomenderWidget({super.key});
 
@@ -231,14 +226,14 @@ class _Carosel_FavorReccomenderWidgetState
   @override
   void initState() {
     _pagingController.addPageRequestListener((pageKey) {
-      _fetchPage(pageKey);
+      _fetchPage(context, pageKey);
     });
     super.initState();
   }
 
-  Future<void> _fetchPage(int pageKey) async {
+  Future<void> _fetchPage(BuildContext context, int pageKey) async {
     try {
-      final newItems = await PostService().getPosts(pageKey);
+      final newItems = await PostService().getPosts(context, pageKey);
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
@@ -256,13 +251,12 @@ class _Carosel_FavorReccomenderWidgetState
     return PagedListView<int, Post>(
       pagingController: _pagingController,
       builderDelegate: PagedChildBuilderDelegate<Post>(
-        itemBuilder: (context, item, index) => FavorReccomendationWidget(post: item,)
-      ),
+          itemBuilder: (context, item, index) => FavorReccomendationWidget(
+                post: item,
+              )),
     );
   }
 }
-
-
 
 //TODO: da controllare la funzione del server (ho fatto solo copia ed incolla dal Carosel_FavorCategoryWidget)
 class Carosel_FavorBookedWidget extends StatefulWidget {
@@ -273,8 +267,7 @@ class Carosel_FavorBookedWidget extends StatefulWidget {
       _Carosel_FavorBookedWidgetState();
 }
 
-class _Carosel_FavorBookedWidgetState
-    extends State<Carosel_FavorBookedWidget> {
+class _Carosel_FavorBookedWidgetState extends State<Carosel_FavorBookedWidget> {
   static const _pageSize = 4;
   final PagingController<int, Post> _pagingController =
       PagingController(firstPageKey: 0);
@@ -289,7 +282,7 @@ class _Carosel_FavorBookedWidgetState
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final newItems = await PostService().getPosts(pageKey);
+      final newItems = await PostService().getPosts(context, pageKey);
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);

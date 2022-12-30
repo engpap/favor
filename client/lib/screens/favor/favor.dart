@@ -3,13 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/models/favorConstants.dart';
 import 'package:project/models/post.dart';
-import 'package:project/screens/home.dart'; 
+import 'package:project/screens/home.dart';
 import 'package:project/screens/responsiveLayout.dart';
 import 'package:project/services/postService.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'globals.dart' as globals;
-
 
 class FavorScreen extends StatelessWidget {
   const FavorScreen({super.key});
@@ -115,46 +114,54 @@ class _FavorScreen_M extends State<FavorScreen_M> {
                             color: Colors.transparent,
                           ),
 
-                          isUserModeAsProvider() 
-                          ? (
-                            Column(
-                              children: [
-                                //PICKER availabilityStartTime - PROVIDER
-                                Favor_pickerMenu(
-                                  contentList: globals.availabilityStartTime,
-                                  placeholder: globals.availabilityStartTimePlaceholder,
-                                  heading: globals.availabilityStartTimeHeading,
-                                  prefixIcon: globals.availabilityStartTimePrefixIcon,
-                                  textController: globals.availabilityStartTimeTextController,
-                                  flag: 3, //if possible remove this
-                                ),
-                                Divider(
-                                  height: Responsive.height(2, context),
-                                  color: Colors.transparent,
-                                ),
-                                //PICKER availabilityEndTime - PROVIDER
-                                Favor_pickerMenu(
-                                  contentList: globals.availabilityEndTime,
-                                  placeholder: globals.availabilityEndTimePlaceholder,
-                                  heading: globals.availabilityEndTimeHeading,
-                                  prefixIcon: globals.availabilityEndTimePrefixIcon,
-                                  textController: globals.availabilityEndTimeTextController,
-                                  flag: 4, //if possible remove this
-                                )
-                              ],
-                            )
-                          ) 
-                          : (
-                            //PICKER favorStartTime - CALLER
-                            Favor_pickerMenu(
-                              contentList: globals.favorStartTime,
-                              placeholder: globals.favorStartTimePlaceholder,
-                              heading: globals.favorStartTimeHeading,
-                              prefixIcon: globals.favorStartTimePrefixIcon,
-                              textController: globals.favorStartTimeTextController,
-                              flag: 5, //if possible remove this
-                            )
-                          ),
+                          isUserModeAsProvider()
+                              ? (Column(
+                                  children: [
+                                    //PICKER availabilityStartTime - PROVIDER
+                                    Favor_pickerMenu(
+                                      contentList:
+                                          globals.availabilityStartTime,
+                                      placeholder: globals
+                                          .availabilityStartTimePlaceholder,
+                                      heading:
+                                          globals.availabilityStartTimeHeading,
+                                      prefixIcon: globals
+                                          .availabilityStartTimePrefixIcon,
+                                      textController: globals
+                                          .availabilityStartTimeTextController,
+                                      flag: 3, //if possible remove this
+                                    ),
+                                    Divider(
+                                      height: Responsive.height(2, context),
+                                      color: Colors.transparent,
+                                    ),
+                                    //PICKER availabilityEndTime - PROVIDER
+                                    Favor_pickerMenu(
+                                      contentList: globals.availabilityEndTime,
+                                      placeholder: globals
+                                          .availabilityEndTimePlaceholder,
+                                      heading:
+                                          globals.availabilityEndTimeHeading,
+                                      prefixIcon:
+                                          globals.availabilityEndTimePrefixIcon,
+                                      textController: globals
+                                          .availabilityEndTimeTextController,
+                                      flag: 4, //if possible remove this
+                                    )
+                                  ],
+                                ))
+                              : (
+                                  //PICKER favorStartTime - CALLER
+                                  Favor_pickerMenu(
+                                  contentList: globals.favorStartTime,
+                                  placeholder:
+                                      globals.favorStartTimePlaceholder,
+                                  heading: globals.favorStartTimeHeading,
+                                  prefixIcon: globals.favorStartTimePrefixIcon,
+                                  textController:
+                                      globals.favorStartTimeTextController,
+                                  flag: 5, //if possible remove this
+                                )),
 
                           Divider(
                             height: Responsive.height(2, context),
@@ -164,7 +171,8 @@ class _FavorScreen_M extends State<FavorScreen_M> {
                           Favor_boxDescription(
                             placeholder: globals.boxDescriptionPlaceholder,
                             heading: globals.boxDescriptionHeading,
-                            textController: globals.boxDescriptionTextController,
+                            textController:
+                                globals.boxDescriptionTextController,
                           ),
                         ],
                       );
@@ -264,7 +272,8 @@ class _Favor_pickerMenuState extends State<Favor_pickerMenu> {
                           height: Responsive.height(20, context),
                           child: CupertinoPicker(
                             backgroundColor: Colors.white,
-                            itemExtent: Responsive.height(5, context), //height of current item
+                            itemExtent: Responsive.height(
+                                5, context), //height of current item
                             scrollController: FixedExtentScrollController(
                               initialItem: selectedValue,
                             ),
@@ -393,7 +402,7 @@ class _Favor_publishFavorButtonState extends State<Favor_publishFavorButton> {
           ),
           onPressed: () {
             print('Pressed: Favor_publishFavorButton');
-            FutureBuilder<Post?>(
+            FutureBuilder<void>(
               future: isUserModeAsProvider()
                   ? globals.postService.publishProviderFavor(
                       context: context,
@@ -411,7 +420,6 @@ class _Favor_publishFavorButtonState extends State<Favor_publishFavorButton> {
                       description: globals.boxDescriptionTextController.text,
                     ),
               builder: (context, snapshot) {
-                print("insid!!! ");
                 if (snapshot.hasData) {
                   print(">>> Post created! Redirecting to Information page...");
                 } else if (snapshot.hasError) {
