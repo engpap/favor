@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:project/errors/errorHandling.dart';
+import 'package:project/functions/showToast.dart';
 import 'package:project/models/callerPost.dart';
 import 'package:project/models/providerPost.dart';
 import 'package:project/providers/storage.dart';
@@ -218,8 +220,8 @@ class PostService {
   }) async {
     try {
       if (post?.userType == getUserMode())
-        throw new Exception(
-            "Cannot book favor if userMode is the same of publisher!");
+        showToast(context,
+            "Cannot book favor if User Mode is the same of publisher!");
 
       final userProvider = Provider.of<UserProvider>(context, listen: false);
 
@@ -232,18 +234,16 @@ class PostService {
         body: jsonEncode({'id': post?.id}),
       );
 
-      if (response.statusCode == 200) {
-        Navigator.pushReplacement(
-            context, CupertinoPageRoute(builder: (context) => Feed_Screen()));
-      } else if (response.statusCode == 401) {
-        Navigator.pushReplacement(context,
-            CupertinoPageRoute(builder: (context) => const SignInScreen()));
-      } else
-        throw Exception('Failed to create favor! Error message: ' +
-            jsonDecode(response.body)['message']);
-      //TODO vedi se fare snackbar
+      httpErrorHandle(
+        response: response,
+        context: context,
+        onSuccess: () {
+          Navigator.pushReplacement(
+              context, CupertinoPageRoute(builder: (context) => Feed_Screen()));
+        },
+      );
     } catch (error) {
-      throw Exception('Failed to create favor! Error: ' + error.toString());
+      showToast(context, error.toString());
     }
   }
 }
