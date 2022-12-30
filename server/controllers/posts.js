@@ -11,19 +11,19 @@ import { LOCATIONS } from '../constants/locations.js'
 
 export const createPost = async (req, res) => {
     const { userType, favorStartTime, availabilityStartTime, availabilityEndTime, description } = req.body;
-    console.log(userType, favorStartTime,availabilityStartTime, availabilityStartTime)
+    console.log(userType, favorStartTime, availabilityStartTime, availabilityStartTime)
 
     // Check if post fields respects the user type
     if (userType == PROVIDER) {
-        if (favorStartTime){
+        if (favorStartTime) {
             console.log("Provider is trying to create a post but 'favorStartTime' is not null!")
             return res.status(400).json({ message: "Provider cannot have favorStartTime value" });
         }
     }
     else if (userType == CALLER) {
-        if (availabilityStartTime || availabilityEndTime){
+        if (availabilityStartTime || availabilityEndTime) {
             console.log("Caller is trying to create a post but 'availabilityStartTime' and 'availabilityEndTime' are not null!")
-            return res.status(400).json({ message: "Caller cannot have availabilityStartTime and availabilityEndTime values" }); 
+            return res.status(400).json({ message: "Caller cannot have availabilityStartTime and availabilityEndTime values" });
         }
     }
     else {
@@ -70,8 +70,8 @@ export const createPost = async (req, res) => {
         await newPost.save();
         console.log('>>> createPost: Post created!');
         var user = await User.findById(newPost.creatorId);
-        console.log({...newPost._doc, name: user.name, surname: user.surname, profilePicture: '' ,averageStars: user.averageStars, rankingPosition: 1, rankingLocation : 'to_define'});
-        res.status(201).json({...newPost._doc, name: user.name, surname: user.surname, profilePicture: user.profilePicture, bio: user.bio, averageStars: user.averageStars, rankingPosition: 1, rankingLocation : 'to_define'});
+        console.log({ ...newPost._doc, name: user.name, surname: user.surname, profilePicture: '', averageStars: user.averageStars, rankingPosition: 1, rankingLocation: 'to_define' });
+        res.status(201).json({ ...newPost._doc, name: user.name, surname: user.surname, profilePicture: user.profilePicture, bio: user.bio, averageStars: user.averageStars, rankingPosition: 1, rankingLocation: 'to_define' });
     } catch (error) {
         console.log(error.message);
         res.status(409).json({ message: error.message });
@@ -103,15 +103,15 @@ export const getPosts = async (request, response) => {
         var newPosts = []
         for (const document of posts) {
             var user = await User.findById(document.creatorId);
-            var newDocument = { ...document._doc, name: user.name, surname: user.surname, profilePicture: user.profilePicture , bio: user.bio, averageStars: user.averageStars, rankingPosition: 1, rankingLocation : 'to_define'}
+            var newDocument = { ...document._doc, name: user.name, surname: user.surname, profilePicture: user.profilePicture, bio: user.bio, averageStars: user.averageStars, rankingPosition: 1, rankingLocation: 'to_define' }
             newPosts = [...newPosts, newDocument]
         }
 
-    response.status(200).json({ data: newPosts, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) });
-    console.log(">>> getPosts: Sent posts to client");
-} catch (error) {
-    response.status(404).json({ message: error.message });
-}
+        response.status(200).json({ data: newPosts, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) });
+        console.log(">>> getPosts: Sent posts to client");
+    } catch (error) {
+        response.status(404).json({ message: error.message });
+    }
 }
 
 
@@ -138,8 +138,8 @@ export const getPost = async (request, response) => {
 export const getFavorConstants = async (request, response) => {
 
     try {
-        console.log(JSON.stringify({USER_TYPES,FAVOR_CATEGORIES,LOCATIONS}))
-        response.status(200).json(JSON.stringify({USER_TYPES,FAVOR_CATEGORIES,LOCATIONS}));
+        console.log(JSON.stringify({ USER_TYPES, FAVOR_CATEGORIES, LOCATIONS }))
+        response.status(200).json(JSON.stringify({ USER_TYPES, FAVOR_CATEGORIES, LOCATIONS }));
         console.log('>>> getFavorConstants: Returned constants useful for creating a favor post!');
     } catch (error) {
         response.status(404).json({ message: error.message });
@@ -179,23 +179,23 @@ export const bookFavor = async (request, response) => {
 
         const postToBook = await Post.findById(id);
 
-        if (!request.userId==postToBook.creatorId)
+        if (!request.userId == postToBook.creatorId)
             return response.status(400).json({ message: 'Cannot book your own favor!' });
 
-        var providerId='';
-        var callerId='';
+        var providerId = '';
+        var callerId = '';
         console.log(postToBook.userType)
-        if(postToBook._doc.userType==PROVIDER){
+        if (postToBook._doc.userType == PROVIDER) {
             providerId = postToBook.creatorId;
             callerId = request.userId;
         }
-        else if(postToBook._doc.userType==CALLER){
+        else if (postToBook._doc.userType == CALLER) {
             providerId = request.userId;
             callerId = postToBook.creatorId;
         }
         else
             return response.status(400).json({ message: "Error on userType in the post to book!" });
-    
+
         const newBookedFavor = new BookedFavor({ bookedAt: new Date().toISOString(), providerId: providerId, callerId: callerId, post: postToBook._doc, isTerminated: false });
         await newBookedFavor.save();
         console.log("This is the new booked favor: ", newBookedFavor);
@@ -231,17 +231,19 @@ export const getBookedFavors = async (request, response) => {
 
         var newBookedFavors = []
         for (const document of bookedFavors) {
-            console.log(document.post.toHexString())
-            var post = await Post.findById(document.post.toHexString());
-            console.log(post)
-            var user = await User.findById(post._doc.creatorId);
-            var newDocument = { ...document._doc, name: user.name, surname: user.surname, profilePicture: user.profilePicture , bio: user.bio, averageStars: user.averageStars, rankingPosition: 1, rankingLocation : 'to_define'}
-            newBookedFavors = [...newBookedFavors, newDocument]
+            if (!document.isTerminated) {
+                console.log(document.post.toHexString())
+                var post = await Post.findById(document.post.toHexString());
+                console.log(post)
+                var user = await User.findById(post._doc.creatorId);
+                var newDocument = { ...document._doc, name: user.name, surname: user.surname, profilePicture: user.profilePicture, bio: user.bio, averageStars: user.averageStars, rankingPosition: 1, rankingLocation: 'to_define' }
+                newBookedFavors = [...newBookedFavors, newDocument]
+            }
         }
 
-    response.status(200).json({ data: newBookedFavors, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) });
-    console.log(">>> getBookedFavors: Sent bookedFavors to client");
-} catch (error) {
-    response.status(404).json({ message: error.message });
-}
+        response.status(200).json({ data: newBookedFavors, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) });
+        console.log(">>> getBookedFavors: Sent bookedFavors to client");
+    } catch (error) {
+        response.status(404).json({ message: error.message });
+    }
 }
