@@ -95,8 +95,8 @@ class FavorCategoryWidget extends StatelessWidget {
   }
 }
 
-class FavorReccomendationWidget extends StatelessWidget {
-  FavorReccomendationWidget({
+class RecommendedFavorWidget extends StatelessWidget {
+  RecommendedFavorWidget({
     super.key,
     required this.post,
   });

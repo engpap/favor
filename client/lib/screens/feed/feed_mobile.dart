@@ -1,6 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/functions/responsive.dart';
+import 'package:project/functions/showToast.dart';
 import 'package:project/models/bookedFavor.dart';
+import 'package:project/models/favorCategories.dart';
+import 'package:project/models/favorConstants.dart';
 import 'package:project/models/post.dart';
 import 'package:project/screens/feed/feed.dart';
 
@@ -132,7 +136,7 @@ class Feed_Screen_M extends StatelessWidget {
               ),
               //ELEMENTS
               Expanded(
-                child: Carousel_RecommendedFavorWidget(),
+                child: Carousel_RecommendedFavorWidgetWidget(),
               ),
             ],
           ),
@@ -152,75 +156,66 @@ class Carousel_FavorCategoryWidget extends StatefulWidget {
 
 class _Carousel_FavorCategoryWidgetState
     extends State<Carousel_FavorCategoryWidget> {
-  static const _pageSize = 4;
-  final PagingController<int, Post> _pagingController =
-      PagingController(firstPageKey: 0);
+  //late Future<FavorCategories> favorCategories;
 
   @override
   void initState() {
-    _pagingController.addPageRequestListener((pageKey) {
-      _fetchPage(pageKey);
-    });
+    //favorCategories =
     super.initState();
-  }
-
-  Future<void> _fetchPage(int pageKey) async {
-    try {
-      final newItems = await PostService().getPosts(context, pageKey);
-      final isLastPage = newItems.length < _pageSize;
-      if (isLastPage) {
-        _pagingController.appendLastPage(newItems);
-      } else {
-        final nextPageKey = pageKey + newItems.length;
-        _pagingController.appendPage(newItems, nextPageKey);
-      }
-    } catch (error) {
-      _pagingController.error = error;
-    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return ListView(scrollDirection: Axis.horizontal, children: [
-      //TODO: passare quali widget diplayare
-      FavorCategoryWidget(
-        categoryImage: "assets/images/bg_music_01.jpg",
-        categoryName: "Category 1",
-      ),
-      FavorCategoryWidget(
-        categoryImage: "assets/images/bg_music_02.jpg",
-        categoryName: "Category 2",
-      ),
-      FavorCategoryWidget(
-        categoryImage: "assets/images/bg_music_01.jpg",
-        categoryName: "Category 3",
-      ),
-      FavorCategoryWidget(
-        categoryImage: "assets/images/bg_music_02.jpg",
-        categoryName: "Category 4",
-      ),
-      FavorCategoryWidget(
-        categoryImage: "assets/images/bg_music_02.jpg",
-        categoryName: "Category 5",
-      ),
-      FavorCategoryWidget(
-        categoryImage: "assets/images/bg_music_01.jpg",
-        categoryName: "Category 6",
-      ),
-    ]);
+    return FutureBuilder<FavorCategories>(
+        future: PostService().getFavorCategories(),
+        builder: ((context, snapshot) {
+          if (snapshot.hasData) {
+            ListView(scrollDirection: Axis.horizontal, children: [
+              //TODO: passare quali widget diplayare
+              FavorCategoryWidget(
+                categoryImage: "assets/images/bg_music_01.jpg",
+                categoryName: snapshot.data!.favorCategories[0],
+              ),
+              FavorCategoryWidget(
+                categoryImage: "assets/images/bg_music_02.jpg",
+                categoryName: "Category 2",
+              ),
+              FavorCategoryWidget(
+                categoryImage: "assets/images/bg_music_01.jpg",
+                categoryName: "Category 3",
+              ),
+              FavorCategoryWidget(
+                categoryImage: "assets/images/bg_music_02.jpg",
+                categoryName: "Category 4",
+              ),
+              FavorCategoryWidget(
+                categoryImage: "assets/images/bg_music_02.jpg",
+                categoryName: "Category 5",
+              ),
+              FavorCategoryWidget(
+                categoryImage: "assets/images/bg_music_01.jpg",
+                categoryName: "Category 6",
+              ),
+            ]);
+          } else if (snapshot.hasError) {
+            showToast(context, '${snapshot.error}');
+          }
+          // By default, show a loading spinner.
+          return CupertinoActivityIndicator(animating: false, radius: 10);
+        }));
   }
 }
 
-class Carousel_RecommendedFavorWidget extends StatefulWidget {
-  const Carousel_RecommendedFavorWidget({super.key});
+class Carousel_RecommendedFavorWidgetWidget extends StatefulWidget {
+  const Carousel_RecommendedFavorWidgetWidget({super.key});
 
   @override
-  State<Carousel_RecommendedFavorWidget> createState() =>
-      _Carousel_RecommendedFavorWidgetState();
+  State<Carousel_RecommendedFavorWidgetWidget> createState() =>
+      _Carousel_RecommendedFavorWidgetWidgetState();
 }
 
-class _Carousel_RecommendedFavorWidgetState
-    extends State<Carousel_RecommendedFavorWidget> {
+class _Carousel_RecommendedFavorWidgetWidgetState
+    extends State<Carousel_RecommendedFavorWidgetWidget> {
   static const _pageSize = 4;
   final PagingController<int, Post> _pagingController =
       PagingController(firstPageKey: 1);
@@ -253,7 +248,7 @@ class _Carousel_RecommendedFavorWidgetState
     return PagedListView<int, Post>(
       pagingController: _pagingController,
       builderDelegate: PagedChildBuilderDelegate<Post>(
-          itemBuilder: (context, item, index) => FavorReccomendationWidget(
+          itemBuilder: (context, item, index) => RecommendedFavorWidget(
                 post: item,
               )),
     );

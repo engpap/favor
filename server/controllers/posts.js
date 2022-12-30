@@ -247,3 +247,13 @@ export const getBookedFavors = async (request, response) => {
         response.status(404).json({ message: error.message });
     }
 }
+
+export const getFavorCategories = async (request, response) => {
+    try {
+        console.log(JSON.stringify(FAVOR_CATEGORIES));
+        response.status(200).json(JSON.stringify(FAVOR_CATEGORIES));
+        console.log('>>> getFavorCategories: Returned categories useful for feed carousel!');
+    } catch (error) {
+        response.status(404).json({ message: error.message });
+    }
+}
