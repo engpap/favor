@@ -40,16 +40,22 @@ class CustomCard extends StatelessWidget {
 }
 
 class CustomCard_2 extends StatelessWidget {
-  CustomCard_2({super.key,
-  required this.child});
+  CustomCard_2({
+    super.key,
+    required this.child,
+    this.padding = const EdgeInsets.all(9),
+    this.margin = const EdgeInsets.all(9),
+  });
 
   Widget child;
+  EdgeInsets padding;
+  EdgeInsets margin;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(9),
-      padding: EdgeInsets.all(9),
+      margin: margin,
+      padding: padding,
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(

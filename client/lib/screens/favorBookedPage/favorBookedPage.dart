@@ -1,22 +1,24 @@
+
+
 import 'package:flutter/cupertino.dart';
 import 'package:project/functions/favorColors.dart' as favorColors;
+import 'package:project/models/bookedFavor.dart';
 
 import 'package:project/models/post.dart';
+import 'package:project/screens/favorBookedPage/favorBookedPage_mobile.dart';
+import 'package:project/screens/favorBookedPage/favorBookedPage_tablet.dart';
 
-import 'package:project/screens/favorInformationPage/favorInformationPage_mobile.dart';
-import 'package:project/screens/favorInformationPage/favorInformationPage_tablet.dart';
 import 'package:project/screens/responsiveLayout.dart';
 
 
 
-class favorInformationPage_Screen extends StatelessWidget {
-  favorInformationPage_Screen({super.key,
-  required this.post,
- 
+class favorBookedPage_Screen extends StatelessWidget {
+  favorBookedPage_Screen({super.key,
+  required this.booked,
   });
 
-  Post? post;
-
+  BookedFavor? booked;
+  
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -30,8 +32,8 @@ class favorInformationPage_Screen extends StatelessWidget {
             backgroundColor: favorColors.IntroBg,
             child: SafeArea(
               child: ResponsiveLeayout(
-                mobileBody: favorInformationPage_Screen_M(post: post),
-                tabletBody: favorInformationPage_Screen_T(post: post),
+                mobileBody: favorBookedPage_Screen_M(booked: booked),
+                tabletBody: favorBookedPage_Screen_T(booked: booked),
               ),
             )));
   }
