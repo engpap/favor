@@ -11,6 +11,7 @@ import 'package:project/screens/feed/feed.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/services/bookedFavorService.dart';
+import 'package:project/services/constantsService.dart';
 import 'package:project/services/postService.dart';
 
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -161,7 +162,7 @@ class _Carousel_FavorCategoryWidgetState
 
   @override
   void initState() {
-    favorCategories = PostService().getFavorCategories();
+    favorCategories = ConstantsService().getFavorCategories();
     super.initState();
   }
 

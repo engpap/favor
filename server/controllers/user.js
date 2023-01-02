@@ -5,6 +5,7 @@ import { OAuth2Client } from 'google-auth-library';
 
 import User from '../models/user.js';
 import { EMAIL_ERROR, PASSWORD_ERROR, SERVER_ERROR } from '../constants/errorTypes.js';
+import { GENDERS,CITIES,JOBS } from '../constants/personalInfo.js';
 
 dotenv.config();
 
@@ -142,5 +143,15 @@ export const insertPersonalInfo = async (request, response) => {
 
     } catch (error) {
         response.status(500).json({ message: "Something went wrong.", errorType: SERVER_ERROR });
+    }
+}
+
+export const getProfileConstants = async (request, response) => {
+    try {
+        console.log(JSON.stringify({ GENDERS,  CITIES, JOBS }))
+        response.status(200).json(JSON.stringify({ GENDERS, CITIES,JOBS }));
+        console.log('>>> getProfileConstants: Returned constants useful for updating a user profile!');
+    } catch (error) {
+        response.status(404).json({ message: error.message });
     }
 }
