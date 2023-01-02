@@ -6,6 +6,7 @@ import dotenv from "dotenv"; // to read .env file
 
 import userRoutes from './routes/user.js';
 import postRoutes from './routes/posts.js';
+import favorRoutes from './routes/favors.js';
 
 const app = express();
 dotenv.config();
@@ -15,6 +16,7 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
+app.use('/favors', favorRoutes);
 app.use('/posts', postRoutes);
 app.use('/user', userRoutes);
 

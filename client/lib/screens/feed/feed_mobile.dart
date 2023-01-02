@@ -10,7 +10,7 @@ import 'package:project/models/post.dart';
 import 'package:project/screens/feed/feed.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
-import 'package:project/services/bookedFavorService.dart';
+import 'package:project/services/favorService.dart';
 import 'package:project/services/constantsService.dart';
 import 'package:project/services/postService.dart';
 
@@ -265,8 +265,7 @@ class _Carousel_BookedFavorWidgetState
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final newItems =
-          await BookedFavorService().getBookedFavors(context, pageKey);
+      final newItems = await FavorService().getBookedFavors(context, pageKey);
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
