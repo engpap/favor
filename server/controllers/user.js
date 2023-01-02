@@ -114,3 +114,33 @@ const verifyGoogleIdToken = async (tokenId) => {
     const userIdFromGoogle = payload['sub'];
     return userIdFromGoogle;
 }
+
+
+export const insertPersonalInfo = async (request, response) => {
+
+    console.log(">>> InsertPersonalInfo: Inserting personal information...");
+    const { proilePicture, gender, age, job, city, bio} = request.body;
+    try {
+        if(parseInt(age)<=0)
+            return response.status(400).json({ message: "Wrong age"});
+
+        const existingUser = await User.findById(request.userId);
+
+        if (!existingUser)
+            return response.status(400).json({ message: "User has not registered yet"});
+        
+        if(!(proilePicture && gender && age && job && city && bio))
+            return response.status(400).json({ message: "Some data is missing. Please, fill all the fields."});
+
+        const updatedUser = {...existingUser._doc, profilePicture: proilePicture, gender: gender, age: age, job: job, city: city, bio: bio };
+
+        await User.findByIdAndUpdate(request.userId, updatedUser, { new: true });
+        
+        console.log(">>> InsertPersonalInfo: User profile correctly updated with personal info!");
+
+        return response.status(200).json({ message: "User profile correctly updated with personal info!" });
+
+    } catch (error) {
+        response.status(500).json({ message: "Something went wrong.", errorType: SERVER_ERROR });
+    }
+}

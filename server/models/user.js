@@ -2,6 +2,8 @@ import mongoose from 'mongoose';
 import  fs from 'fs'; 
 import { noProfilePicture64String } from '../assets/base64stringImages.js'
 
+import {GENDERS,CITIES,JOBS} from '../constants/personalInfo.js';
+
 const userSchema = mongoose.Schema({
     id: { type: String }, //created by db
     externalId: { //foreign key to keep track of external service signups
@@ -16,7 +18,12 @@ const userSchema = mongoose.Schema({
     password: { type: String },
 
     profilePicture: { type: String, default: noProfilePicture64String },
+    gender: {type: String, enum: GENDERS},
+    age: {type: Number},
+    city: {type: String, enum: CITIES},
+    job: {type: String, default: JOBS},
     bio : { type: String, default: "Hi, I am available to do favors!" },
+
 
     rankingPoints: { type: Number, default: 0 },
     averageStars: { type: Number, default: 0.1 },
