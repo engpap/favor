@@ -114,7 +114,8 @@ class _FavorScreen_M extends State<FavorScreen_M> {
                             color: Colors.transparent,
                           ),
 
-                          isUserModeAsProvider()
+                          UserMode_inherited.of(context).stateWidget.isUserModeAs_provider()
+                          //isUserModeAsProvider()
                               ? (Column(
                                   children: [
                                     //PICKER availabilityStartTime - PROVIDER
@@ -403,7 +404,7 @@ class _Favor_publishFavorButtonState extends State<Favor_publishFavorButton> {
           onPressed: () {
             print('Pressed: Favor_publishFavorButton');
             FutureBuilder<void>(
-              future: isUserModeAsProvider()
+              future: UserMode_inherited.of(context).stateWidget.isUserModeAs_provider() //isUserModeAsProvider()
                   ? globals.postService.publishProviderFavor(
                       context: context,
                       taskCategory: globals.categoryTextController.text,

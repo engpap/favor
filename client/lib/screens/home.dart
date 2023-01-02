@@ -3,56 +3,161 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/functions/tabs.dart';
-import 'package:project/providers/getters.dart';
-import 'package:project/providers/storage.dart';
-import 'package:project/screens/account.dart';
-import 'package:project/screens/favor/favor.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
 
-// global variables inside the home to controll the user status when they're doing an action.
-bool providerStatus = true;
-bool callerStatus = false;
-bool adminStatus = false;
+// GLOBAL VARIABLES where is saved the UserMode
+bool PROVIDERstatus = true; // initaial value
+bool CALLERstatus = false;
+bool ADMINstatus = false;
 
-// use this function to change their value
-void setUserMode(String mode) {
-  if (mode == "provider") {
-    providerStatus = true;
-    callerStatus = false;
-    print("UserMode: Provider");
-  } else if (mode == "caller") {
-    providerStatus = false;
-    callerStatus = true;
-    print("UserMode: Caller");
-  } else {
-    print("Wrong input in setUserMode()");
-  }
-  return;
-}
-
+// GLOBAL FUNCTIONS to read the UserMode
 bool isUserModeAsProvider() {
-  return providerStatus && !callerStatus;
+  return PROVIDERstatus && !CALLERstatus;
 }
-
 bool isUserModeAsCaller() {
-  return callerStatus && !providerStatus;
+  return CALLERstatus && !PROVIDERstatus;
 }
-
 String getUserMode() {
-  if (providerStatus) {
+  if (PROVIDERstatus) {
     print("UserMode: Provider");
     return 'provider';
-  } else if (callerStatus) {
+  } else if (CALLERstatus) {
     print("UserMode: Caller");
     return 'caller';
-  } else if (adminStatus) {
+  } else if (ADMINstatus) {
     print("UserMode: Admin");
     return 'admin';
   } else {
     throw Exception("No UserMode set, this situation should not occur");
   }
 }
+
+/// Class used to controll the UserMode
+/// it's a StatefulWidget that wraps an InheritedWidget in order to get both functionalities 
+class UserMode extends StatefulWidget {
+
+  const UserMode({super.key, required this.child});
+  final Widget child;
+
+  @override
+  State<UserMode> createState() => _UserModeState();
+}
+
+class _UserModeState extends State<UserMode> {
+  bool providerStatus_state = PROVIDERstatus;
+  bool callerStatus_state = CALLERstatus;
+  bool adminStatus_state = ADMINstatus;
+  
+  void setUserMode_provider() {
+    setState(() {
+      // internal variables
+      providerStatus_state = true;
+      callerStatus_state = false;
+      adminStatus_state = false;
+      // global variables
+      PROVIDERstatus = true;
+      CALLERstatus = false;
+      ADMINstatus = false;
+    });
+  }
+
+  void setUserMode_caller() {
+    setState(() {
+      // internal variables
+      providerStatus_state = false;
+      callerStatus_state = true;
+      adminStatus_state = false;
+      // global variables
+      PROVIDERstatus = false;
+      CALLERstatus = true;
+      ADMINstatus = false;
+    });
+  }
+
+  void setUserMode_admin() {
+    setState(() {
+      // internal variables
+      providerStatus_state = false;
+      callerStatus_state = false;
+      adminStatus_state = true;
+      // global variables
+      PROVIDERstatus = false;
+      CALLERstatus = false;
+      ADMINstatus = true;
+    });
+  }
+
+bool isUserModeAs_provider() {
+  return providerStatus_state && !callerStatus_state && !adminStatus_state;
+}
+
+bool isUserModeAs_caller() {
+  return callerStatus_state && !providerStatus_state && !adminStatus_state;
+}
+
+bool isUserModeAs_admin() {
+  return adminStatus_state && !providerStatus_state && !callerStatus_state;
+}
+
+String getUserMode() {
+  if (providerStatus_state) {
+    print("UserMode: Provider");
+    return 'providerFP';
+  } else if (callerStatus_state) {
+    print("UserMode: Caller");
+    return 'callerFP';
+  } else if (adminStatus_state) {
+    print("UserMode: Admin");
+    return 'adminFP';
+  } else {
+    throw Exception("No UserMode set, this situation should not occur");
+  }
+}
+
+  @override
+  Widget build(BuildContext context) => 
+    UserMode_inherited(
+      child: widget.child,
+      provider: providerStatus_state,
+      caller: callerStatus_state,
+      admin: adminStatus_state,
+      stateWidget: this,
+    );
+}
+
+class UserMode_inherited extends InheritedWidget {
+  const UserMode_inherited({
+    super.key,
+    required super.child,
+    required this.provider,
+    required this.caller,
+    required this.admin,
+    required this.stateWidget,
+  });
+
+  final bool provider;
+  final bool caller;
+  final bool admin;
+  final _UserModeState stateWidget;
+
+  static UserMode_inherited? maybeOf(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<UserMode_inherited>();
+  }
+
+  static UserMode_inherited of(BuildContext context) {
+    final UserMode_inherited? result = maybeOf(context);
+    assert(result != null, 'No UserMode_inherited found in context');
+    return result!;
+  }
+
+  @override
+  bool updateShouldNotify(UserMode_inherited oldWidget) =>
+      provider != oldWidget.provider || caller != oldWidget.caller 
+      || admin != oldWidget.admin || stateWidget != oldWidget.stateWidget;
+}
+
+
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -91,48 +196,12 @@ class HomeScreen extends StatelessWidget {
         ),
         // BUILD THE INSIDE SCREEN
         tabBuilder: (context, i) {
-          return DetailScreen(
-            topic: TabsName.values[i].screen,
-            //navBar: TabsName.values[i].name,
+          return UserMode(
+            key: UniqueKey(), // Used to keep unique this widget instance
+            child: DetailScreen(
+                  topic: TabsName.values[i].screen,
+                )
           );
-
-          // FINE controllo
-          /*
-            return CupertinoTabView(
-              builder: (context) {
-                return CupertinoPageScaffold(
-                  navigationBar: CupertinoNavigationBar(
-                    middle: Text(TabsName.values[i].name),
-                  ),
-                  child: Center(
-                    child: CupertinoButton(
-                      child: FutureBuilder<String?>(
-                          future: Storage.getUserToken(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return Text(
-                                  'Token got from server: ${snapshot.data!}');
-                            } else if (snapshot.hasError) {
-                              return Text('${snapshot.error}');
-                            }
-                            // By default, show a loading spinner.
-                            return CupertinoActivityIndicator(
-                                animating: false, radius: 10);
-                          }),
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          CupertinoPageRoute(builder: (context) {
-                            return DetailScreen0(
-                                topic: TabsName.values[i].name);
-                          }),
-                        );
-                      },
-                    ),
-                  ),
-                );
-              },
-            );
-            */
         });
   }
 }
@@ -141,11 +210,9 @@ class DetailScreen extends StatelessWidget {
   const DetailScreen({
     super.key,
     required this.topic,
-    //required this.navBar,
   });
 
   final Widget topic;
-  //final String navBar;
 
   @override
   Widget build(BuildContext context) {
@@ -153,29 +220,28 @@ class DetailScreen extends StatelessWidget {
       navigationBar: CupertinoNavigationBar_favor(
         border: Border(),
         backgroundColor: Colors.white, //TODO: change image background in order to change also this one. now set Colors.white to match
-        //trailing: Text("${navBar}"),
         middle: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            FavorNavImage(),
-            UserMode(),
-          ],
-        ),
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              FavorNavImage(),
+              NavUserMode(),
+            ],
+          ),
       ),
       child: topic,
     );
   }
 }
 
-/// ROW composed of 2 buttons. Press to change mode in Provider or Caller
-class UserMode extends StatefulWidget {
-  const UserMode({super.key});
+/// ROW composed of 2 buttons. Press to change UserMode in Provider or Caller
+class NavUserMode extends StatefulWidget {
+  const NavUserMode({super.key});
 
   @override
-  State<UserMode> createState() => _UserModeState();
+  State<NavUserMode> createState() => _NavUserModeState();
 }
 
-class _UserModeState extends State<UserMode> {
+class _NavUserModeState extends State<NavUserMode> {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -188,34 +254,38 @@ class _UserModeState extends State<UserMode> {
           child: CupertinoButton(
               padding: EdgeInsets.zero,
               color:
-                  providerStatus ? favorColors.PrimaryBlue : Colors.transparent,
+                  UserMode_inherited.of(context).stateWidget.isUserModeAs_provider()
+                      ? favorColors.PrimaryBlue
+                      : Colors.transparent,
               borderRadius: BorderRadius.circular(90),
-              child: providerStatus
-                  ? Text(
-                      "Provider",
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    )
-                  : (Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Change to ",
-                            style: TextStyle(
-                                color: favorColors.PrimaryBlue,
-                                fontWeight: FontWeight.normal)),
-                        Text("Provider",
-                            style: TextStyle(
-                                color: favorColors.Yellow,
-                                fontWeight: FontWeight.bold)),
-                      ],
-                    )),
+              child:
+                  UserMode_inherited.of(context).stateWidget.isUserModeAs_provider()
+                      ? Text(
+                          "Provider",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        )
+                      : (Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("Change to ",
+                                style: TextStyle(
+                                    color: favorColors.PrimaryBlue,
+                                    fontWeight: FontWeight.normal)),
+                            Text("Provider",
+                                style: TextStyle(
+                                    color: favorColors.Yellow,
+                                    fontWeight: FontWeight.bold)),
+                          ],
+                        )),
               onPressed: () {
                 setState(() {
-                  setUserMode("provider");
+                  UserMode_inherited.of(context).stateWidget.setUserMode_provider();
                 });
               }),
         ),
-
+  
         /// CALLER
         Container(
           width: Responsive.width(40, context),
@@ -223,30 +293,34 @@ class _UserModeState extends State<UserMode> {
           child: CupertinoButton(
               padding: EdgeInsets.zero,
               color:
-                  callerStatus ? favorColors.PrimaryBlue : Colors.transparent,
+                  UserMode_inherited.of(context).stateWidget.isUserModeAs_caller()
+                      ? favorColors.PrimaryBlue
+                      : Colors.transparent,
               borderRadius: BorderRadius.circular(90),
-              child: callerStatus
-                  ? Text(
-                      "Caller",
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    )
-                  : (Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Change to ",
-                            style: TextStyle(
-                                color: favorColors.PrimaryBlue,
-                                fontWeight: FontWeight.normal)),
-                        Text("Caller",
-                            style: TextStyle(
-                                color: favorColors.Yellow,
-                                fontWeight: FontWeight.bold)),
-                      ],
-                    )),
+              child:
+                  UserMode_inherited.of(context).stateWidget.isUserModeAs_caller()
+                      ? Text(
+                          "Caller",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        )
+                      : (Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("Change to ",
+                                style: TextStyle(
+                                    color: favorColors.PrimaryBlue,
+                                    fontWeight: FontWeight.normal)),
+                            Text("Caller",
+                                style: TextStyle(
+                                    color: favorColors.Yellow,
+                                    fontWeight: FontWeight.bold)),
+                          ],
+                        )),
               onPressed: () {
                 setState(() {
-                  setUserMode("caller");
+                  UserMode_inherited.of(context).stateWidget.setUserMode_caller();
                 });
               }),
         ),
@@ -274,27 +348,3 @@ class FavorNavImage extends StatelessWidget {
     );
   }
 }
-
-
-/** 
-class DetailScreen0 extends StatelessWidget {
-  const DetailScreen0({super.key, required this.topic});
-
-  final String topic;
-
-  @override
-  Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
-        middle: const Text("Details "),
-      ),
-      child: Center(
-        child: Text(
-          "Details for $topic",
-          style: CupertinoTheme.of(context).textTheme.navActionTextStyle,
-        ),
-      ),
-    );
-  }
-}
-*/
