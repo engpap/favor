@@ -4,6 +4,7 @@ import 'package:project/functions/responsive.dart';
 import 'package:project/functions/showToast.dart';
 import 'package:project/functions/utilities.dart';
 import 'package:project/models/bookedFavor.dart';
+import 'package:project/models/callerPost.dart'; //to remove
 import 'package:project/models/favorCategories.dart';
 import 'package:project/models/favorConstants.dart';
 import 'package:project/models/post.dart';
@@ -26,7 +27,7 @@ class Feed_Screen_M extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Divider(
           height: Responsive.height(1, context),
@@ -37,10 +38,10 @@ class Feed_Screen_M extends StatelessWidget {
         // TODO: far comparire solo se il server ritorna dei booked favors
         Container(
           padding: EdgeInsets.only(left: 8, right: 8),
-          height: Responsive.height(20, context),
+          height: Responsive.height(17, context),
           // BOOKED LIST (scrollable horizontaly)
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               //HEADING
               Container(
@@ -63,7 +64,7 @@ class Feed_Screen_M extends StatelessWidget {
               //ELEMENTS
               Container(
                   constraints:
-                      BoxConstraints(maxHeight: Responsive.height(15, context)),
+                    BoxConstraints(maxHeight: Responsive.height(12, context)),
                   child: Carousel_BookedFavorWidget()),
             ],
           ),
@@ -76,10 +77,10 @@ class Feed_Screen_M extends StatelessWidget {
         // FAVOR CATEGORIES
         Container(
           padding: EdgeInsets.only(left: 8, right: 8),
-          height: Responsive.height(25, context),
+          height: Responsive.height(20, context),
           // CATEGORY LIST (scrollable horizontaly)
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               //HEADING
               Container(
@@ -101,8 +102,7 @@ class Feed_Screen_M extends StatelessWidget {
               ),
               //ELEMENTS
               Container(
-                  constraints:
-                      BoxConstraints(maxHeight: Responsive.height(16, context)),
+                  constraints:BoxConstraints(maxHeight: Responsive.height(15, context)),
                   child: Carousel_FavorCategoryWidget()),
             ],
           ),
@@ -114,10 +114,12 @@ class Feed_Screen_M extends StatelessWidget {
 
         // FAVOR RECOMMENDATIONS
         Container(
+          //color: Colors.lightBlue,
           padding: EdgeInsets.only(left: 8, right: 8),
-          height: Responsive.height(20, context), //TODO: 50
+          height: Responsive.height(32, context), //TODO: 50
           // RECOMMENDATION LIST (scrollable vertically)
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               //HEADING
               Container(
@@ -285,27 +287,41 @@ class _Carousel_BookedFavorWidgetState
       BookedFavorWidget(
         categoryImage: "assets/images/bg_music_01.jpg",
         categoryName: "Booked 1",
+        booked: BOOKED //TODO: cambiare riferimento
       ),
       BookedFavorWidget(
         categoryImage: "assets/images/bg_music_02.jpg",
         categoryName: "Booked 2",
+        booked: BOOKED //TODO: cambiare riferimento
       ),
       BookedFavorWidget(
         categoryImage: "assets/images/bg_music_01.jpg",
         categoryName: "Booked 3",
+        booked: BOOKED //TODO: cambiare riferimento
       ),
       BookedFavorWidget(
         categoryImage: "assets/images/bg_music_02.jpg",
         categoryName: "Booked 4",
+        booked: BOOKED //TODO: cambiare riferimento
       ),
       BookedFavorWidget(
         categoryImage: "assets/images/bg_music_02.jpg",
         categoryName: "Booked 5",
+        booked: BOOKED //TODO: cambiare riferimento
       ),
       BookedFavorWidget(
         categoryImage: "assets/images/bg_music_01.jpg",
         categoryName: "Booked 6",
+        booked: BOOKED //TODO: cambiare riferimento
       ),
     ]);
   }
 }
+
+//TODO: APPENA POSSIBILE REMOVE THIS
+BookedFavor BOOKED = new BookedFavor(id: "id", bookedAt: DateTime(0), providerId: "providerId", callerId: "callerId", 
+                          post: new CallerPost(id: "id", creatorId: "creatorId", createdAt: "createdAt", 
+                          name: "name", surname: "surname", profilePicture: null, 
+                          userType: "userType", taskCategory: "taskCategory", location: "location", 
+                          favorStartTime: DateTime(0), description: "description",
+                          averageStars: 2.0, rankingPosition: 1, rankingLocation: "rankingLocation", bio: "bio"));

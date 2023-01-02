@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:project/functions/responsive.dart';
+import 'package:project/models/bookedFavor.dart';
 import 'package:project/models/callerPost.dart';
 import 'package:project/models/post.dart';
 import 'package:project/screens/components/customCard.dart';
 import 'package:project/screens/components/starsWidget.dart';
+import 'package:project/screens/favorBookedPage/favorBookedPage.dart';
 import 'package:project/screens/favorInformationPage/favorInformationPage.dart';
 import 'package:project/screens/feed/feed_mobile.dart';
 import 'package:project/screens/feed/feed_tablet.dart';
@@ -343,69 +346,154 @@ class BookedFavorWidget extends StatelessWidget {
     super.key,
     required this.categoryImage,
     required this.categoryName,
-    //required this.post,
+
+    required this.booked,
   });
 
   //TODO: change assets with network image
   String categoryImage;
   String categoryName;
-  //Post? post;
-  String fieldsName = "IO ZONO IO";
-  String personStatus = "provider";
+
+  String fieldsName = "Mario Marioli";
   String time = "18.00";
+
+  BookedFavor booked;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: CustomCard_2(
+        padding: EdgeInsets.all(0),
+        //margin: EdgeInsets.all(0),
         child: Container(
-          width: Responsive.width(45, context),
-          height: Responsive.width(21, context),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // IMAGE
-              Container(
-                width: Responsive.width(10, context),
-                height: Responsive.width(10, context),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    //TODO: change assets with network image
-                    image: AssetImage(categoryImage),
-                    fit: BoxFit.cover,
-                    opacity: 0.2,
-                  ),
-                  border: Border.all(
-                    color: favorColors.LightGrey,
-                    width: 2.0,
-                  ),
-                  //borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      spreadRadius: 0.5,
-                      blurRadius: 5,
-                      offset: Offset(0, 1),
-                    ),
-                  ],
+          //color: Colors.pink,
+          width: Responsive.width(50, context),
+          //height: Responsive.width(10, context),
+          child: ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(10),),
+            child: ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(favorColors.IntroBg),
+                foregroundColor: MaterialStateProperty.all<Color>(favorColors.PrimaryBlue),
+                overlayColor: MaterialStateProperty.all<Color>(favorColors.SecondaryBlue),
+                padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(0)),
                 ),
+              onPressed: () {
+                // TODO: AGGIUNGERE PUSH AD UNA NUOVA PAGINA ***
+                print('Pressed: BookedFavor');
+                Navigator.push(context,
+                  CupertinoPageRoute(
+                      builder: (context) => favorBookedPage_Screen(
+                        booked: BOOKED, //TODO: cambiare riferimento
+                  )),
+                );
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // IMAGE
+                  SizedBox(
+                    width: Responsive.width(20, context),
+                    height: Responsive.width(100, context),
+                    child: Container(
+                      width: Responsive.width(100, context),
+                      //height: Responsive.width(100, context),
+                      decoration: BoxDecoration(
+                        //color: Colors.amber,
+                        shape: BoxShape.rectangle,
+                        image: DecorationImage(
+                          //TODO: change assets with network image
+                          image: AssetImage(categoryImage),
+                          fit: BoxFit.cover,
+                          opacity: 0.2,
+                        ),
+                        border: Border.all(
+                          color: favorColors.LightGrey,
+                          width: 0.0,
+                        ),
+                        //borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10), 
+                          bottomLeft: Radius.circular(10)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            spreadRadius: 0.5,
+                            blurRadius: 5,
+                            offset: Offset(0, 1),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  // FIELDS
+                  Container(
+                    //color: Colors.green,
+                    width: Responsive.width(29, context),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                      // NAME SURNAME
+                      Text(fieldsName, // Text(${booked.post.name} + ${booked.post.surname}, 
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      // TASK CATEGORY
+                      Text(categoryName, // Text(booked.post.taskCategory,
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Divider(height: Responsive.height(1, context),color: Colors.transparent,),
+                      // TIME
+                      Container(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            //icon clock
+                            Padding(
+                              padding: EdgeInsets.only(right: 8.0),
+                              child: Icon(
+                                CupertinoIcons.time_solid,
+                                color: favorColors.PrimaryBlue,
+                                size: 24, //
+                              ),
+                            ),
+                            //actual time
+                            Container(
+                              child: Text(
+                                time, // booked.bookedAt, 
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: favorColors.PrimaryBlue,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ]),
+                  ),
+                ],
               ),
-              // FIELDS
-              Container(
-                width: Responsive.width(30, context),
-                child: Column(children: [
-                  Text(categoryName),
-                  Text(fieldsName),
-                  Text(personStatus),
-                  Text(time),
-                ]),
-              ),
-            ],
+            ),
           ),
         ),
       ),
     );
   }
 }
+
+//TODO: APPENA POSSIBILE REMOVE THIS
+BookedFavor BOOKED = new BookedFavor(id: "id", bookedAt: DateTime(0), providerId: "providerId", callerId: "callerId", 
+                          post: new CallerPost(id: "id", creatorId: "creatorId", createdAt: "createdAt", 
+                          name: "name", surname: "surname", profilePicture: null, 
+                          userType: "userType", taskCategory: "taskCategory", location: "location", 
+                          favorStartTime: DateTime(0), description: "description",
+                          averageStars: 2.0, rankingPosition: 1, rankingLocation: "rankingLocation", bio: "bio"));
