@@ -77,7 +77,7 @@ class Feed_Screen_M extends StatelessWidget {
         // FAVOR CATEGORIES
         Container(
           padding: EdgeInsets.only(left: 8, right: 8),
-          height: Responsive.height(25, context),
+          height: Responsive.height(20, context),
           // CATEGORY LIST (scrollable horizontaly)
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
