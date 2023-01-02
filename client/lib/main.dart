@@ -6,7 +6,6 @@ import 'package:project/screens/introduction/introduction-1.dart';
 import 'package:project/screens/home.dart';
 import 'screens/favorInformationPage/favorInformationPage.dart';
 
-
 void main() {
   runApp(MultiProvider(
       providers: [ChangeNotifierProvider(create: (context) => UserProvider())],
@@ -17,8 +16,8 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   Widget build(BuildContext context) {
     return const CupertinoApp(
-      home: Introduction1Screen(),
-      //home: HomeScreen(),
+      //home: Introduction1Screen(),
+      home: HomeScreen(),
       //home: favorInformationPage_Screen(),
     );
   }

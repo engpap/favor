@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:project/constants/globalVars.dart';
 import 'package:project/errors/errorConstants.dart';
 import 'package:project/helpers/authHelper.dart';
+import 'package:project/models/profileConstants.dart';
 import 'package:project/models/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:project/providers/storage.dart';

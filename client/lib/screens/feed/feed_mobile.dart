@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/functions/showToast.dart';
+import 'package:project/functions/utilities.dart';
 import 'package:project/models/bookedFavor.dart';
 import 'package:project/models/callerPost.dart'; //to remove
 import 'package:project/models/favorCategories.dart';
@@ -10,7 +11,8 @@ import 'package:project/models/post.dart';
 import 'package:project/screens/feed/feed.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
-import 'package:project/services/bookedFavorService.dart';
+import 'package:project/services/favorService.dart';
+import 'package:project/services/constantsService.dart';
 import 'package:project/services/postService.dart';
 
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -37,7 +39,6 @@ class Feed_Screen_M extends StatelessWidget {
         Container(
           padding: EdgeInsets.only(left: 8, right: 8),
           height: Responsive.height(17, context),
-          //color: Colors.lightBlue,
           // BOOKED LIST (scrollable horizontaly)
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -62,7 +63,6 @@ class Feed_Screen_M extends StatelessWidget {
               ),
               //ELEMENTS
               Container(
-                //color: Colors.green,
                   constraints:
                     BoxConstraints(maxHeight: Responsive.height(12, context)),
                   child: Carousel_BookedFavorWidget()),
@@ -76,9 +76,8 @@ class Feed_Screen_M extends StatelessWidget {
 
         // FAVOR CATEGORIES
         Container(
-          //color: Colors.lightBlue,
           padding: EdgeInsets.only(left: 8, right: 8),
-          height: Responsive.height(20, context),
+          height: Responsive.height(25, context),
           // CATEGORY LIST (scrollable horizontaly)
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -161,47 +160,30 @@ class Carousel_FavorCategoryWidget extends StatefulWidget {
 
 class _Carousel_FavorCategoryWidgetState
     extends State<Carousel_FavorCategoryWidget> {
-  //late Future<FavorCategories> favorCategories;
+  late Future<FavorCategories> favorCategories;
 
   @override
   void initState() {
-    //favorCategories =
+    favorCategories = ConstantsService().getFavorCategories();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<FavorCategories>(
-        future: PostService().getFavorCategories(),
+        future: favorCategories,
         builder: ((context, snapshot) {
           if (snapshot.hasData) {
-            ListView(scrollDirection: Axis.horizontal, children: [
-              //TODO: passare quali widget diplayare
-              FavorCategoryWidget(
-                categoryImage: "assets/images/bg_music_01.jpg",
-                categoryName: snapshot.data!.favorCategories[0],
-              ),
-              FavorCategoryWidget(
-                categoryImage: "assets/images/bg_music_02.jpg",
-                categoryName: "Category 2",
-              ),
-              FavorCategoryWidget(
-                categoryImage: "assets/images/bg_music_01.jpg",
-                categoryName: "Category 3",
-              ),
-              FavorCategoryWidget(
-                categoryImage: "assets/images/bg_music_02.jpg",
-                categoryName: "Category 4",
-              ),
-              FavorCategoryWidget(
-                categoryImage: "assets/images/bg_music_02.jpg",
-                categoryName: "Category 5",
-              ),
-              FavorCategoryWidget(
-                categoryImage: "assets/images/bg_music_01.jpg",
-                categoryName: "Category 6",
-              ),
-            ]);
+            return ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: snapshot.data!.favorCategories.length,
+                itemBuilder: (context, index) {
+                  return FavorCategoryWidget(
+                    categoryImage: "assets/images/bg_music_01.jpg",
+                    categoryName: Utilities.replaceEmptySpaceWithNewline(
+                        snapshot.data!.favorCategories[index]),
+                  );
+                });
           } else if (snapshot.hasError) {
             showToast(context, '${snapshot.error}');
           }
@@ -285,8 +267,7 @@ class _Carousel_BookedFavorWidgetState
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final newItems =
-          await BookedFavorService().getBookedFavors(context, pageKey);
+      final newItems = await FavorService().getBookedFavors(context, pageKey);
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
