@@ -43,8 +43,8 @@ class FavorCategoryWidget extends StatelessWidget {
   });
 
   //TODO: change assets with network image
-  String categoryImage;
-  String categoryName;
+  final String categoryImage;
+  final String categoryName;
 
   @override
   Widget build(BuildContext context) {
@@ -57,8 +57,8 @@ class FavorCategoryWidget extends StatelessWidget {
         children: [
           // IMAGE
           Container(
-            width: Responsive.width(25, context),
-            height: Responsive.width(25, context),
+            width: Responsive.width(22, context),
+            height: Responsive.width(22, context),
             decoration: BoxDecoration(
               shape: BoxShape.rectangle,
               image: DecorationImage(
@@ -87,7 +87,11 @@ class FavorCategoryWidget extends StatelessWidget {
           ),
           Text(
             categoryName,
-            style: TextStyle(fontSize: 16),
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: favorColors.SecondaryBlue,
+            ),
           ),
         ],
       ),

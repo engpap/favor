@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/functions/showToast.dart';
+import 'package:project/functions/utilities.dart';
 import 'package:project/models/bookedFavor.dart';
 import 'package:project/models/favorCategories.dart';
 import 'package:project/models/favorConstants.dart';
@@ -74,7 +75,7 @@ class Feed_Screen_M extends StatelessWidget {
         // FAVOR CATEGORIES
         Container(
           padding: EdgeInsets.only(left: 8, right: 8),
-          height: Responsive.height(20, context),
+          height: Responsive.height(25, context),
           // CATEGORY LIST (scrollable horizontaly)
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -100,7 +101,7 @@ class Feed_Screen_M extends StatelessWidget {
               //ELEMENTS
               Container(
                   constraints:
-                      BoxConstraints(maxHeight: Responsive.height(15, context)),
+                      BoxConstraints(maxHeight: Responsive.height(16, context)),
                   child: Carousel_FavorCategoryWidget()),
             ],
           ),
@@ -156,47 +157,30 @@ class Carousel_FavorCategoryWidget extends StatefulWidget {
 
 class _Carousel_FavorCategoryWidgetState
     extends State<Carousel_FavorCategoryWidget> {
-  //late Future<FavorCategories> favorCategories;
+  late Future<FavorCategories> favorCategories;
 
   @override
   void initState() {
-    //favorCategories =
+    favorCategories = PostService().getFavorCategories();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<FavorCategories>(
-        future: PostService().getFavorCategories(),
+        future: favorCategories,
         builder: ((context, snapshot) {
           if (snapshot.hasData) {
-            ListView(scrollDirection: Axis.horizontal, children: [
-              //TODO: passare quali widget diplayare
-              FavorCategoryWidget(
-                categoryImage: "assets/images/bg_music_01.jpg",
-                categoryName: snapshot.data!.favorCategories[0],
-              ),
-              FavorCategoryWidget(
-                categoryImage: "assets/images/bg_music_02.jpg",
-                categoryName: "Category 2",
-              ),
-              FavorCategoryWidget(
-                categoryImage: "assets/images/bg_music_01.jpg",
-                categoryName: "Category 3",
-              ),
-              FavorCategoryWidget(
-                categoryImage: "assets/images/bg_music_02.jpg",
-                categoryName: "Category 4",
-              ),
-              FavorCategoryWidget(
-                categoryImage: "assets/images/bg_music_02.jpg",
-                categoryName: "Category 5",
-              ),
-              FavorCategoryWidget(
-                categoryImage: "assets/images/bg_music_01.jpg",
-                categoryName: "Category 6",
-              ),
-            ]);
+            return ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: snapshot.data!.favorCategories.length,
+                itemBuilder: (context, index) {
+                  return FavorCategoryWidget(
+                    categoryImage: "assets/images/bg_music_01.jpg",
+                    categoryName: Utilities.replaceEmptySpaceWithNewline(
+                        snapshot.data!.favorCategories[index]),
+                  );
+                });
           } else if (snapshot.hasError) {
             showToast(context, '${snapshot.error}');
           }
