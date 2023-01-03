@@ -29,7 +29,7 @@ export const CITIES = [
     "Pisa",
     "Ancona",
     "L'Aquila",
-    "Other",
+    "Other"
   ];
 
   export const JOBS = [
@@ -124,6 +124,6 @@ export const CITIES = [
     "Veterinarian",
     "Web Developer",
     "Writer",
-    "Other",
+    "Other"
   ];
 

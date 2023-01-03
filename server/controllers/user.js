@@ -23,11 +23,12 @@ export const signup = async (req, res) => {
 
         if (password !== confirmPassword)
             return res.status(400).json({ message: "Confirm password is different from provided password", errorType: PASSWORD_ERROR })
-
+       
         // Hash the password with a salt level of 12
         const hashedPassword = await bcrypt.hash(password, 12);
-
+        
         const newUser = await User.create({ email, password: hashedPassword, name: name, surname: surname });
+        console.log("cia")
         const token = jwt.sign({ email: newUser.email, id: newUser._id }, process.env.GOOGLE_CLIENT_SECRET, { expiresIn: "1h" });
         console.log(">>> SignUp: Sending response to user");
         res.status(201).json({ newUser, token });
