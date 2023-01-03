@@ -44,7 +44,7 @@ class FavorService {
       final userProvider = Provider.of<UserProvider>(context, listen: false);
 
       http.Response response = await http.post(
-        Uri.parse('$uri/favors/${bookedFavorId}/complete'),
+        Uri.parse('$uri/favors/${bookedFavorId}/completeFavor'),
         headers: {
           'Content-Type': 'application/json;charset=UTF-8',
           'x-auth-token': userProvider.user.token,
@@ -55,7 +55,32 @@ class FavorService {
           response: response,
           context: context,
           onSuccess: () {
-            // TODO: review page
+            showToast(context, "You have successfully completed a Favor!");
+          });
+    } catch (error) {
+      showToast(context, error.toString());
+    }
+  }
+
+  Future<void> rateFavor(
+      BuildContext context, int bookedFavorId, double rating) async {
+    try {
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
+
+      http.Response response = await http.post(
+        Uri.parse('$uri/favors/${bookedFavorId}/rateFavor'),
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8',
+          'x-auth-token': userProvider.user.token,
+        },
+        body: jsonEncode(rating),
+      );
+
+      httpErrorHandle(
+          response: response,
+          context: context,
+          onSuccess: () {
+            showToast(context, "You have successfully rated a Favor!");
           });
     } catch (error) {
       showToast(context, error.toString());
