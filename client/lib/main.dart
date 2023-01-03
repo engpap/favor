@@ -16,8 +16,8 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   Widget build(BuildContext context) {
     return const CupertinoApp(
-      //home: Introduction1Screen(),
-      home: HomeScreen(),
+      home: Introduction1Screen(),
+      //home: HomeScreen(),
       //home: favorInformationPage_Screen(),
     );
   }

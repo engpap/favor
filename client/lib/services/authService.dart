@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:project/constants/globalVars.dart';
 import 'package:project/errors/errorConstants.dart';
+import 'package:project/functions/showToast.dart';
 import 'package:project/helpers/authHelper.dart';
 import 'package:project/models/profileConstants.dart';
 import 'package:project/models/user.dart';
@@ -8,13 +9,17 @@ import 'package:http/http.dart' as http;
 import 'package:project/providers/storage.dart';
 import 'package:project/providers/userProvider.dart';
 import 'package:project/errors/error.dart';
+import 'package:project/screens/home.dart';
+import 'package:project/screens/signin/signin.dart';
 import 'package:provider/provider.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:project/errors/errorHandling.dart';
 
 class AuthService {
-  Future<ErrorMessage> signup({
+  Future<void> signup({
+    required BuildContext context,
     required String name,
     required String surname,
     required String email,
@@ -40,6 +45,15 @@ class AuthService {
         body: jsonEncode(user.toJson()),
       );
 
+      httpErrorHandle(
+        response: response,
+        context: context,
+        onSuccess: () {
+          Navigator.pushReplacement(context,
+              CupertinoPageRoute(builder: (context) => SignInScreen()));
+        },
+      );
+      /*
       if (response.statusCode == 400 ||
           response.statusCode == 404 ||
           response.statusCode == 500)
@@ -47,12 +61,14 @@ class AuthService {
             jsonDecode(response.body)['message']);
       else
         return ErrorMessage(ErrorConstants.NO_ERROR, 'noError');
+        */
     } catch (error) {
-      return ErrorMessage(ErrorConstants.CLIENT_ERROR, 'Client error');
+      showToast(context, error.toString());
+      //return ErrorMessage(ErrorConstants.CLIENT_ERROR, 'Client error');
     }
   }
 
-  Future<ErrorMessage> signin({
+  Future<void> signin({
     required BuildContext context,
     required String email,
     required String password,
@@ -66,6 +82,7 @@ class AuthService {
         body: jsonEncode({'email': email, 'password': password}),
       );
 
+      /*
       if (response.statusCode == 201 || response.statusCode == 200) {
         Provider.of<UserProvider>(context, listen: false)
             .setUser(response.body);
@@ -75,9 +92,24 @@ class AuthService {
       } else {
         return ErrorMessage(jsonDecode(response.body)['errorType'],
             jsonDecode(response.body)['message']);
-      }
+      }*/
+      httpErrorHandle(
+        response: response,
+        context: context,
+        onSuccess: () {
+          Provider.of<UserProvider>(context, listen: false)
+              .setUser(response.body);
+          Storage.setUserToken(jsonDecode(response.body)['token']);
+          Storage.setUserId(jsonDecode(response.body)['_id']);
+          Navigator.pushReplacement(
+            context,
+            CupertinoPageRoute(builder: (context) => const HomeScreen()),
+          );
+        },
+      );
     } catch (error) {
-      return ErrorMessage(ErrorConstants.CLIENT_ERROR, 'Client error');
+      showToast(context, error.toString());
+      //return ErrorMessage(ErrorConstants.CLIENT_ERROR, 'Client error');
     }
   }
 

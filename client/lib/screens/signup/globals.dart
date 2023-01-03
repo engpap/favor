@@ -6,8 +6,6 @@ import 'package:project/errors/errorConstants.dart';
 import 'package:project/functions/stringExtensions.dart';
 import 'package:project/services/authService.dart';
 
-
-
 // SIGN UP VARIABLES
 final String PlaceholderName = "Name";
 final String PlaceholderSurname = "Surname";
@@ -34,10 +32,8 @@ String StatusPasswordConfirm = ErrorConstants.UNCHECKED_ERROR;
 
 final AuthService authService = AuthService();
 
-
-
 // Update the status of the textsfields
-UpdateFieldsStatus(ErrorMessage response) {
+UpdateFieldsStatus(ErrorMessage? response) {
   // check client side
   (textControllerName.toString().isWhitespace())
       ? StatusName = ErrorConstants.NAME_ERROR
@@ -54,8 +50,7 @@ UpdateFieldsStatus(ErrorMessage response) {
   (textControllerPasswordConfirm.toString().isValidPassword())
       ? StatusPasswordConfirm = ErrorConstants.PASSWORD_ERROR
       : {};
-  (textControllerPassword.text ==
-          textControllerPasswordConfirm.text)
+  (textControllerPassword.text == textControllerPasswordConfirm.text)
       ? {
           StatusPasswordConfirm = ErrorConstants.NO_ERROR,
           StatusPassword = ErrorConstants.NO_ERROR
@@ -66,7 +61,7 @@ UpdateFieldsStatus(ErrorMessage response) {
         };
 
   //check server side
-  if (response.type.toString() == ErrorConstants.EMAIL_ERROR)
+  if (response!.type.toString() == ErrorConstants.EMAIL_ERROR)
     StatusEmail = ErrorConstants.EMAIL_ERROR;
   else if (response.type.toString() == ErrorConstants.PASSWORD_ERROR) {
     StatusPassword = ErrorConstants.PASSWORD_ERROR;
@@ -80,7 +75,6 @@ UpdateFieldsStatus(ErrorMessage response) {
   print(
       "StatusName: ${StatusName}\nStatusSurname: ${StatusSurname}\nStatusEmail: ${StatusEmail}\nStatusPassword: ${StatusPassword}\nStatusPasswordConfirm ${StatusPasswordConfirm}");
 }
-
 
 // return TRUE only if all StatusFields are set to valid
 bool IsFieldsValid() {
