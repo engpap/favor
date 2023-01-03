@@ -166,8 +166,9 @@ const updateLeaderboard = async (ratedUserId, isRatedUserProvider, favorLocation
     if (leaderboard) { //Leaderboard already exists increment the score value by summing rating
         const filter = { userType: ratedUserType, location: favorLocation, 'users.user': ratedUserId}
         const update = { $inc: { 'users.$[].score': rating } };
-        
+
         await Leaderboard.findOneAndUpdate(filter, update, { new: true });
+        console.log(">>> rateFavor: Score in Leaderboard updated successfully!")
     }
     else {
         //If the leaderboard doesn't exist, then create a new one with the user as first value of users array
