@@ -44,12 +44,11 @@ class FavorService {
       final userProvider = Provider.of<UserProvider>(context, listen: false);
 
       http.Response response = await http.post(
-        Uri.parse('$uri/favors/complete'),
+        Uri.parse('$uri/favors/${bookedFavorId}/complete'),
         headers: {
           'Content-Type': 'application/json;charset=UTF-8',
           'x-auth-token': userProvider.user.token,
         },
-        body: jsonEncode(bookedFavorId),
       );
 
       httpErrorHandle(

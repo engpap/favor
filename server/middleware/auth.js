@@ -10,7 +10,7 @@ import jwt from 'jsonwebtoken';
 const auth = async (request, response, next) => {
     try {
         const token = request.header("x-auth-token");
-        console.log("current token:",token)
+        console.log(">>> auth: current token is",token);
 
         if (!token)
             return response.status(401).json({ message: "No auth token, access denied" });
@@ -20,8 +20,8 @@ const auth = async (request, response, next) => {
             return response.status(401).json({ message: "Token verification failed, authorization denied." });
 
         request.userId = verified.id;
-        console.log(">>> User authenticated!");
-        console.log(">>> userId:", request.userId);
+        console.log(">>> auth: User authenticated!");
+        console.log(">>> auth: userId is ", request.userId);
 
         /*
         const isCustomAuth = token?.length < 500;

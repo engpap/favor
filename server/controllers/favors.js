@@ -1,4 +1,10 @@
+import mongoose from 'mongoose';
+
 import BookedFavor from "../models/bookedFavor.js";
+import Rating from "../models/rating.js";
+import User from "../models/user.js";
+
+
 /**
  * 
  * @param {*} request contaning the query parameter about the page
@@ -38,10 +44,11 @@ export const getBookedFavors = async (request, response) => {
 
 
 export const completeFavor = async (request, response) => {
-    const { bookedFavorId } = request.body;
+    const { id } = request.params;
     try {
+        const bookedFavorId = id;
         const bookedFavor = await BookedFavor.findById(bookedFavorId);
-        
+
         console.log(">>> completeFavor: Marking the booked favor as terminated")
 
         if (bookedFavor.providerId != request.userId)
@@ -56,4 +63,81 @@ export const completeFavor = async (request, response) => {
     } catch (error) {
         response.status(404).json({ message: error.message });
     }
+}
+
+export const rateFavor = async (request, response) => {
+    const { id } = request.params;
+    const { rating } = request.body;
+    try {
+        const bookedFavorId = id;
+
+        const existingRating = await Rating.findOne({ $and: [{ favor: bookedFavorId }, { user: request.userId }] })
+
+        if (existingRating)
+            return response.status(400).send(`User alreasy rated this favor with id: ${bookedFavorId}`);
+
+        if (!request.userId)
+            return response.status(401).json({ message: 'Unauthenticated' });
+
+        if (!mongoose.Types.ObjectId.isValid(bookedFavorId))
+            return response.status(400).send(`No booked favor with id: ${bookedFavorId}`);
+
+        const userWhosRating = await User.findById(request.userId);
+        const bookedFavorToRate = await BookedFavor.findById(bookedFavorId);
+
+        if (request.userId != bookedFavorToRate.providerId && request.userId != bookedFavorToRate.callerId)
+            return response.status(400).json({ message: "Cannot rate other people's favor!" });
+
+        const newRating = new Rating({ rating: rating, user: userWhosRating._doc, favor: bookedFavorToRate });
+        await newRating.save();
+        console.log(">>> rateFavor: Inserted new rating", newRating);
+
+        const { providerId, callerId } = bookedFavorToRate;
+
+        const ratedUserId = request.userId == providerId ? callerId : providerId;
+
+        console.log(">>> rateFavor: User who is rating is:", request.userId);
+        console.log(">>> rateFavor: User who is receiving rating is:", ratedUserId);
+        updateUserAverageRating(ratedUserId);
+
+        //updateLeaderboard();
+
+        return response.status(200).json({ message: 'Favor rated successfully.' });
+
+    } catch (error) {
+        response.status(404).json({ message: error.message });
+    }
+}
+
+
+const updateUserAverageRating = (ratedUserId) => {
+    Rating.find().populate({
+        path: 'favor',
+        match: { $or: [{ providerId: ratedUserId }, { callerId: ratedUserId }] },
+    })
+        .exec(async function (err, ratings) {
+            if (err) {
+                throw exception;
+            } else {
+                console.log(">>> rateFavorFound: The following ratings having as provider or caller the just rated user -> ", ratings);
+                var totalRatings = 0
+                var found_ratings = [];
+                for (const rating of ratings) {
+                    if (rating.user._id != ratedUserId) {
+                        totalRatings++;
+                        found_ratings = [...found_ratings, rating.rating];
+                    }
+                }
+                const totalScore = found_ratings.reduce((acc, rating) => acc + rating);
+                const newAverageRating = totalScore / totalRatings;
+
+                //console.log(totalScore)
+                //console.log(newAverageRating)
+
+                const ratedUser = await User.findById(ratedUserId)
+                ratedUser.averageRatings = newAverageRating;
+                await User.findByIdAndUpdate(ratedUserId, ratedUser, { new: true });
+                console.log(" rateFavor: Updated averageRatings of user", ratedUser.email);
+            }
+        });
 }
