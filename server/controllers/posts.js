@@ -104,7 +104,8 @@ export const getPosts = async (request, response) => {
         for (const document of posts) {
             var user = await User.findById(document.creatorId);
             if (user) {
-                var newDocument = { ...document._doc, name: user.name, surname: user.surname, profilePicture: user.profilePicture, bio: user.bio, averageStars: user.averageStars, rankingPosition: 1, rankingLocation: 'to_define' }
+                //TODO, put user.averageRatings instead of 2.2
+                var newDocument = { ...document._doc, name: user.name, surname: user.surname, profilePicture: user.profilePicture, bio: user.bio, averageStars: 2.2, rankingPosition: 1, rankingLocation: 'to_define' }
                 newPosts = [...newPosts, newDocument]
             }
         }
@@ -169,7 +170,7 @@ export const getPostsBySearch = async (request, response) => {
 
 
 export const bookFavor = async (request, response) => {
-    const { id } = request.body;
+    const { id } = request.params;
     console.log(">>> bookFavor: Favor id to book is " + id);
     try {
 
@@ -180,6 +181,9 @@ export const bookFavor = async (request, response) => {
             return response.status(400).send(`No post with id: ${id}`);
 
         const postToBook = await Post.findById(id);
+
+        if(postToBook.toHide == true)
+            return response.status(400).json({ message: 'Favor already booked!' });
 
         if (!request.userId == postToBook.creatorId)
             return response.status(400).json({ message: 'Cannot book your own favor!' });
