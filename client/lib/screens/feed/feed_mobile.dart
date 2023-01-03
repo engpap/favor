@@ -34,6 +34,17 @@ class Feed_Screen_M extends StatelessWidget {
           color: Colors.transparent,
         ),
 
+        //SEARCH BAR
+        Container(
+          padding: EdgeInsets.only(left: 9, right:9),
+          height: Responsive.height(5, context),
+          child: SearchFavor()
+        ),
+        Divider(
+          height: Responsive.height(1, context),
+          color: Colors.transparent,
+        ),
+
         // FAVOR BOOKED
         // TODO: far comparire solo se il server ritorna dei booked favors
         Container(
@@ -116,7 +127,7 @@ class Feed_Screen_M extends StatelessWidget {
         Container(
           //color: Colors.lightBlue,
           padding: EdgeInsets.only(left: 8, right: 8),
-          height: Responsive.height(32, context), //TODO: 50
+          height: Responsive.height(25, context), //TODO: 50
           // RECOMMENDATION LIST (scrollable vertically)
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
