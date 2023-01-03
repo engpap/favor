@@ -63,7 +63,7 @@ class favorBookedPage_Screen_T extends StatelessWidget {
                       //HEADING
                       SizedBox(
                         width: Responsive.width(100, context),
-                        child: Text(post!.taskCategory, 
+                        child: Text(post.taskCategory, 
                           style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold,
                             color: favorColors.PrimaryBlue,),
                           textAlign: TextAlign.left,
@@ -75,7 +75,7 @@ class favorBookedPage_Screen_T extends StatelessWidget {
                         width: Responsive.width(90, context),
                         child: Flexible(
                           child: Text(
-                            post!.description, 
+                            post.description, 
                             style: TextStyle(fontSize: 18), 
                             textAlign: TextAlign.left,
                             overflow: TextOverflow.fade,
@@ -100,8 +100,8 @@ class favorBookedPage_Screen_T extends StatelessWidget {
                             Flexible(
                               child: Text(
                                 (post is CallerPost)
-                                ? "${favorTime.formatter.format(post!.getFavorStartTime())}"
-                                : "${favorTime.formatter.format(post!.getAvailabilityStartTime())} - ${favorTime.formatter.format(post!.getAvailabilityEndTime())}",
+                                ? "${favorTime.formatter.format(post.getFavorStartTime())}"
+                                : "${favorTime.formatter.format(post.getAvailabilityStartTime())} - ${favorTime.formatter.format(post.getAvailabilityEndTime())}",
                               overflow: TextOverflow.fade,
                               style: TextStyle(
                                 color: favorColors.PrimaryBlue,
@@ -121,7 +121,7 @@ class favorBookedPage_Screen_T extends StatelessWidget {
                               padding: const EdgeInsets.only(left: 30.0),
                               child: Flexible(
                                 child: Text(
-                                  post!.location,
+                                  post.location,
                                 overflow: TextOverflow.fade,
                                 style: TextStyle(
                                   fontSize: 15,
@@ -199,13 +199,13 @@ class favorBookedPage_Screen_T extends StatelessWidget {
                                 children: [
                                   // NAME AND SURNAME
                                   Text(
-                                    "${post!.name} ${post!.surname}",
+                                    "${post.name} ${post.surname}",
                                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold), 
                                     textAlign: TextAlign.left,
                                   ),
                                   // ROLE
                                   Text(
-                                    post!.userType, 
+                                    post.userType, 
                                     style: TextStyle(
                                       fontSize: 18, 
                                       fontWeight: FontWeight.bold, 
@@ -215,11 +215,11 @@ class favorBookedPage_Screen_T extends StatelessWidget {
                                   Divider(height: Responsive.height(1.5, context), color: Colors.transparent,),
                                   // RANK
                                   Text(
-                                    "${post!.rankingPosition} in ${post!.rankingLocation}",
+                                    "${post.rankingPosition} in ${post.rankingLocation}",
                                     style: TextStyle(fontSize: 14),),
                                   Divider(height: Responsive.height(0.5, context), color: Colors.transparent,),
                                   // STARS
-                                  StarsWidget(number: post!.averageStars),
+                                  StarsWidget(number: post.averageStars),
                                 ],
                               ),
                             ),
@@ -231,7 +231,7 @@ class favorBookedPage_Screen_T extends StatelessWidget {
                           width: Responsive.width(65, context),
                           child: Align(
                             child: Text(
-                              post!.bio!, 
+                              post.bio!, 
                               style: TextStyle(fontSize: 18), textAlign: TextAlign.start,
                             ),
                           ),
