@@ -266,7 +266,7 @@ class _Carousel_BookedFavorWidgetState
     extends State<Carousel_BookedFavorWidget> {
   static const _pageSize = 4;
   final PagingController<int, BookedFavor> _pagingController =
-      PagingController(firstPageKey: 0);
+      PagingController(firstPageKey: 1);
 
   @override
   void initState() {
