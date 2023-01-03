@@ -224,12 +224,11 @@ class PostService {
       final userProvider = Provider.of<UserProvider>(context, listen: false);
 
       http.Response response = await http.post(
-        Uri.parse('$uri/posts/bookFavor'),
+        Uri.parse('$uri/posts/${post?.id}/bookFavor'),
         headers: {
           'Content-Type': 'application/json;charset=UTF-8',
           'x-auth-token': userProvider.user.token,
         },
-        body: jsonEncode({'id': post?.id}),
       );
 
       httpErrorHandle(
