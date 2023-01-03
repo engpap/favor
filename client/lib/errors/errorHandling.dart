@@ -17,7 +17,7 @@ void httpErrorHandle({
     Navigator.pushReplacement(context,
         CupertinoPageRoute(builder: (context) => const SignInScreen()));
   } else if (response.statusCode >= 400)
-    showToast(context, jsonDecode(response.body)['message']);
+    showToast(context, "Server Error: " + jsonDecode(response.body)['message']);
   else
     showToast(context, response.body);
 }

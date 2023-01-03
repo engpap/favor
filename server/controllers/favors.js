@@ -4,6 +4,7 @@ import BookedFavor from "../models/bookedFavor.js";
 import Rating from "../models/rating.js";
 import User from "../models/user.js";
 import Post from '../models/post.js';
+import Leaderboard from '../models/leaderboard.js';
 
 
 /**
@@ -26,19 +27,24 @@ export const getBookedFavors = async (request, response) => {
 
         var newBookedFavors = []
         for (const document of bookedFavors) {
-            if (!document.isTerminated) {
+            if (!document.isTerminated && document.post) {
                 console.log(document.post.toHexString())
                 var post = await Post.findById(document.post.toHexString());
-                var user = await User.findById(post._doc.creatorId);
-                if(user && post) //TODO: MAKE IT BETTER, MORE SOLID
-                    var jsonPost = { ...post._doc, name: user.name, surname: user.surname, profilePicture: user.profilePicture, bio: user.bio, averageStars: user.averageStars, rankingPosition: 1, rankingLocation: 'to_define' }
-                    var newDocument = { ...document._doc, post: { ...jsonPost } }
-                    newBookedFavors = [...newBookedFavors, newDocument]
+                if(post){
+                    var user = await User.findById(post._doc.creatorId);
+                    if(user){ //TODO: MAKE IT BETTER, MORE SOLID
+                        var jsonPost = { ...post._doc, name: user.name, surname: user.surname, profilePicture: user.profilePicture, bio: user.bio, averageStars: user.averageStars, rankingPosition: 1, rankingLocation: 'to_define' }
+                        var newDocument = { ...document._doc, post: { ...jsonPost } }
+                        newBookedFavors = [...newBookedFavors, newDocument]
+                    }
+                }
             }
         }
+        if(newBookedFavors.length==0)
+            console.log(">>> getBookedFavors: There are no booked favors!")
 
         response.status(200).json({ data: newBookedFavors, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) });
-        console.log(">>> getBookedFavors: Sent bookedFavors to client");
+        console.log(">>> getBookedFavors: Sent bookedFavors to client.");
     } catch (error) {
         response.status(404).json({ message: error.message });
     }
@@ -102,7 +108,8 @@ export const rateFavor = async (request, response) => {
         console.log(">>> rateFavor: User who is receiving rating is:", ratedUserId);
         updateUserAverageRating(ratedUserId);
 
-        //updateLeaderboard(); TODO
+        const isRatedUserProvider =request.userId == providerId ? true : false;
+        //updateLeaderboard(ratedUserId,isRatedUserProvider,bookedFavorToRate.post.location,rating);
 
         return response.status(200).json({ message: 'Favor rated successfully.' });
 
@@ -142,4 +149,23 @@ const updateUserAverageRating = (ratedUserId) => {
                 console.log(" rateFavor: Updated averageRatings of user", ratedUser.email);
             }
         });
+}
+
+
+const updateLeaderboard = async (ratedUserId, isRatedUserProvider, favorLocation, rating) =>{
+    var ratedUserType = ''
+    if(isRatedUserProvider)
+        ratedUserType = 'provider';
+    else
+        ratedUserType = 'caller';
+
+    const leaderboard = await Leaderboard.find({userType: ratedUserType, location: favorLocation });
+    console.log("--->",leaderboard)
+    /*if(leaderboard) //Leaderboard already exists
+        const users = leaderboard.users;
+        for(const user of users)
+            if(user._id == ratedUserId)
+                user.score = user.score + rating;
+    else
+        console.log("ciao")*/
 }
