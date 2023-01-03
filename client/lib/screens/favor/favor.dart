@@ -273,13 +273,13 @@ class _Favor_pickerMenuState extends State<Favor_pickerMenu> {
                           height: Responsive.height(20, context),
                           child: CupertinoPicker(
                             backgroundColor: Colors.white,
-                            itemExtent: Responsive.height(
-                                5, context), //height of current item
+                            itemExtent: Responsive.height(5, context), //height of current item
                             scrollController: FixedExtentScrollController(
                               initialItem: selectedValue,
                             ),
                             children: widget.contentList,
                             onSelectedItemChanged: (int value) {
+                              if (this.mounted) {
                               setState(() {
                                 selectedValue = value;
                                 // TODO: if possible remove these flags and use a cleaner approach
@@ -314,6 +314,8 @@ class _Favor_pickerMenuState extends State<Favor_pickerMenu> {
                                               '${widget.contentList.elementAt(selectedValue).data}');
                                 }
                               });
+                              }
+
                             },
                           ),
                         ))),

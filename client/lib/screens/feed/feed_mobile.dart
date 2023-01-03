@@ -75,7 +75,8 @@ class Feed_Screen_M extends StatelessWidget {
               Container(
                   constraints:
                       BoxConstraints(maxHeight: Responsive.height(12, context)),
-                  child: Carousel_BookedFavorWidget()),
+                  child: Text("il carosello dovrebve essere qui") //TODO: Carousel_BookedFavorWidget()
+                  ),
             ],
           ),
         ),
