@@ -118,13 +118,13 @@ class SignIn_loginButton extends StatelessWidget {
           ),
           onPressed: () {
             print('Pressed: SignIn_signUpButton');
-            Future<ErrorMessage> signinResponse = globals.authService.signin(
+            globals.authService.signin(
                 context: context,
                 email: globals.textControllerEmail.text,
                 password: globals.textControllerPassword.text);
             // when you recive server response run:
             //TODO: check conditions in signinResponse
-            signinResponse.then((value) {
+            /*signinResponse.then((value) {
               if (value.type == ErrorConstants.NO_ERROR) {
                 Navigator.pushReplacement(
                   context,
@@ -133,7 +133,7 @@ class SignIn_loginButton extends StatelessWidget {
               } else {
                 print('IsFieldsValid = FALSE!');
               }
-            });
+            );*/
           },
         ),
       ),

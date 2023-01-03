@@ -156,16 +156,25 @@ class SignUp_registerButton extends StatelessWidget {
             // Console log
             print('Pressed: SignUp_registerButton');
             print('run: authService.signup');
+
             // Send information to server and wait for response
-            Future<ErrorMessage> signupResponse = globals.authService.signup(
+            globals.authService.signup(
+              context: context,
               name: globals.textControllerName.text,
               surname: globals.textControllerSurname.text,
               email: globals.textControllerEmail.text,
               password: globals.textControllerPassword.text,
               confirmPassword: globals.textControllerPasswordConfirm.text,
             );
-            // when you recive server response run:
-            signupResponse.then((value) {
+            /*Future<ErrorMessage> signupResponse = globals.authService
+                .signup(
+              name: globals.textControllerName.text,
+              surname: globals.textControllerSurname.text,
+              email: globals.textControllerEmail.text,
+              password: globals.textControllerPassword.text,
+              confirmPassword: globals.textControllerPasswordConfirm.text,
+            )
+                .then((value) {
               // Update fields status in base of client check and the server response output
               globals.UpdateFieldsStatus(value);
               // if fields are valid go to signin screen, else stay in this page
@@ -179,7 +188,7 @@ class SignUp_registerButton extends StatelessWidget {
               } else {
                 print('IsFieldsValid = FALSE!');
               }
-            });
+            });*/
           },
         ),
       ),
