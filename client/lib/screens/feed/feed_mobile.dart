@@ -36,10 +36,9 @@ class Feed_Screen_M extends StatelessWidget {
 
         //SEARCH BAR
         Container(
-          padding: EdgeInsets.only(left: 9, right:9),
-          height: Responsive.height(5, context),
-          child: SearchFavor()
-        ),
+            padding: EdgeInsets.only(left: 9, right: 9),
+            height: Responsive.height(5, context),
+            child: SearchFavor()),
         Divider(
           height: Responsive.height(1, context),
           color: Colors.transparent,
@@ -75,7 +74,7 @@ class Feed_Screen_M extends StatelessWidget {
               //ELEMENTS
               Container(
                   constraints:
-                    BoxConstraints(maxHeight: Responsive.height(12, context)),
+                      BoxConstraints(maxHeight: Responsive.height(12, context)),
                   child: Carousel_BookedFavorWidget()),
             ],
           ),
@@ -113,7 +112,8 @@ class Feed_Screen_M extends StatelessWidget {
               ),
               //ELEMENTS
               Container(
-                  constraints:BoxConstraints(maxHeight: Responsive.height(15, context)),
+                  constraints:
+                      BoxConstraints(maxHeight: Responsive.height(15, context)),
                   child: Carousel_FavorCategoryWidget()),
             ],
           ),
@@ -293,46 +293,36 @@ class _Carousel_BookedFavorWidgetState
 
   @override
   Widget build(BuildContext context) {
-    return ListView(scrollDirection: Axis.horizontal, children: [
-      //TODO: passare quali widget diplayare
-      BookedFavorWidget(
-        categoryImage: "assets/images/bg_music_01.jpg",
-        categoryName: "Booked 1",
-        booked: BOOKED //TODO: cambiare riferimento
-      ),
-      BookedFavorWidget(
-        categoryImage: "assets/images/bg_music_02.jpg",
-        categoryName: "Booked 2",
-        booked: BOOKED //TODO: cambiare riferimento
-      ),
-      BookedFavorWidget(
-        categoryImage: "assets/images/bg_music_01.jpg",
-        categoryName: "Booked 3",
-        booked: BOOKED //TODO: cambiare riferimento
-      ),
-      BookedFavorWidget(
-        categoryImage: "assets/images/bg_music_02.jpg",
-        categoryName: "Booked 4",
-        booked: BOOKED //TODO: cambiare riferimento
-      ),
-      BookedFavorWidget(
-        categoryImage: "assets/images/bg_music_02.jpg",
-        categoryName: "Booked 5",
-        booked: BOOKED //TODO: cambiare riferimento
-      ),
-      BookedFavorWidget(
-        categoryImage: "assets/images/bg_music_01.jpg",
-        categoryName: "Booked 6",
-        booked: BOOKED //TODO: cambiare riferimento
-      ),
-    ]);
+    return PagedListView<int, BookedFavor>(
+      pagingController: _pagingController,
+      builderDelegate: PagedChildBuilderDelegate<BookedFavor>(
+          itemBuilder: (context, item, index) => BookedFavorWidget(
+              categoryImage: "assets/images/bg_music_01.jpg",
+              categoryName: item.post.taskCategory,
+              booked: item)),
+    );
   }
 }
 
 //TODO: APPENA POSSIBILE REMOVE THIS
-BookedFavor BOOKED = new BookedFavor(id: "id", bookedAt: DateTime(0), providerId: "providerId", callerId: "callerId", 
-                          post: new CallerPost(id: "id", creatorId: "creatorId", createdAt: "createdAt", 
-                          name: "name", surname: "surname", profilePicture: null, 
-                          userType: "userType", taskCategory: "taskCategory", location: "location", 
-                          favorStartTime: DateTime(0), description: "description",
-                          averageStars: 2.0, rankingPosition: 1, rankingLocation: "rankingLocation", bio: "bio"));
+BookedFavor BOOKED = new BookedFavor(
+    id: "id",
+    bookedAt: DateTime(0),
+    providerId: "providerId",
+    callerId: "callerId",
+    post: new CallerPost(
+        id: "id",
+        creatorId: "creatorId",
+        createdAt: "createdAt",
+        name: "name",
+        surname: "surname",
+        profilePicture: null,
+        userType: "userType",
+        taskCategory: "taskCategory",
+        location: "location",
+        favorStartTime: DateTime(0),
+        description: "description",
+        averageStars: 2.0,
+        rankingPosition: 1,
+        rankingLocation: "rankingLocation",
+        bio: "bio"));

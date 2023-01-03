@@ -103,8 +103,10 @@ export const getPosts = async (request, response) => {
         var newPosts = []
         for (const document of posts) {
             var user = await User.findById(document.creatorId);
-            var newDocument = { ...document._doc, name: user.name, surname: user.surname, profilePicture: user.profilePicture, bio: user.bio, averageStars: user.averageStars, rankingPosition: 1, rankingLocation: 'to_define' }
-            newPosts = [...newPosts, newDocument]
+            if (user) {
+                var newDocument = { ...document._doc, name: user.name, surname: user.surname, profilePicture: user.profilePicture, bio: user.bio, averageStars: user.averageStars, rankingPosition: 1, rankingLocation: 'to_define' }
+                newPosts = [...newPosts, newDocument]
+            }
         }
 
         response.status(200).json({ data: newPosts, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) });

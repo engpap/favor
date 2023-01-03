@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:project/errors/errorConstants.dart';
 import 'package:project/functions/responsive.dart';
+import 'package:project/functions/utilities.dart';
 import 'package:project/models/bookedFavor.dart';
 import 'package:project/models/callerPost.dart';
 import 'package:project/models/post.dart';
@@ -348,7 +349,6 @@ class BookedFavorWidget extends StatelessWidget {
     super.key,
     required this.categoryImage,
     required this.categoryName,
-
     required this.booked,
   });
 
@@ -356,7 +356,6 @@ class BookedFavorWidget extends StatelessWidget {
   String categoryImage;
   String categoryName;
 
-  String fieldsName = "Mario Marioli";
   String time = "18.00";
 
   BookedFavor booked;
@@ -372,22 +371,29 @@ class BookedFavorWidget extends StatelessWidget {
           width: Responsive.width(50, context),
           //height: Responsive.width(10, context),
           child: ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(10),),
+            borderRadius: BorderRadius.all(
+              Radius.circular(10),
+            ),
             child: ElevatedButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(favorColors.IntroBg),
-                foregroundColor: MaterialStateProperty.all<Color>(favorColors.PrimaryBlue),
-                overlayColor: MaterialStateProperty.all<Color>(favorColors.SecondaryBlue),
-                padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(0)),
-                ),
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(favorColors.IntroBg),
+                foregroundColor:
+                    MaterialStateProperty.all<Color>(favorColors.PrimaryBlue),
+                overlayColor:
+                    MaterialStateProperty.all<Color>(favorColors.SecondaryBlue),
+                padding:
+                    MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(0)),
+              ),
               onPressed: () {
                 // TODO: AGGIUNGERE PUSH AD UNA NUOVA PAGINA ***
                 print('Pressed: BookedFavor');
-                Navigator.push(context,
+                Navigator.push(
+                  context,
                   CupertinoPageRoute(
                       builder: (context) => favorBookedPage_Screen(
-                        booked: BOOKED, //TODO: cambiare riferimento
-                  )),
+                            booked: BOOKED, //TODO: cambiare riferimento
+                          )),
                 );
               },
               child: Row(
@@ -416,8 +422,8 @@ class BookedFavorWidget extends StatelessWidget {
                         ),
                         //borderRadius: BorderRadius.circular(10),
                         borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10), 
-                          bottomLeft: Radius.circular(10)),
+                            topLeft: Radius.circular(10),
+                            bottomLeft: Radius.circular(10)),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withOpacity(0.1),
@@ -434,53 +440,61 @@ class BookedFavorWidget extends StatelessWidget {
                     //color: Colors.green,
                     width: Responsive.width(29, context),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                      // NAME SURNAME
-                      Text(fieldsName, // Text(${booked.post.name} + ${booked.post.surname}, 
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      // TASK CATEGORY
-                      Text(categoryName, // Text(booked.post.taskCategory,
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      Divider(height: Responsive.height(1, context),color: Colors.transparent,),
-                      // TIME
-                      Container(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            //icon clock
-                            Padding(
-                              padding: EdgeInsets.only(right: 8.0),
-                              child: Icon(
-                                CupertinoIcons.time_solid,
-                                color: favorColors.PrimaryBlue,
-                                size: 24, //
-                              ),
-                            ),
-                            //actual time
-                            Container(
-                              child: Text(
-                                time, // booked.bookedAt, 
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: favorColors.PrimaryBlue,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // NAME SURNAME
+                          Text(
+                            '${booked.post.name} ${booked.post.surname}',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          // TASK CATEGORY
+                          Text(
+                            categoryName, // Text(booked.post.taskCategory,
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.normal),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Divider(
+                            height: Responsive.height(1, context),
+                            color: Colors.transparent,
+                          ),
+                          // TIME
+                          Container(
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                //icon clock
+                                Padding(
+                                  padding: EdgeInsets.only(right: 8.0),
+                                  child: Icon(
+                                    CupertinoIcons.time_solid,
+                                    color: favorColors.PrimaryBlue,
+                                    size: 24, //
+                                  ),
                                 ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
+                                //actual time
+                                Container(
+                                  child: Text(
+                                    Utilities.getHoursAndMinutes(
+                                        booked.bookedAt),
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: favorColors.PrimaryBlue,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                    ]),
+                          ),
+                        ]),
                   ),
                 ],
               ),
@@ -493,13 +507,27 @@ class BookedFavorWidget extends StatelessWidget {
 }
 
 //TODO: APPENA POSSIBILE REMOVE THIS
-BookedFavor BOOKED = new BookedFavor(id: "id", bookedAt: DateTime(0), providerId: "providerId", callerId: "callerId", 
-                          post: new CallerPost(id: "id", creatorId: "creatorId", createdAt: "createdAt", 
-                          name: "name", surname: "surname", profilePicture: null, 
-                          userType: "userType", taskCategory: "taskCategory", location: "location", 
-                          favorStartTime: DateTime(0), description: "description",
-                          averageStars: 2.0, rankingPosition: 1, rankingLocation: "rankingLocation", bio: "bio"));
-
+BookedFavor BOOKED = new BookedFavor(
+    id: "id",
+    bookedAt: DateTime(0),
+    providerId: "providerId",
+    callerId: "callerId",
+    post: new CallerPost(
+        id: "id",
+        creatorId: "creatorId",
+        createdAt: "createdAt",
+        name: "name",
+        surname: "surname",
+        profilePicture: null,
+        userType: "userType",
+        taskCategory: "taskCategory",
+        location: "location",
+        favorStartTime: DateTime(0),
+        description: "description",
+        averageStars: 2.0,
+        rankingPosition: 1,
+        rankingLocation: "rankingLocation",
+        bio: "bio"));
 
 // SEARCH BAR
 class SearchFavor extends StatelessWidget {
@@ -509,19 +537,18 @@ class SearchFavor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return 
-    Container(
+    return Container(
       margin: EdgeInsets.only(left: 9, right: 9),
       height: Responsive.height(1, context),
       child: CupertinoTextField(
         style: TextStyle(
           fontWeight: FontWeight.bold,
           color: favorColors.PrimaryBlue,
-          ),
+        ),
         //textInputAction: widget.textInputAction, //widget
         //keyboardType: widget.textInputType, //widget
         padding: EdgeInsets.only(top: 9, bottom: 9),
-        decoration: BoxDecoration(   
+        decoration: BoxDecoration(
           color: favorColors.IntroBg,
           border: Border.all(color: Colors.white),
           borderRadius: BorderRadius.circular(90),
