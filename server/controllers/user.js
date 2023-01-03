@@ -28,7 +28,7 @@ export const signup = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 12);
 
         const newUser = await User.create({ email, password: hashedPassword, name: name, surname: surname });
-        const token = jwt.sign({ email: newUser.email, id: newUser._id }, process.env.GOOGLE_CLIENT_SECRET, { expiresIn: "7d" });
+        const token = jwt.sign({ email: newUser.email, id: newUser._id }, process.env.GOOGLE_CLIENT_SECRET, { expiresIn: "1h" });
         console.log(">>> SignUp: Sending response to user");
         res.status(201).json({ newUser, token });
 
@@ -57,7 +57,7 @@ export const signin = async (req, res) => {
         if (!isPasswordCorrect)
             return res.status(400).json({ message: "Wrong password", errorType: PASSWORD_ERROR });
 
-        const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, process.env.GOOGLE_CLIENT_SECRET, { expiresIn: "7d" });
+        const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, process.env.GOOGLE_CLIENT_SECRET, { expiresIn: "1h" });
 
         //The _doc field lets you access the "raw" document directly, 
         // which was delivered through the mongodb driver, bypassing mongoose.
@@ -84,7 +84,7 @@ export const continueWithExternalService = async (req, res) => {
         if (existingUser) { // sign in
             if (existingUser.externalId && existingUser.externalId == userIdFromGoogle) { // User is a google user
                 console.log("ContinueWithGoogle: Signing user in with Google service")
-                const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, process.env.GOOGLE_CLIENT_SECRET, { expiresIn: "7d" });
+                const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, process.env.GOOGLE_CLIENT_SECRET, { expiresIn: "1h" });
                 res.status(200).json({ token, ...existingUser._doc });
             }
             else { // User is not a google user since have externalId null
@@ -95,7 +95,7 @@ export const continueWithExternalService = async (req, res) => {
         else { // sign up
             console.log("ContinueWithGoogle: Signing user up with Google")
             const newUser = await User.create({ email, name: name, surname: surname, externalId: userIdFromGoogle, externalSignInService: 'Google' });
-            const token = jwt.sign({ email: newUser.email, id: newUser._id }, process.env.GOOGLE_CLIENT_SECRET, { expiresIn: "7d" });
+            const token = jwt.sign({ email: newUser.email, id: newUser._id }, process.env.GOOGLE_CLIENT_SECRET, { expiresIn: "1h" });
             res.status(201).json({ token, ...newUser._doc });
         }
 
