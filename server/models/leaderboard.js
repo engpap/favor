@@ -1,9 +1,12 @@
 import mongoose from 'mongoose';
-import { LOCATIONS } from '../constants/locations';
-import { USER_TYPES } from '../constants/userTypes';
+import { LOCATIONS } from '../constants/locations.js';
+import { USER_TYPES } from '../constants/userTypes.js';
 
 const { Schema } = mongoose;
 
+/**
+ * For simplicity, score is the sum of each new average rating
+ */
 const leaderboardSchema = new Schema({
     location: {
         type: String,
