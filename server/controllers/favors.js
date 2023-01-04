@@ -6,6 +6,7 @@ import User from "../models/user.js";
 import Post from '../models/post.js';
 import Leaderboard from '../models/leaderboard.js';
 
+import { createJsonPost } from './utilities/jsonCreators.js';
 
 /**
  * 
@@ -33,8 +34,7 @@ export const getBookedFavors = async (request, response) => {
                 if (post) {
                     var user = await User.findById(post._doc.creatorId);
                     if (user) { //TODO: MAKE IT BETTER, MORE SOLID
-                        var jsonPost = { ...post._doc, name: user.name, surname: user.surname, profilePicture: user.profilePicture, bio: user.bio, averageStars: user.averageStars, rankingPosition: 1, rankingLocation: 'to_define' }
-                        var newDocument = { ...document._doc, post: { ...jsonPost } }
+                        var newDocument = { ...document._doc, post: await createJsonPost(post,user) }
                         newBookedFavors = [...newBookedFavors, newDocument]
                     }
                 }
@@ -49,6 +49,8 @@ export const getBookedFavors = async (request, response) => {
         response.status(404).json({ message: error.message });
     }
 }
+
+
 
 
 export const completeFavor = async (request, response) => {
@@ -96,7 +98,7 @@ export const rateFavor = async (request, response) => {
         if (request.userId != bookedFavorToRate.providerId && request.userId != bookedFavorToRate.callerId)
             return response.status(400).json({ message: "Cannot rate other people's favor!" });
 
-        
+
         const newRating = new Rating({ rating: rating, user: userWhosRating._doc, favor: bookedFavorToRate });
         await newRating.save();
         console.log(">>> rateFavor: Inserted new rating", newRating);
@@ -110,7 +112,7 @@ export const rateFavor = async (request, response) => {
         await updateUserAverageRating(ratedUserId);
 
 
-        const isRatedUserProvider =  ratedUserId == providerId;
+        const isRatedUserProvider = ratedUserId == providerId;
         await bookedFavorToRate.populate('post')
         await updateLeaderboard(ratedUserId, isRatedUserProvider, bookedFavorToRate.post.location, rating);
 
@@ -162,34 +164,31 @@ const updateLeaderboard = async (ratedUserId, isRatedUserProvider, favorLocation
     else
         ratedUserType = 'caller';
 
-    const leaderboard = await Leaderboard.findOne({ userType: ratedUserType, location: favorLocation});
+    const leaderboard = await Leaderboard.findOne({ userType: ratedUserType, location: favorLocation });
 
     if (leaderboard) { //If leaderboard already exists, increment the score value by summing rating
 
-        const filter = { userType: ratedUserType, location: favorLocation, 'users.user': ratedUserId}
-       
+        const filter = { userType: ratedUserType, location: favorLocation, 'users.user': ratedUserId }
+
         const existingUserInLeaderboard = await Leaderboard.findOne(filter);
-        if(existingUserInLeaderboard){
-            const update = { $inc: { 'users.$.score': rating }} 
+        if (existingUserInLeaderboard) {
+            const update = { $inc: { 'users.$.score': rating } }
             await Leaderboard.findOneAndUpdate(filter, update, { new: true });
         }
-        else{
-            const filter = { userType: ratedUserType, location: favorLocation}
-            const newElement = {user: ratedUserId, score: rating };
-            await Leaderboard.findOneAndUpdate(filter,{ $push: { users: newElement }});
+        else {
+            const filter = { userType: ratedUserType, location: favorLocation }
+            const newElement = { user: ratedUserId, score: rating };
+            await Leaderboard.findOneAndUpdate(filter, { $push: { users: newElement } });
         }
         console.log(">>> rateFavor: Score in Leaderboard updated successfully!")
 
-        
 
-        const filterForSort = {userType: ratedUserType, location: favorLocation}
+        const filterForSort = { userType: ratedUserType, location: favorLocation }
         const leaderboard = await Leaderboard.findOneAndUpdate(filterForSort);
-        const {users} = leaderboard;
+        const { users } = leaderboard;
         const sortedUsers = users.sort((a, b) => b.score - a.score);
         await leaderboard.updateOne({ $set: { users: sortedUsers } });
         console.log(">>> rateFavor: Leaderboard sorted and updated successfully!")
-
-
 
     }
     else {

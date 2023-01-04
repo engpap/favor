@@ -8,7 +8,8 @@ import FormData from 'form-data';
 import { PROVIDER, CALLER, ADMIN, USER_TYPES } from '../constants/userTypes.js';
 import { FAVOR_CATEGORIES } from '../constants/favorCategories.js'
 import { LOCATIONS } from '../constants/locations.js'
-import Leaderboard from '../models/leaderboard.js';
+
+import { createJsonPost } from './utilities/jsonCreators.js';
 
 export const createPost = async (req, res) => {
     const { userType, favorStartTime, availabilityStartTime, availabilityEndTime, description } = req.body;
@@ -71,8 +72,8 @@ export const createPost = async (req, res) => {
         await newPost.save();
         console.log('>>> createPost: Post created!');
         var user = await User.findById(newPost.creatorId);
-        console.log({ ...newPost._doc, name: user.name, surname: user.surname, profilePicture: '', averageStars: user.averageStars, rankingPosition: 1, rankingLocation: 'to_define' });
-        res.status(201).json({ ...newPost._doc, name: user.name, surname: user.surname, profilePicture: user.profilePicture, bio: user.bio, averageStars: user.averageStars, rankingPosition: 1, rankingLocation: 'to_define' });
+        
+        res.status(201).json(await createJsonPost(newPost,user));
 
     } catch (error) {
         console.log(error.message);
@@ -107,7 +108,7 @@ export const getPosts = async (request, response) => {
             var user = await User.findById(document.creatorId);
             if (user) {
                 //TODO, put user.averageRatings instead of 2.2
-                var newDocument = fillPostWithSideInformation(document, user)
+                var newDocument = await createJsonPost(document,user)
                 //var newDocument = { ...document._doc, name: user.name, surname: user.surname, profilePicture: user.profilePicture, bio: user.bio, averageStars: 2.2, rankingPosition: 1, rankingLocation: 'to_define' }
                 newPosts = [...newPosts, newDocument]
             }
@@ -120,26 +121,6 @@ export const getPosts = async (request, response) => {
     }
 }
 
-
-
-const fillPostWithSideInformation = (document, user) => {
-
-    const filter = { userType: document.userType, location: document.location, 'users.user': user._id };
-
-    Leaderboard.findOne(filter).then(doc => {
-        if (doc) {
-            const { user, score } = doc.users.find(item => item.user == user._id);
-            console.log(user, score);
-        } else {
-            console.log(0);
-        }
-    })
-        .catch(err => {
-            console.error(err);
-        });
-    // TODO: FINISCI
-    return { ...document._doc, name: user.name, surname: user.surname, profilePicture: user.profilePicture, bio: user.bio, averageStars: user.averageStars, rankingPosition: 1, rankingLocation: 'to_define' }
-}
 /**
  * 
  * @param {*} request containing as parameter the id of the post the client wants to retrieve
