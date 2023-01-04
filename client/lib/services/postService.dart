@@ -48,13 +48,13 @@ class PostService {
         throw Exception(
             "Trying to publish a favor as Provider but userType is not Provider!");
 
-      ProviderPost post = ProviderPost(
+      /*ProviderPost post = ProviderPost(
           userType: getUserMode(),
           taskCategory: taskCategory,
           location: location,
           availabilityStartTime: availabilityStartTime,
           availabilityEndTime: availabilityEndTime,
-          description: description);
+          description: description);*/
       final userProvider = Provider.of<UserProvider>(context, listen: false);
 
       http.Response response = await http.post(
@@ -63,7 +63,14 @@ class PostService {
           'Content-Type': 'application/json;charset=UTF-8',
           'x-auth-token': userProvider.user.token,
         },
-        body: jsonEncode(post.toJson()),
+        body: jsonEncode({
+          'userType': getUserMode(),
+          'taskCategory': taskCategory,
+          'location': location,
+          'availabilityStartTime': availabilityStartTime,
+          'availabilityEndTime': availabilityEndTime,
+          'description': description
+        }),
       );
 
       httpErrorHandle(
@@ -78,7 +85,8 @@ class PostService {
         },
       );
     } catch (error) {
-      showToast(context, error.toString());
+      throw Exception(
+          ">>> publishProviderFavor exception: " + error.toString());
     }
   }
 
@@ -92,12 +100,12 @@ class PostService {
       if (!isUserModeAsCaller())
         throw Exception(
             "Trying to publish a favor as Caller but userType is not Caller!");
-      CallerPost post = CallerPost(
+      /*CallerPost post = CallerPost(
           userType: getUserMode(),
           taskCategory: taskCategory,
           location: location,
           favorStartTime: favorStartTime,
-          description: description);
+          description: description);*/
 
       final userProvider = Provider.of<UserProvider>(context, listen: false);
 
@@ -107,7 +115,13 @@ class PostService {
           'Content-Type': 'application/json;charset=UTF-8',
           'x-auth-token': userProvider.user.token,
         },
-        body: jsonEncode(post.toJson()),
+        body: jsonEncode({
+          'userType': getUserMode(),
+          'taskCategory': taskCategory,
+          'location': location,
+          'favorStartTime': favorStartTime,
+          'description': description
+        }),
       );
 
       httpErrorHandle(
@@ -122,7 +136,7 @@ class PostService {
         },
       );
     } catch (error) {
-      showToast(context, error.toString());
+      throw Exception(">>> publishCallerFavor exception: " + error.toString());
     }
   }
 
@@ -162,7 +176,7 @@ class PostService {
         },
       );
     } catch (error) {
-      showToast(context, error.toString());
+      throw Exception(">>> getPosts exception: " + error.toString());
     }
     return posts;
   }
@@ -207,7 +221,7 @@ class PostService {
         },
       );
     } catch (error) {
-      showToast(context, error.toString());
+      throw Exception(">>> getPostsBySearch exception: " + error.toString());
     }
     return posts;
   }
@@ -240,7 +254,7 @@ class PostService {
         },
       );
     } catch (error) {
-      showToast(context, error.toString());
+      throw Exception(">>> bookFavor exception: " + error.toString());
     }
   }
 }

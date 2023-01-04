@@ -6,7 +6,7 @@ export const createJsonPost = async (post,user) =>{
          surname: user.surname, 
          profilePicture: user.profilePicture, 
          bio: user.bio, 
-         averageStars: user.averageStars, 
+         averageStars: user.averageStars ? user.averageStars:0, 
          rankingPosition: await getLeaderboardPosition(user._id, post._doc.userType, post._doc.location),
          rankingLocation: post._doc.location }
 }

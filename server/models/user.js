@@ -30,7 +30,8 @@ const userSchema = mongoose.Schema({
     rankingPoints: { type: Number, default: 0 },
     averageRatings: {
         type: Number,
-        default: 0.1,
+        float: true,
+        default: 0.0,
         min: 0,
         max: 5
     },

@@ -19,7 +19,7 @@ class ProviderPost extends Post {
     required this.availabilityStartTime,
     required this.availabilityEndTime,
     required super.description,
-    super.averageStars,
+    required super.averageStars,
     super.rankingPosition,
     super.rankingLocation,
     super.bio,

@@ -19,12 +19,23 @@ class favorBookedPage_Screen_M extends StatelessWidget {
   });
 
   BookedFavor? booked;
-  
-  Post post = CallerPost(id: "id", creatorId: "creatorId", createdAt: "createdAt", 
-                        name: "name", surname: "surname", profilePicture: null, 
-                        userType: "userType", taskCategory: "taskCategory", location: "location", 
-                        favorStartTime: DateTime(0), description: "description",
-                        averageStars: 2.0, rankingPosition: 1, rankingLocation: "rankingLocation", bio: "bio");
+
+  Post post = CallerPost(
+      id: "id",
+      creatorId: "creatorId",
+      createdAt: "createdAt",
+      name: "name",
+      surname: "surname",
+      profilePicture: null,
+      userType: "userType",
+      taskCategory: "taskCategory",
+      location: "location",
+      favorStartTime: DateTime(0),
+      description: "description",
+      averageStars: 2,
+      rankingPosition: 1,
+      rankingLocation: "rankingLocation",
+      bio: "bio");
 
   @override
   Widget build(BuildContext context) {
@@ -194,7 +205,7 @@ class favorInformationPage_person_M extends StatelessWidget {
     required this.post,
   });
 
-  Post? post;
+  Post post;
 
   @override
   Widget build(BuildContext context) {
@@ -271,7 +282,7 @@ class favorInformationPage_person_M extends StatelessWidget {
                         color: Colors.transparent,
                       ),
                       // STARS
-                      StarsWidget(number: post!.averageStars),
+                      StarsWidget(number: post.averageStars),
                     ],
                   ),
                 ),
@@ -364,7 +375,7 @@ class favorInformationPage_person_M extends StatelessWidget {
                             child: Icon(CupertinoIcons.add),
                             onPressed: () {
                               print('Pressed: _calendarButton');
-                              //TODO: 
+                              //TODO:
                             },
                           ),
                         ),
@@ -413,7 +424,7 @@ class favorInformationPage_person_M extends StatelessWidget {
                             child: Icon(CupertinoIcons.check_mark),
                             onPressed: () {
                               print('Pressed: _completeButton');
-                              //TODO: 
+                              //TODO:
                             },
                           ),
                         ),

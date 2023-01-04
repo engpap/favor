@@ -116,6 +116,7 @@ export const getPosts = async (request, response) => {
 
         response.status(200).json({ data: newPosts, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) });
         console.log(">>> getPosts: Sent posts to client");
+        //console.log(">>> getPosts: There are the posts:\n",newPosts);
     } catch (error) {
         response.status(404).json({ message: error.message });
     }

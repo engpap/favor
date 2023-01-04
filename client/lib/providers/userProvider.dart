@@ -9,8 +9,8 @@ class UserProvider extends ChangeNotifier {
     profilePicture: null,
     email: '',
     token: '',
-    rankingPoints: null,
-    averageStars: null,
+    rankingPoints: 0,
+    averageStars: 0,
   );
 
   User get user => _user;
@@ -28,7 +28,7 @@ class UserProvider extends ChangeNotifier {
         profilePicture: null,
         email: '',
         token: '',
-        rankingPoints: null,
-        averageStars: null);
+        rankingPoints: 0,
+        averageStars: 0);
   }
 }

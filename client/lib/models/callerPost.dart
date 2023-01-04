@@ -18,7 +18,7 @@ class CallerPost extends Post {
     required super.location,
     required this.favorStartTime,
     required super.description,
-    super.averageStars,
+    required super.averageStars,
     super.rankingPosition,
     super.rankingLocation,
     super.bio,

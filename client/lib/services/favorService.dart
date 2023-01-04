@@ -30,7 +30,8 @@ class FavorService {
                   BookedFavor.fromJson(jsonDecode(response.body)['data'][i]));
           });
     } catch (error) {
-      showToast(context, error.toString());
+      throw Exception(">>> bookFavor exception: " + error.toString());
+      //showToast(context, error.toString());
     }
     return bookedFavors;
   }
@@ -58,7 +59,9 @@ class FavorService {
             showToast(context, "You have successfully completed a Favor!");
           });
     } catch (error) {
-      showToast(context, error.toString());
+      throw Exception(
+          ">>> markFavorAsCompleted exception: " + error.toString());
+      //showToast(context, error.toString());
     }
   }
 
@@ -83,7 +86,8 @@ class FavorService {
             showToast(context, "You have successfully rated a Favor!");
           });
     } catch (error) {
-      showToast(context, error.toString());
+      throw Exception(">>> rateFavor exception: " + error.toString());
+      //showToast(context, error.toString());
     }
   }
 }

@@ -27,22 +27,18 @@ class AuthService {
     required String confirmPassword,
   }) async {
     try {
-      User user = User(
-        id: '',
-        name: name,
-        surname: surname,
-        email: email,
-        password: password,
-        confirmPassword: confirmPassword,
-        token: '',
-      );
-
       http.Response response = await http.post(
         Uri.parse('$uri/user/signup'),
         headers: <String, String>{
           'Content-Type': 'application/json;charset=UTF-8',
         },
-        body: jsonEncode(user.toJson()),
+        body: jsonEncode({
+          'name': name,
+          'surname': surname,
+          'email': email,
+          'password': password,
+          'confirmPassword': confirmPassword
+        }),
       );
 
       httpErrorHandle(
@@ -63,7 +59,8 @@ class AuthService {
         return ErrorMessage(ErrorConstants.NO_ERROR, 'noError');
         */
     } catch (error) {
-      showToast(context, error.toString());
+      throw Exception(">>> signup exception: " + error.toString());
+      //showToast(context, error.toString());
       //return ErrorMessage(ErrorConstants.CLIENT_ERROR, 'Client error');
     }
   }
@@ -108,7 +105,8 @@ class AuthService {
         },
       );
     } catch (error) {
-      showToast(context, error.toString());
+      throw Exception(">>> signin exception: " + error.toString());
+      //showToast(context, error.toString());
       //return ErrorMessage(ErrorConstants.CLIENT_ERROR, 'Client error');
     }
   }

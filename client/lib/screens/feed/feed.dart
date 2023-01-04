@@ -524,7 +524,7 @@ BookedFavor BOOKED = new BookedFavor(
         location: "location",
         favorStartTime: DateTime(0),
         description: "description",
-        averageStars: 2.0,
+        averageStars: 2,
         rankingPosition: 1,
         rankingLocation: "rankingLocation",
         bio: "bio"));
