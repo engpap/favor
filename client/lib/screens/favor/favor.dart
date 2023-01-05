@@ -125,7 +125,7 @@ class _FavorScreen_M extends State<FavorScreen_M> {
                             children: [
                               //PICKER availabilityStartTime - PROVIDER
                               Favor_TimePicker(
-                                contentList: globals.availabilityStartTime,
+                                //contentList: globals.availabilityStartTime,
                                 placeholder: globals.availabilityStartTimePlaceholder,
                                 heading: globals.availabilityStartTimeHeading,
                                 prefixIcon: globals.availabilityStartTimePrefixIcon,
@@ -138,7 +138,7 @@ class _FavorScreen_M extends State<FavorScreen_M> {
                               ),
                               //PICKER availabilityEndTime - PROVIDER
                               Favor_TimePicker(
-                                contentList: globals.availabilityEndTime,
+                                //contentList: globals.availabilityEndTime,
                                 placeholder: globals.availabilityEndTimePlaceholder,
                                 heading: globals.availabilityEndTimeHeading,
                                 prefixIcon: globals.availabilityEndTimePrefixIcon,
@@ -150,7 +150,7 @@ class _FavorScreen_M extends State<FavorScreen_M> {
                         : (
                             //PICKER favorStartTime - CALLER
                             Favor_TimePicker(
-                            contentList: globals.favorStartTime,
+                            //contentList: globals.favorStartTime,
                             placeholder: globals.favorStartTimePlaceholder,
                             heading: globals.favorStartTimeHeading,
                             prefixIcon: globals.favorStartTimePrefixIcon,
@@ -162,7 +162,7 @@ class _FavorScreen_M extends State<FavorScreen_M> {
                           height: Responsive.height(2, context),
                           color: Colors.transparent,
                         ),
-                        
+
                         // BOX DESCRIPTION
                         Favor_boxDescription(
                           placeholder: globals.boxDescriptionPlaceholder,
@@ -486,8 +486,6 @@ class _Favor_publishFavorButtonState extends State<Favor_publishFavorButton> {
 
 /// TIME PICKER MENU
 class Favor_TimePicker extends StatefulWidget {
-  // List of item showed in the menu'
-  final List<Text> contentList;
   // menu placeholder
   final String placeholder;
   // menu description
@@ -503,7 +501,6 @@ class Favor_TimePicker extends StatefulWidget {
       {super.key,
       required this.placeholder,
       required this.heading,
-      required this.contentList,
       required this.prefixIcon,
       required this.textController,
       //required this.flag
