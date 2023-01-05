@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/cupertino.dart';
 import 'dart:convert';
 
@@ -11,6 +13,16 @@ List<Text> convertToTextList(List<String> source) {
   List<Text> result = [];
   for (String string in source) {
     result.add(Text(string));
+  }
+  return result;
+}
+
+Map<String, int> convertToStringIntMap(List<dynamic> list) {
+  Map<String, int> result = {};
+  for (var element in list) {
+    String userId = element['user'];
+    int score = element['score'].toInt();
+    result[userId] = score;
   }
   return result;
 }

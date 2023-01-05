@@ -11,8 +11,8 @@ class User {
   final String? password;
   final String? confirmPassword;
   final String token;
-  final int? rankingPoints;
-  final double? averageStars;
+  final int rankingPoints;
+  final int averageStars;
   final String? bio;
 
   User({
@@ -24,8 +24,8 @@ class User {
     this.password,
     this.confirmPassword,
     required this.token,
-    this.rankingPoints,
-    this.averageStars,
+    required this.rankingPoints,
+    required this.averageStars,
     this.bio,
   });
 
@@ -39,8 +39,10 @@ class User {
         password = json['password'],
         confirmPassword = json['confirmPassword'],
         token = json['token'],
-        rankingPoints = json['rankingPoints'],
-        averageStars = json['averageStars'],
+        rankingPoints =
+            json['rankingPoints'] != null ? json['rankingPoints'] : 0,
+        averageStars =
+            json['rankingPoints'] != null ? json['rankingPoints'] : 0,
         bio = json['bio'];
 
   Map<String, dynamic> toJson() => {

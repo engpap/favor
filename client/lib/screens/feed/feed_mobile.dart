@@ -75,7 +75,8 @@ class Feed_Screen_M extends StatelessWidget {
               Container(
                   constraints:
                       BoxConstraints(maxHeight: Responsive.height(12, context)),
-                  child: Text("il carosello dovrebve essere qui") //TODO: Carousel_BookedFavorWidget()
+                  child: Text(
+                      "il carosello dovrebve essere qui") //TODO: Carousel_BookedFavorWidget()
                   ),
             ],
           ),
@@ -323,7 +324,7 @@ BookedFavor BOOKED = new BookedFavor(
         location: "location",
         favorStartTime: DateTime(0),
         description: "description",
-        averageStars: 2.0,
+        averageStars: 2,
         rankingPosition: 1,
         rankingLocation: "rankingLocation",
         bio: "bio"));

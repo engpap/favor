@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/functions/responsive.dart';
+import 'package:project/models/leaderboard.dart';
 
 import 'package:project/screens/components/starsWidget.dart';
 
@@ -45,7 +46,7 @@ class LeaderboardCard extends StatelessWidget {
   String personName;
   String personImage;
   int rankPosition;
-  double starNumber;
+  int starNumber;
 
   @override
   Widget build(BuildContext context) {
@@ -74,31 +75,33 @@ class LeaderboardCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               // RANK
-              
-              (rankPosition < 4) 
-              // Thropy
-              ? Container(
-                width: Responsive.width(5, context),
-                decoration: BoxDecoration(
-                  color: rankPosition == 1 ? Colors.amber : (rankPosition == 2 ? Colors.grey : Colors.brown),
-                  shape: BoxShape.circle,
-                 ),
-                child: Icon(CupertinoIcons.wind_snow),
-              )               
-              // Number
-              : Container(
-                width: Responsive.width(5, context),
-                //margin: EdgeInsets.only(left: 9),
-                child: Text(
-                  " ${rankPosition}",
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: favorColors.PrimaryBlue,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
+
+              (rankPosition < 4)
+                  // Thropy
+                  ? Container(
+                      width: Responsive.width(5, context),
+                      decoration: BoxDecoration(
+                        color: rankPosition == 1
+                            ? Colors.amber
+                            : (rankPosition == 2 ? Colors.grey : Colors.brown),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(CupertinoIcons.wind_snow),
+                    )
+                  // Number
+                  : Container(
+                      width: Responsive.width(5, context),
+                      //margin: EdgeInsets.only(left: 9),
+                      child: Text(
+                        " ${rankPosition}",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: favorColors.PrimaryBlue,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
               // IMAGE
               Container(
                 width: Responsive.width(10, context),
@@ -130,11 +133,10 @@ class LeaderboardCard extends StatelessWidget {
               ),
               // STARS
               Container(
-                child: StarsWidget(
-                  size: 16,
-                  number: starNumber,
-                )
-              ),
+                  child: StarsWidget(
+                size: 16,
+                number: starNumber,
+              )),
             ],
           ),
           onPressed: () {/** */},

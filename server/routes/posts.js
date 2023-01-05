@@ -11,7 +11,7 @@ router.get('/getFavorConstants', getFavorConstants);
 router.get('/getFavorCategories', getFavorCategories);
 //router.get('/:id', getPost);
 
-router.post('/bookFavor', auth,bookFavor)
+router.post('/:id/bookFavor', auth,bookFavor)
 router.post('/create', auth, createPost);
 
 export default router;

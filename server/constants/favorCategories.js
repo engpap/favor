@@ -1,1 +1,1 @@
-export const FAVOR_CATEGORIES =['Dog Sitting','Home Repair','Home Cleaning','Outdoor Cleaning','Bring me that','Cooking','Tech Repair','Take me there']
+export const FAVOR_CATEGORIES =['Dog Sitting','Baby Sitting','Home Repair','Home Cleaning','Outdoor Cleaning','Bring me that','Cooking','Tech Repair','Take me there']
