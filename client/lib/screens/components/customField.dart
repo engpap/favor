@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../errors/errorConstants.dart';
+import 'package:project/functions/favorColors.dart' as favorColors;
 
 class CustomField extends StatefulWidget {
   /// REQUIRED PARAMETERS
@@ -100,7 +101,7 @@ class _CustomFieldState extends State<CustomField> {
               padding: EdgeInsets.only(top: 0, bottom: 0, left: 0, right: 0),
               child: Icon(
                 CupertinoIcons.xmark_circle_fill,
-                color: Colors.red.withOpacity(0.8),
+                color: favorColors.Yellow.withOpacity(0.8),
               ),
               onPressed: () => widget.textController.clear(), //widget
             ),

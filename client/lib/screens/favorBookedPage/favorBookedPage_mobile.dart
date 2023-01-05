@@ -254,14 +254,14 @@ class favorInformationPage_person_M extends StatelessWidget {
                     children: [
                       // NAME AND SURNAME
                       Text(
-                        "${post!.name} ${post!.surname}",
+                        "${post.name} ${post.surname}",
                         style: TextStyle(
                             fontSize: 24, fontWeight: FontWeight.bold),
                         textAlign: TextAlign.left,
                       ),
                       // ROLE
                       Text(
-                        post!.userType,
+                        post.userType,
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -274,7 +274,7 @@ class favorInformationPage_person_M extends StatelessWidget {
                       ),
                       // RANK
                       Text(
-                        "${post!.rankingPosition} in ${post!.rankingLocation}",
+                        "${post.rankingPosition} in ${post.rankingLocation}",
                         style: TextStyle(fontSize: 14),
                       ),
                       Divider(
@@ -448,7 +448,7 @@ class favorInformationPage_person_M extends StatelessWidget {
                   padding: EdgeInsets.only(left: Responsive.width(5, context)),
                   child: Align(
                     child: Text(
-                      post!.bio!,
+                      post.bio!,
                       style: TextStyle(fontSize: 18),
                       textAlign: TextAlign.start,
                     ),

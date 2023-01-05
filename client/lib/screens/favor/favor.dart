@@ -332,6 +332,7 @@ class _Favor_pickerMenuState extends State<Favor_pickerMenu> {
             if (this.mounted) {
             setState(() {
               selectedValue = value;
+              print(globals.categoryTextController.text);
               // TODO: if possible remove these flags and use a cleaner approach
               /** 
               if (widget.flag == 1) {
