@@ -73,7 +73,7 @@ export const createPost = async (req, res) => {
         console.log('>>> createPost: Post created!');
         var user = await User.findById(newPost.creatorId);
         
-        res.status(201).json(await createJsonPost(newPost,user));
+        res.status(201).json(await createJsonPost(newPost,user,userType));
 
     } catch (error) {
         console.log(error.message);
@@ -107,9 +107,7 @@ export const getPosts = async (request, response) => {
         for (const document of posts) {
             var user = await User.findById(document.creatorId);
             if (user) {
-                //TODO, put user.averageRatings instead of 2.2
-                var newDocument = await createJsonPost(document,user)
-                //var newDocument = { ...document._doc, name: user.name, surname: user.surname, profilePicture: user.profilePicture, bio: user.bio, averageStars: 2.2, rankingPosition: 1, rankingLocation: 'to_define' }
+                var newDocument = await createJsonPost(document,user,document.userType)
                 newPosts = [...newPosts, newDocument]
             }
         }

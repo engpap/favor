@@ -67,8 +67,8 @@ class PostService {
           'userType': getUserMode(),
           'taskCategory': taskCategory,
           'location': location,
-          'availabilityStartTime': availabilityStartTime,
-          'availabilityEndTime': availabilityEndTime,
+          'availabilityStartTime': availabilityStartTime.toIso8601String(),
+          'availabilityEndTime': availabilityEndTime.toIso8601String(),
           'description': description
         }),
       );
@@ -119,7 +119,7 @@ class PostService {
           'userType': getUserMode(),
           'taskCategory': taskCategory,
           'location': location,
-          'favorStartTime': favorStartTime,
+          'favorStartTime': favorStartTime.toIso8601String(),
           'description': description
         }),
       );
