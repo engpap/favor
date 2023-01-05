@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/models/favorConstants.dart';
 import 'package:project/models/post.dart';
+
 import 'package:project/screens/home.dart';
 import 'package:project/screens/responsiveLayout.dart';
 import 'package:project/services/postService.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'globals.dart' as globals;
+
+import 'package:project/screens/favor/favor2.dart';
 
 class FavorScreen extends StatelessWidget {
   const FavorScreen({super.key});
@@ -26,6 +29,7 @@ class FavorScreen extends StatelessWidget {
             backgroundColor: favorColors.IntroBg,
             child: SafeArea(
               child: ResponsiveLeayout(
+                //mobileBody: Favor2_Screen_M(),
                 mobileBody: FavorScreen_M(),
                 //TODO do we need tablet?
                 tabletBody: FavorScreen_M(),
@@ -229,6 +233,8 @@ class Favor_pickerMenu extends StatefulWidget {
 class _Favor_pickerMenuState extends State<Favor_pickerMenu> {
   // initial value displayed 0
   int selectedValue = 0;
+  late FixedExtentScrollController scrollController;
+  //late TextEditingController textController;
 
   @override
   Widget build(BuildContext context) {
@@ -260,65 +266,36 @@ class _Favor_pickerMenuState extends State<Favor_pickerMenu> {
               ),
               placeholder: widget.placeholder,
               controller: widget.textController,
+              readOnly: true, //
+              enableInteractiveSelection: false, //
               // PICKER BUTTON
               suffix: CupertinoButton(
                 child: Icon(
                   CupertinoIcons.arrowtriangle_down_circle,
                   color: favorColors.SecondaryBlue,
                 ),
-                onPressed: (() => showCupertinoModalPopup(
+                onPressed: () {
+                  scrollController.dispose();
+                  scrollController = FixedExtentScrollController(initialItem: selectedValue);
+            
+                  showCupertinoModalPopup(
+                    context: context, 
+                    builder: (context) => CupertinoActionSheet(
+                      actions: [BuildPicker()],
+                      cancelButton: CupertinoActionSheetAction(
+                        child: Text("cancel"),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                    )
+                  );
+                }
+                  
+                  /** 
+                   * => showCupertinoModalPopup(
                     context: context,
-                    builder: (_) => SizedBox(
-                          width: Responsive.width(100, context),
-                          height: Responsive.height(20, context),
-                          child: CupertinoPicker(
-                            backgroundColor: Colors.white,
-                            itemExtent: Responsive.height(5, context), //height of current item
-                            scrollController: FixedExtentScrollController(
-                              initialItem: selectedValue,
-                            ),
-                            children: widget.contentList,
-                            onSelectedItemChanged: (int value) {
-                              if (this.mounted) {
-                              setState(() {
-                                selectedValue = value;
-                                // TODO: if possible remove these flags and use a cleaner approach
-                                if (widget.flag == 1) {
-                                  globals.categoryTextController =
-                                      TextEditingController(
-                                          text:
-                                              '${widget.contentList.elementAt(selectedValue).data}');
-                                }
-                                if (widget.flag == 2) {
-                                  globals.locationTextController =
-                                      TextEditingController(
-                                          text:
-                                              '${widget.contentList.elementAt(selectedValue).data}');
-                                }
-                                if (widget.flag == 3) {
-                                  globals.availabilityStartTimeTextController =
-                                      TextEditingController(
-                                          text:
-                                              '${widget.contentList.elementAt(selectedValue).data}');
-                                }
-                                if (widget.flag == 4) {
-                                  globals.availabilityEndTimeTextController =
-                                      TextEditingController(
-                                          text:
-                                              '${widget.contentList.elementAt(selectedValue).data}');
-                                }
-                                if (widget.flag == 5) {
-                                  globals.favorStartTimeTextController =
-                                      TextEditingController(
-                                          text:
-                                              '${widget.contentList.elementAt(selectedValue).data}');
-                                }
-                              });
-                              }
-
-                            },
-                          ),
-                        ))),
+                    builder: (_) => BuildPicker()),
+                  */
+                
               ),
             ),
           ],
@@ -326,6 +303,88 @@ class _Favor_pickerMenuState extends State<Favor_pickerMenu> {
       ),
     );
   }
+
+  void initState(){
+    super.initState();
+    scrollController = FixedExtentScrollController(
+      initialItem: selectedValue,
+    );
+    //textController = widget.textController;
+  }
+
+  void dispose(){
+    scrollController.dispose();
+    //textController.dispose();
+    super.dispose();
+  }
+
+  Widget BuildPicker() =>
+    SizedBox(
+      //width: Responsive.width(100, context),
+      height: Responsive.height(30, context),
+      child: StatefulBuilder(
+        builder:(context, setState) => CupertinoPicker(
+          backgroundColor: Colors.white,
+          selectionOverlay: CupertinoPickerDefaultSelectionOverlay(
+            background: favorColors.SecondaryBlue.withOpacity(0.2),
+          ),
+          itemExtent: 64, //Responsive.height(5, context), //height of current item
+          scrollController: scrollController,
+          children: List.generate(widget.contentList.length, (index){ 
+            final isSelected = this.selectedValue == index;
+            final color = isSelected ? favorColors.PrimaryBlue : Colors.black;
+            final item = widget.contentList[index];
+            return Center(
+              child: Text(item.data.toString(),
+                style: TextStyle(fontSize: 24, color: color),
+              )
+            );
+          }
+          ),
+
+          onSelectedItemChanged: (int value) {
+            widget.textController.text = widget.contentList.elementAt(value).data.toString();
+            if (this.mounted) {
+            setState(() {
+              selectedValue = value;
+              // TODO: if possible remove these flags and use a cleaner approach
+              /** 
+              if (widget.flag == 1) {
+                globals.categoryTextController =
+                    TextEditingController(text:'${widget.contentList.elementAt(selectedValue).data}');
+              }
+              if (widget.flag == 2) {
+                globals.locationTextController =
+                    TextEditingController(
+                        text:
+                            '${widget.contentList.elementAt(selectedValue).data}');
+              }
+              if (widget.flag == 3) {
+                globals.availabilityStartTimeTextController =
+                    TextEditingController(
+                        text:
+                            '${widget.contentList.elementAt(selectedValue).data}');
+              }
+              if (widget.flag == 4) {
+                globals.availabilityEndTimeTextController =
+                    TextEditingController(
+                        text:
+                            '${widget.contentList.elementAt(selectedValue).data}');
+              }
+              if (widget.flag == 5) {
+                globals.favorStartTimeTextController =
+                    TextEditingController(
+                        text:
+                            '${widget.contentList.elementAt(selectedValue).data}');
+              }
+              */
+            });
+            }
+          },
+        ),
+      ),
+    );
+  
 }
 
 class Favor_boxDescription extends StatelessWidget {

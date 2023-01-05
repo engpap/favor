@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:project/screens/components/cupertinoNavigationBar_favor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,9 +17,11 @@ bool ADMINstatus = false;
 bool isUserModeAsProvider() {
   return PROVIDERstatus && !CALLERstatus;
 }
+
 bool isUserModeAsCaller() {
   return CALLERstatus && !PROVIDERstatus;
 }
+
 String getUserMode() {
   if (PROVIDERstatus) {
     print("UserMode: Provider");
@@ -34,9 +38,8 @@ String getUserMode() {
 }
 
 /// Class used to controll the UserMode
-/// it's a StatefulWidget that wraps an InheritedWidget in order to get both functionalities 
+/// it's a StatefulWidget that wraps an InheritedWidget in order to get both functionalities
 class UserMode extends StatefulWidget {
-
   const UserMode({super.key, required this.child});
   final Widget child;
 
@@ -48,7 +51,7 @@ class _UserModeState extends State<UserMode> {
   bool providerStatus_state = PROVIDERstatus;
   bool callerStatus_state = CALLERstatus;
   bool adminStatus_state = ADMINstatus;
-  
+
   void setUserMode_provider() {
     setState(() {
       // internal variables
@@ -88,42 +91,41 @@ class _UserModeState extends State<UserMode> {
     });
   }
 
-bool isUserModeAs_provider() {
-  return providerStatus_state && !callerStatus_state && !adminStatus_state;
-}
-
-bool isUserModeAs_caller() {
-  return callerStatus_state && !providerStatus_state && !adminStatus_state;
-}
-
-bool isUserModeAs_admin() {
-  return adminStatus_state && !providerStatus_state && !callerStatus_state;
-}
-
-String getUserMode() {
-  if (providerStatus_state) {
-    print("UserMode: Provider");
-    return 'providerFP';
-  } else if (callerStatus_state) {
-    print("UserMode: Caller");
-    return 'callerFP';
-  } else if (adminStatus_state) {
-    print("UserMode: Admin");
-    return 'adminFP';
-  } else {
-    throw Exception("No UserMode set, this situation should not occur");
+  bool isUserModeAs_provider() {
+    return providerStatus_state && !callerStatus_state && !adminStatus_state;
   }
-}
+
+  bool isUserModeAs_caller() {
+    return callerStatus_state && !providerStatus_state && !adminStatus_state;
+  }
+
+  bool isUserModeAs_admin() {
+    return adminStatus_state && !providerStatus_state && !callerStatus_state;
+  }
+
+  String getUserMode() {
+    if (providerStatus_state) {
+      print("UserMode: Provider");
+      return 'providerFP';
+    } else if (callerStatus_state) {
+      print("UserMode: Caller");
+      return 'callerFP';
+    } else if (adminStatus_state) {
+      print("UserMode: Admin");
+      return 'adminFP';
+    } else {
+      throw Exception("No UserMode set, this situation should not occur");
+    }
+  }
 
   @override
-  Widget build(BuildContext context) => 
-    UserMode_inherited(
-      child: widget.child,
-      provider: providerStatus_state,
-      caller: callerStatus_state,
-      admin: adminStatus_state,
-      stateWidget: this,
-    );
+  Widget build(BuildContext context) => UserMode_inherited(
+        child: widget.child,
+        provider: providerStatus_state,
+        caller: callerStatus_state,
+        admin: adminStatus_state,
+        stateWidget: this,
+      );
 }
 
 class UserMode_inherited extends InheritedWidget {
@@ -152,57 +154,56 @@ class UserMode_inherited extends InheritedWidget {
   }
 
   @override
-  bool updateShouldNotify(UserMode_inherited oldWidget) =>
-      provider != oldWidget.provider || caller != oldWidget.caller 
-      || admin != oldWidget.admin || stateWidget != oldWidget.stateWidget;
+  bool updateShouldNotify(UserMode_inherited oldWidget) => 
+    provider != oldWidget.provider || 
+    caller != oldWidget.caller || 
+    admin != oldWidget.admin;  //|| stateWidget != oldWidget.stateWidget;
 }
-
-
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoTabScaffold(
-        tabBar: CupertinoTabBar(
-          items: [
-            // HOME
-            BottomNavigationBarItem(
-              icon: TabsName.values[0].icon,
-              label: TabsName.values[0].name,
-            ),
-            // CHAT
-            BottomNavigationBarItem(
-              icon: TabsName.values[1].icon,
-              label: TabsName.values[1].name,
-            ),
-            // NEW FAVOR
-            BottomNavigationBarItem(
-              icon: TabsName.values[2].icon,
-              label: TabsName.values[2].name,
-            ),
-            // LEADERBOARD
-            BottomNavigationBarItem(
-              icon: TabsName.values[3].icon,
-              label: TabsName.values[3].name,
-            ),
-            // ACCOUNT
-            BottomNavigationBarItem(
-              icon: TabsName.values[4].icon,
-              label: TabsName.values[4].name,
-            ),
-          ],
-        ),
-        // BUILD THE INSIDE SCREEN
-        tabBuilder: (context, i) {
-          return UserMode(
-            key: UniqueKey(), // Used to keep unique this widget instance
-            child: DetailScreen(
-                  topic: TabsName.values[i].screen,
-                )
-          );
-        });
+    return UserMode(
+      key: UniqueKey(),
+      child: CupertinoTabScaffold(
+          tabBar: CupertinoTabBar(
+            items: [
+              // HOME
+              BottomNavigationBarItem(
+                icon: TabsName.values[0].icon,
+                label: TabsName.values[0].name,
+              ),
+              // CHAT
+              BottomNavigationBarItem(
+                icon: TabsName.values[1].icon,
+                label: TabsName.values[1].name,
+              ),
+              // NEW FAVOR
+              BottomNavigationBarItem(
+                icon: TabsName.values[2].icon,
+                label: TabsName.values[2].name,
+              ),
+              // LEADERBOARD
+              BottomNavigationBarItem(
+                icon: TabsName.values[3].icon,
+                label: TabsName.values[3].name,
+              ),
+              // ACCOUNT
+              BottomNavigationBarItem(
+                icon: TabsName.values[4].icon,
+                label: TabsName.values[4].name,
+              ),
+            ],
+          ),
+          // BUILD THE INSIDE SCREEN
+          tabBuilder: (context, i) {
+            return DetailScreen(
+              topic: TabsName.values[i].screen,
+            );
+          }),
+    );
   }
 }
 
@@ -219,14 +220,15 @@ class DetailScreen extends StatelessWidget {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar_favor(
         border: Border(),
-        backgroundColor: Colors.white, //TODO: change image background in order to change also this one. now set Colors.white to match
+        backgroundColor: Colors
+            .white, //TODO: change image background in order to change also this one. now set Colors.white to match
         middle: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              FavorNavImage(),
-              NavUserMode(),
-            ],
-          ),
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            FavorNavImage(),
+            NavUserMode(),
+          ],
+        ),
       ),
       child: topic,
     );
@@ -253,74 +255,80 @@ class _NavUserModeState extends State<NavUserMode> {
           height: 26,
           child: CupertinoButton(
               padding: EdgeInsets.zero,
-              color:
-                  UserMode_inherited.of(context).stateWidget.isUserModeAs_provider()
-                      ? favorColors.PrimaryBlue
-                      : Colors.transparent,
+              color: UserMode_inherited.of(context)
+                      .stateWidget
+                      .isUserModeAs_provider()
+                  ? favorColors.PrimaryBlue
+                  : Colors.transparent,
               borderRadius: BorderRadius.circular(90),
-              child:
-                  UserMode_inherited.of(context).stateWidget.isUserModeAs_provider()
-                      ? Text(
-                          "Provider",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
-                        )
-                      : (Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("Change to ",
-                                style: TextStyle(
-                                    color: favorColors.PrimaryBlue,
-                                    fontWeight: FontWeight.normal)),
-                            Text("Provider",
-                                style: TextStyle(
-                                    color: favorColors.Yellow,
-                                    fontWeight: FontWeight.bold)),
-                          ],
-                        )),
+              child: UserMode_inherited.of(context)
+                      .stateWidget
+                      .isUserModeAs_provider()
+                  ? Text(
+                      "Provider",
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    )
+                  : (Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Change to ",
+                            style: TextStyle(
+                                color: favorColors.PrimaryBlue,
+                                fontWeight: FontWeight.normal)),
+                        Text("Provider",
+                            style: TextStyle(
+                                color: favorColors.Yellow,
+                                fontWeight: FontWeight.bold)),
+                      ],
+                    )),
               onPressed: () {
                 setState(() {
-                  UserMode_inherited.of(context).stateWidget.setUserMode_provider();
+                  UserMode_inherited.of(context)
+                      .stateWidget
+                      .setUserMode_provider();
                 });
               }),
         ),
-  
+
         /// CALLER
         Container(
           width: Responsive.width(40, context),
           height: 26,
           child: CupertinoButton(
               padding: EdgeInsets.zero,
-              color:
-                  UserMode_inherited.of(context).stateWidget.isUserModeAs_caller()
-                      ? favorColors.PrimaryBlue
-                      : Colors.transparent,
+              color: UserMode_inherited.of(context)
+                      .stateWidget
+                      .isUserModeAs_caller()
+                  ? favorColors.PrimaryBlue
+                  : Colors.transparent,
               borderRadius: BorderRadius.circular(90),
-              child:
-                  UserMode_inherited.of(context).stateWidget.isUserModeAs_caller()
-                      ? Text(
-                          "Caller",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
-                        )
-                      : (Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("Change to ",
-                                style: TextStyle(
-                                    color: favorColors.PrimaryBlue,
-                                    fontWeight: FontWeight.normal)),
-                            Text("Caller",
-                                style: TextStyle(
-                                    color: favorColors.Yellow,
-                                    fontWeight: FontWeight.bold)),
-                          ],
-                        )),
+              child: UserMode_inherited.of(context)
+                      .stateWidget
+                      .isUserModeAs_caller()
+                  ? Text(
+                      "Caller",
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    )
+                  : (Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Change to ",
+                            style: TextStyle(
+                                color: favorColors.PrimaryBlue,
+                                fontWeight: FontWeight.normal)),
+                        Text("Caller",
+                            style: TextStyle(
+                                color: favorColors.Yellow,
+                                fontWeight: FontWeight.bold)),
+                      ],
+                    )),
               onPressed: () {
                 setState(() {
-                  UserMode_inherited.of(context).stateWidget.setUserMode_caller();
+                  UserMode_inherited.of(context)
+                      .stateWidget
+                      .setUserMode_caller();
                 });
               }),
         ),

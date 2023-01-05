@@ -1,1 +1,4 @@
 .vscode/launch.json
+client/ios/Runner.xcodeproj/project.pbxproj
+client/ios/Runner/Info.plist
+
