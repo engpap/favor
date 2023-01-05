@@ -18,24 +18,41 @@ export const getBookedFavors = async (request, response) => {
     try {
         const LIMIT = 4;
         const pageStartIndex = (Number(page) - 1) * LIMIT;
+        console.log(request.userId)
+        // Count BookedFavor documents where the user is either the provider or the caller.
+        const filter = { $or: [{ providerId: request.userId }, { callerId: request.userId }] };
+        const total = await BookedFavor.countDocuments(filter);
 
-        const total = await BookedFavor.countDocuments({});
+        // Find BookedFavor documents where the user is either the provider or the caller.
+        // Sort BookedFavor documents from newest to oldest order, pass -1 as the parameter of sort().
+        // To skip the BookedFavor documents before the current page start index.
+        const bookedFavors = await BookedFavor.find(filter).sort({ _id: -1 }).limit(LIMIT).skip(pageStartIndex);
 
-        // To return all documents in a collection, omit parameter of find().  
-        // To sort posts from newest to oldest order, pass -1 as the parameter of sort().
-        // To skip the posts before the current page start index.
-        const bookedFavors = await BookedFavor.find().sort({ _id: -1 }).limit(LIMIT).skip(pageStartIndex);
 
+
+        // For each BookedFavor document, get the post associated and the other user profile data.
+        // Return the BookedFavor document with side information about the other user.
         var newBookedFavors = []
         for (const document of bookedFavors) {
+            // If the BookedFavor document is not terminated (i.e. the favor has been executed) and the post exists, then fill with side information.
             if (!document.isTerminated && document.post) {
-                //console.log(document.post.toHexString())
                 var post = await Post.findById(document.post.toHexString());
                 if (post) {
-                    var user = await User.findById(post._doc.creatorId);
-                    if (user) { //TODO: MAKE IT BETTER, MORE SOLID
-                        var newDocument = { ...document._doc, post: await createJsonPost(post,user) }
-                        newBookedFavors = [...newBookedFavors, newDocument]
+                    var otherUserId;
+                    var otherUserType;
+                    if(document.providerId == request.userId){
+                        otherUserId = document.callerId;
+                        otherUserType = 'caller';
+                    }
+                    else {
+                        otherUserId = document.providerId;
+                        otherUserType = 'provider';
+                    }
+                    var otherUser = await User.findById(otherUserId);
+                    console.log(otherUser);
+                    if (otherUser) {
+                        var newDocument = { ...document._doc, post: await createJsonPost(post, otherUser,otherUserType) };
+                        newBookedFavors = [...newBookedFavors, newDocument];
                     }
                 }
             }
