@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:project/screens/components/cupertinoNavigationBar_favor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -154,10 +152,10 @@ class UserMode_inherited extends InheritedWidget {
   }
 
   @override
-  bool updateShouldNotify(UserMode_inherited oldWidget) => 
-    provider != oldWidget.provider || 
-    caller != oldWidget.caller || 
-    admin != oldWidget.admin;  //|| stateWidget != oldWidget.stateWidget;
+  bool updateShouldNotify(UserMode_inherited oldWidget) =>
+      provider != oldWidget.provider ||
+      caller != oldWidget.caller ||
+      admin != oldWidget.admin; //|| stateWidget != oldWidget.stateWidget;
 }
 
 class HomeScreen extends StatelessWidget {

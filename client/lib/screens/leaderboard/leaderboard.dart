@@ -65,7 +65,7 @@ class LeaderboardCard extends StatelessWidget {
         ),
         margin: EdgeInsets.symmetric(vertical: 4), //
         width: Responsive.width(90, context),
-        height: 26,
+        height: 40,
         child: CupertinoButton(
           padding: EdgeInsets.zero,
           //color: providerStatus ? favorColors.PrimaryBlue : Colors.transparent,

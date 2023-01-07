@@ -77,9 +77,9 @@ class _FavorScreen_M extends State<FavorScreen_M> {
                 ],
                 color: favorColors.IntroBg,
                 border: Border.all(
-                  color: favorColors.LightGrey,
-                  width: 1.0,
-                  style: BorderStyle.solid),
+                    color: favorColors.LightGrey,
+                    width: 1.0,
+                    style: BorderStyle.solid),
                 borderRadius: BorderRadius.all(
                   Radius.circular(10),
                 ),
@@ -87,97 +87,109 @@ class _FavorScreen_M extends State<FavorScreen_M> {
 
               /// FIELDS
               child: FutureBuilder<FavorConstants>(
-                future: favorConstants,
-                builder: ((context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Column(
-                      children: [
-                        //PICKER category
-                        Favor_pickerMenu(
-                          contentList: snapshot.data!.favorCategories,
-                          placeholder: globals.categoryPlaceholder,
-                          heading: globals.categoryHeading,
-                          prefixIcon: globals.categoryPrefixIcon,
-                          textController: globals.categoryTextController,
-                          flag: 1, //if possible remove this
-                        ),
-                        Divider(
-                          height: Responsive.height(2, context),
-                          color: Colors.transparent,
-                        ),
-                        //PICKER location
-                        Favor_pickerMenu(
-                          contentList: snapshot.data!.locations,
-                          placeholder: globals.locationPlaceholder,
-                          heading: globals.locationHeading,
-                          prefixIcon: globals.locationPrefixIcon,
-                          textController: globals.locationTextController,
-                          flag: 2, //if possible remove this
-                        ),
-                        Divider(
-                          height: Responsive.height(2, context),
-                          color: Colors.transparent,
-                        ),
+                  future: favorConstants,
+                  builder: ((context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Column(
+                        children: [
+                          //PICKER category
+                          Favor_pickerMenu(
+                            contentList: snapshot.data!.favorCategories,
+                            placeholder: globals.categoryPlaceholder,
+                            heading: globals.categoryHeading,
+                            prefixIcon: globals.categoryPrefixIcon,
+                            textController: globals.categoryTextController,
+                            flag: 1, //if possible remove this
+                          ),
+                          Divider(
+                            height: Responsive.height(2, context),
+                            color: Colors.transparent,
+                          ),
+                          //PICKER location
+                          Favor_pickerMenu(
+                            contentList: snapshot.data!.locations,
+                            placeholder: globals.locationPlaceholder,
+                            heading: globals.locationHeading,
+                            prefixIcon: globals.locationPrefixIcon,
+                            textController: globals.locationTextController,
+                            flag: 2, //if possible remove this
+                          ),
+                          Divider(
+                            height: Responsive.height(2, context),
+                            color: Colors.transparent,
+                          ),
 
-                        // TIME PICKERS
-                        UserMode_inherited.of(context).stateWidget.isUserModeAs_provider()
-                        ? (Column(
-                            children: [
-                              //PICKER availabilityStartTime - PROVIDER
-                              Favor_TimePicker(
-                                //contentList: globals.availabilityStartTime,
-                                placeholder: globals.availabilityStartTimePlaceholder,
-                                heading: globals.availabilityStartTimeHeading,
-                                prefixIcon: globals.availabilityStartTimePrefixIcon,
-                                textController: globals.availabilityStartTimeTextController,
-                                //flag: 3, //if possible remove this
-                              ),
-                              Divider(
-                                height: Responsive.height(2, context),
-                                color: Colors.transparent,
-                              ),
-                              //PICKER availabilityEndTime - PROVIDER
-                              Favor_TimePicker(
-                                //contentList: globals.availabilityEndTime,
-                                placeholder: globals.availabilityEndTimePlaceholder,
-                                heading: globals.availabilityEndTimeHeading,
-                                prefixIcon: globals.availabilityEndTimePrefixIcon,
-                                textController: globals .availabilityEndTimeTextController,
-                                //flag: 4, //if possible remove this
-                              )
-                            ],
-                          ))
-                        : (
-                            //PICKER favorStartTime - CALLER
-                            Favor_TimePicker(
-                            //contentList: globals.favorStartTime,
-                            placeholder: globals.favorStartTimePlaceholder,
-                            heading: globals.favorStartTimeHeading,
-                            prefixIcon: globals.favorStartTimePrefixIcon,
-                            textController: globals.favorStartTimeTextController,
-                            //flag: 5, //if possible remove this
-                          )),
+                          // TIME PICKERS
+                          UserMode_inherited.of(context)
+                                  .stateWidget
+                                  .isUserModeAs_provider()
+                              ? (Column(
+                                  children: [
+                                    //PICKER availabilityStartTime - PROVIDER
+                                    Favor_TimePicker(
+                                      //contentList: globals.availabilityStartTime,
+                                      placeholder: globals
+                                          .availabilityStartTimePlaceholder,
+                                      heading:
+                                          globals.availabilityStartTimeHeading,
+                                      prefixIcon: globals
+                                          .availabilityStartTimePrefixIcon,
+                                      textController: globals
+                                          .availabilityStartTimeTextController,
+                                      //flag: 3, //if possible remove this
+                                    ),
+                                    Divider(
+                                      height: Responsive.height(2, context),
+                                      color: Colors.transparent,
+                                    ),
+                                    //PICKER availabilityEndTime - PROVIDER
+                                    Favor_TimePicker(
+                                      //contentList: globals.availabilityEndTime,
+                                      placeholder: globals
+                                          .availabilityEndTimePlaceholder,
+                                      heading:
+                                          globals.availabilityEndTimeHeading,
+                                      prefixIcon:
+                                          globals.availabilityEndTimePrefixIcon,
+                                      textController: globals
+                                          .availabilityEndTimeTextController,
+                                      //flag: 4, //if possible remove this
+                                    )
+                                  ],
+                                ))
+                              : (
+                                  //PICKER favorStartTime - CALLER
+                                  Favor_TimePicker(
+                                  //contentList: globals.favorStartTime,
+                                  placeholder:
+                                      globals.favorStartTimePlaceholder,
+                                  heading: globals.favorStartTimeHeading,
+                                  prefixIcon: globals.favorStartTimePrefixIcon,
+                                  textController:
+                                      globals.favorStartTimeTextController,
+                                  //flag: 5, //if possible remove this
+                                )),
 
-                        Divider(
-                          height: Responsive.height(2, context),
-                          color: Colors.transparent,
-                        ),
+                          Divider(
+                            height: Responsive.height(2, context),
+                            color: Colors.transparent,
+                          ),
 
-                        // BOX DESCRIPTION
-                        Favor_boxDescription(
-                          placeholder: globals.boxDescriptionPlaceholder,
-                          heading: globals.boxDescriptionHeading,
-                          textController:
-                              globals.boxDescriptionTextController,
-                        ),
-                      ],
-                    );
-                  } else if (snapshot.hasError) {
-                    return Text('${snapshot.error}');
-                  }
-                  return CupertinoActivityIndicator(
-                      animating: false, radius: 10);
-                })),
+                          // BOX DESCRIPTION
+                          Favor_boxDescription(
+                            placeholder: globals.boxDescriptionPlaceholder,
+                            heading: globals.boxDescriptionHeading,
+                            textController:
+                                globals.boxDescriptionTextController,
+                          ),
+                        ],
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text('${snapshot.error}');
+                    }
+                    return CupertinoActivityIndicator(
+                        animating: false, radius: 10);
+                  })),
             ),
 
             Divider(
@@ -261,25 +273,24 @@ class _Favor_pickerMenuState extends State<Favor_pickerMenu> {
               enableInteractiveSelection: false, //
               // BUTTON SHOW PICKER
               suffix: CupertinoButton(
-                child: Icon(
-                  CupertinoIcons.arrowtriangle_down_circle,
-                  color: favorColors.SecondaryBlue,
-                ),
-                onPressed: () {
-                  scrollController.dispose();
-                  scrollController = FixedExtentScrollController(initialItem: selectedValue);
-                  showCupertinoModalPopup(
-                    context: context, 
-                    builder: (context) => CupertinoActionSheet(
-                      actions: [buildPicker()],
-                      cancelButton: CupertinoActionSheetAction(
-                        child: Text("cancel"),
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                    )
-                  );
-                }
-              ),
+                  child: Icon(
+                    CupertinoIcons.arrowtriangle_down_circle,
+                    color: favorColors.SecondaryBlue,
+                  ),
+                  onPressed: () {
+                    scrollController.dispose();
+                    scrollController =
+                        FixedExtentScrollController(initialItem: selectedValue);
+                    showCupertinoModalPopup(
+                        context: context,
+                        builder: (context) => CupertinoActionSheet(
+                              actions: [buildPicker()],
+                              cancelButton: CupertinoActionSheetAction(
+                                child: Text("cancel"),
+                                onPressed: () => Navigator.pop(context),
+                              ),
+                            ));
+                  }),
             ),
           ],
         ),
@@ -287,7 +298,7 @@ class _Favor_pickerMenuState extends State<Favor_pickerMenu> {
     );
   }
 
-  void initState(){
+  void initState() {
     super.initState();
     scrollController = FixedExtentScrollController(
       initialItem: selectedValue,
@@ -295,46 +306,47 @@ class _Favor_pickerMenuState extends State<Favor_pickerMenu> {
     //textController = widget.textController;
   }
 
-  void dispose(){
+  void dispose() {
     scrollController.dispose();
     //textController.dispose();
     super.dispose();
   }
 
-  Widget buildPicker() =>
-    SizedBox(
-      height: Responsive.height(30, context),
-      child: StatefulBuilder(
-        builder:(context, setState) => CupertinoPicker(
-          backgroundColor: Colors.white,
-          /*
+  Widget buildPicker() => SizedBox(
+        height: Responsive.height(30, context),
+        child: StatefulBuilder(
+          builder: (context, setState) => CupertinoPicker(
+            backgroundColor: Colors.white,
+            /*
           selectionOverlay: CupertinoPickerDefaultSelectionOverlay(
             background: favorColors.SecondaryBlue.withOpacity(0.2),
           ),
           */
-          itemExtent: 32, //Responsive.height(5, context), //height of current item
-          scrollController: scrollController,
-          children: List.generate(widget.contentList.length, (index){ 
-            //final isSelected = this.selectedValue == index;
-            //final color = isSelected ? favorColors.PrimaryBlue : Colors.black;
-            final item = widget.contentList[index];
-            return Center(
-              child: Text(item.data.toString(),
-                style: TextStyle(fontSize: 24, //color: color
+            itemExtent:
+                32, //Responsive.height(5, context), //height of current item
+            scrollController: scrollController,
+            children: List.generate(widget.contentList.length, (index) {
+              //final isSelected = this.selectedValue == index;
+              //final color = isSelected ? favorColors.PrimaryBlue : Colors.black;
+              final item = widget.contentList[index];
+              return Center(
+                  child: Text(
+                item.data.toString(),
+                style: TextStyle(
+                  fontSize: 24, //color: color
                 ),
-              )
-            );
-          }
-          ),
+              ));
+            }),
 
-          onSelectedItemChanged: (int value) {
-            widget.textController.text = widget.contentList.elementAt(value).data.toString();
-            if (this.mounted) {
-            setState(() {
-              selectedValue = value;
-              print(globals.categoryTextController.text);
-              // TODO: if possible remove these flags and use a cleaner approach
-              /** 
+            onSelectedItemChanged: (int value) {
+              widget.textController.text =
+                  widget.contentList.elementAt(value).data.toString();
+              if (this.mounted) {
+                setState(() {
+                  selectedValue = value;
+                  print(globals.categoryTextController.text);
+                  // TODO: if possible remove these flags and use a cleaner approach
+                  /** 
               if (widget.flag == 1) {
                 globals.categoryTextController =
                     TextEditingController(text:'${widget.contentList.elementAt(selectedValue).data}');
@@ -364,13 +376,12 @@ class _Favor_pickerMenuState extends State<Favor_pickerMenu> {
                             '${widget.contentList.elementAt(selectedValue).data}');
               }
               */
-            });
-            }
-          },
+                });
+              }
+            },
+          ),
         ),
-      ),
-    );
-  
+      );
 }
 
 class Favor_boxDescription extends StatelessWidget {
@@ -451,7 +462,9 @@ class _Favor_publishFavorButtonState extends State<Favor_publishFavorButton> {
           onPressed: () {
             print('Pressed: Favor_publishFavorButton');
             FutureBuilder<void>(
-              future: UserMode_inherited.of(context).stateWidget.isUserModeAs_provider() //isUserModeAsProvider()
+              future: UserMode_inherited.of(context)
+                      .stateWidget
+                      .isUserModeAs_provider() //isUserModeAsProvider()
                   ? globals.postService.publishProviderFavor(
                       context: context,
                       taskCategory: globals.categoryTextController.text,
@@ -484,7 +497,6 @@ class _Favor_publishFavorButtonState extends State<Favor_publishFavorButton> {
   }
 }
 
-
 /// TIME PICKER MENU
 class Favor_TimePicker extends StatefulWidget {
   // menu placeholder
@@ -498,14 +510,14 @@ class Favor_TimePicker extends StatefulWidget {
   // !! funziana solo con le flag 1-2-3-4-5 per il form menu dei nuovi favor. Non riutilizzare questo widget a caso
   //int flag = 0;
 
-  Favor_TimePicker(
-      {super.key,
-      required this.placeholder,
-      required this.heading,
-      required this.prefixIcon,
-      required this.textController,
-      //required this.flag
-      });
+  Favor_TimePicker({
+    super.key,
+    required this.placeholder,
+    required this.heading,
+    required this.prefixIcon,
+    required this.textController,
+    //required this.flag
+  });
 
   @override
   State<Favor_TimePicker> createState() => _Favor_TimePickerState();
@@ -550,23 +562,21 @@ class _Favor_TimePickerState extends State<Favor_TimePicker> {
               enableInteractiveSelection: false, //
               // BUTTON SHOW PICKER
               suffix: CupertinoButton(
-                child: Icon(
-                  CupertinoIcons.arrowtriangle_down_circle,
-                  color: favorColors.SecondaryBlue,
-                ),
-                onPressed: () {
-                  showCupertinoModalPopup(
-                    context: context, 
-                    builder: (context) => CupertinoActionSheet(
-                      actions: [buildDatePicker()],
-                      cancelButton: CupertinoActionSheetAction(
-                        child: Text("cancel"),
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                    )
-                  );
-                }
-              ),
+                  child: Icon(
+                    CupertinoIcons.arrowtriangle_down_circle,
+                    color: favorColors.SecondaryBlue,
+                  ),
+                  onPressed: () {
+                    showCupertinoModalPopup(
+                        context: context,
+                        builder: (context) => CupertinoActionSheet(
+                              actions: [buildDatePicker()],
+                              cancelButton: CupertinoActionSheetAction(
+                                child: Text("cancel"),
+                                onPressed: () => Navigator.pop(context),
+                              ),
+                            ));
+                  }),
             ),
           ],
         ),
@@ -575,19 +585,17 @@ class _Favor_TimePickerState extends State<Favor_TimePicker> {
   }
 
   Widget buildDatePicker() => SizedBox(
-  height: Responsive.height(30, context),
-  child: CupertinoDatePicker(
-    backgroundColor: Colors.white,
-    minimumDate: minimumDate,
-    maximumDate: maximumDate,
-    initialDateTime: dateTime,
-    mode: CupertinoDatePickerMode.dateAndTime,
-    onDateTimeChanged: (dateTime) {
-      widget.textController.text = favorTime.formatter.format(dateTime);
-      setState(() {
-        this.dateTime = dateTime;
-      } );
-    }  
-    )
-  ); 
+      height: Responsive.height(30, context),
+      child: CupertinoDatePicker(
+          backgroundColor: Colors.white,
+          minimumDate: minimumDate,
+          maximumDate: maximumDate,
+          initialDateTime: dateTime,
+          mode: CupertinoDatePickerMode.dateAndTime,
+          onDateTimeChanged: (dateTime) {
+            widget.textController.text = favorTime.formatter.format(dateTime);
+            setState(() {
+              this.dateTime = dateTime;
+            });
+          }));
 }
