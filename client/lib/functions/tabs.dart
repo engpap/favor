@@ -6,32 +6,32 @@ import 'package:project/screens/feed/feed.dart';
 import 'package:project/screens/leaderboard/leaderboard.dart';
 
 /// Enumeration of the Tabs present in the BottomNavigationBar
-enum TabsName { home, chat, favor, leaderboard, account }
+enum TabsName { Home, Search, Favor, Leaderboard, Account }
 
 /// List of Icons present in the BottomNavigationBar
 extension TabsIcon on TabsName {
   Icon get icon {
     switch (this) {
-      case TabsName.home:
+      case TabsName.Home:
         {
           return const Icon(
             CupertinoIcons.home,
             //color: Color(0xFFE84817),
           );
         }
-      case TabsName.chat:
+      case TabsName.Search:
         {
-          return const Icon(CupertinoIcons.chat_bubble_2);
+          return const Icon(CupertinoIcons.search);
         }
-      case TabsName.favor:
+      case TabsName.Favor:
         {
           return const Icon(CupertinoIcons.add_circled);
         }
-      case TabsName.leaderboard:
+      case TabsName.Leaderboard:
         {
           return const Icon(CupertinoIcons.chart_bar);
         }
-      case TabsName.account:
+      case TabsName.Account:
         {
           return const Icon(CupertinoIcons.profile_circled);
         }
@@ -45,23 +45,23 @@ extension TabsIcon on TabsName {
 extension TabsScreen on TabsName {
   Widget get screen {
     switch (this) {
-      case TabsName.home:
+      case TabsName.Home:
         {
           return Feed_Screen();
         }
-      case TabsName.chat:
+      case TabsName.Search:
         {
           return Text(""); //TODO
         }
-      case TabsName.favor:
+      case TabsName.Favor:
         {
           return FavorScreen();
         }
-      case TabsName.leaderboard:
+      case TabsName.Leaderboard:
         {
           return Leaderboard_Screen();
         }
-      case TabsName.account:
+      case TabsName.Account:
         {
           return AccountScreen();
         }
