@@ -17,10 +17,19 @@ class Storage {
     }
   }
   */
-  static Future<String?> getUserToken() async {
+  /* static Future<String?> getUserToken() async {
     print(">>> Returning token stored in storage");
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     return _prefs.getString('token');
+  }*/
+
+  static Future<String> getUserToken() async {
+    print(">>> Returning token stored in storage");
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    if (_prefs.getString('token') != null)
+      return _prefs.getString('token') as String;
+    else
+      throw Exception("User's token is null");
   }
 
   static void setUserToken(String token) async {

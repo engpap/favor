@@ -4,28 +4,28 @@ import 'package:flutter/cupertino.dart';
 
 class User {
   final String id;
-  final String? name;
-  final String? surname;
-  final Image? profilePicture;
-  final String email;
+  final String name;
+  final String surname;
+  final MemoryImage profilePicture;
+  final String? email;
   final String? password;
   final String? confirmPassword;
-  final String token;
-  final int rankingPoints;
-  final int averageStars;
+  final String? token;
+  final int? rankingPoints;
+  final int? averageStars;
   final String? bio;
 
   User({
     required this.id,
     required this.name,
     required this.surname,
-    this.profilePicture,
-    required this.email,
+    required this.profilePicture,
+    this.email,
     this.password,
     this.confirmPassword,
-    required this.token,
-    required this.rankingPoints,
-    required this.averageStars,
+    this.token,
+    this.rankingPoints,
+    this.averageStars,
     this.bio,
   });
 
@@ -34,7 +34,8 @@ class User {
       : id = json['_id'],
         name = json['name'],
         surname = json['surname'],
-        profilePicture = Image.memory(base64Decode(json['profilePicture'])),
+        profilePicture = MemoryImage(base64Decode(json['profilePicture'])),
+        //Image.memory(base64Decode(json['profilePicture'])),
         email = json['email'],
         password = json['password'],
         confirmPassword = json['confirmPassword'],

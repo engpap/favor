@@ -7,6 +7,7 @@ import 'package:project/models/post.dart';
 
 import 'package:project/screens/home.dart';
 import 'package:project/screens/responsiveLayout.dart';
+import 'package:project/services/constantsService.dart';
 import 'package:project/services/postService.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
@@ -51,7 +52,7 @@ class _FavorScreen_M extends State<FavorScreen_M> {
   @override
   void initState() {
     super.initState();
-    favorConstants = PostService().getFavorConstants();
+    favorConstants = ConstantsService().getFavorConstants();
   }
 
   @override
@@ -286,7 +287,7 @@ class _Favor_pickerMenuState extends State<Favor_pickerMenu> {
                         builder: (context) => CupertinoActionSheet(
                               actions: [buildPicker()],
                               cancelButton: CupertinoActionSheetAction(
-                                child: Text("cancel"),
+                                child: Text("Cancel"),
                                 onPressed: () => Navigator.pop(context),
                               ),
                             ));
@@ -572,7 +573,7 @@ class _Favor_TimePickerState extends State<Favor_TimePicker> {
                         builder: (context) => CupertinoActionSheet(
                               actions: [buildDatePicker()],
                               cancelButton: CupertinoActionSheetAction(
-                                child: Text("cancel"),
+                                child: Text("Cancel"),
                                 onPressed: () => Navigator.pop(context),
                               ),
                             ));

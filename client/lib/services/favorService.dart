@@ -5,6 +5,7 @@ import 'package:project/functions/showToast.dart';
 import 'package:project/models/bookedFavor.dart';
 import 'dart:convert';
 import 'package:project/constants/globalVars.dart';
+import 'package:project/providers/storage.dart';
 import 'package:project/providers/userProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -13,12 +14,11 @@ class FavorService {
       BuildContext context, int pageNumber) async {
     List<BookedFavor> bookedFavors = [];
     try {
-      final userProvider = Provider.of<UserProvider>(context, listen: false);
       http.Response response = await http.get(
           Uri.parse('$uri/favors/getBookedFavors?page=${pageNumber}'),
           headers: {
             'Content-Type': 'application/json;charset=UTF-8',
-            'x-auth-token': userProvider.user.token,
+            'x-auth-token': await Storage.getUserToken(),
           });
 
       httpErrorHandle(
@@ -42,13 +42,11 @@ class FavorService {
   Future<void> markFavorAsCompleted(
       BuildContext context, int bookedFavorId) async {
     try {
-      final userProvider = Provider.of<UserProvider>(context, listen: false);
-
       http.Response response = await http.post(
         Uri.parse('$uri/favors/${bookedFavorId}/completeFavor'),
         headers: {
           'Content-Type': 'application/json;charset=UTF-8',
-          'x-auth-token': userProvider.user.token,
+          'x-auth-token': await Storage.getUserToken(),
         },
       );
 
@@ -68,13 +66,11 @@ class FavorService {
   Future<void> rateFavor(
       BuildContext context, int bookedFavorId, double rating) async {
     try {
-      final userProvider = Provider.of<UserProvider>(context, listen: false);
-
       http.Response response = await http.post(
         Uri.parse('$uri/favors/${bookedFavorId}/rateFavor'),
         headers: {
           'Content-Type': 'application/json;charset=UTF-8',
-          'x-auth-token': userProvider.user.token,
+          'x-auth-token': await Storage.getUserToken(),
         },
         body: jsonEncode(rating),
       );

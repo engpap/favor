@@ -25,10 +25,10 @@ class MyApp extends StatelessWidget {
         DefaultCupertinoLocalizations.delegate,
         DefaultWidgetsLocalizations.delegate,
       ],
-      home: Introduction1Screen(),
+      //home: Introduction1Screen(),
       //home: Leaderboard_Screen_M(),
       //home: FavorForm_caller(),
-      //home: HomeScreen(),
+      home: HomeScreen(),
       //home: favorInformationPage_Screen(),
     );
   }

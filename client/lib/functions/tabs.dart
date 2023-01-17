@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:project/screens/account.dart';
 import 'package:project/screens/favor/favor.dart';
-import 'package:project/screens/favor/favor2.dart';//
+import 'package:project/screens/favor/favor2.dart'; //
 import 'package:project/screens/feed/feed.dart';
 import 'package:project/screens/leaderboard/leaderboard.dart';
 
@@ -29,7 +29,7 @@ extension TabsIcon on TabsName {
         }
       case TabsName.leaderboard:
         {
-          return const Icon(CupertinoIcons.rectangle_stack_person_crop);
+          return const Icon(CupertinoIcons.chart_bar);
         }
       case TabsName.account:
         {

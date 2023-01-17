@@ -8,40 +8,44 @@ class StarsWidget extends StatelessWidget {
     this.size = 18,
   });
 
-  int number;
+  int? number;
   double size;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(
-          Icons.star,
-          size: size,
-          color: number > 0 ? favorColors.Yellow : Colors.black,
-        ),
-        Icon(
-          Icons.star,
-          size: size,
-          color: number > 1 ? favorColors.Yellow : Colors.black,
-        ),
-        Icon(
-          Icons.star,
-          size: size,
-          color: number > 2 ? favorColors.Yellow : Colors.black,
-        ),
-        Icon(
-          Icons.star,
-          size: size,
-          color: number > 3 ? favorColors.Yellow : Colors.black,
-        ),
-        Icon(
-          Icons.star,
-          size: size,
-          color: number > 4 ? favorColors.Yellow : Colors.black,
-        ),
-      ],
-    );
+    if (number == null) {
+      return Row(mainAxisSize: MainAxisSize.min, children: []);
+    } else {
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.star,
+            size: size,
+            color: number! > 0 ? favorColors.Yellow : Colors.black,
+          ),
+          Icon(
+            Icons.star,
+            size: size,
+            color: number! > 1 ? favorColors.Yellow : Colors.black,
+          ),
+          Icon(
+            Icons.star,
+            size: size,
+            color: number! > 2 ? favorColors.Yellow : Colors.black,
+          ),
+          Icon(
+            Icons.star,
+            size: size,
+            color: number! > 3 ? favorColors.Yellow : Colors.black,
+          ),
+          Icon(
+            Icons.star,
+            size: size,
+            color: number! > 4 ? favorColors.Yellow : Colors.black,
+          ),
+        ],
+      );
+    }
   }
 }

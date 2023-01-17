@@ -37,23 +37,25 @@ class Leaderboard_Screen extends StatelessWidget {
 class LeaderboardCard extends StatelessWidget {
   LeaderboardCard({
     super.key,
-    this.personImage = "assets/images/default_profile_picture.jpg",
+    required this.personImage,
     required this.personName,
-    required this.rankPosition,
-    required this.starNumber,
+    required this.personSurname,
+    required this.leaderboardPosition,
+    required this.starsNumber,
   });
 
   String personName;
-  String personImage;
-  int rankPosition;
-  int starNumber;
+  String personSurname;
+  MemoryImage personImage;
+  int leaderboardPosition;
+  int? starsNumber;
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(90),
+          borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
@@ -64,26 +66,28 @@ class LeaderboardCard extends StatelessWidget {
           ],
         ),
         margin: EdgeInsets.symmetric(vertical: 4), //
-        width: Responsive.width(90, context),
-        height: 40,
+        width: Responsive.width(94, context),
+        height: 60,
         child: CupertinoButton(
           padding: EdgeInsets.zero,
           //color: providerStatus ? favorColors.PrimaryBlue : Colors.transparent,
           color: favorColors.IntroBg,
-          borderRadius: BorderRadius.circular(90),
+          borderRadius: BorderRadius.circular(10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               // RANK
 
-              (rankPosition < 4)
+              (leaderboardPosition < 4)
                   // Thropy
                   ? Container(
                       width: Responsive.width(5, context),
                       decoration: BoxDecoration(
-                        color: rankPosition == 1
+                        color: leaderboardPosition == 1
                             ? Colors.amber
-                            : (rankPosition == 2 ? Colors.grey : Colors.brown),
+                            : (leaderboardPosition == 2
+                                ? Colors.grey
+                                : Colors.brown),
                         shape: BoxShape.circle,
                       ),
                       child: Icon(CupertinoIcons.wind_snow),
@@ -93,7 +97,7 @@ class LeaderboardCard extends StatelessWidget {
                       width: Responsive.width(5, context),
                       //margin: EdgeInsets.only(left: 9),
                       child: Text(
-                        " ${rankPosition}",
+                        " ${leaderboardPosition}",
                         style: TextStyle(
                           fontSize: 16,
                           color: favorColors.PrimaryBlue,
@@ -109,7 +113,7 @@ class LeaderboardCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: AssetImage(personImage),
+                    image: personImage,
                     fit: BoxFit.contain,
                   ),
                   border: Border.all(
@@ -122,20 +126,21 @@ class LeaderboardCard extends StatelessWidget {
               Container(
                 width: Responsive.width(35, context),
                 child: Text(
-                  personName,
+                  '${personName} ${personSurname}',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 18,
                     color: favorColors.PrimaryBlue,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
+
               // STARS
               Container(
                   child: StarsWidget(
-                size: 16,
-                number: starNumber,
+                size: 18,
+                number: starsNumber,
               )),
             ],
           ),
