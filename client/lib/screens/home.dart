@@ -167,6 +167,7 @@ class HomeScreen extends StatelessWidget {
       key: UniqueKey(),
       child: CupertinoTabScaffold(
           tabBar: CupertinoTabBar(
+            activeColor: favorColors.PrimaryBlue,
             items: [
               // HOME
               BottomNavigationBarItem(

@@ -4,6 +4,7 @@ import 'package:project/screens/favor/favor.dart';
 import 'package:project/screens/favor/favor2.dart'; //
 import 'package:project/screens/feed/feed.dart';
 import 'package:project/screens/leaderboard/leaderboard.dart';
+import 'package:project/functions/favorColors.dart' as favorColors;
 
 /// Enumeration of the Tabs present in the BottomNavigationBar
 enum TabsName { Home, Search, Favor, Leaderboard, Account }
@@ -16,24 +17,31 @@ extension TabsIcon on TabsName {
         {
           return const Icon(
             CupertinoIcons.home,
-            //color: Color(0xFFE84817),
           );
         }
       case TabsName.Search:
         {
-          return const Icon(CupertinoIcons.search);
+          return const Icon(
+            CupertinoIcons.search,
+          );
         }
       case TabsName.Favor:
         {
-          return const Icon(CupertinoIcons.add_circled);
+          return const Icon(
+            CupertinoIcons.add_circled,
+          );
         }
       case TabsName.Leaderboard:
         {
-          return const Icon(CupertinoIcons.chart_bar);
+          return const Icon(
+            CupertinoIcons.chart_bar,
+          );
         }
       case TabsName.Account:
         {
-          return const Icon(CupertinoIcons.profile_circled);
+          return const Icon(
+            CupertinoIcons.profile_circled,
+          );
         }
     }
   }
