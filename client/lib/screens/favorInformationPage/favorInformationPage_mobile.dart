@@ -263,7 +263,7 @@ class favorInformationPage_person_M extends StatelessWidget {
                         color: Colors.transparent,
                       ),
                       // STARS
-                      StarsWidget(number: post!.averageStars),
+                      StarsWidget(number: post!.averageRatings),
                     ],
                   ),
                 ),

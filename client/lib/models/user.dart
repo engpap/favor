@@ -12,7 +12,7 @@ class User {
   final String? confirmPassword;
   final String? token;
   final int? rankingPoints;
-  final int? averageStars;
+  final int? averageRatings;
   final String? bio;
 
   User({
@@ -25,7 +25,7 @@ class User {
     this.confirmPassword,
     this.token,
     this.rankingPoints,
-    this.averageStars,
+    this.averageRatings,
     this.bio,
   });
 
@@ -42,7 +42,7 @@ class User {
         token = json['token'],
         rankingPoints =
             json['rankingPoints'] != null ? json['rankingPoints'] : 0,
-        averageStars =
+        averageRatings =
             json['rankingPoints'] != null ? json['rankingPoints'] : 0,
         bio = json['bio'];
 

@@ -12,7 +12,7 @@ class UserProvider extends ChangeNotifier {
     email: '',
     token: '',
     rankingPoints: 0,
-    averageStars: 0,
+    averageRatings: 0,
   );
 
   User get user => _user;
@@ -31,7 +31,7 @@ class UserProvider extends ChangeNotifier {
         email: '',
         token: '',
         rankingPoints: 0,
-        averageStars: 0);
+        averageRatings: 0);
   }
 }
 

@@ -32,7 +32,7 @@ class favorBookedPage_Screen_M extends StatelessWidget {
       location: "location",
       favorStartTime: DateTime(0),
       description: "description",
-      averageStars: 2,
+      averageRatings: 2,
       rankingPosition: 1,
       rankingLocation: "rankingLocation",
       bio: "bio");
@@ -282,7 +282,7 @@ class favorInformationPage_person_M extends StatelessWidget {
                         color: Colors.transparent,
                       ),
                       // STARS
-                      StarsWidget(number: post.averageStars),
+                      StarsWidget(number: post.averageRatings),
                     ],
                   ),
                 ),
