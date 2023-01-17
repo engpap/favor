@@ -62,6 +62,7 @@ export const getBookedFavors = async (request, response) => {
 
         response.status(200).json({ data: newBookedFavors, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) });
         console.log(">>> getBookedFavors: Sent bookedFavors to client.");
+        console.log(">>> getBookedFavors, booked favors are the following: ",bookedFavors)
     } catch (error) {
         response.status(404).json({ message: error.message });
     }

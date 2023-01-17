@@ -10,40 +10,21 @@ import jwt from 'jsonwebtoken';
 const auth = async (request, response, next) => {
     try {
         const token = request.header("x-auth-token");
-        console.log(">>> auth: current token is",token);
+        console.log(">>> auth: current token is", token);
 
         if (!token)
             return response.status(401).json({ message: "No auth token, access denied" });
 
-        const verified = jwt.verify(token, process.env.GOOGLE_CLIENT_SECRET);
-        if (!verified)
-            return response.status(401).json({ message: "Token verification failed, authorization denied." });
-
-        request.userId = verified.id;
-        console.log(">>> auth: User authenticated!");
-        console.log(">>> auth: userId is ", request.userId);
-
-        /*
-        const isCustomAuth = token?.length < 500;
-
-        let decodedData;
-
-    
-        // CUSTOM AUTH
-        if (token && isCustomAuth) { 
-            decodedData = jwt.verify(token, process.env.GOOGLE_CLIENT_SECRET);
-            // Adding a property to request
-            request.userId = decodedData?.id;
-            console.log("Authenticating user...")
+        try {
+            const verified = jwt.verify(token, process.env.GOOGLE_CLIENT_SECRET);
+            if (!verified)
+                return response.status(401).json({ message: "Token verification failed, authorization denied." });
+            request.userId = verified.id;
+            console.log(">>> auth: User authenticated!");
+            console.log(">>> auth: userId is ", request.userId);
+        } catch (e) {
+            return response.status(401).json({ message: "Token expired. Please, sign in again." });
         }
-        // GOOGLE AUTH
-        else { 
-            decodedData = jwt.decode(token);    
-            // Adding a property to request
-            request.userId = decodedData?.sub;
-            console.log("Authenticating Google user...")
-        }
-        */
         next();
     } catch (error) {
         console.log(error);
