@@ -34,10 +34,8 @@ class _Explore_Screen_MState extends State<Explore_Screen_M> {
   @override
   void initState() {
     super.initState();
+    // Initial data is just as recommended favors data!
     posts = PostService().getPosts(context, 1);
-    //searchBarTextController.addListener(() {
-    //  searchPosts();
-    //});
   }
 
   Future<List<Post>> searchPosts() {
