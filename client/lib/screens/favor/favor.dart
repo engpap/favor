@@ -265,6 +265,7 @@ class _Favor_pickerMenuState extends State<Favor_pickerMenu> {
                 padding: EdgeInsets.only(top: 0, bottom: 0, left: 0, right: 0),
                 child: Icon(
                   widget.prefixIcon,
+                  color: favorColors.PrimaryBlue,
                 ),
                 onPressed: null,
               ),
@@ -275,8 +276,8 @@ class _Favor_pickerMenuState extends State<Favor_pickerMenu> {
               // BUTTON SHOW PICKER
               suffix: CupertinoButton(
                   child: Icon(
-                    CupertinoIcons.arrowtriangle_down_circle,
-                    color: favorColors.SecondaryBlue,
+                    CupertinoIcons.arrowtriangle_down_circle_fill,
+                    color: favorColors.Yellow,
                   ),
                   onPressed: () {
                     scrollController.dispose();
@@ -553,6 +554,7 @@ class _Favor_TimePickerState extends State<Favor_TimePicker> {
               prefix: CupertinoButton(
                 padding: EdgeInsets.only(top: 0, bottom: 0, left: 0, right: 0),
                 child: Icon(
+                  color: favorColors.PrimaryBlue,
                   widget.prefixIcon,
                 ),
                 onPressed: null,
@@ -564,8 +566,8 @@ class _Favor_TimePickerState extends State<Favor_TimePicker> {
               // BUTTON SHOW PICKER
               suffix: CupertinoButton(
                   child: Icon(
-                    CupertinoIcons.arrowtriangle_down_circle,
-                    color: favorColors.SecondaryBlue,
+                    CupertinoIcons.arrowtriangle_down_circle_fill,
+                    color: favorColors.Yellow,
                   ),
                   onPressed: () {
                     showCupertinoModalPopup(
