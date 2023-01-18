@@ -223,7 +223,7 @@ class _RecommendedFavorWidgetsList_WidgetState
       shrinkWrap: widget.shrinkWrap,
       pagingController: _pagingController,
       builderDelegate: PagedChildBuilderDelegate<Post>(
-          itemBuilder: (context, item, index) => RecommendedFavorWidget(
+          itemBuilder: (context, item, index) => FavorWidget(
                 post: item,
               ),
           firstPageProgressIndicatorBuilder: (_) => Column(

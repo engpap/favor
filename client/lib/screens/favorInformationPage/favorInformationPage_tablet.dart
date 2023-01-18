@@ -98,7 +98,7 @@ class favorInformationPage_Screen_T extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.only(right: 8.0),
                                 child: Icon(
-                                  CupertinoIcons.time_solid,
+                                  CupertinoIcons.time,
                                   color: favorColors.PrimaryBlue,
                                   size: 24, //
                                 ),

@@ -162,11 +162,17 @@ class PostService {
   }
 
   Future<List<Post>> getPostsBySearch(
-      {required BuildContext context, required String searchQuery}) async {
+      {required BuildContext context,
+      required String searchQuery,
+      required String userTypeToSearch}) async {
     List<Post> posts = [];
     try {
+      print(
+          ">>> getPostsBySearch: Searching ${userTypeToSearch} posts containing :" +
+              searchQuery);
       http.Response response = await http.get(
-          Uri.parse('$uri/posts/search?searchQuery=${searchQuery}'),
+          Uri.parse(
+              '$uri/posts/search?searchQuery=${searchQuery}&userTypeToSearch=${userTypeToSearch}'),
           headers: {
             'Content-Type': 'application/json;charset=UTF-8',
             'x-auth-token': await Storage.getUserToken(),
@@ -178,7 +184,7 @@ class PostService {
         onSuccess: () {
           for (int i = 0; i < jsonDecode(response.body)['data'].length; i++) {
             if (Post.getUserTypeGivenJsonString(
-                    jsonDecode(response.body)['data']) ==
+                    jsonDecode(response.body)['data'][i]) ==
                 'provider')
               posts.add(
                 ProviderPost.fromJson(
@@ -186,7 +192,7 @@ class PostService {
                 ),
               );
             else if (Post.getUserTypeGivenJsonString(
-                    jsonDecode(response.body)['data']) ==
+                    jsonDecode(response.body)['data'][i]) ==
                 'caller')
               posts.add(
                 CallerPost.fromJson(

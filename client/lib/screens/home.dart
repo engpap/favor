@@ -104,13 +104,30 @@ class _UserModeState extends State<UserMode> {
   String getUserMode() {
     if (providerStatus_state) {
       print("UserMode: Provider");
-      return 'providerFP';
+      return 'provider';
     } else if (callerStatus_state) {
       print("UserMode: Caller");
-      return 'callerFP';
+      return 'caller';
     } else if (adminStatus_state) {
       print("UserMode: Admin");
-      return 'adminFP';
+      return 'admin';
+    } else {
+      throw Exception("No UserMode set, this situation should not occur");
+    }
+  }
+
+  String getOppositeUserMode() {
+    if (providerStatus_state) {
+      print("UserMode: Provider");
+      return 'caller';
+    } else if (callerStatus_state) {
+      print("UserMode: Caller");
+      return 'provider';
+    } else if (adminStatus_state) {
+      print("UserMode: Admin");
+      print(">>> getOppositeUserMode: Returning empty String");
+      // In this case, we return an empty string, since there is not opposite status of admin!
+      return '';
     } else {
       throw Exception("No UserMode set, this situation should not occur");
     }

@@ -126,7 +126,7 @@ class favorInformationPage_favor_M extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(right: 8.0),
                     child: Icon(
-                      CupertinoIcons.time_solid,
+                      CupertinoIcons.time,
                       color: favorColors.PrimaryBlue,
                       size: 24, //
                     ),

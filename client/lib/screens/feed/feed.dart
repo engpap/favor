@@ -93,8 +93,8 @@ class FavorCategoryWidget extends StatelessWidget {
   }
 }
 
-class RecommendedFavorWidget extends StatelessWidget {
-  RecommendedFavorWidget({
+class FavorWidget extends StatelessWidget {
+  FavorWidget({
     super.key,
     required this.post,
   });
@@ -179,7 +179,7 @@ class RecommendedFavorWidget extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.only(right: 8.0),
                           child: Icon(
-                            CupertinoIcons.time_solid,
+                            CupertinoIcons.time,
                             color: favorColors.PrimaryBlue,
                             size: 24, //
                           ),
@@ -284,7 +284,7 @@ class RecommendedFavorWidget extends StatelessWidget {
                   ),
                   // MORE BUTTON
                   Container(
-                    height: 26,
+                    height: 32,
                     width: Responsive.width(100, context),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
@@ -306,7 +306,7 @@ class RecommendedFavorWidget extends StatelessWidget {
                       color: favorColors.PrimaryBlue,
                       borderRadius: BorderRadius.circular(90),
                       child: Text(
-                        "More   >",
+                        "More...",
                         style: TextStyle(
                             fontSize: 14, fontWeight: FontWeight.bold),
                       ),
@@ -460,7 +460,7 @@ class BookedFavorWidget extends StatelessWidget {
                                 Padding(
                                   padding: EdgeInsets.only(right: 8.0),
                                   child: Icon(
-                                    CupertinoIcons.time_solid,
+                                    CupertinoIcons.time,
                                     color: favorColors.PrimaryBlue,
                                     size: 24, //
                                   ),
