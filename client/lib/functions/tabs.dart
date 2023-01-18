@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:project/screens/account.dart';
+import 'package:project/screens/explore/explore.dart';
 import 'package:project/screens/favor/favor.dart';
 import 'package:project/screens/favor/favor2.dart'; //
 import 'package:project/screens/feed/feed.dart';
@@ -7,7 +8,7 @@ import 'package:project/screens/leaderboard/leaderboard.dart';
 import 'package:project/functions/favorColors.dart' as favorColors;
 
 /// Enumeration of the Tabs present in the BottomNavigationBar
-enum TabsName { Home, Search, Favor, Leaderboard, Account }
+enum TabsName { Home, Explore, Favor, Leaderboard, Account }
 
 /// List of Icons present in the BottomNavigationBar
 extension TabsIcon on TabsName {
@@ -19,7 +20,7 @@ extension TabsIcon on TabsName {
             CupertinoIcons.home,
           );
         }
-      case TabsName.Search:
+      case TabsName.Explore:
         {
           return const Icon(
             CupertinoIcons.search,
@@ -57,9 +58,9 @@ extension TabsScreen on TabsName {
         {
           return Feed_Screen();
         }
-      case TabsName.Search:
+      case TabsName.Explore:
         {
-          return Text(""); //TODO
+          return Explore_Screen();
         }
       case TabsName.Favor:
         {

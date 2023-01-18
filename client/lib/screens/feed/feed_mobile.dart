@@ -126,7 +126,7 @@ class Feed_Screen_M extends StatelessWidget {
 
               //ELEMENTS
               Expanded(
-                child: Carousel_RecommendedFavorWidgetWidget(),
+                child: RecommendedFavorWidgetsList_Widget(shrinkWrap: false),
               ),
             ],
           ),
@@ -177,16 +177,19 @@ class _Carousel_FavorCategoryWidgetState
   }
 }
 
-class Carousel_RecommendedFavorWidgetWidget extends StatefulWidget {
-  const Carousel_RecommendedFavorWidgetWidget({super.key});
+///  The attrbure "shrinkWrap" is used for centering the activity indicator and build the posts correctly based on the screen we are.
+class RecommendedFavorWidgetsList_Widget extends StatefulWidget {
+  RecommendedFavorWidgetsList_Widget({super.key, required this.shrinkWrap});
+
+  bool shrinkWrap;
 
   @override
-  State<Carousel_RecommendedFavorWidgetWidget> createState() =>
-      _Carousel_RecommendedFavorWidgetWidgetState();
+  State<RecommendedFavorWidgetsList_Widget> createState() =>
+      _RecommendedFavorWidgetsList_WidgetState();
 }
 
-class _Carousel_RecommendedFavorWidgetWidgetState
-    extends State<Carousel_RecommendedFavorWidgetWidget> {
+class _RecommendedFavorWidgetsList_WidgetState
+    extends State<RecommendedFavorWidgetsList_Widget> {
   static const _pageSize = 4;
   final PagingController<int, Post> _pagingController =
       PagingController(firstPageKey: 1);
@@ -217,10 +220,17 @@ class _Carousel_RecommendedFavorWidgetWidgetState
   @override
   Widget build(BuildContext context) {
     return PagedListView<int, Post>(
+      shrinkWrap: widget.shrinkWrap,
       pagingController: _pagingController,
       builderDelegate: PagedChildBuilderDelegate<Post>(
           itemBuilder: (context, item, index) => RecommendedFavorWidget(
                 post: item,
+              ),
+          firstPageProgressIndicatorBuilder: (_) => Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CupertinoActivityIndicator(animating: false, radius: 10)
+                ],
               )),
     );
   }
@@ -270,8 +280,11 @@ class _Carousel_BookedFavorWidgetState
       scrollDirection: Axis.horizontal,
       pagingController: _pagingController,
       builderDelegate: PagedChildBuilderDelegate<BookedFavor>(
-          itemBuilder: (context, item, index) => BookedFavorWidget(
-              categoryName: item.post.taskCategory, booked: item)),
+        itemBuilder: (context, item, index) => BookedFavorWidget(
+            categoryName: item.post.taskCategory, booked: item),
+        firstPageProgressIndicatorBuilder: (_) =>
+            Center(child: CupertinoActivityIndicator()),
+      ),
     );
   }
 }
