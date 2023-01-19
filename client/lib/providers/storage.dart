@@ -29,7 +29,7 @@ class Storage {
     if (_prefs.getString('token') != null)
       return _prefs.getString('token') as String;
     else
-      throw Exception("User's token is null");
+      return 'token_not_found'; // Do not throw exception in order to make server respond to the unvalid token. This will make the app open the sign in screen.
   }
 
   static void setUserToken(String token) async {
