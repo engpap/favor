@@ -67,12 +67,100 @@ class favorBookedPage_Screen_M extends StatelessWidget {
       CustomCard_2(
         child: favorInformationPage_person_M(post: post),
       ),
-      CustomCard_2(
+      Container(
+        margin: EdgeInsets.all(9),
+        child: SafeArea(
+          child: Center(
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: Responsive.width(12, context),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: favorColors.LightGrey,
+                  width: 1.0,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    spreadRadius: 0.5,
+                    blurRadius: 5,
+                    offset: Offset(0, 1),
+                  ),
+                ],
+              ),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      height: Responsive.width(12, context),
+                      width: 230,
+                      child: CupertinoButton(
+                        padding: EdgeInsets.all(0),
+                        color: favorColors.PrimaryBlue,
+                        borderRadius: BorderRadius.circular(15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(left: 15),
+                              child: Icon(CupertinoIcons.check_mark),
+                            ),
+                            Expanded(
+                              child: Container(
+                                alignment: Alignment.center,
+                                child: Text('Mark as Completed'),
+                              ),
+                            ),
+                          ],
+                        ),
+                        onPressed: () {
+                          print('Pressed: _MarkAsCompletedButton');
+                          //TODO:
+                        },
+                      ),
+                    ),
+                    Container(
+                      height: Responsive.width(12, context),
+                      width: 125,
+                      child: CupertinoButton(
+                        padding: EdgeInsets.all(0),
+                        color: favorColors
+                            .PrimaryBlue, //Color.fromARGB(255, 64, 129, 236),
+                        borderRadius: BorderRadius.circular(15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(left: 15),
+                              child: Icon(CupertinoIcons.chat_bubble_2),
+                            ),
+                            Expanded(
+                              child: Container(
+                                alignment: Alignment.center,
+                                child: Text('Chat'),
+                              ),
+                            ),
+                          ],
+                        ),
+                        onPressed: () {
+                          print('Pressed: _chatButton');
+                          //TODO:
+                        },
+                      ),
+                    ),
+                  ]),
+            ),
+          ),
+        ),
+      ),
+      Container(
+        margin: EdgeInsets.all(9),
         child: SafeArea(
           child: Center(
             child: // CALENDAR BUTTON
                 Container(
-              width: MediaQuery.of(context).size.width * 0.90,
+              width: MediaQuery.of(context).size.width,
               height: Responsive.width(12, context),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
@@ -349,108 +437,9 @@ class favorInformationPage_person_M extends StatelessWidget {
               height: Responsive.height(1, context),
               color: Colors.transparent,
             ),
-            Row(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Column(
-                  children: [
-                    // CHAT BUTTON
-                    Container(
-                      width: Responsive.width(25, context),
-                      child: Align(
-                        child: Container(
-                          width: Responsive.width(12, context),
-                          height: Responsive.width(12, context),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: favorColors.LightGrey,
-                              width: 1.0,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                spreadRadius: 0.5,
-                                blurRadius: 5,
-                                offset: Offset(0, 1),
-                              ),
-                            ],
-                          ),
-                          child: CupertinoButton(
-                            padding: EdgeInsets.all(0),
-                            color: favorColors.PrimaryBlue,
-                            borderRadius: BorderRadius.circular(90),
-                            child: Icon(CupertinoIcons.chat_bubble_2),
-                            onPressed: () {
-                              print('Pressed: _chatButton');
-                              //TODO: add server function and client response
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                    Divider(
-                      height: Responsive.height(0.5, context),
-                      color: Colors.transparent,
-                    ),
-                    Text(
-                      "Chat",
-                      style: TextStyle(
-                        fontSize: 14,
-                      ),
-                    ),
-
-                    Divider(
-                      height: Responsive.height(2, context),
-                      color: Colors.transparent,
-                    ),
-                    // COMPLETE BUTTON
-                    Container(
-                      width: Responsive.width(25, context),
-                      child: Align(
-                        child: Container(
-                          width: Responsive.width(12, context),
-                          height: Responsive.width(12, context),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: favorColors.LightGrey,
-                              width: 1.0,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                spreadRadius: 0.5,
-                                blurRadius: 5,
-                                offset: Offset(0, 1),
-                              ),
-                            ],
-                          ),
-                          child: CupertinoButton(
-                            padding: EdgeInsets.all(0),
-                            color: favorColors.PrimaryBlue,
-                            borderRadius: BorderRadius.circular(90),
-                            child: Icon(CupertinoIcons.check_mark),
-                            onPressed: () {
-                              print('Pressed: _completeButton');
-                              //TODO:
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                    Divider(
-                      height: Responsive.height(0.5, context),
-                      color: Colors.transparent,
-                    ),
-                    Text(
-                      "Terminate",
-                      style: TextStyle(
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
-                ),
                 // BIO
                 Container(
                   width: Responsive.width(65, context),
