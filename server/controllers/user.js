@@ -149,8 +149,8 @@ export const insertPersonalInfo = async (request, response) => {
 export const getProfileConstants = async (request, response) => {
     try {
         const AGES = [...Array(85).keys()].map(i => (i + 15).toString())
-        console.log(AGES);
-        console.log(JSON.stringify({ GENDERS, AGES, CITIES, JOBS }))
+        //console.log(AGES);
+        //console.log(JSON.stringify({ GENDERS, AGES, CITIES, JOBS }))
         response.status(200).json(JSON.stringify({ GENDERS, AGES, CITIES, JOBS }));
         console.log('>>> getProfileConstants: Returned constants useful for updating a user profile!');
     } catch (error) {
