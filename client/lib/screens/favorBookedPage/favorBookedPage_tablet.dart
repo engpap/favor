@@ -13,10 +13,10 @@ import 'package:project/functions/favorTime.dart' as favorTime;
 class favorBookedPage_Screen_T extends StatelessWidget {
   favorBookedPage_Screen_T({
     super.key,
-    required this.booked,
+    required this.bookedFavor,
   });
 
-  BookedFavor? booked;
+  BookedFavor? bookedFavor;
 
   Post post = CallerPost(
       id: "id",

@@ -16,6 +16,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:project/errors/errorHandling.dart';
+import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
 
 class AuthService {
   Future<void> signup({
@@ -119,6 +120,7 @@ class AuthService {
       'https://www.googleapis.com/auth/userinfo.email',
       'openid',
       'https://www.googleapis.com/auth/userinfo.profile',
+      'https://www.googleapis.com/auth/calendar',
     ],
   );
 
@@ -127,6 +129,13 @@ class AuthService {
       final GoogleSignInAccount? user = await _googleSignIn.signIn();
       if (user != null) {
         final googleAuth = await user.authentication;
+
+        // For google calendar
+        var httpClient = (await _googleSignIn.authenticatedClient())!;
+        Provider.of<UserProvider>(context, listen: false)
+            .setGoogleClient(httpClient);
+        //Provider.of<UserProvider>(context, listen: false)
+        //    .setGoogleClient(httpClient);
         //print(googleAuth.idToken);
         //print(googleAuth.accessToken);
         http.Response response = await http.post(

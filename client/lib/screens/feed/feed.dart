@@ -378,7 +378,7 @@ class BookedFavorWidget extends StatelessWidget {
                   context,
                   CupertinoPageRoute(
                       builder: (context) => favorBookedPage_Screen(
-                            booked: BOOKED, //TODO: cambiare riferimento
+                            bookedFavor: BOOKED, //TODO: cambiare riferimento
                           )),
                 );
               },

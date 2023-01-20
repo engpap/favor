@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:project/models/user.dart';
+import 'package:http/http.dart' as http;
 
 class UserProvider extends ChangeNotifier {
   User _user = User(
@@ -15,11 +16,22 @@ class UserProvider extends ChangeNotifier {
     averageRatings: 0,
   );
 
+  http.Client? googleClient = null;
+
   User get user => _user;
 
   void setUser(String user) {
     _user = User.fromJson(user);
     notifyListeners();
+  }
+
+  void setGoogleClient(http.Client client) {
+    googleClient = client;
+    notifyListeners();
+  }
+
+  http.Client? getGoogleClient() {
+    return googleClient;
   }
 
   void clearUser() {
