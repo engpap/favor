@@ -27,7 +27,7 @@ class PostService {
       required availabilityEndTime,
       required description}) async {
     try {
-      if (!isUserModeAsProvider())
+      if (!UserMode_inherited.of(context).stateWidget.providerStatus_state)
         throw Exception(
             "Trying to publish a favor as Provider but userType is not Provider!");
 
@@ -46,7 +46,7 @@ class PostService {
           'x-auth-token': await Storage.getUserToken(),
         },
         body: jsonEncode({
-          'userType': getUserMode(),
+          'userType': UserMode_inherited.of(context).stateWidget.getUserMode(),
           'taskCategory': taskCategory,
           'location': location,
           'availabilityStartTime': availabilityStartTime.toIso8601String(),
@@ -79,7 +79,7 @@ class PostService {
       required favorStartTime,
       required description}) async {
     try {
-      if (!isUserModeAsCaller())
+      if (UserMode_inherited.of(context).stateWidget.callerStatus_state)
         throw Exception(
             "Trying to publish a favor as Caller but userType is not Caller!");
       /*CallerPost post = CallerPost(
@@ -96,7 +96,7 @@ class PostService {
           'x-auth-token': await Storage.getUserToken(),
         },
         body: jsonEncode({
-          'userType': getUserMode(),
+          'userType': UserMode_inherited.of(context).stateWidget.getUserMode(),
           'taskCategory': taskCategory,
           'location': location,
           'favorStartTime': favorStartTime.toIso8601String(),
@@ -216,7 +216,8 @@ class PostService {
     required Post? post,
   }) async {
     try {
-      if (post?.userType == getUserMode())
+      if (post?.userType ==
+          UserMode_inherited.of(context).stateWidget.getUserMode())
         showToast(context,
             "Cannot book favor if User Mode is the same of publisher!");
 
