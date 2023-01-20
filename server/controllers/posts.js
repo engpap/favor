@@ -105,10 +105,12 @@ export const getPosts = async (request, response) => {
         console.log(">>> getPosts: Updating posts with users data...");
         var newPosts = []
         for (const document of posts) {
-            var user = await User.findById(document.creatorId);
-            if (user) {
-                var newDocument = await createJsonPost(document, user, document.userType)
-                newPosts = [...newPosts, newDocument]
+            if(!document.toHide){
+                var user = await User.findById(document.creatorId);
+                if (user) {
+                    var newDocument = await createJsonPost(document, user, document.userType)
+                    newPosts = [...newPosts, newDocument]
+                }
             }
         }
 
