@@ -2,19 +2,23 @@ import 'dart:convert';
 
 class ProfileConstants {
   List<String> _genders;
+  List<String> _ages;
   List<String> _cities;
   List<String> _jobs;
 
   ProfileConstants({
     required genders,
+    required ages,
     required cities,
     required jobs,
   })  : _genders = genders,
+        _ages = ages,
         _cities = cities,
         _jobs = jobs;
 
   ProfileConstants.fromMap(Map<String, dynamic> json)
       : _genders = convertJsonToStringList(json['GENDERS']),
+        _ages = convertJsonToStringList(json['AGES']),
         _cities = convertJsonToStringList(json['CITIES']),
         _jobs = convertJsonToStringList(json['JOBS']);
 
@@ -22,6 +26,7 @@ class ProfileConstants {
       ProfileConstants.fromMap(jsonDecode(source));
 
   List<String> get genders => _genders;
+  List<String> get ages => _ages;
   List<String> get cities => _cities;
   List<String> get jobs => _jobs;
 }

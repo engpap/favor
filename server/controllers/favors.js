@@ -49,7 +49,7 @@ export const getBookedFavors = async (request, response) => {
                         otherUserType = 'provider';
                     }
                     var otherUser = await User.findById(otherUserId);
-                    console.log(otherUser);
+                    //console.log(otherUser);
                     if (otherUser) {
                         var newDocument = { ...document._doc, post: await createJsonPost(post, otherUser,otherUserType) };
                         newBookedFavors = [...newBookedFavors, newDocument];
@@ -61,8 +61,8 @@ export const getBookedFavors = async (request, response) => {
             console.log(">>> getBookedFavors: There are no booked favors!")
 
         response.status(200).json({ data: newBookedFavors, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) });
-        console.log(">>> getBookedFavors: Sent bookedFavors to client.");
-        console.log(">>> getBookedFavors, booked favors are the following: ",bookedFavors)
+        console.log(">>> getBookedFavors: Sent "+ bookedFavors.length +" bookedFavors to client.");
+        //console.log(">>> getBookedFavors, booked favors are the following: ",bookedFavors)
     } catch (error) {
         response.status(404).json({ message: error.message });
     }

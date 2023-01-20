@@ -177,7 +177,7 @@ export const getPostsBySearch = async (request, response) => {
                     postsWithSideInfo = [...postsWithSideInfo, newDocument]
                 }
             }
-            console.log(">>> getPostsBySearch: Post enriched with side information: " + postsWithSideInfo);
+            console.log(">>> getPostsBySearch: Sent "+postsWithSideInfo.length+" posts enriched with side information.");
             return response.status(200).json({ data: postsWithSideInfo });
         }
         else
