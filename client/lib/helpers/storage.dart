@@ -20,7 +20,9 @@ class Storage {
       return TOKEN_NOT_FOUND;
   }
 
-  static isThereUserToken() async {
+  /// Return true if the token is not null, which means that the user has
+  /// already signed up/in before.
+  static Future<bool> isThereUserToken() async {
     //TODO: to test
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     return _prefs.getString('token') != null;

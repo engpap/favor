@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/functions/showToast.dart';
 import 'package:project/functions/utilities.dart';
+import 'package:project/helpers/storage.dart';
 import 'package:project/models/bookedFavor.dart';
 import 'package:project/models/callerPost.dart'; //to remove
 import 'package:project/models/favorCategories.dart';
@@ -21,8 +22,20 @@ String bookedListHeading = "Your Booked Favors";
 String categoryListHeading = "Favor Categories";
 String reccomendationListHeading = "Recommended for you";
 
-class Feed_Screen_M extends StatelessWidget {
+class Feed_Screen_M extends StatefulWidget {
   const Feed_Screen_M({super.key});
+
+  @override
+  State<Feed_Screen_M> createState() => _Feed_Screen_MState();
+}
+
+class _Feed_Screen_MState extends State<Feed_Screen_M> {
+  late Future<bool> isThereUserToken;
+  @override
+  void initState() {
+    super.initState();
+    isThereUserToken = Storage.isThereUserToken();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,8 +71,22 @@ class Feed_Screen_M extends StatelessWidget {
                 ),
               ),
 
-              //ELEMENTS
-              Expanded(child: Carousel_BookedFavorWidget()),
+              /// If the token does not exist, then the user has never signed
+              /// up/in. Thus, booked favors cannot be shown.
+              FutureBuilder<bool>(
+                future: isThereUserToken,
+                builder: ((context, snapshot) {
+                  if (snapshot.hasData && snapshot.data != null) {
+                    return snapshot.data!
+                        ? Expanded(child: Carousel_BookedFavorWidget())
+                        : Expanded(
+                            child: Text(
+                                "You have to be registered to book favors!"));
+                  }
+                  return CupertinoActivityIndicator(
+                      animating: false, radius: 20);
+                }),
+              ),
             ],
           ),
         ),
