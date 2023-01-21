@@ -6,7 +6,7 @@ import 'package:project/models/bookedFavor.dart';
 import 'package:project/models/callerPost.dart';
 import 'package:project/models/post.dart';
 import 'package:project/models/providerPost.dart';
-import 'package:project/providers/userProvider.dart';
+import 'package:project/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:project/screens/components/customCard.dart';
 import 'package:project/screens/components/starsWidget.dart';
@@ -159,7 +159,7 @@ class favorBookedPage_Screen_M extends StatelessWidget {
       ),
       Consumer<UserProvider>(
         builder: (context, myProvider, child) {
-          if (myProvider.googleClient != null) {
+          if (myProvider.getGoogleClient() != null) {
             return AddToGoogleCalendarButton(post: post);
           } else
             return Container();

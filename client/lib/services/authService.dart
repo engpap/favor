@@ -4,7 +4,7 @@ import 'package:project/errors/errorConstants.dart';
 import 'package:project/helpers/auth_helper.dart';
 import 'package:http/http.dart' as http;
 import 'package:project/helpers/storage.dart';
-import 'package:project/providers/userProvider.dart';
+import 'package:project/providers/user_provider.dart';
 import 'package:project/errors/error.dart';
 import 'package:project/screens/home.dart';
 import 'package:project/screens/signin/signin.dart';

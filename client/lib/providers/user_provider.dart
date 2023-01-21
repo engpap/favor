@@ -1,49 +1,34 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:project/models/user.dart';
 import 'package:http/http.dart' as http;
 
 class UserProvider extends ChangeNotifier {
-  User _user = User(
-    id: '',
-    name: '',
-    surname: '',
-    profilePicture: MemoryImage(base64Decode(noProfilePicture64String)),
-    email: '',
-    token: '',
-    rankingPoints: 0,
-    averageRatings: 0,
-  );
+  User? _user;
+  http.Client? _googleClient;
 
-  http.Client? googleClient = null;
+  User? get user => _user;
 
-  User get user => _user;
+  http.Client? getGoogleClient() {
+    return _googleClient;
+  }
 
   void setUser(String user) {
-    _user = User.fromJson(user);
+    try {
+      _user = User.fromJson(user);
+    } catch (e) {
+      throw new Exception("Cannot create user with missing data");
+    }
+
     notifyListeners();
   }
 
   void setGoogleClient(http.Client client) {
-    googleClient = client;
+    _googleClient = client;
     notifyListeners();
   }
 
-  http.Client? getGoogleClient() {
-    return googleClient;
-  }
-
   void clearUser() {
-    _user = User(
-        id: '',
-        name: '',
-        surname: '',
-        profilePicture: MemoryImage(base64Decode(noProfilePicture64String)),
-        email: '',
-        token: '',
-        rankingPoints: 0,
-        averageRatings: 0);
+    _user = null;
   }
 }
 

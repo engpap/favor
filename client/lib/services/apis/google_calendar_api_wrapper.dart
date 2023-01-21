@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:googleapis/calendar/v3.dart';
 import 'package:project/functions/showToast.dart';
 import 'package:provider/provider.dart';
-import 'package:project/providers/userProvider.dart';
+import 'package:project/providers/user_provider.dart';
 
 /**
  * References:

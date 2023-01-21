@@ -6,7 +6,7 @@ import 'package:project/models/bookedFavor.dart';
 import 'dart:convert';
 import 'package:project/constants/globalVars.dart';
 import 'package:project/helpers/storage.dart';
-import 'package:project/providers/userProvider.dart';
+import 'package:project/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
 class FavorService {

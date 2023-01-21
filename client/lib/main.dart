@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project/providers/userProvider.dart';
+import 'package:project/providers/user_provider.dart';
 import 'package:project/screens/favor/favor2.dart';
 import 'package:project/screens/leaderboard/leaderboard.dart';
 import 'package:project/screens/leaderboard/leaderboard_mobile.dart';

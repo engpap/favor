@@ -8,7 +8,7 @@ import 'package:project/models/providerPost.dart';
 import 'package:project/helpers/storage.dart';
 import 'dart:convert';
 
-import 'package:project/providers/userProvider.dart';
+import 'package:project/providers/user_provider.dart';
 import 'package:project/screens/favorInformationPage/favorInformationPage.dart';
 import 'package:project/screens/feed/feed.dart';
 import 'package:project/screens/home.dart';
