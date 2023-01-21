@@ -35,7 +35,6 @@ class User {
         name = json['name'],
         surname = json['surname'],
         profilePicture = MemoryImage(base64Decode(json['profilePicture'])),
-        //Image.memory(base64Decode(json['profilePicture'])),
         email = json['email'],
         password = json['password'],
         confirmPassword = json['confirmPassword'],
