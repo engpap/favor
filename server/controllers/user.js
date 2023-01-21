@@ -5,7 +5,7 @@ import { OAuth2Client } from 'google-auth-library';
 
 import User from '../models/user.js';
 import { EMAIL_ERROR, PASSWORD_ERROR, SERVER_ERROR } from '../constants/errorTypes.js';
-import { GENDERS,CITIES,JOBS } from '../constants/personalInfo.js';
+import { GENDERS, CITIES, JOBS } from '../constants/personalInfo.js';
 
 dotenv.config();
 
@@ -23,13 +23,12 @@ export const signup = async (req, res) => {
 
         if (password !== confirmPassword)
             return res.status(400).json({ message: "Confirm password is different from provided password", errorType: PASSWORD_ERROR })
-       
+
         // Hash the password with a salt level of 12
         const hashedPassword = await bcrypt.hash(password, 12);
-        
+
         const newUser = await User.create({ email, password: hashedPassword, name: name, surname: surname });
-        console.log("cia")
-        const token = jwt.sign({ email: newUser.email, id: newUser._id }, process.env.GOOGLE_CLIENT_SECRET, { expiresIn: "1h" });
+        const token = jwt.sign({ email: newUser.email, id: newUser._id }, process.env.GOOGLE_CLIENT_SECRET, { expiresIn: "24h" });
         console.log(">>> SignUp: Sending response to user");
         res.status(201).json({ newUser, token });
 
@@ -58,12 +57,12 @@ export const signin = async (req, res) => {
         if (!isPasswordCorrect)
             return res.status(400).json({ message: "Wrong password", errorType: PASSWORD_ERROR });
 
-        const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, process.env.GOOGLE_CLIENT_SECRET, { expiresIn: "1h" });
+        const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, process.env.GOOGLE_CLIENT_SECRET, { expiresIn: "24h" });
 
         //The _doc field lets you access the "raw" document directly, 
         // which was delivered through the mongodb driver, bypassing mongoose.
         console.log(">>> SignIn: Sending response to user");
-        console.log("Following user logged in successfully: ",existingUser._doc);
+        //console.log("Following user logged in successfully: ", existingUser._doc);
         res.status(200).json({ token, ...existingUser._doc });
 
     } catch (error) {
@@ -85,7 +84,7 @@ export const continueWithExternalService = async (req, res) => {
         if (existingUser) { // sign in
             if (existingUser.externalId && existingUser.externalId == userIdFromGoogle) { // User is a google user
                 console.log("ContinueWithGoogle: Signing user in with Google service")
-                const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, process.env.GOOGLE_CLIENT_SECRET, { expiresIn: "1h" });
+                const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, process.env.GOOGLE_CLIENT_SECRET, { expiresIn: "24h" });
                 res.status(200).json({ token, ...existingUser._doc });
             }
             else { // User is not a google user since have externalId null
@@ -96,7 +95,7 @@ export const continueWithExternalService = async (req, res) => {
         else { // sign up
             console.log("ContinueWithGoogle: Signing user up with Google")
             const newUser = await User.create({ email, name: name, surname: surname, externalId: userIdFromGoogle, externalSignInService: 'Google' });
-            const token = jwt.sign({ email: newUser.email, id: newUser._id }, process.env.GOOGLE_CLIENT_SECRET, { expiresIn: "1h" });
+            const token = jwt.sign({ email: newUser.email, id: newUser._id }, process.env.GOOGLE_CLIENT_SECRET, { expiresIn: "24h" });
             res.status(201).json({ token, ...newUser._doc });
         }
 
@@ -121,23 +120,23 @@ const verifyGoogleIdToken = async (tokenId) => {
 export const insertPersonalInfo = async (request, response) => {
 
     console.log(">>> InsertPersonalInfo: Inserting personal information...");
-    const { proilePicture, gender, age, job, city, bio} = request.body;
+    const { proilePicture, gender, age, job, city, bio } = request.body;
     try {
-        if(parseInt(age)<=0)
-            return response.status(400).json({ message: "Wrong age"});
+        if (parseInt(age) <= 0)
+            return response.status(400).json({ message: "Wrong age" });
 
         const existingUser = await User.findById(request.userId);
 
         if (!existingUser)
-            return response.status(400).json({ message: "User has not registered yet"});
-        
-        if(!(proilePicture && gender && age && job && city && bio))
-            return response.status(400).json({ message: "Some data is missing. Please, fill all the fields."});
+            return response.status(400).json({ message: "User has not registered yet" });
 
-        const updatedUser = {...existingUser._doc, profilePicture: proilePicture, gender: gender, age: age, job: job, city: city, bio: bio };
+        if (!(proilePicture && gender && age && job && city && bio))
+            return response.status(400).json({ message: "Some data is missing. Please, fill all the fields." });
+
+        const updatedUser = { ...existingUser._doc, profilePicture: proilePicture, gender: gender, age: age, job: job, city: city, bio: bio };
 
         await User.findByIdAndUpdate(request.userId, updatedUser, { new: true });
-        
+
         console.log(">>> InsertPersonalInfo: User profile correctly updated with personal info!");
 
         return response.status(200).json({ message: "User profile correctly updated with personal info!" });
@@ -149,8 +148,10 @@ export const insertPersonalInfo = async (request, response) => {
 
 export const getProfileConstants = async (request, response) => {
     try {
-        console.log(JSON.stringify({ GENDERS,  CITIES, JOBS }))
-        response.status(200).json(JSON.stringify({ GENDERS, CITIES,JOBS }));
+        const AGES = [...Array(85).keys()].map(i => (i + 15).toString())
+        //console.log(AGES);
+        //console.log(JSON.stringify({ GENDERS, AGES, CITIES, JOBS }))
+        response.status(200).json(JSON.stringify({ GENDERS, AGES, CITIES, JOBS }));
         console.log('>>> getProfileConstants: Returned constants useful for updating a user profile!');
     } catch (error) {
         response.status(404).json({ message: error.message });

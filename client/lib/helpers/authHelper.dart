@@ -11,6 +11,14 @@ class AuthHelper {
     return '';
   }
 
+  String AndroidClientId() {
+    return GOOGLE_REDIRECT_URI_ANDROID;
+  }
+
+  String ClientSecret() {
+    return GOOGLE_CLIENT_SECRET_WEB;
+  }
+
   String redirectUrl() {
     if (Platform.isAndroid) {
       return GOOGLE_REDIRECT_URI_ANDROID;

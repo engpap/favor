@@ -19,23 +19,6 @@ import 'package:project/models/post.dart';
 import 'package:project/models/favorConstants.dart';
 
 class PostService {
-  Future<FavorConstants> getFavorConstants() async {
-    try {
-      http.Response response =
-          await http.get(Uri.parse('$uri/posts/getFavorConstants'), headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      });
-      if (response.statusCode == 200)
-        return FavorConstants.fromJson(jsonDecode(response.body));
-      else
-        throw Exception('Failed to get favor constants! Error message: ' +
-            jsonDecode(response.body)['message']);
-    } catch (error) {
-      throw Exception(
-          'Failed to get favor contstants! Error: ' + error.toString());
-    }
-  }
-
   Future<void> publishProviderFavor(
       {required BuildContext context,
       required String taskCategory,
@@ -44,7 +27,7 @@ class PostService {
       required availabilityEndTime,
       required description}) async {
     try {
-      if (!isUserModeAsProvider())
+      if (!UserMode_inherited.of(context).stateWidget.providerStatus_state)
         throw Exception(
             "Trying to publish a favor as Provider but userType is not Provider!");
 
@@ -55,16 +38,15 @@ class PostService {
           availabilityStartTime: availabilityStartTime,
           availabilityEndTime: availabilityEndTime,
           description: description);*/
-      final userProvider = Provider.of<UserProvider>(context, listen: false);
 
       http.Response response = await http.post(
         Uri.parse('$uri/posts/create'),
         headers: {
           'Content-Type': 'application/json;charset=UTF-8',
-          'x-auth-token': userProvider.user.token,
+          'x-auth-token': await Storage.getUserToken(),
         },
         body: jsonEncode({
-          'userType': getUserMode(),
+          'userType': UserMode_inherited.of(context).stateWidget.getUserMode(),
           'taskCategory': taskCategory,
           'location': location,
           'availabilityStartTime': availabilityStartTime.toIso8601String(),
@@ -97,7 +79,7 @@ class PostService {
       required favorStartTime,
       required description}) async {
     try {
-      if (!isUserModeAsCaller())
+      if (UserMode_inherited.of(context).stateWidget.callerStatus_state)
         throw Exception(
             "Trying to publish a favor as Caller but userType is not Caller!");
       /*CallerPost post = CallerPost(
@@ -107,16 +89,14 @@ class PostService {
           favorStartTime: favorStartTime,
           description: description);*/
 
-      final userProvider = Provider.of<UserProvider>(context, listen: false);
-
       http.Response response = await http.post(
         Uri.parse('$uri/posts/create'),
         headers: {
           'Content-Type': 'application/json;charset=UTF-8',
-          'x-auth-token': userProvider.user.token,
+          'x-auth-token': await Storage.getUserToken(),
         },
         body: jsonEncode({
-          'userType': getUserMode(),
+          'userType': UserMode_inherited.of(context).stateWidget.getUserMode(),
           'taskCategory': taskCategory,
           'location': location,
           'favorStartTime': favorStartTime.toIso8601String(),
@@ -182,15 +162,20 @@ class PostService {
   }
 
   Future<List<Post>> getPostsBySearch(
-      {required BuildContext context, required String searchQuery}) async {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
+      {required BuildContext context,
+      required String searchQuery,
+      required String userTypeToSearch}) async {
     List<Post> posts = [];
     try {
+      print(
+          ">>> getPostsBySearch: Searching ${userTypeToSearch} posts containing :" +
+              searchQuery);
       http.Response response = await http.get(
-          Uri.parse('$uri/posts/search?searchQuery=${searchQuery}'),
+          Uri.parse(
+              '$uri/posts/search?searchQuery=${searchQuery}&userTypeToSearch=${userTypeToSearch}'),
           headers: {
             'Content-Type': 'application/json;charset=UTF-8',
-            'x-auth-token': userProvider.user.token,
+            'x-auth-token': await Storage.getUserToken(),
           });
 
       httpErrorHandle(
@@ -199,7 +184,7 @@ class PostService {
         onSuccess: () {
           for (int i = 0; i < jsonDecode(response.body)['data'].length; i++) {
             if (Post.getUserTypeGivenJsonString(
-                    jsonDecode(response.body)['data']) ==
+                    jsonDecode(response.body)['data'][i]) ==
                 'provider')
               posts.add(
                 ProviderPost.fromJson(
@@ -207,7 +192,7 @@ class PostService {
                 ),
               );
             else if (Post.getUserTypeGivenJsonString(
-                    jsonDecode(response.body)['data']) ==
+                    jsonDecode(response.body)['data'][i]) ==
                 'caller')
               posts.add(
                 CallerPost.fromJson(
@@ -231,17 +216,16 @@ class PostService {
     required Post? post,
   }) async {
     try {
-      if (post?.userType == getUserMode())
+      if (post?.userType ==
+          UserMode_inherited.of(context).stateWidget.getUserMode())
         showToast(context,
             "Cannot book favor if User Mode is the same of publisher!");
-
-      final userProvider = Provider.of<UserProvider>(context, listen: false);
 
       http.Response response = await http.post(
         Uri.parse('$uri/posts/${post?.id}/bookFavor'),
         headers: {
           'Content-Type': 'application/json;charset=UTF-8',
-          'x-auth-token': userProvider.user.token,
+          'x-auth-token': await Storage.getUserToken(),
         },
       );
 

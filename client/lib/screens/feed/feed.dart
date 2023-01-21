@@ -14,6 +14,7 @@ import 'package:project/screens/favorBookedPage/favorBookedPage.dart';
 import 'package:project/screens/favorInformationPage/favorInformationPage.dart';
 import 'package:project/screens/feed/feed_mobile.dart';
 import 'package:project/screens/feed/feed_tablet.dart';
+import 'package:project/screens/feed/feed_utilities.dart';
 import 'package:project/screens/responsiveLayout.dart';
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/functions/favorTime.dart' as favorTime;
@@ -44,12 +45,9 @@ class Feed_Screen extends StatelessWidget {
 class FavorCategoryWidget extends StatelessWidget {
   FavorCategoryWidget({
     super.key,
-    required this.categoryImage,
     required this.categoryName,
   });
 
-  //TODO: change assets with network image
-  final String categoryImage;
   final String categoryName;
 
   @override
@@ -58,7 +56,6 @@ class FavorCategoryWidget extends StatelessWidget {
       padding: EdgeInsets.zero,
       margin: EdgeInsets.zero,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
         mainAxisSize: MainAxisSize.min,
         children: [
           // IMAGE
@@ -68,8 +65,7 @@ class FavorCategoryWidget extends StatelessWidget {
             decoration: BoxDecoration(
               shape: BoxShape.rectangle,
               image: DecorationImage(
-                //TODO: change assets with network image
-                image: AssetImage(categoryImage),
+                image: FeedUtilities.getFavorCategoryImage(categoryName),
                 fit: BoxFit.cover,
               ),
               border: Border.all(
@@ -91,22 +87,14 @@ class FavorCategoryWidget extends StatelessWidget {
             height: Responsive.height(0.5, context),
             color: Colors.transparent,
           ),
-          Text(
-            categoryName,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-              color: favorColors.SecondaryBlue,
-            ),
-          ),
         ],
       ),
     );
   }
 }
 
-class RecommendedFavorWidget extends StatelessWidget {
-  RecommendedFavorWidget({
+class FavorWidget extends StatelessWidget {
+  FavorWidget({
     super.key,
     required this.post,
   });
@@ -191,7 +179,7 @@ class RecommendedFavorWidget extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.only(right: 8.0),
                           child: Icon(
-                            CupertinoIcons.time_solid,
+                            CupertinoIcons.time,
                             color: favorColors.PrimaryBlue,
                             size: 24, //
                           ),
@@ -289,14 +277,14 @@ class RecommendedFavorWidget extends StatelessWidget {
                     ),
                   ),
                   // STARS
-                  StarsWidget(number: post!.averageStars),
+                  StarsWidget(number: post!.averageRatings),
                   Divider(
                     height: Responsive.height(1, context),
                     color: Colors.transparent,
                   ),
                   // MORE BUTTON
                   Container(
-                    height: 26,
+                    height: 32,
                     width: Responsive.width(100, context),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
@@ -318,7 +306,7 @@ class RecommendedFavorWidget extends StatelessWidget {
                       color: favorColors.PrimaryBlue,
                       borderRadius: BorderRadius.circular(90),
                       child: Text(
-                        "More   >",
+                        "More...",
                         style: TextStyle(
                             fontSize: 14, fontWeight: FontWeight.bold),
                       ),
@@ -347,13 +335,11 @@ class RecommendedFavorWidget extends StatelessWidget {
 class BookedFavorWidget extends StatelessWidget {
   BookedFavorWidget({
     super.key,
-    required this.categoryImage,
     required this.categoryName,
     required this.booked,
   });
 
   //TODO: change assets with network image
-  String categoryImage;
   String categoryName;
 
   String time = "18.00";
@@ -392,7 +378,7 @@ class BookedFavorWidget extends StatelessWidget {
                   context,
                   CupertinoPageRoute(
                       builder: (context) => favorBookedPage_Screen(
-                            booked: BOOKED, //TODO: cambiare riferimento
+                            bookedFavor: BOOKED, //TODO: cambiare riferimento
                           )),
                 );
               },
@@ -412,9 +398,10 @@ class BookedFavorWidget extends StatelessWidget {
                         shape: BoxShape.rectangle,
                         image: DecorationImage(
                           //TODO: change assets with network image
-                          image: AssetImage(categoryImage),
+                          image:
+                              FeedUtilities.getFavorCategoryImage(categoryName),
                           fit: BoxFit.cover,
-                          opacity: 0.2,
+                          opacity: 0.1,
                         ),
                         border: Border.all(
                           color: favorColors.LightGrey,
@@ -473,7 +460,7 @@ class BookedFavorWidget extends StatelessWidget {
                                 Padding(
                                   padding: EdgeInsets.only(right: 8.0),
                                   child: Icon(
-                                    CupertinoIcons.time_solid,
+                                    CupertinoIcons.time,
                                     color: favorColors.PrimaryBlue,
                                     size: 24, //
                                   ),
@@ -524,7 +511,7 @@ BookedFavor BOOKED = new BookedFavor(
         location: "location",
         favorStartTime: DateTime(0),
         description: "description",
-        averageStars: 2,
+        averageRatings: 2,
         rankingPosition: 1,
         rankingLocation: "rankingLocation",
         bio: "bio"));

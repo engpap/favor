@@ -13,10 +13,10 @@ import 'package:project/functions/favorTime.dart' as favorTime;
 class favorBookedPage_Screen_T extends StatelessWidget {
   favorBookedPage_Screen_T({
     super.key,
-    required this.booked,
+    required this.bookedFavor,
   });
 
-  BookedFavor? booked;
+  BookedFavor? bookedFavor;
 
   Post post = CallerPost(
       id: "id",
@@ -30,7 +30,7 @@ class favorBookedPage_Screen_T extends StatelessWidget {
       location: "location",
       favorStartTime: DateTime(0),
       description: "description",
-      averageStars: 2,
+      averageRatings: 2,
       rankingPosition: 1,
       rankingLocation: "rankingLocation",
       bio: "bio");
@@ -116,7 +116,7 @@ class favorBookedPage_Screen_T extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.only(right: 8.0),
                                 child: Icon(
-                                  CupertinoIcons.time_solid,
+                                  CupertinoIcons.time,
                                   color: favorColors.PrimaryBlue,
                                   size: 24, //
                                 ),
@@ -258,7 +258,7 @@ class favorBookedPage_Screen_T extends StatelessWidget {
                                     color: Colors.transparent,
                                   ),
                                   // STARS
-                                  StarsWidget(number: post.averageStars),
+                                  StarsWidget(number: post.averageRatings),
                                 ],
                               ),
                             ),

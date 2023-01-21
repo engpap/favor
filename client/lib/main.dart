@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/providers/userProvider.dart';
 import 'package:project/screens/favor/favor2.dart';
+import 'package:project/screens/leaderboard/leaderboard.dart';
+import 'package:project/screens/leaderboard/leaderboard_mobile.dart';
 import 'package:provider/provider.dart';
 
 import 'package:project/screens/introduction/introduction-1.dart';
@@ -24,6 +26,7 @@ class MyApp extends StatelessWidget {
         DefaultWidgetsLocalizations.delegate,
       ],
       home: Introduction1Screen(),
+      //home: Leaderboard_Screen_M(),
       //home: FavorForm_caller(),
       //home: HomeScreen(),
       //home: favorInformationPage_Screen(),

@@ -27,4 +27,33 @@ class Utilities {
     int minute = dateTime.minute;
     return "$hour:$minute";
   }
+
+  static String capitalizeWords(String input) {
+    return input
+        .split(" ")
+        .map((word) => word[0].toUpperCase() + word.substring(1))
+        .join(" ");
+  }
+
+  static String getNthWord(String input, int n) {
+    List<String> words = input.split(" ");
+    if (n > words.length) {
+      return "Invalid input: n is larger than the number of words in the string.";
+    }
+    return words[n - 1];
+  }
+
+  static Text capitalizeFirstWordsLetter(Text textObject) {
+    String? textString = textObject.data;
+    if (textString != null) {
+      List<String> words = textString.split(" ");
+      for (int i = 0; i < words.length; i++) {
+        words[i] =
+            words[i][0].toUpperCase() + words[i].substring(1).toLowerCase();
+      }
+      String capitalizedText = words.join(" ");
+      return Text(capitalizedText, style: textObject.style);
+    } else
+      throw Exception("Text dat cannot be null!");
+  }
 }

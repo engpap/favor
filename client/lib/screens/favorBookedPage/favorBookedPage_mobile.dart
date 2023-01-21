@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project/services/apis/google_calendar_api_wrapper.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/models/bookedFavor.dart';
 import 'package:project/models/callerPost.dart';
 import 'package:project/models/post.dart';
 import 'package:project/models/providerPost.dart';
+import 'package:project/providers/userProvider.dart';
+import 'package:provider/provider.dart';
 import 'package:project/screens/components/customCard.dart';
 import 'package:project/screens/components/starsWidget.dart';
 
@@ -15,10 +18,10 @@ import 'package:project/services/postService.dart';
 class favorBookedPage_Screen_M extends StatelessWidget {
   favorBookedPage_Screen_M({
     super.key,
-    required this.booked,
+    required this.bookedFavor,
   });
 
-  BookedFavor? booked;
+  BookedFavor? bookedFavor;
 
   Post post = CallerPost(
       id: "id",
@@ -30,9 +33,9 @@ class favorBookedPage_Screen_M extends StatelessWidget {
       userType: "userType",
       taskCategory: "taskCategory",
       location: "location",
-      favorStartTime: DateTime(0),
+      favorStartTime: DateTime.now(),
       description: "description",
-      averageStars: 2,
+      averageRatings: 2,
       rankingPosition: 1,
       rankingLocation: "rankingLocation",
       bio: "bio");
@@ -40,35 +43,129 @@ class favorBookedPage_Screen_M extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Column(children: [
-        Container(
-          margin: EdgeInsets.all(9),
-          padding: EdgeInsets.only(left: 18, right: 18, top: 9, bottom: 9),
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                spreadRadius: 0.5,
-                blurRadius: 5,
-                offset: Offset(0, 1),
+        child: Column(children: [
+      Container(
+        margin: EdgeInsets.all(9),
+        padding: EdgeInsets.only(left: 18, right: 18, top: 9, bottom: 9),
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              spreadRadius: 0.5,
+              blurRadius: 5,
+              offset: Offset(0, 1),
+            ),
+          ],
+          color: favorColors.IntroBg,
+          border: Border.all(
+              color: favorColors.LightGrey,
+              width: 1.0,
+              style: BorderStyle.solid),
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
+        ),
+        child: favorInformationPage_favor_M(post: post),
+      ),
+      CustomCard_2(
+        child: favorInformationPage_person_M(post: post),
+      ),
+      Container(
+        margin: EdgeInsets.all(9),
+        child: SafeArea(
+          child: Center(
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: Responsive.width(12, context),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: favorColors.LightGrey,
+                  width: 1.0,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    spreadRadius: 0.5,
+                    blurRadius: 5,
+                    offset: Offset(0, 1),
+                  ),
+                ],
               ),
-            ],
-            color: favorColors.IntroBg,
-            border: Border.all(
-                color: favorColors.LightGrey,
-                width: 1.0,
-                style: BorderStyle.solid),
-            borderRadius: BorderRadius.all(
-              Radius.circular(10),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      height: Responsive.width(12, context),
+                      width: 230,
+                      child: CupertinoButton(
+                        padding: EdgeInsets.all(0),
+                        color: favorColors.PrimaryBlue,
+                        borderRadius: BorderRadius.circular(15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(left: 15),
+                              child: Icon(CupertinoIcons.check_mark),
+                            ),
+                            Expanded(
+                              child: Container(
+                                alignment: Alignment.center,
+                                child: Text('Mark as Completed'),
+                              ),
+                            ),
+                          ],
+                        ),
+                        onPressed: () {
+                          print('Pressed: _MarkAsCompletedButton');
+                          //TODO:
+                        },
+                      ),
+                    ),
+                    Container(
+                      height: Responsive.width(12, context),
+                      width: 125,
+                      child: CupertinoButton(
+                        padding: EdgeInsets.all(0),
+                        color: favorColors
+                            .PrimaryBlue, //Color.fromARGB(255, 64, 129, 236),
+                        borderRadius: BorderRadius.circular(15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(left: 15),
+                              child: Icon(CupertinoIcons.chat_bubble_2),
+                            ),
+                            Expanded(
+                              child: Container(
+                                alignment: Alignment.center,
+                                child: Text('Chat'),
+                              ),
+                            ),
+                          ],
+                        ),
+                        onPressed: () {
+                          print('Pressed: _chatButton');
+                          //TODO:
+                        },
+                      ),
+                    ),
+                  ]),
             ),
           ),
-          child: favorInformationPage_favor_M(post: post),
         ),
-        CustomCard_2(
-          child: favorInformationPage_person_M(post: post),
-        ),
-      ]),
-    );
+      ),
+      Consumer<UserProvider>(
+        builder: (context, myProvider, child) {
+          if (myProvider.googleClient != null) {
+            return AddToGoogleCalendarButton(post: post);
+          } else
+            return Container();
+        },
+      ),
+    ]));
   }
 }
 
@@ -126,7 +223,7 @@ class favorInformationPage_favor_M extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(right: 8.0),
                     child: Icon(
-                      CupertinoIcons.time_solid,
+                      CupertinoIcons.time,
                       color: favorColors.PrimaryBlue,
                       size: 24, //
                     ),
@@ -282,7 +379,7 @@ class favorInformationPage_person_M extends StatelessWidget {
                         color: Colors.transparent,
                       ),
                       // STARS
-                      StarsWidget(number: post.averageStars),
+                      StarsWidget(number: post.averageRatings),
                     ],
                   ),
                 ),
@@ -292,156 +389,9 @@ class favorInformationPage_person_M extends StatelessWidget {
               height: Responsive.height(1, context),
               color: Colors.transparent,
             ),
-            Row(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Column(
-                  children: [
-                    // CHAT BUTTON
-                    Container(
-                      width: Responsive.width(25, context),
-                      child: Align(
-                        child: Container(
-                          width: Responsive.width(12, context),
-                          height: Responsive.width(12, context),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: favorColors.LightGrey,
-                              width: 1.0,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                spreadRadius: 0.5,
-                                blurRadius: 5,
-                                offset: Offset(0, 1),
-                              ),
-                            ],
-                          ),
-                          child: CupertinoButton(
-                            padding: EdgeInsets.all(0),
-                            color: favorColors.PrimaryBlue,
-                            borderRadius: BorderRadius.circular(90),
-                            child: Icon(CupertinoIcons.chat_bubble_2),
-                            onPressed: () {
-                              print('Pressed: _chatButton');
-                              //TODO: add server function and client response
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                    Divider(
-                      height: Responsive.height(0.5, context),
-                      color: Colors.transparent,
-                    ),
-                    Text(
-                      "chat",
-                      style: TextStyle(
-                        fontSize: 14,
-                      ),
-                    ),
-                    Divider(
-                      height: Responsive.height(2, context),
-                      color: Colors.transparent,
-                    ),
-                    // CALENDAR BUTTON
-                    Container(
-                      width: Responsive.width(25, context),
-                      child: Align(
-                        child: Container(
-                          width: Responsive.width(12, context),
-                          height: Responsive.width(12, context),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: favorColors.LightGrey,
-                              width: 1.0,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                spreadRadius: 0.5,
-                                blurRadius: 5,
-                                offset: Offset(0, 1),
-                              ),
-                            ],
-                          ),
-                          child: CupertinoButton(
-                            padding: EdgeInsets.all(0),
-                            color: favorColors.PrimaryBlue,
-                            borderRadius: BorderRadius.circular(90),
-                            child: Icon(CupertinoIcons.add),
-                            onPressed: () {
-                              print('Pressed: _calendarButton');
-                              //TODO:
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                    Divider(
-                      height: Responsive.height(0.5, context),
-                      color: Colors.transparent,
-                    ),
-                    Text(
-                      "add to calendar",
-                      style: TextStyle(
-                        fontSize: 14,
-                      ),
-                    ),
-                    Divider(
-                      height: Responsive.height(2, context),
-                      color: Colors.transparent,
-                    ),
-                    // COMPLETE BUTTON
-                    Container(
-                      width: Responsive.width(25, context),
-                      child: Align(
-                        child: Container(
-                          width: Responsive.width(12, context),
-                          height: Responsive.width(12, context),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: favorColors.LightGrey,
-                              width: 1.0,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                spreadRadius: 0.5,
-                                blurRadius: 5,
-                                offset: Offset(0, 1),
-                              ),
-                            ],
-                          ),
-                          child: CupertinoButton(
-                            padding: EdgeInsets.all(0),
-                            color: favorColors.PrimaryBlue,
-                            borderRadius: BorderRadius.circular(90),
-                            child: Icon(CupertinoIcons.check_mark),
-                            onPressed: () {
-                              print('Pressed: _completeButton');
-                              //TODO:
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                    Divider(
-                      height: Responsive.height(0.5, context),
-                      color: Colors.transparent,
-                    ),
-                    Text(
-                      "complete",
-                      style: TextStyle(
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
-                ),
                 // BIO
                 Container(
                   width: Responsive.width(65, context),
@@ -457,6 +407,80 @@ class favorInformationPage_person_M extends StatelessWidget {
               ],
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class AddToGoogleCalendarButton extends StatelessWidget {
+  final Post post;
+
+  AddToGoogleCalendarButton({required this.post});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.all(9),
+      child: SafeArea(
+        child: Center(
+          child: // CALENDAR BUTTON
+              Container(
+            width: MediaQuery.of(context).size.width,
+            height: Responsive.width(12, context),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: favorColors.LightGrey,
+                width: 1.0,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  spreadRadius: 0.5,
+                  blurRadius: 5,
+                  offset: Offset(0, 1),
+                ),
+              ],
+            ),
+            child: CupertinoButton(
+              padding: EdgeInsets.all(0),
+              color:
+                  favorColors.PrimaryBlue, //Color.fromARGB(255, 64, 129, 236),
+              borderRadius: BorderRadius.circular(15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(left: 15),
+                    child: Icon(CupertinoIcons.add),
+                  ),
+                  Expanded(
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: Text('Add to Google Calendar'),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(right: 15),
+                    child: Image(
+                      image: AssetImage(
+                          "assets/images/google/google_calendar_logo.png"),
+                    ),
+                  ),
+                ],
+              ),
+              onPressed: () async {
+                print('Pressed: _calendarButton');
+                await GoogleCalendarApiWrapper().insertEventInGoogleCalendar(
+                  context,
+                  post.taskCategory,
+                  post.location,
+                  post.getFavorStartTime(),
+                );
+              },
+            ),
+          ),
         ),
       ),
     );

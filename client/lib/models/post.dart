@@ -15,7 +15,7 @@ abstract class Post {
   final String taskCategory;
   final String location;
   final String description;
-  final int averageStars;
+  final int averageRatings;
   final int? rankingPosition;
   final String? rankingLocation;
   final String? bio;
@@ -31,7 +31,7 @@ abstract class Post {
     required this.taskCategory,
     required this.location,
     required this.description,
-    required this.averageStars,
+    required this.averageRatings,
     this.rankingPosition,
     this.rankingLocation,
     this.bio,

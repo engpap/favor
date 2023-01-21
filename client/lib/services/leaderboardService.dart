@@ -23,9 +23,14 @@ import 'package:project/models/favorConstants.dart';
 class LeaderboardService {
   Future<Leaderboard?> getLeaderboard(
       {required BuildContext context,
-      required String userType,
-      required String location}) async {
+      required String? userType,
+      required String? location}) async {
     Leaderboard? leaderboard;
+
+    if (userType == null ||
+        userType.length == 0 ||
+        location == null ||
+        location.length == 0) return null;
     try {
       http.Response response = await http.get(
           Uri.parse(
@@ -34,12 +39,15 @@ class LeaderboardService {
             'Content-Type': 'application/json;charset=UTF-8',
           });
 
-      leaderboard = Leaderboard.fromJson(jsonDecode(response.body)['data']);
-
-      httpErrorHandle(response: response, context: context, onSuccess: () {});
+      httpErrorHandle(
+          response: response,
+          context: context,
+          onSuccess: () {
+            leaderboard =
+                Leaderboard.fromJson(jsonDecode(response.body)['data']);
+          });
     } catch (error) {
       throw Exception(">>> getLeaderboard exception: " + error.toString());
-      //showToast(context, error.toString());
     }
     return leaderboard;
   }

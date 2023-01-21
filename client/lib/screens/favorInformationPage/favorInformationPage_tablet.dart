@@ -12,7 +12,7 @@ import 'package:project/functions/favorTime.dart' as favorTime;
 class favorInformationPage_Screen_T extends StatelessWidget {
   favorInformationPage_Screen_T({
     super.key,
-    required this.post,  
+    required this.post,
   });
 
   Post? post;
@@ -26,112 +26,130 @@ class favorInformationPage_Screen_T extends StatelessWidget {
         SingleChildScrollView(
           reverse: true,
           child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: Responsive.fixedWidth(),),
+            constraints: BoxConstraints(
+              maxWidth: Responsive.fixedWidth(),
+            ),
             child: Column(
               children: [
                 // FAVOR INFORMATION
                 Container(
-                  margin: EdgeInsets.all(9),
-                  padding: EdgeInsets.only(left:18, right:18, top:9, bottom: 9), 
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        spreadRadius: 0.5,
-                        blurRadius: 5,
-                        offset: Offset(0, 1),
-                      ),
-                    ],
-                    color: favorColors.IntroBg,
-                    border: Border.all(
-                        color: favorColors.LightGrey,
-                        width: 1.0,
-                        style: BorderStyle.solid),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      //HEADING
-                      SizedBox(
-                        width: Responsive.width(100, context),
-                        child: Text(post!.taskCategory, 
-                          style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold,
-                            color: favorColors.PrimaryBlue,),
-                          textAlign: TextAlign.left,
+                    margin: EdgeInsets.all(9),
+                    padding:
+                        EdgeInsets.only(left: 18, right: 18, top: 9, bottom: 9),
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          spreadRadius: 0.5,
+                          blurRadius: 5,
+                          offset: Offset(0, 1),
                         ),
+                      ],
+                      color: favorColors.IntroBg,
+                      border: Border.all(
+                          color: favorColors.LightGrey,
+                          width: 1.0,
+                          style: BorderStyle.solid),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
                       ),
-                      Divider(height: Responsive.height(1, context), color: Colors.transparent,),
-                      //INFORMATION
-                      SizedBox(
-                        width: Responsive.width(90, context),
-                        child: Flexible(
+                    ),
+                    child: Column(
+                      children: [
+                        //HEADING
+                        SizedBox(
+                          width: Responsive.width(100, context),
                           child: Text(
-                            post!.description, 
-                            style: TextStyle(fontSize: 18), 
+                            post!.taskCategory,
+                            style: TextStyle(
+                              fontSize: 26,
+                              fontWeight: FontWeight.bold,
+                              color: favorColors.PrimaryBlue,
+                            ),
                             textAlign: TextAlign.left,
-                            overflow: TextOverflow.fade,
                           ),
                         ),
-                      ),
-                      Divider(height: Responsive.height(2, context), color: Colors.transparent,),
-                      // TIME
-                      Container(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 8.0),
-                              child: Icon(
-                                CupertinoIcons.time_solid, 
-                                color: favorColors.PrimaryBlue,
-                                size: 24, // 
-                              ),
-                            ),
-                            Flexible(
-                              child: Text(
-                                (post is CallerPost)
-                                ? "${favorTime.formatter.format(post!.getFavorStartTime())}"
-                                : "${favorTime.formatter.format(post!.getAvailabilityStartTime())} - ${favorTime.formatter.format(post!.getAvailabilityEndTime())}",
+                        Divider(
+                          height: Responsive.height(1, context),
+                          color: Colors.transparent,
+                        ),
+                        //INFORMATION
+                        SizedBox(
+                          width: Responsive.width(90, context),
+                          child: Flexible(
+                            child: Text(
+                              post!.description,
+                              style: TextStyle(fontSize: 18),
+                              textAlign: TextAlign.left,
                               overflow: TextOverflow.fade,
-                              style: TextStyle(
-                                color: favorColors.PrimaryBlue,
-                              ),),
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                      Divider(height: Responsive.height(0, context), color: Colors.transparent,),
-                      // LOCATION
-                      Container(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 30.0),
-                              child: Flexible(
-                                child: Text(
-                                  post!.location,
-                                overflow: TextOverflow.fade,
-                                style: TextStyle(
-                                  fontSize: 15,
+                        Divider(
+                          height: Responsive.height(2, context),
+                          color: Colors.transparent,
+                        ),
+                        // TIME
+                        Container(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: Icon(
+                                  CupertinoIcons.time,
                                   color: favorColors.PrimaryBlue,
-                                ),), 
+                                  size: 24, //
+                                ),
                               ),
-                            ),
-                          ],
+                              Flexible(
+                                child: Text(
+                                  (post is CallerPost)
+                                      ? "${favorTime.formatter.format(post!.getFavorStartTime())}"
+                                      : "${favorTime.formatter.format(post!.getAvailabilityStartTime())} - ${favorTime.formatter.format(post!.getAvailabilityEndTime())}",
+                                  overflow: TextOverflow.fade,
+                                  style: TextStyle(
+                                    color: favorColors.PrimaryBlue,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  )
-                ),
+                        Divider(
+                          height: Responsive.height(0, context),
+                          color: Colors.transparent,
+                        ),
+                        // LOCATION
+                        Container(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 30.0),
+                                child: Flexible(
+                                  child: Text(
+                                    post!.location,
+                                    overflow: TextOverflow.fade,
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: favorColors.PrimaryBlue,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    )),
                 // PERSONAL INFORMATION
                 Container(
                   margin: EdgeInsets.all(9),
-                  padding: EdgeInsets.only(left:18, right:18, top:9, bottom: 9),
+                  padding:
+                      EdgeInsets.only(left: 18, right: 18, top: 9, bottom: 9),
                   decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
@@ -157,8 +175,8 @@ class favorInformationPage_Screen_T extends StatelessWidget {
                           children: [
                             // IMAGE
                             Container(
-                              width: Responsive.width(10, context), 
-                              height: Responsive.width(10, context), 
+                              width: Responsive.width(10, context),
+                              height: Responsive.width(10, context),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
@@ -167,8 +185,8 @@ class favorInformationPage_Screen_T extends StatelessWidget {
                                   fit: BoxFit.cover,
                                 ),
                                 border: Border.all(
-                                color: favorColors.LightGrey,
-                                width: 1.0,
+                                  color: favorColors.LightGrey,
+                                  width: 1.0,
                                 ),
                                 boxShadow: [
                                   BoxShadow(
@@ -182,10 +200,11 @@ class favorInformationPage_Screen_T extends StatelessWidget {
                             ),
                             // PERSONAL...
                             Container(
-                              padding: EdgeInsets.only(left: Responsive.width(1, context),),
-                              constraints: BoxConstraints(
-                                minHeight: Responsive.width(10, context)
+                              padding: EdgeInsets.only(
+                                left: Responsive.width(1, context),
                               ),
+                              constraints: BoxConstraints(
+                                  minHeight: Responsive.width(10, context)),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -193,43 +212,59 @@ class favorInformationPage_Screen_T extends StatelessWidget {
                                   // NAME AND SURNAME
                                   Text(
                                     "${post!.name} ${post!.surname}",
-                                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold), 
+                                    style: TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold),
                                     textAlign: TextAlign.left,
                                   ),
                                   // ROLE
                                   Text(
-                                    post!.userType, 
+                                    post!.userType,
                                     style: TextStyle(
-                                      fontSize: 18, 
-                                      fontWeight: FontWeight.bold, 
-                                      color: favorColors.SecondaryBlue), 
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: favorColors.SecondaryBlue),
                                     textAlign: TextAlign.left,
                                   ),
-                                  Divider(height: Responsive.height(1.5, context), color: Colors.transparent,),
+                                  Divider(
+                                    height: Responsive.height(1.5, context),
+                                    color: Colors.transparent,
+                                  ),
                                   // RANK
                                   Text(
                                     "${post!.rankingPosition} in ${post!.rankingLocation}",
-                                    style: TextStyle(fontSize: 14),),
-                                  Divider(height: Responsive.height(0.5, context), color: Colors.transparent,),
+                                    style: TextStyle(fontSize: 14),
+                                  ),
+                                  Divider(
+                                    height: Responsive.height(0.5, context),
+                                    color: Colors.transparent,
+                                  ),
                                   // STARS
-                                  StarsWidget(number: post!.averageStars),
+                                  StarsWidget(number: post!.averageRatings),
                                 ],
                               ),
                             ),
                           ],
                         ),
-                        Divider(height: Responsive.height(1, context), color: Colors.transparent,),
+                        Divider(
+                          height: Responsive.height(1, context),
+                          color: Colors.transparent,
+                        ),
                         // BIO
                         Container(
                           width: Responsive.width(65, context),
                           child: Align(
                             child: Text(
-                              post!.bio!, 
-                              style: TextStyle(fontSize: 18), textAlign: TextAlign.start,
+                              post!.bio!,
+                              style: TextStyle(fontSize: 18),
+                              textAlign: TextAlign.start,
                             ),
                           ),
                         ),
-                        Divider(height: Responsive.height(2, context), color: Colors.transparent,),
+                        Divider(
+                          height: Responsive.height(2, context),
+                          color: Colors.transparent,
+                        ),
                         // ROW OF 2 BUTTONS
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -240,17 +275,18 @@ class favorInformationPage_Screen_T extends StatelessWidget {
                                 Container(
                                   child: Align(
                                     child: Container(
-                                      width: Responsive.width(6, context), 
-                                      height: Responsive.width(6, context), 
+                                      width: Responsive.width(6, context),
+                                      height: Responsive.width(6, context),
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                         border: Border.all(
-                                        color: favorColors.LightGrey,
-                                        width: 1.0,
+                                          color: favorColors.LightGrey,
+                                          width: 1.0,
                                         ),
                                         boxShadow: [
                                           BoxShadow(
-                                            color: Colors.black.withOpacity(0.1),
+                                            color:
+                                                Colors.black.withOpacity(0.1),
                                             spreadRadius: 0.5,
                                             blurRadius: 5,
                                             offset: Offset(0, 1),
@@ -261,17 +297,26 @@ class favorInformationPage_Screen_T extends StatelessWidget {
                                         padding: EdgeInsets.all(0),
                                         color: favorColors.PrimaryBlue,
                                         borderRadius: BorderRadius.circular(90),
-                                        child: Icon(CupertinoIcons.chat_bubble_2),
+                                        child:
+                                            Icon(CupertinoIcons.chat_bubble_2),
                                         onPressed: () {
                                           print('Pressed: _chatButton');
-                                          //TODO: add server function and client response      
+                                          //TODO: add server function and client response
                                         },
                                       ),
                                     ),
                                   ),
                                 ),
-                                Divider(height: Responsive.height(0.5, context), color: Colors.transparent,),
-                                Text("chat", style: TextStyle(fontSize: 14, ),),
+                                Divider(
+                                  height: Responsive.height(0.5, context),
+                                  color: Colors.transparent,
+                                ),
+                                Text(
+                                  "chat",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                  ),
+                                ),
                               ],
                             ),
                             // BOOK BUTTON
@@ -280,17 +325,18 @@ class favorInformationPage_Screen_T extends StatelessWidget {
                                 Container(
                                   child: Align(
                                     child: Container(
-                                      width: Responsive.width(6, context), 
+                                      width: Responsive.width(6, context),
                                       height: Responsive.width(6, context),
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                         border: Border.all(
-                                        color: favorColors.LightGrey,
-                                        width: 1.0,
+                                          color: favorColors.LightGrey,
+                                          width: 1.0,
                                         ),
                                         boxShadow: [
                                           BoxShadow(
-                                            color: Colors.black.withOpacity(0.1),
+                                            color:
+                                                Colors.black.withOpacity(0.1),
                                             spreadRadius: 0.5,
                                             blurRadius: 5,
                                             offset: Offset(0, 1),
@@ -304,14 +350,22 @@ class favorInformationPage_Screen_T extends StatelessWidget {
                                         child: Icon(CupertinoIcons.bookmark),
                                         onPressed: () {
                                           print('Pressed: _bookButton');
-                                          //TODO: add server function and client response      
+                                          //TODO: add server function and client response
                                         },
                                       ),
                                     ),
                                   ),
                                 ),
-                                Divider(height: Responsive.height(0.5, context), color: Colors.transparent,),
-                                Text("book", style: TextStyle(fontSize: 14, ),),
+                                Divider(
+                                  height: Responsive.height(0.5, context),
+                                  color: Colors.transparent,
+                                ),
+                                Text(
+                                  "book",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                  ),
+                                ),
                               ],
                             ),
                           ],
@@ -334,21 +388,19 @@ class favorInformationPage_Screen_T extends StatelessWidget {
             margin: EdgeInsets.all(9),
             height: Responsive.height(90, context),
             decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              image: DecorationImage(
-                image: AssetImage("assets/images/Mappa_Milano.jpg"),
-                fit: BoxFit.cover,
-              ),
-              border: Border.all(
-                color: favorColors.LightGrey,
-                width: 1.0,
-              ),
-              borderRadius: BorderRadius.circular(10)
-            ),
+                shape: BoxShape.rectangle,
+                image: DecorationImage(
+                  image: AssetImage("assets/images/Mappa_Milano.jpg"),
+                  fit: BoxFit.cover,
+                ),
+                border: Border.all(
+                  color: favorColors.LightGrey,
+                  width: 1.0,
+                ),
+                borderRadius: BorderRadius.circular(10)),
           ),
         ),
       ],
     );
   }
 }
-

@@ -10,9 +10,14 @@ export const getLeaderboard = async (request, response) => {
 
         const filter = { userType: userType, location: location }
         // Find the leaderboard that matches the userType and location.
-        const leaderboard = await Leaderboard.findOne(filter);
+        const leaderboard = await Leaderboard.findOne(filter).populate({path: 'users.user', select: 'name surname profilePicture'});//populate('users.user', 'name surname');
          console.log(">>> getLeaderboard: Leaderboard found: " + leaderboard);
-        response.status(200).json({ data: leaderboard });
+        if(leaderboard == null)
+            return response.status(400).send({ message: 'This leaderboard does not exists yet!' });
+        else{
+
+            return response.status(200).json({ data: leaderboard });
+        }
     } catch (error) {
         response.status(404).json({ message: error.message });
     }

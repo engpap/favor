@@ -10,6 +10,8 @@ import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/functions/favorTime.dart' as favorTime;
 import 'package:project/services/postService.dart';
 
+import "package:googleapis_auth/auth_io.dart";
+
 class favorInformationPage_Screen_M extends StatelessWidget {
   favorInformationPage_Screen_M({
     super.key,
@@ -107,7 +109,7 @@ class favorInformationPage_favor_M extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(right: 8.0),
                     child: Icon(
-                      CupertinoIcons.time_solid,
+                      CupertinoIcons.time,
                       color: favorColors.PrimaryBlue,
                       size: 24, //
                     ),
@@ -263,7 +265,7 @@ class favorInformationPage_person_M extends StatelessWidget {
                         color: Colors.transparent,
                       ),
                       // STARS
-                      StarsWidget(number: post!.averageStars),
+                      StarsWidget(number: post!.averageRatings),
                     ],
                   ),
                 ),

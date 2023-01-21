@@ -34,20 +34,10 @@ class Feed_Screen_M extends StatelessWidget {
           color: Colors.transparent,
         ),
 
-        //SEARCH BAR
-        Container(
-            padding: EdgeInsets.only(left: 9, right: 9),
-            height: Responsive.height(5, context),
-            child: SearchFavor()),
-        Divider(
-          height: Responsive.height(1, context),
-          color: Colors.transparent,
-        ),
-
         // FAVOR BOOKED
         // TODO: far comparire solo se il server ritorna dei booked favors
         Container(
-          padding: EdgeInsets.only(left: 8, right: 8),
+          padding: EdgeInsets.only(left: 0, right: 0),
           height: Responsive.height(17, context),
           // BOOKED LIST (scrollable horizontaly)
           child: Column(
@@ -56,7 +46,7 @@ class Feed_Screen_M extends StatelessWidget {
               //HEADING
               Container(
                 width: Responsive.width(100, context),
-                padding: EdgeInsets.only(right: 9, left: 9),
+                padding: EdgeInsets.only(right: 8, left: 8),
                 child: Text(
                   "${bookedListHeading}",
                   style: TextStyle(
@@ -67,17 +57,9 @@ class Feed_Screen_M extends StatelessWidget {
                   textAlign: TextAlign.left,
                 ),
               ),
-              Divider(
-                height: Responsive.height(1, context),
-                color: Colors.transparent,
-              ),
+
               //ELEMENTS
-              Container(
-                  constraints:
-                      BoxConstraints(maxHeight: Responsive.height(12, context)),
-                  child: Text(
-                      "il carosello dovrebve essere qui") //TODO: Carousel_BookedFavorWidget()
-                  ),
+              Expanded(child: Carousel_BookedFavorWidget()),
             ],
           ),
         ),
@@ -85,11 +67,10 @@ class Feed_Screen_M extends StatelessWidget {
           height: Responsive.height(1, context),
           color: Colors.transparent,
         ),
-
         // FAVOR CATEGORIES
         Container(
           padding: EdgeInsets.only(left: 8, right: 8),
-          height: Responsive.height(20, context),
+          height: Responsive.height(16, context),
           // CATEGORY LIST (scrollable horizontaly)
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -97,7 +78,7 @@ class Feed_Screen_M extends StatelessWidget {
               //HEADING
               Container(
                 width: Responsive.width(100, context),
-                padding: EdgeInsets.only(right: 9, left: 9),
+                padding: EdgeInsets.only(right: 0, left: 0),
                 child: Text(
                   "${categoryListHeading}",
                   style: TextStyle(
@@ -113,10 +94,7 @@ class Feed_Screen_M extends StatelessWidget {
                 color: Colors.transparent,
               ),
               //ELEMENTS
-              Container(
-                  constraints:
-                      BoxConstraints(maxHeight: Responsive.height(15, context)),
-                  child: Carousel_FavorCategoryWidget()),
+              Expanded(child: Carousel_FavorCategoryWidget()),
             ],
           ),
         ),
@@ -124,12 +102,10 @@ class Feed_Screen_M extends StatelessWidget {
           height: Responsive.height(1, context),
           color: Colors.transparent,
         ),
-
         // FAVOR RECOMMENDATIONS
-        Container(
+        Expanded(
           //color: Colors.lightBlue,
-          padding: EdgeInsets.only(left: 8, right: 8),
-          height: Responsive.height(25, context), //TODO: 50
+
           // RECOMMENDATION LIST (scrollable vertically)
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -137,7 +113,7 @@ class Feed_Screen_M extends StatelessWidget {
               //HEADING
               Container(
                 width: Responsive.width(100, context),
-                padding: EdgeInsets.only(right: 9, left: 9),
+                padding: EdgeInsets.only(right: 8, left: 8),
                 child: Text(
                   "${reccomendationListHeading}",
                   style: TextStyle(
@@ -147,13 +123,10 @@ class Feed_Screen_M extends StatelessWidget {
                   ),
                 ),
               ),
-              Divider(
-                height: Responsive.height(1, context),
-                color: Colors.transparent,
-              ),
+
               //ELEMENTS
               Expanded(
-                child: Carousel_RecommendedFavorWidgetWidget(),
+                child: RecommendedFavorWidgetsList_Widget(shrinkWrap: false),
               ),
             ],
           ),
@@ -192,9 +165,7 @@ class _Carousel_FavorCategoryWidgetState
                 itemCount: snapshot.data!.favorCategories.length,
                 itemBuilder: (context, index) {
                   return FavorCategoryWidget(
-                    categoryImage: "assets/images/bg_music_01.jpg",
-                    categoryName: Utilities.replaceEmptySpaceWithNewline(
-                        snapshot.data!.favorCategories[index]),
+                    categoryName: snapshot.data!.favorCategories[index],
                   );
                 });
           } else if (snapshot.hasError) {
@@ -206,16 +177,19 @@ class _Carousel_FavorCategoryWidgetState
   }
 }
 
-class Carousel_RecommendedFavorWidgetWidget extends StatefulWidget {
-  const Carousel_RecommendedFavorWidgetWidget({super.key});
+///  The attrbure "shrinkWrap" is used for centering the activity indicator and build the posts correctly based on the screen we are.
+class RecommendedFavorWidgetsList_Widget extends StatefulWidget {
+  RecommendedFavorWidgetsList_Widget({super.key, required this.shrinkWrap});
+
+  bool shrinkWrap;
 
   @override
-  State<Carousel_RecommendedFavorWidgetWidget> createState() =>
-      _Carousel_RecommendedFavorWidgetWidgetState();
+  State<RecommendedFavorWidgetsList_Widget> createState() =>
+      _RecommendedFavorWidgetsList_WidgetState();
 }
 
-class _Carousel_RecommendedFavorWidgetWidgetState
-    extends State<Carousel_RecommendedFavorWidgetWidget> {
+class _RecommendedFavorWidgetsList_WidgetState
+    extends State<RecommendedFavorWidgetsList_Widget> {
   static const _pageSize = 4;
   final PagingController<int, Post> _pagingController =
       PagingController(firstPageKey: 1);
@@ -246,10 +220,17 @@ class _Carousel_RecommendedFavorWidgetWidgetState
   @override
   Widget build(BuildContext context) {
     return PagedListView<int, Post>(
+      shrinkWrap: widget.shrinkWrap,
       pagingController: _pagingController,
       builderDelegate: PagedChildBuilderDelegate<Post>(
-          itemBuilder: (context, item, index) => RecommendedFavorWidget(
+          itemBuilder: (context, item, index) => FavorWidget(
                 post: item,
+              ),
+          firstPageProgressIndicatorBuilder: (_) => Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CupertinoActivityIndicator(animating: false, radius: 10)
+                ],
               )),
     );
   }
@@ -296,12 +277,14 @@ class _Carousel_BookedFavorWidgetState
   @override
   Widget build(BuildContext context) {
     return PagedListView<int, BookedFavor>(
+      scrollDirection: Axis.horizontal,
       pagingController: _pagingController,
       builderDelegate: PagedChildBuilderDelegate<BookedFavor>(
-          itemBuilder: (context, item, index) => BookedFavorWidget(
-              categoryImage: "assets/images/bg_music_01.jpg",
-              categoryName: item.post.taskCategory,
-              booked: item)),
+        itemBuilder: (context, item, index) => BookedFavorWidget(
+            categoryName: item.post.taskCategory, booked: item),
+        firstPageProgressIndicatorBuilder: (_) =>
+            Center(child: CupertinoActivityIndicator()),
+      ),
     );
   }
 }
@@ -324,7 +307,7 @@ BookedFavor BOOKED = new BookedFavor(
         location: "location",
         favorStartTime: DateTime(0),
         description: "description",
-        averageStars: 2,
+        averageRatings: 2,
         rankingPosition: 1,
         rankingLocation: "rankingLocation",
         bio: "bio"));

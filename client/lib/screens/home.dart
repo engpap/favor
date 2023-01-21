@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:project/screens/components/cupertinoNavigationBar_favor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,35 +6,6 @@ import 'package:project/functions/tabs.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
 
-// GLOBAL VARIABLES where is saved the UserMode
-bool PROVIDERstatus = true; // initaial value
-bool CALLERstatus = false;
-bool ADMINstatus = false;
-
-// GLOBAL FUNCTIONS to read the UserMode
-bool isUserModeAsProvider() {
-  return PROVIDERstatus && !CALLERstatus;
-}
-
-bool isUserModeAsCaller() {
-  return CALLERstatus && !PROVIDERstatus;
-}
-
-String getUserMode() {
-  if (PROVIDERstatus) {
-    print("UserMode: Provider");
-    return 'provider';
-  } else if (CALLERstatus) {
-    print("UserMode: Caller");
-    return 'caller';
-  } else if (ADMINstatus) {
-    print("UserMode: Admin");
-    return 'admin';
-  } else {
-    throw Exception("No UserMode set, this situation should not occur");
-  }
-}
-
 /// Class used to controll the UserMode
 /// it's a StatefulWidget that wraps an InheritedWidget in order to get both functionalities
 class UserMode extends StatefulWidget {
@@ -44,13 +13,14 @@ class UserMode extends StatefulWidget {
   final Widget child;
 
   @override
-  State<UserMode> createState() => _UserModeState();
+  State<UserMode> createState() => UserModeState();
 }
 
-class _UserModeState extends State<UserMode> {
-  bool providerStatus_state = PROVIDERstatus;
-  bool callerStatus_state = CALLERstatus;
-  bool adminStatus_state = ADMINstatus;
+@visibleForTesting
+class UserModeState extends State<UserMode> {
+  bool providerStatus_state = true;
+  bool callerStatus_state = false;
+  bool adminStatus_state = false;
 
   void setUserMode_provider() {
     setState(() {
@@ -58,10 +28,6 @@ class _UserModeState extends State<UserMode> {
       providerStatus_state = true;
       callerStatus_state = false;
       adminStatus_state = false;
-      // global variables
-      PROVIDERstatus = true;
-      CALLERstatus = false;
-      ADMINstatus = false;
     });
   }
 
@@ -71,10 +37,6 @@ class _UserModeState extends State<UserMode> {
       providerStatus_state = false;
       callerStatus_state = true;
       adminStatus_state = false;
-      // global variables
-      PROVIDERstatus = false;
-      CALLERstatus = true;
-      ADMINstatus = false;
     });
   }
 
@@ -84,10 +46,6 @@ class _UserModeState extends State<UserMode> {
       providerStatus_state = false;
       callerStatus_state = false;
       adminStatus_state = true;
-      // global variables
-      PROVIDERstatus = false;
-      CALLERstatus = false;
-      ADMINstatus = true;
     });
   }
 
@@ -106,13 +64,30 @@ class _UserModeState extends State<UserMode> {
   String getUserMode() {
     if (providerStatus_state) {
       print("UserMode: Provider");
-      return 'providerFP';
+      return 'provider';
     } else if (callerStatus_state) {
       print("UserMode: Caller");
-      return 'callerFP';
+      return 'caller';
     } else if (adminStatus_state) {
       print("UserMode: Admin");
-      return 'adminFP';
+      return 'admin';
+    } else {
+      throw Exception("No UserMode set, this situation should not occur");
+    }
+  }
+
+  String getOppositeUserMode() {
+    if (providerStatus_state) {
+      print("UserMode: Provider");
+      return 'caller';
+    } else if (callerStatus_state) {
+      print("UserMode: Caller");
+      return 'provider';
+    } else if (adminStatus_state) {
+      print("UserMode: Admin");
+      print(">>> getOppositeUserMode: Returning empty String");
+      // In this case, we return an empty string, since there is not opposite status of admin!
+      return '';
     } else {
       throw Exception("No UserMode set, this situation should not occur");
     }
@@ -141,7 +116,7 @@ class UserMode_inherited extends InheritedWidget {
   final bool provider;
   final bool caller;
   final bool admin;
-  final _UserModeState stateWidget;
+  final UserModeState stateWidget;
 
   static UserMode_inherited? maybeOf(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<UserMode_inherited>();
@@ -154,10 +129,10 @@ class UserMode_inherited extends InheritedWidget {
   }
 
   @override
-  bool updateShouldNotify(UserMode_inherited oldWidget) => 
-    provider != oldWidget.provider || 
-    caller != oldWidget.caller || 
-    admin != oldWidget.admin;  //|| stateWidget != oldWidget.stateWidget;
+  bool updateShouldNotify(UserMode_inherited oldWidget) =>
+      provider != oldWidget.provider ||
+      caller != oldWidget.caller ||
+      admin != oldWidget.admin; //|| stateWidget != oldWidget.stateWidget;
 }
 
 class HomeScreen extends StatelessWidget {
@@ -169,6 +144,7 @@ class HomeScreen extends StatelessWidget {
       key: UniqueKey(),
       child: CupertinoTabScaffold(
           tabBar: CupertinoTabBar(
+            activeColor: favorColors.PrimaryBlue,
             items: [
               // HOME
               BottomNavigationBarItem(

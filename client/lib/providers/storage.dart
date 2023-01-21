@@ -17,10 +17,19 @@ class Storage {
     }
   }
   */
-  static Future<String?> getUserToken() async {
+  /* static Future<String?> getUserToken() async {
     print(">>> Returning token stored in storage");
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     return _prefs.getString('token');
+  }*/
+
+  static Future<String> getUserToken() async {
+    print(">>> Returning token stored in storage");
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    if (_prefs.getString('token') != null)
+      return _prefs.getString('token') as String;
+    else
+      return 'token_not_found'; // Do not throw exception in order to make server respond to the unvalid token. This will make the app open the sign in screen.
   }
 
   static void setUserToken(String token) async {

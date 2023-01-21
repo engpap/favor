@@ -72,8 +72,8 @@ export const createPost = async (req, res) => {
         await newPost.save();
         console.log('>>> createPost: Post created!');
         var user = await User.findById(newPost.creatorId);
-        
-        res.status(201).json(await createJsonPost(newPost,user,userType));
+
+        res.status(201).json(await createJsonPost(newPost, user, userType));
 
     } catch (error) {
         console.log(error.message);
@@ -105,10 +105,12 @@ export const getPosts = async (request, response) => {
         console.log(">>> getPosts: Updating posts with users data...");
         var newPosts = []
         for (const document of posts) {
-            var user = await User.findById(document.creatorId);
-            if (user) {
-                var newDocument = await createJsonPost(document,user,document.userType)
-                newPosts = [...newPosts, newDocument]
+            if(!document.toHide){
+                var user = await User.findById(document.creatorId);
+                if (user) {
+                    var newDocument = await createJsonPost(document, user, document.userType)
+                    newPosts = [...newPosts, newDocument]
+                }
             }
         }
 
@@ -153,18 +155,33 @@ export const getFavorConstants = async (request, response) => {
 
 
 export const getPostsBySearch = async (request, response) => {
-    const { searchQuery } = request.query;
+    const { searchQuery, userTypeToSearch } = request.query;
     console.log(">>> getPostsBySearch: Search query is " + searchQuery);
     try {
         // the flag 'i' ignores the case of the string.
-        const taskCategory = new RegExp(searchQuery, 'i');
-        console.log(">>> getPostsByCategory: taskCategory is " + taskCategory)
-        const location = new RegExp(searchQuery, 'i');
+        const searchQuery_RegExp = new RegExp(searchQuery, 'i');
+        console.log(">>> getPostsByCategory: RegExp of searchquery is " + searchQuery_RegExp)
+        const userTypeToSearch_RegExp = new RegExp(userTypeToSearch, 'i');
+        console.log(">>> getPostsByCategory: RegExp of userTypeToSearch is " + userTypeToSearch_RegExp)
 
-        // Find all the posts that matches the taskCategory or location.
-        const posts = await Post.find({ $or: [{ taskCategory }, { location }] });
-        console.log(">>> getPostsBySearch: Posts found: " + posts);
-        response.json({ data: posts });
+        // Find all the posts that matches the taskCategory or location of posted by the userType provided.
+        const posts = await Post.find({ $or: [{ userType: userTypeToSearch_RegExp }, { taskCategory: searchQuery_RegExp }, {location: searchQuery_RegExp} ] });
+        console.log(">>> getPostsBySearch: Number of posts found through search: " + posts.length);
+        if (posts.length > 0) {
+            console.log(">>> getPostsBySearch: Updating searched posts with users data...");
+            var postsWithSideInfo = []
+            for (const document of posts) {
+                var user = await User.findById(document.creatorId);
+                if (user) {
+                    var newDocument = await createJsonPost(document, user, document.userType)
+                    postsWithSideInfo = [...postsWithSideInfo, newDocument]
+                }
+            }
+            console.log(">>> getPostsBySearch: Sent "+postsWithSideInfo.length+" posts enriched with side information.");
+            return response.status(200).json({ data: postsWithSideInfo });
+        }
+        else
+            return response.status(200).json({ data: posts });
     } catch (error) {
         response.status(404).json({ message: error.message });
     }
