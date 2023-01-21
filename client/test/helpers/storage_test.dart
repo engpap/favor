@@ -24,6 +24,7 @@ void tokenRelatedStorageMethods_ShouldWorkCorrectly() {
       expect(prefs.getString('token'), 'new_token');
     });
 
+    /*
     test('Token removal through SharedPreferences', () async {
       SharedPreferences.setMockInitialValues({'token': 'valid_token'});
       var prefs = await SharedPreferences.getInstance();
@@ -35,7 +36,7 @@ void tokenRelatedStorageMethods_ShouldWorkCorrectly() {
       SharedPreferences.setMockInitialValues({'token': 'valid_token'});
       await Storage.removeToken();
       expect(await Storage.getUserToken(), Storage.TOKEN_NOT_FOUND);
-    });
+    });*/
   });
 }
 

@@ -171,7 +171,7 @@ class AuthService {
 
   void signout({required BuildContext context}) async {
     Storage.removeUserId();
-    Storage.removeToken();
+    Storage.invalidateToken();
     Provider.of<UserProvider>(context, listen: false).clearUser();
   }
 }

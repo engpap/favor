@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:project/functions/responsive.dart';
+import 'package:project/screens/home.dart';
 import 'package:project/screens/responsiveLayout.dart';
 import 'package:project/screens/signin/signin.dart';
 import 'package:project/functions/favorColors.dart' as favorColors;
@@ -13,26 +14,23 @@ class Introduction3Screen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        FocusScopeNode currentFocus = FocusScope.of(context);
-        if (!currentFocus.hasPrimaryFocus) {
-          currentFocus.unfocus();
-        }
-      },
-      child: CupertinoPageScaffold(
-        backgroundColor: favorColors.IntroBg,
-        child: SafeArea(
-          child: ResponsiveLeayout(
-            mobileBody: Introduction3Screen_M(),
-            //TODO do we need tablet?
-            tabletBody: Introduction3Screen_M(),
-          ),
-        )
-      )
-    );
+        onTap: () {
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          if (!currentFocus.hasPrimaryFocus) {
+            currentFocus.unfocus();
+          }
+        },
+        child: CupertinoPageScaffold(
+            backgroundColor: favorColors.IntroBg,
+            child: SafeArea(
+              child: ResponsiveLeayout(
+                mobileBody: Introduction3Screen_M(),
+                //TODO do we need tablet?
+                tabletBody: Introduction3Screen_M(),
+              ),
+            )));
   }
 }
-
 
 class Introduction3Screen_M extends StatelessWidget {
   const Introduction3Screen_M({super.key});
@@ -44,22 +42,22 @@ class Introduction3Screen_M extends StatelessWidget {
         children: [
           // ACTUAL PAGE
           Expanded(
-            child: GestureDetector(   
-              onTap: () {
-                Navigator.pushReplacement(
-                  context,
-                  CupertinoPageRoute(
-                    builder: (context) => const SignInScreen()),
-                );
-              },          
-              child: Container(
-                width: Responsive.width(100, context),
-                child: Image(
-                  image: AssetImage("assets/images/intro3.png"),
-                ),
+              child: GestureDetector(
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                CupertinoPageRoute(builder: (context) => const HomeScreen()),
+
+                /// HomeScreen is pushed so the users can see how the app looks like and eventually sign up.
+              );
+            },
+            child: Container(
+              width: Responsive.width(100, context),
+              child: Image(
+                image: AssetImage("assets/images/intro3.png"),
               ),
-            )
-          ),
+            ),
+          )),
           // NAVIGATION BAR
           IntroNavBar(),
         ],
@@ -68,67 +66,64 @@ class Introduction3Screen_M extends StatelessWidget {
   }
 }
 
-
 /// BOTTOM NAVIGATION BAR
 class IntroNavBar extends StatelessWidget {
   const IntroNavBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return  Row(
-      children: [
-        Expanded(
-          flex: 1,
-          child: CupertinoButton(
-            onPressed: () { 
-              Navigator.pushReplacement(
-                context,
-                CupertinoPageRoute(
+    return Row(children: [
+      Expanded(
+        flex: 1,
+        child: CupertinoButton(
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              CupertinoPageRoute(
                   builder: (context) => const Introduction1Screen()),
-              );
-              },
-            child: Icon(
-              CupertinoIcons.circle_fill,
-              size: 25,
-              color: Color.fromARGB(255, 217, 217, 217),
-            ),
+            );
+          },
+          child: Icon(
+            CupertinoIcons.circle_fill,
+            size: 25,
+            color: Color.fromARGB(255, 217, 217, 217),
           ),
         ),
-        Expanded(
-          flex: 1,
-          child: CupertinoButton(
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                CupertinoPageRoute(
+      ),
+      Expanded(
+        flex: 1,
+        child: CupertinoButton(
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              CupertinoPageRoute(
                   builder: (context) => const Introduction2Screen()),
-              );
-            },
-            child: Icon(
-              CupertinoIcons.circle_fill,
-              size: 25,
-              color: Color.fromARGB(255, 217, 217, 217),
-            ),
+            );
+          },
+          child: Icon(
+            CupertinoIcons.circle_fill,
+            size: 25,
+            color: Color.fromARGB(255, 217, 217, 217),
           ),
         ),
-        Expanded(
-          flex: 1,
-          child: CupertinoButton(
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                CupertinoPageRoute(
+      ),
+      Expanded(
+        flex: 1,
+        child: CupertinoButton(
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              CupertinoPageRoute(
                   builder: (context) => const Introduction3Screen()),
-              );
-            },
-            child: Icon(
-              CupertinoIcons.circle_fill,
-              size: 40,
-              color: favorColors.Yellow,
-            ),
+            );
+          },
+          child: Icon(
+            CupertinoIcons.circle_fill,
+            size: 40,
+            color: favorColors.Yellow,
           ),
-        ), 
-      ]
-    );
+        ),
+      ),
+    ]);
   }
 }

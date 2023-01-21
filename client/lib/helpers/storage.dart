@@ -20,16 +20,22 @@ class Storage {
       return TOKEN_NOT_FOUND;
   }
 
+  static isThereUserToken() async {
+    //TODO: to test
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    return _prefs.getString('token') != null;
+  }
+
   static Future setUserToken(String token) async {
     print(">>> Storing token in storage");
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     await _prefs.setString('token', token);
   }
 
-  static Future removeToken() async {
-    print(">>> Removing token in storage");
+  static Future invalidateToken() async {
+    print(">>> Invalidating token in storage");
     SharedPreferences _prefs = await SharedPreferences.getInstance();
-    await _prefs.remove('token');
+    await _prefs.setString('token', TOKEN_NOT_FOUND);
   }
 
   static Future<String?> getUserId() async {
