@@ -1,35 +1,21 @@
-import 'dart:io' show Platform;
 import 'package:shared_preferences/shared_preferences.dart';
 
+/// This class is a wrapper around the shared preferences library. It makes
+/// easier to use the shared preferences library and its functions, without
+/// having to write boilerplate code everytime.
 class Storage {
-  //static String _PlatformNotSupported = 'platform not supported';
-
-  /*
-  static Future<String?> getUserToken() async {
-    if (Platform.isAndroid) {
-      print(">>> Returning token stored in storage");
-      SharedPreferences _prefs = await SharedPreferences.getInstance();
-      return _prefs.getString('token');
-    } else if (Platform.isIOS) {
-      return _PlatformNotSupported;
-    } else {
-      return _PlatformNotSupported;
-    }
-  }
-  */
-  /* static Future<String?> getUserToken() async {
-    print(">>> Returning token stored in storage");
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-    return _prefs.getString('token');
-  }*/
-
+  /// Return the user's token saved in the shared preferences.
+  /// If the token does not exist in the shared preferences (it's null),
+  /// then return an invalid token string. In this last case, no exception
+  /// are thrown in order to wait for a server response that will cause the
+  /// application open the sign in screen.
   static Future<String> getUserToken() async {
     print(">>> Returning token stored in storage");
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     if (_prefs.getString('token') != null)
       return _prefs.getString('token') as String;
     else
-      return 'token_not_found'; // Do not throw exception in order to make server respond to the unvalid token. This will make the app open the sign in screen.
+      return 'token_not_found';
   }
 
   static void setUserToken(String token) async {
