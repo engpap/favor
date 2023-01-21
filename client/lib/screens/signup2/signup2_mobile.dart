@@ -25,9 +25,9 @@ class SignUp2Screen_M extends StatelessWidget {
           child: Column(
             children: [
               // HEADING +  DESCRIPTION
-              customHeadigDesc(
+              customHeadingDesc(
                 heading: "Create Account", 
-                description: "Please fill all informations below."
+                description: "These information will be used for our research."
               ),
               // FORM
               Form_SignUp2(),

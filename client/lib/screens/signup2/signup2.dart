@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:project/errors/error.dart';
 import 'package:project/errors/errorConstants.dart';
 import 'package:project/functions/responsive.dart';
+import 'package:project/functions/stringExtensions.dart';
+import 'package:project/screens/Temporanea/customFieldMat.dart';
+import 'package:project/screens/components/customCard.dart';
 import 'package:project/screens/responsiveLayout.dart';
 import 'package:project/screens/components/customField.dart';
 
@@ -50,7 +53,7 @@ class SignUp2Screen extends StatelessWidget {
 
 
 
-const List<String> list = <String>['One', 'Two', 'Three', 'Four', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17'];
+//const List<String> list = <String>['One', 'Two', 'Three', 'Four', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17'];
 
 /// CALLER FORM
 class Form_SignUp2 extends StatefulWidget {
@@ -62,7 +65,9 @@ class Form_SignUp2 extends StatefulWidget {
 
 class _Form_SignUp2State extends State<Form_SignUp2> {
   final formKey_signup2 = GlobalKey<FormState>();
-  String dropdownValue = list.first;
+  //String dropdownValue = list.first;
+
+  final String wspace = "         ";
 
   TextEditingController ageContoller = TextEditingController();
   TextEditingController genderContoller = TextEditingController();
@@ -72,44 +77,85 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      //height: Responsive.height(20, context),
-      
       child: Material(
         color: Colors.transparent,
         child: Form(
+          autovalidateMode: AutovalidateMode.always,
           key: formKey_signup2,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               // AGE
-              CustomField(
-                prefixIcon: CupertinoIcons.profile_circled, 
-                placeholder: "Enter your Age", 
-                textController: ageContoller, 
-                status: ErrorConstants.NO_ERROR
+              CustomCard_2(
+                padding: EdgeInsets.zero,
+                margin: EdgeInsets.zero,
+                child: customFieldMat(
+                  prefixIcon: CupertinoIcons.profile_circled, 
+                  labelText: "Your Age", 
+                  textEditingController: ageContoller, 
+                  customValidator: (value) {
+                    if (!value!.isValidAge()) 
+                      {return wspace+"Insert a correct age [min 0 - max 99]";}
+                    else {return null;}
+                  },
+                  isSuffixClear: true,
+                ),
               ),
+              SizedBox(height: 10,),
               // GENDER
-              CustomField(
-                prefixIcon: CupertinoIcons.profile_circled, 
-                placeholder: "Enter your gender", 
-                textController: genderContoller, 
-                status: ErrorConstants.NO_ERROR
+              CustomCard_2(
+                padding: EdgeInsets.zero,
+                margin: EdgeInsets.zero,
+                child: customFieldMat(
+                  prefixIcon: CupertinoIcons.profile_circled, 
+                  labelText: "Your gender", //  F (female) or M (male)
+                  textEditingController: genderContoller, 
+                  customValidator: (value) {
+                    if (!value!.isValidGender()) 
+                      {return wspace+"Just insert letter F or M";}
+                    else {return null;}
+                  },
+                  isSuffixClear: true,
+                ),
               ),
+              SizedBox(height: 10,),
               // RESIDENCE
-              CustomField(
-                prefixIcon: CupertinoIcons.profile_circled, 
-                placeholder: "Enter your residence", 
-                textController: residenceContoller, 
-                status: ErrorConstants.NO_ERROR
+              CustomCard_2(
+                padding: EdgeInsets.zero,
+                margin: EdgeInsets.zero,
+                child: customFieldMat(
+                  prefixIcon: CupertinoIcons.profile_circled, 
+                  labelText: "Your residence", 
+                  textEditingController: residenceContoller, 
+                  customValidator: (value) {
+                    if (value!.length < 1 || !value.isValidResidence()) 
+                      {return wspace+"You can't insert special characters";}
+                    if (value.length > 50) 
+                      {return wspace+"max 50 chars";}
+                    else {return null;}
+                  },
+                  isSuffixClear: true,
+                ),
               ),
+              SizedBox(height: 10,),
               // JOB
-              CustomField(
-                prefixIcon: CupertinoIcons.profile_circled, 
-                placeholder: "Enter your job", 
-                textController: jobContoller, 
-                status: ErrorConstants.NO_ERROR
+              CustomCard_2(
+                padding: EdgeInsets.zero,
+                margin: EdgeInsets.zero,
+                child: customFieldMat(
+                  prefixIcon: CupertinoIcons.profile_circled, 
+                  labelText: "Your job", 
+                  textEditingController: jobContoller, 
+                  customValidator: (value) {
+                    if (value!.length < 1 || !value.isValidJob()) 
+                      {return wspace+"You can't insert number or special characters";}
+                    if (value.length > 50) 
+                      {return wspace+"max 50 chars";}
+                    else {return null;}
+                  },
+                  isSuffixClear: true,
+                ),
               ),
-
 
               /** 
               TextFormField(),
@@ -139,8 +185,8 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
 }
 
 
-class customHeadigDesc extends StatelessWidget {
-  customHeadigDesc({
+class customHeadingDesc extends StatelessWidget {
+  customHeadingDesc({
     super.key,
     required this.heading,
     required this.description,
@@ -217,10 +263,11 @@ class RegisterButton_SignUp2 extends StatelessWidget {
           onPressed: () {
             // Console log
             print('Pressed: RegisterButton_SignUp2');
-            print('run: authService.signup');
 
             /**
-             * TODO: RIFARE
+            TODO: Collagare col server
+
+            //print('run: authService.signup');
             // Send information to server and wait for response
             globals.authService.signup(
               context: context,
@@ -230,6 +277,7 @@ class RegisterButton_SignUp2 extends StatelessWidget {
               password: globals.textControllerPassword.text,
               confirmPassword: globals.textControllerPasswordConfirm.text,
             );
+
             */
           },
         ),
