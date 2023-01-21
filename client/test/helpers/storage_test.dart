@@ -10,8 +10,11 @@ void main() {
 void tokenRelatedStorageMethods_ShouldWorkCorrectly() {
   group("Token set/get/remove methods", () {
     test('Token not found scenario', () async {
-      await SharedPreferences.getInstance();
       expect(await Storage.getUserToken(), Storage.TOKEN_NOT_FOUND);
+    });
+
+    test('Token absence using isThereUserToken', () async {
+      expect(await Storage.isThereUserToken(), false);
     });
     test('Valid token retrieval', () async {
       SharedPreferences.setMockInitialValues({'token': 'valid_token'});
@@ -24,19 +27,16 @@ void tokenRelatedStorageMethods_ShouldWorkCorrectly() {
       expect(prefs.getString('token'), 'new_token');
     });
 
-    /*
-    test('Token removal through SharedPreferences', () async {
-      SharedPreferences.setMockInitialValues({'token': 'valid_token'});
-      var prefs = await SharedPreferences.getInstance();
-      await Storage.removeToken();
-      expect(prefs.getString('token'), null);
+    test('Token presence using isThereUserToken', () async {
+      await Storage.setUserToken('new_token');
+      expect(await Storage.isThereUserToken(), true);
     });
 
-    test('Token removal through Storage', () async {
-      SharedPreferences.setMockInitialValues({'token': 'valid_token'});
-      await Storage.removeToken();
+    test('Token invalidation', () async {
+      await Storage.setUserToken('new_token');
+      await Storage.invalidateToken();
       expect(await Storage.getUserToken(), Storage.TOKEN_NOT_FOUND);
-    });*/
+    });
   });
 }
 

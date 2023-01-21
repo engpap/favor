@@ -23,7 +23,6 @@ class Storage {
   /// Return true if the token is not null, which means that the user has
   /// already signed up/in before.
   static Future<bool> isThereUserToken() async {
-    //TODO: to test
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     return _prefs.getString('token') != null;
   }
@@ -34,6 +33,8 @@ class Storage {
     await _prefs.setString('token', token);
   }
 
+  /// When the user logs out the token is set to the constant
+  ///  value 'token_not_found.
   static Future invalidateToken() async {
     print(">>> Invalidating token in storage");
     SharedPreferences _prefs = await SharedPreferences.getInstance();
