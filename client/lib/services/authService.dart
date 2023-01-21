@@ -1,10 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:project/constants/globalVars.dart';
 import 'package:project/errors/errorConstants.dart';
-import 'package:project/functions/showToast.dart';
 import 'package:project/helpers/authHelper.dart';
-import 'package:project/models/profileConstants.dart';
-import 'package:project/models/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:project/providers/storage.dart';
 import 'package:project/providers/userProvider.dart';
@@ -13,7 +10,6 @@ import 'package:project/screens/home.dart';
 import 'package:project/screens/signin/signin.dart';
 import 'package:provider/provider.dart';
 import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:project/errors/errorHandling.dart';
 import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
