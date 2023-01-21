@@ -4,6 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// easier to use the shared preferences library and its functions, without
 /// having to write boilerplate code everytime.
 class Storage {
+  static String TOKEN_NOT_FOUND = 'token_not_found';
+
   /// Return the user's token saved in the shared preferences.
   /// If the token does not exist in the shared preferences (it's null),
   /// then return an invalid token string. In this last case, no exception
@@ -15,19 +17,19 @@ class Storage {
     if (_prefs.getString('token') != null)
       return _prefs.getString('token') as String;
     else
-      return 'token_not_found';
+      return TOKEN_NOT_FOUND;
   }
 
-  static void setUserToken(String token) async {
+  static Future setUserToken(String token) async {
     print(">>> Storing token in storage");
     SharedPreferences _prefs = await SharedPreferences.getInstance();
-    _prefs.setString('token', token);
+    await _prefs.setString('token', token);
   }
 
-  static void removeToken() async {
+  static Future removeToken() async {
     print(">>> Removing token in storage");
     SharedPreferences _prefs = await SharedPreferences.getInstance();
-    _prefs.remove('token');
+    await _prefs.remove('token');
   }
 
   static Future<String?> getUserId() async {
@@ -36,15 +38,15 @@ class Storage {
     return _prefs.getString('id');
   }
 
-  static void setUserId(String userId) async {
+  static Future setUserId(String userId) async {
     print(">>> Storing userId in storage");
     SharedPreferences _prefs = await SharedPreferences.getInstance();
-    _prefs.setString('userId', userId);
+    await _prefs.setString('userId', userId);
   }
 
-  static void removeUserId() async {
+  static Future removeUserId() async {
     print(">>> Removing userId in storage");
     SharedPreferences _prefs = await SharedPreferences.getInstance();
-    _prefs.remove('userId');
+    await _prefs.remove('userId');
   }
 }

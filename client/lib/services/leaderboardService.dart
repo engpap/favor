@@ -6,7 +6,7 @@ import 'package:project/models/callerPost.dart';
 import 'package:project/models/favorCategories.dart';
 import 'package:project/models/leaderboard.dart';
 import 'package:project/models/providerPost.dart';
-import 'package:project/providers/storage.dart';
+import 'package:project/helpers/storage.dart';
 import 'dart:convert';
 
 import 'package:project/providers/userProvider.dart';

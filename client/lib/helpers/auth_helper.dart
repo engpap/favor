@@ -8,7 +8,7 @@ class AuthHelper {
     } else if (Platform.isIOS) {
       return GOOGLE_CLIENT_ID_IOS;
     }
-    return '';
+    throw Exception("This platform is not supported");
   }
 
   String AndroidClientId() {
@@ -25,6 +25,6 @@ class AuthHelper {
     } else if (Platform.isIOS) {
       return GOOGLE_REDIRECT_URI_IOS;
     }
-    return '';
+    throw Exception("This platform is not supported");
   }
 }

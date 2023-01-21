@@ -2,7 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/functions/tabs.dart';
-import 'package:project/providers/storage.dart';
+import 'package:project/helpers/storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../errors/errorConstants.dart';
