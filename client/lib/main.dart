@@ -6,7 +6,6 @@ import 'package:project/screens/loading/loading_page.dart';
 import 'package:provider/provider.dart';
 import 'package:project/screens/introduction/introduction-1.dart';
 import 'package:project/screens/home.dart';
-import 'screens/favorInformationPage/favorInformationPage.dart';
 
 void main() {
   runApp(MultiProvider(
@@ -22,24 +21,40 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late Future<Widget>? widgetToBuild;
+  bool _isLoading = true;
+  late Widget _widgetToBuild;
 
   @override
   void initState() {
     super.initState();
-    widgetToBuild = buildTheRightWidgetBasedOnPastInteractions();
+    _buildTheRightWidgetBasedOnPastInteractions();
   }
 
+  /// If the user has never interacted with the application before, such as they
+  ///  have never signed up, then the token will be null and the system will show
+  /// the Introduction Screen.
+  /// If the user has interacted in the past with the application, the token will
+  /// not be null and the system will show the Home  Screen.
+  _buildTheRightWidgetBasedOnPastInteractions() async {
+    bool isThereUserToken = await Storage.isThereUserToken();
+    if (!isThereUserToken) {
+      _widgetToBuild = Introduction1Screen();
+    } else
+      _widgetToBuild = HomeScreen();
+
+    /// For showing the logo for 3 seconds each time the app is created.
+    Future.delayed(Duration(seconds: 2), () {
+      setState(() {
+        _isLoading = false;
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Widget>(
-      future: widgetToBuild,
-      builder: ((context, snapshot) {
-        if (snapshot.hasData && snapshot.data != null)
-          return getCupertinoApp(LoadingPage(nextPage: snapshot.data!));
-        else if (snapshot.hasError) return getCupertinoApp(Text("Error"));
-        return getCupertinoApp(CupertinoActivityIndicator());
-      }),
-    );
+    return _isLoading
+        ? getCupertinoApp(LoadingPage())
+        : getCupertinoApp(_widgetToBuild);
   }
 }
 
@@ -52,16 +67,3 @@ Widget getCupertinoApp(home) => CupertinoApp(
       ],
       home: home,
     );
-
-/// If the user has never interacted with the application before, such as they
-///  have never signed up, then the token will be null and the system will show
-/// the Introduction Screen.
-/// If the user has interacted in the past with the application, the token will
-/// not be null and the system will show the Home  Screen.
-Future<Widget> buildTheRightWidgetBasedOnPastInteractions() async {
-  bool isThereUserToken = await Storage.isThereUserToken();
-  if (!isThereUserToken) {
-    return Introduction1Screen();
-  } else
-    return HomeScreen();
-}

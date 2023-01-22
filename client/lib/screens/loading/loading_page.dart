@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 class LoadingPage extends StatefulWidget {
-  LoadingPage({required Widget this.nextPage});
-  final Widget nextPage;
+  LoadingPage();
 
   @override
   _LoadingPageState createState() => _LoadingPageState();
@@ -23,12 +22,6 @@ class _LoadingPageState extends State<LoadingPage>
         setState(() {});
       });
     _animationController.repeat();
-    Future.delayed(Duration(seconds: 2), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => widget.nextPage),
-      );
-    });
   }
 
   @override
