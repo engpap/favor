@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
-import 'package:project/errors/errorHandling.dart';
+import 'package:project/errors/error_handling.dart';
 import 'package:project/functions/showToast.dart';
 import 'package:project/models/callerPost.dart';
 import 'package:project/models/favorCategories.dart';

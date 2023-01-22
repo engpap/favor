@@ -11,7 +11,7 @@ import 'package:project/screens/signin/signin.dart';
 import 'package:provider/provider.dart';
 import 'dart:convert';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:project/errors/errorHandling.dart';
+import 'package:project/errors/error_handling.dart';
 import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
 
 class AuthService {

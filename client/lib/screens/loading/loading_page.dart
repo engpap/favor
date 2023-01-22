@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class LoadingPage extends StatefulWidget {
-  LoadingPage(Widget this.nextPage);
+  LoadingPage({required Widget this.nextPage});
   final Widget nextPage;
 
   @override
