@@ -24,7 +24,7 @@ class _LoadingPageState extends State<LoadingPage>
       });
     _animationController.repeat();
     Future.delayed(Duration(seconds: 2), () {
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => widget.nextPage),
       );

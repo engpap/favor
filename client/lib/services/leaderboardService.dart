@@ -40,12 +40,13 @@ class LeaderboardService {
           });
 
       httpErrorHandle(
-          response: response,
-          context: context,
-          onSuccess: () {
-            leaderboard =
-                Leaderboard.fromJson(jsonDecode(response.body)['data']);
-          });
+        response: response,
+        context: context,
+        showToastStatus: false,
+        onSuccess: () {
+          leaderboard = Leaderboard.fromJson(jsonDecode(response.body)['data']);
+        },
+      );
     } catch (error) {
       throw Exception(">>> getLeaderboard exception: " + error.toString());
     }
