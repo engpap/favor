@@ -1,13 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:project/constants/globalVars.dart';
-import 'package:project/errors/errorConstants.dart';
 import 'package:project/helpers/auth_helper.dart';
 import 'package:http/http.dart' as http;
 import 'package:project/helpers/storage.dart';
 import 'package:project/providers/user_provider.dart';
-import 'package:project/errors/error.dart';
 import 'package:project/screens/home.dart';
 import 'package:project/screens/signin/signin.dart';
+import 'package:project/screens/signup2/signup2.dart';
 import 'package:provider/provider.dart';
 import 'dart:convert';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -15,6 +14,43 @@ import 'package:project/errors/error_handling.dart';
 import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
 
 class AuthService {
+  Future insertPersonalInfo({
+    required context,
+    required String gender,
+    required String age,
+    required String city,
+    required String job,
+    required String bio,
+  }) async {
+    try {
+      http.Response response = await http.post(
+        Uri.parse('$uri/user/insertPersonalInfo'),
+        headers: <String, String>{
+          'Content-Type': 'application/json;charset=UTF-8',
+          'x-auth-token': await Storage.getUserToken(),
+        },
+        body: jsonEncode({
+          'gender': gender,
+          'age': age,
+          'city': city,
+          'job': job,
+          'profilePicture': noProfilePicture64String,
+          'bio': bio,
+        }),
+      );
+      httpErrorHandle(
+        response: response,
+        context: context,
+        onSuccess: () {
+          Navigator.pushReplacement(context,
+              CupertinoPageRoute(builder: (context) => SignInScreen()));
+        },
+      );
+    } catch (error) {
+      throw Exception(">>> insertPersonalInfo exception: " + error.toString());
+    }
+  }
+
   Future<void> signup({
     required BuildContext context,
     required String name,
@@ -34,7 +70,7 @@ class AuthService {
           'surname': surname,
           'email': email,
           'password': password,
-          'confirmPassword': confirmPassword
+          'confirmPassword': confirmPassword,
         }),
       );
 
@@ -43,22 +79,11 @@ class AuthService {
         context: context,
         onSuccess: () {
           Navigator.pushReplacement(context,
-              CupertinoPageRoute(builder: (context) => SignInScreen()));
+              CupertinoPageRoute(builder: (context) => SignUp2Screen()));
         },
       );
-      /*
-      if (response.statusCode == 400 ||
-          response.statusCode == 404 ||
-          response.statusCode == 500)
-        return ErrorMessage(jsonDecode(response.body)['errorType'],
-            jsonDecode(response.body)['message']);
-      else
-        return ErrorMessage(ErrorConstants.NO_ERROR, 'noError');
-        */
     } catch (error) {
       throw Exception(">>> signup exception: " + error.toString());
-      //showToast(context, error.toString());
-      //return ErrorMessage(ErrorConstants.CLIENT_ERROR, 'Client error');
     }
   }
 
@@ -76,17 +101,6 @@ class AuthService {
         body: jsonEncode({'email': email, 'password': password}),
       );
 
-      /*
-      if (response.statusCode == 201 || response.statusCode == 200) {
-        Provider.of<UserProvider>(context, listen: false)
-            .setUser(response.body);
-        Storage.setUserToken(jsonDecode(response.body)['token']);
-        Storage.setUserId(jsonDecode(response.body)['_id']);
-        return ErrorMessage(ErrorConstants.NO_ERROR, 'noError');
-      } else {
-        return ErrorMessage(jsonDecode(response.body)['errorType'],
-            jsonDecode(response.body)['message']);
-      }*/
       httpErrorHandle(
         response: response,
         context: context,
@@ -103,8 +117,6 @@ class AuthService {
       );
     } catch (error) {
       throw Exception(">>> signin exception: " + error.toString());
-      //showToast(context, error.toString());
-      //return ErrorMessage(ErrorConstants.CLIENT_ERROR, 'Client error');
     }
   }
 
@@ -120,7 +132,7 @@ class AuthService {
     ],
   );
 
-  Future<ErrorMessage> googleSignIn({required BuildContext context}) async {
+  Future googleSignIn({required BuildContext context}) async {
     try {
       final GoogleSignInAccount? user = await _googleSignIn.signIn();
       if (user != null) {
@@ -130,10 +142,7 @@ class AuthService {
         var httpClient = (await _googleSignIn.authenticatedClient())!;
         Provider.of<UserProvider>(context, listen: false)
             .setGoogleClient(httpClient);
-        //Provider.of<UserProvider>(context, listen: false)
-        //    .setGoogleClient(httpClient);
-        //print(googleAuth.idToken);
-        //print(googleAuth.accessToken);
+
         http.Response response = await http.post(
           Uri.parse('$uri/user/continue'),
           headers: <String, String>{
@@ -144,7 +153,6 @@ class AuthService {
             'surname': '',
             'email': user.email,
             'tokenId': googleAuth.idToken,
-            //photoUrl: user.
           }),
         );
 
@@ -153,17 +161,28 @@ class AuthService {
               .setUser(response.body);
           Storage.setUserId(jsonDecode(response.body)['_id']);
           Storage.setUserToken(jsonDecode(response.body)['token']);
-          return ErrorMessage(ErrorConstants.NO_ERROR, 'noError');
-        } else
-          return ErrorMessage(jsonDecode(response.body)['errorType'],
-              jsonDecode(response.body)['message']);
+
+          // If response.statusCode is 201, then it means it is a new user
+          if (response.statusCode == 201)
+            Navigator.push(
+                context,
+                CupertinoPageRoute(
+                    builder: (context) => const SignUp2Screen()));
+          else
+            // If response.statusCode is 200, then it means it is an
+            // already registered user
+            Navigator.push(context,
+                CupertinoPageRoute(builder: (context) => const HomeScreen()));
+        } else {
+          httpErrorHandle(
+              response: response, context: context, onSuccess: () {});
+        }
       } else {
-        return ErrorMessage(ErrorConstants.CLIENT_ERROR,
-            'Retrieved a null user object from "Continue with Google" API');
+        throw Exception(
+            ">>> googleSignIn not working properly. It may be an error from Google");
       }
     } catch (error) {
-      return ErrorMessage(ErrorConstants.CLIENT_ERROR,
-          'Client error for "Continue with Google"');
+      throw Exception(">>> googleSignIn exception: " + error.toString());
     }
   }
 
