@@ -47,7 +47,7 @@ class favorInformationPage_Screen_M extends StatelessWidget {
           ),
           child: favorInformationPage_favor_M(post: post),
         ),
-        CustomCard_2(
+        CustomCard(
           child: favorInformationPage_person_M(post: post),
         ),
       ]),

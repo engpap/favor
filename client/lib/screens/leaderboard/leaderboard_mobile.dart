@@ -14,11 +14,15 @@ import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/screens/components/favor_PickerMenu.dart';
 
 class Leaderboard_Screen_M extends StatefulWidget {
-  const Leaderboard_Screen_M({super.key});
+  final CreateStateFn? createStateFn;
+  const Leaderboard_Screen_M({Key? key, this.createStateFn}) : super(key: key);
 
   @override
-  State<Leaderboard_Screen_M> createState() => Leaderboard_Screen_MState();
+  State<Leaderboard_Screen_M> createState() =>
+      createStateFn?.call() ?? Leaderboard_Screen_MState();
 }
+
+typedef CreateStateFn = Leaderboard_Screen_MState Function();
 
 @visibleForTesting
 class Leaderboard_Screen_MState extends State<Leaderboard_Screen_M> {

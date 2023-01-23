@@ -7,7 +7,6 @@ import 'package:project/functions/utilities.dart';
 import 'package:project/models/favorConstants.dart';
 import 'package:project/models/leaderboard.dart';
 import 'package:project/models/post.dart';
-import 'package:project/screens/explore/search_favor_bar.dart';
 import 'package:project/screens/favor/favor.dart';
 import 'package:project/screens/feed/feed.dart';
 import 'package:project/screens/home.dart';

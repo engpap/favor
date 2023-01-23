@@ -16,7 +16,6 @@ import 'package:project/services/constantsService.dart';
 
 import 'signup2_tablet.dart';
 
-
 class SignUp2Screen extends StatelessWidget {
   const SignUp2Screen({super.key});
 
@@ -220,7 +219,6 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
   }
 }
 
-
 class customHeadingDesc extends StatelessWidget {
   customHeadingDesc({
     super.key,
@@ -236,37 +234,39 @@ class customHeadingDesc extends StatelessWidget {
     return Column(
       children: [
         /// PAGE TITLE
-          Container(
-            width: Responsive.width(100, context), 
-            margin: EdgeInsets.only(right: 9, left: 9),
-            child: Text(heading,
-              style: TextStyle(
+        Container(
+          width: Responsive.width(100, context),
+          margin: EdgeInsets.only(right: 9, left: 9),
+          child: Text(
+            heading,
+            style: TextStyle(
                 color: favorColors.PrimaryBlue,
                 fontSize: 37,
                 fontWeight: FontWeight.bold),
-            ),
           ),
-          /// DESCRIPTION
-          Container(
-            width: Responsive.width(100, context),
-            margin: EdgeInsets.only(
+        ),
+
+        /// DESCRIPTION
+        Container(
+          width: Responsive.width(100, context),
+          margin: EdgeInsets.only(
               top: Responsive.height(1, context),
               bottom: Responsive.height(3, context),
               right: 9,
               left: 9),
-            child: Text( description,
-              textAlign: TextAlign.left,
-              style: TextStyle(
+          child: Text(
+            description,
+            textAlign: TextAlign.left,
+            style: TextStyle(
                 color: favorColors.PrimaryBlue,
                 fontSize: 18,
                 fontWeight: FontWeight.bold),
-            ),
           ),
+        ),
       ],
     );
   }
 }
-
 
 /// BUTTON register.
 /// checks information validity both client and server sides.
