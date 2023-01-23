@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 
+import '../functions/jsonToDartFunctions.dart';
+
 class FavorConstants {
   List<Text> _userTypes;
   List<Text> _favorCategories;
@@ -32,12 +34,4 @@ List<Text> convertJsonToTextList(String source, String fieldName) {
   var list = jsonDecode(source)[fieldName];
   List<String> stringList = List.from(list);
   return convertToTextList(stringList);
-}
-
-List<Text> convertToTextList(List<String> source) {
-  List<Text> result = [];
-  for (String string in source) {
-    result.add(Text(string));
-  }
-  return result;
 }
