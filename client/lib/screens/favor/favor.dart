@@ -4,6 +4,7 @@ import 'package:project/functions/favorTime.dart' as favorTime;
 import 'package:project/functions/responsive.dart';
 import 'package:project/models/favorConstants.dart';
 import 'package:project/models/post.dart';
+import 'package:project/screens/components/favor_PickerMenu.dart';
 
 import 'package:project/screens/home.dart';
 import 'package:project/screens/responsiveLayout.dart';
@@ -100,7 +101,6 @@ class _FavorScreen_M extends State<FavorScreen_M> {
                             heading: globals.categoryHeading,
                             prefixIcon: globals.categoryPrefixIcon,
                             textController: globals.categoryTextController,
-                            flag: 1, //if possible remove this
                           ),
                           Divider(
                             height: Responsive.height(2, context),
@@ -113,7 +113,6 @@ class _FavorScreen_M extends State<FavorScreen_M> {
                             heading: globals.locationHeading,
                             prefixIcon: globals.locationPrefixIcon,
                             textController: globals.locationTextController,
-                            flag: 2, //if possible remove this
                           ),
                           Divider(
                             height: Responsive.height(2, context),
@@ -128,7 +127,6 @@ class _FavorScreen_M extends State<FavorScreen_M> {
                                   children: [
                                     //PICKER availabilityStartTime - PROVIDER
                                     Favor_TimePicker(
-                                      //contentList: globals.availabilityStartTime,
                                       placeholder: globals
                                           .availabilityStartTimePlaceholder,
                                       heading:
@@ -137,7 +135,6 @@ class _FavorScreen_M extends State<FavorScreen_M> {
                                           .availabilityStartTimePrefixIcon,
                                       textController: globals
                                           .availabilityStartTimeTextController,
-                                      //flag: 3, //if possible remove this
                                     ),
                                     Divider(
                                       height: Responsive.height(2, context),
@@ -145,7 +142,6 @@ class _FavorScreen_M extends State<FavorScreen_M> {
                                     ),
                                     //PICKER availabilityEndTime - PROVIDER
                                     Favor_TimePicker(
-                                      //contentList: globals.availabilityEndTime,
                                       placeholder: globals
                                           .availabilityEndTimePlaceholder,
                                       heading:
@@ -154,7 +150,6 @@ class _FavorScreen_M extends State<FavorScreen_M> {
                                           globals.availabilityEndTimePrefixIcon,
                                       textController: globals
                                           .availabilityEndTimeTextController,
-                                      //flag: 4, //if possible remove this
                                     )
                                   ],
                                 ))
@@ -168,7 +163,6 @@ class _FavorScreen_M extends State<FavorScreen_M> {
                                   prefixIcon: globals.favorStartTimePrefixIcon,
                                   textController:
                                       globals.favorStartTimeTextController,
-                                  //flag: 5, //if possible remove this
                                 )),
 
                           Divider(
@@ -207,184 +201,6 @@ class _FavorScreen_M extends State<FavorScreen_M> {
   }
 }
 
-/// PICKER MENU
-class Favor_pickerMenu extends StatefulWidget {
-  // List of item showed in the menu'
-  final List<Text> contentList;
-  // menu placeholder
-  final String placeholder;
-  // menu description
-  final String heading;
-  //pass <CupertinoIcons.something> for the prefix
-  final IconData prefixIcon;
-  // to manipulate the content of the texfield
-  TextEditingController textController;
-  // !! funziana solo con le flag 1-2-3-4-5 per il form menu dei nuovi favor. Non riutilizzare questo widget a caso
-  int flag = 0;
-
-  Favor_pickerMenu(
-      {super.key,
-      required this.placeholder,
-      required this.heading,
-      required this.contentList,
-      required this.prefixIcon,
-      required this.textController,
-      required this.flag});
-
-  @override
-  State<Favor_pickerMenu> createState() => _Favor_pickerMenuState();
-}
-
-class _Favor_pickerMenuState extends State<Favor_pickerMenu> {
-  int selectedValue = 0; // initial value 0
-  late FixedExtentScrollController scrollController;
-  //late TextEditingController textController;
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Center(
-        child: Column(
-          children: [
-            // DESCRIPTION
-            SizedBox(
-              width: Responsive.width(100, context),
-              child: Text(
-                "${widget.heading}",
-                style: TextStyle(fontSize: 18),
-                textAlign: TextAlign.left,
-              ),
-            ),
-            Divider(
-              height: Responsive.height(1, context),
-              color: Colors.transparent,
-            ),
-            // TEXTFIELD
-            CupertinoTextField(
-              prefix: CupertinoButton(
-                padding: EdgeInsets.only(top: 0, bottom: 0, left: 0, right: 0),
-                child: Icon(
-                  widget.prefixIcon,
-                  color: favorColors.PrimaryBlue,
-                ),
-                onPressed: null,
-              ),
-              placeholder: widget.placeholder,
-              controller: widget.textController,
-              readOnly: true, //
-              enableInteractiveSelection: false, //
-              // BUTTON SHOW PICKER
-              suffix: CupertinoButton(
-                  child: Icon(
-                    CupertinoIcons.arrowtriangle_down_circle_fill,
-                    color: favorColors.Yellow,
-                  ),
-                  onPressed: () {
-                    scrollController.dispose();
-                    scrollController =
-                        FixedExtentScrollController(initialItem: selectedValue);
-                    showCupertinoModalPopup(
-                        context: context,
-                        builder: (context) => CupertinoActionSheet(
-                              actions: [buildPicker()],
-                              cancelButton: CupertinoActionSheetAction(
-                                child: Text("Cancel"),
-                                onPressed: () => Navigator.pop(context),
-                              ),
-                            ));
-                  }),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void initState() {
-    super.initState();
-    scrollController = FixedExtentScrollController(
-      initialItem: selectedValue,
-    );
-    //textController = widget.textController;
-  }
-
-  void dispose() {
-    scrollController.dispose();
-    //textController.dispose();
-    super.dispose();
-  }
-
-  Widget buildPicker() => SizedBox(
-        height: Responsive.height(30, context),
-        child: StatefulBuilder(
-          builder: (context, setState) => CupertinoPicker(
-            backgroundColor: Colors.white,
-            /*
-          selectionOverlay: CupertinoPickerDefaultSelectionOverlay(
-            background: favorColors.SecondaryBlue.withOpacity(0.2),
-          ),
-          */
-            itemExtent:
-                32, //Responsive.height(5, context), //height of current item
-            scrollController: scrollController,
-            children: List.generate(widget.contentList.length, (index) {
-              //final isSelected = this.selectedValue == index;
-              //final color = isSelected ? favorColors.PrimaryBlue : Colors.black;
-              final item = widget.contentList[index];
-              return Center(
-                  child: Text(
-                item.data.toString(),
-                style: TextStyle(
-                  fontSize: 24, //color: color
-                ),
-              ));
-            }),
-
-            onSelectedItemChanged: (int value) {
-              widget.textController.text =
-                  widget.contentList.elementAt(value).data.toString();
-              if (this.mounted) {
-                setState(() {
-                  selectedValue = value;
-                  print(globals.categoryTextController.text);
-                  // TODO: if possible remove these flags and use a cleaner approach
-                  /** 
-              if (widget.flag == 1) {
-                globals.categoryTextController =
-                    TextEditingController(text:'${widget.contentList.elementAt(selectedValue).data}');
-              }
-              if (widget.flag == 2) {
-                globals.locationTextController =
-                    TextEditingController(
-                        text:
-                            '${widget.contentList.elementAt(selectedValue).data}');
-              }
-              if (widget.flag == 3) {
-                globals.availabilityStartTimeTextController =
-                    TextEditingController(
-                        text:
-                            '${widget.contentList.elementAt(selectedValue).data}');
-              }
-              if (widget.flag == 4) {
-                globals.availabilityEndTimeTextController =
-                    TextEditingController(
-                        text:
-                            '${widget.contentList.elementAt(selectedValue).data}');
-              }
-              if (widget.flag == 5) {
-                globals.favorStartTimeTextController =
-                    TextEditingController(
-                        text:
-                            '${widget.contentList.elementAt(selectedValue).data}');
-              }
-              */
-                });
-              }
-            },
-          ),
-        ),
-      );
-}
 
 class Favor_boxDescription extends StatelessWidget {
   // menu placeholder
@@ -509,8 +325,6 @@ class Favor_TimePicker extends StatefulWidget {
   final IconData prefixIcon;
   // to manipulate the content of the texfield
   TextEditingController textController;
-  // !! funziana solo con le flag 1-2-3-4-5 per il form menu dei nuovi favor. Non riutilizzare questo widget a caso
-  //int flag = 0;
 
   Favor_TimePicker({
     super.key,
@@ -518,7 +332,6 @@ class Favor_TimePicker extends StatefulWidget {
     required this.heading,
     required this.prefixIcon,
     required this.textController,
-    //required this.flag
   });
 
   @override

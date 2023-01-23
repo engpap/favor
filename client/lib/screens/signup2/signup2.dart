@@ -4,13 +4,15 @@ import 'package:project/errors/error.dart';
 import 'package:project/errors/errorConstants.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/functions/stringExtensions.dart';
-import 'package:project/screens/Temporanea/customFieldMat.dart';
+import 'package:project/models/favorConstants.dart';
+import 'package:project/screens/components/customFieldMat.dart';
 import 'package:project/screens/components/customCard.dart';
 import 'package:project/screens/responsiveLayout.dart';
 import 'package:project/screens/components/customField.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/screens/signup2/signup2_mobile.dart';
+import 'package:project/services/constantsService.dart';
 
 import 'signup2_tablet.dart';
 
@@ -50,9 +52,8 @@ class SignUp2Screen extends StatelessWidget {
   }
 }
 
-//const List<String> list = <String>['One', 'Two', 'Three', 'Four', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17'];
 
-/// CALLER FORM
+/// SIGNUP2 FORM
 class Form_SignUp2 extends StatefulWidget {
   const Form_SignUp2({super.key});
 
@@ -62,7 +63,6 @@ class Form_SignUp2 extends StatefulWidget {
 
 class _Form_SignUp2State extends State<Form_SignUp2> {
   final formKey_signup2 = GlobalKey<FormState>();
-  //String dropdownValue = list.first;
 
   final String wspace = "         ";
 
@@ -71,128 +71,150 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
   TextEditingController residenceContoller = TextEditingController();
   TextEditingController jobContoller = TextEditingController();
 
+  late Future<FavorConstants> favorConstants;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    favorConstants = ConstantsService().getFavorConstants();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Material(
-          color: Colors.transparent,
-          child: Form(
-            autovalidateMode: AutovalidateMode.always,
-            key: formKey_signup2,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                // AGE
-                CustomCard(
-                  padding: EdgeInsets.zero,
-                  margin: EdgeInsets.zero,
-                  child: customFieldMat(
-                    prefixIcon: CupertinoIcons.profile_circled,
-                    labelText: "Your Age",
-                    textEditingController: ageContoller,
-                    customValidator: (value) {
-                      if (!value!.isValidAge()) {
-                        return wspace + "Insert a correct age [min 0 - max 99]";
-                      } else {
-                        return null;
-                      }
-                    },
-                    isSuffixClear: true,
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                // GENDER
-                CustomCard(
-                  padding: EdgeInsets.zero,
-                  margin: EdgeInsets.zero,
-                  child: customFieldMat(
-                    prefixIcon: CupertinoIcons.profile_circled,
-                    labelText: "Your gender", //  F (female) or M (male)
-                    textEditingController: genderContoller,
-                    customValidator: (value) {
-                      if (!value!.isValidGender()) {
-                        return wspace + "Just insert letter F or M";
-                      } else {
-                        return null;
-                      }
-                    },
-                    isSuffixClear: true,
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                // RESIDENCE
-                CustomCard(
-                  padding: EdgeInsets.zero,
-                  margin: EdgeInsets.zero,
-                  child: customFieldMat(
-                    prefixIcon: CupertinoIcons.profile_circled,
-                    labelText: "Your residence",
-                    textEditingController: residenceContoller,
-                    customValidator: (value) {
-                      if (value!.length < 1 || !value.isValidResidence()) {
-                        return wspace + "You can't insert special characters";
-                      }
-                      if (value.length > 50) {
-                        return wspace + "max 50 chars";
-                      } else {
-                        return null;
-                      }
-                    },
-                    isSuffixClear: true,
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                // JOB
-                CustomCard(
-                  padding: EdgeInsets.zero,
-                  margin: EdgeInsets.zero,
-                  child: customFieldMat(
-                    prefixIcon: CupertinoIcons.profile_circled,
-                    labelText: "Your job",
-                    textEditingController: jobContoller,
-                    customValidator: (value) {
-                      if (value!.length < 1 || !value.isValidJob()) {
-                        return wspace +
-                            "You can't insert number or special characters";
-                      }
-                      if (value.length > 50) {
-                        return wspace + "max 50 chars";
-                      } else {
-                        return null;
-                      }
-                    },
-                    isSuffixClear: true,
-                  ),
-                ),
+        color: Colors.transparent,
+        child: Form(
+          autovalidateMode: AutovalidateMode.always,
+          key: formKey_signup2,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              // AGE
+              FutureBuilder<FavorConstants>(
+                  future: favorConstants,
+                  builder: ((context, snapshot) {
+                    if (snapshot.hasData) {
+                      return CustomCard(
+                        padding: EdgeInsets.zero,
+                        margin: EdgeInsets.zero,
+                        child: customFieldMat(
+                          prefixIcon: CupertinoIcons.profile_circled, 
+                          labelText: "Your Age", 
+                          textEditingController: ageContoller, 
+                          customValidator: (value) {
+                            if (!value!.isValidAge()) 
+                              {return wspace+"Insert a correct age [min 0 - max 99]";}
+                            else {return null;}
+                          },
+                          isSuffixClear: false,
+                          isSuffixPicker: true,
+                          contentList: snapshot.data!.favorCategories, //TODO: mettere lista corretta
+                        ),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text('${snapshot.error}');
+                    }
+                    return CupertinoActivityIndicator(
+                        animating: false, radius: 10);
+              })),
+              SizedBox(height: 10,),
+              // GENDER
+              FutureBuilder<FavorConstants>(
+                  future: favorConstants,
+                  builder: ((context, snapshot) {
+                    if (snapshot.hasData) {
+                      return CustomCard(
+                        padding: EdgeInsets.zero,
+                        margin: EdgeInsets.zero,
+                        child: customFieldMat(
+                          prefixIcon: CupertinoIcons.profile_circled, 
+                          labelText: "Your gender", //  F (female) or M (male)
+                          textEditingController: genderContoller, 
+                          customValidator: (value) {
+                            if (!value!.isValidGender()) 
+                              {return wspace+"Just insert letter F or M";}
+                            else {return null;}
+                          },
+                          isSuffixClear: false,
+                          isSuffixPicker: true,
+                          contentList: snapshot.data!.favorCategories, //TODO: mettere lista corretta
+                        ),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text('${snapshot.error}');
+                    }
+                    return CupertinoActivityIndicator(
+                        animating: false, radius: 10);
+              })),
+              SizedBox(height: 10,),
+              // RESIDENCE
+              FutureBuilder<FavorConstants>(
+                  future: favorConstants,
+                  builder: ((context, snapshot) {
+                    if (snapshot.hasData) {
+                      return CustomCard(
+                        padding: EdgeInsets.zero,
+                        margin: EdgeInsets.zero,
+                        child: customFieldMat(
+                          prefixIcon: CupertinoIcons.profile_circled, 
+                          labelText: "Your residence", 
+                          textEditingController: residenceContoller, 
+                          customValidator: (value) {
+                            if (value!.length < 1 || !value.isValidResidence()) 
+                              {return wspace+"You can't insert special characters";}
+                            if (value.length > 50) 
+                              {return wspace+"max 50 chars";}
+                            else {return null;}
+                          },
+                          isSuffixClear: false,
+                          isSuffixPicker: true,
+                          contentList: snapshot.data!.favorCategories, //TODO: mettere lista corretta
+                        ),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text('${snapshot.error}');
+                    }
+                    return CupertinoActivityIndicator(
+                        animating: false, radius: 10);
+              })),
+              SizedBox(height: 10,),
+              // JOB
+              FutureBuilder<FavorConstants>(
+                  future: favorConstants,
+                  builder: ((context, snapshot) {
+                    if (snapshot.hasData) {
+                      return CustomCard(
+                        padding: EdgeInsets.zero,
+                        margin: EdgeInsets.zero,
+                        child: customFieldMat(
+                          prefixIcon: CupertinoIcons.profile_circled, 
+                          labelText: "Your job", 
+                          textEditingController: jobContoller,
+                          textInputAction: TextInputAction.done,
+                          customValidator: (value) {
+                            if (value!.length < 1 || !value.isValidJob()) 
+                              {return wspace+"You can't insert number or special characters";}
+                            if (value.length > 50) 
+                              {return wspace+"max 50 chars";}
+                            else {return null;}
+                          },
+                          isSuffixClear: false,
+                          isSuffixPicker: true,
+                          contentList: snapshot.data!.favorCategories, //TODO: mettere lista corretta
+                        ),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text('${snapshot.error}');
+                    }
+                    return CupertinoActivityIndicator(
+                        animating: false, radius: 10);
+              })),
 
-                /** 
-              TextFormField(),
-              DropdownButtonFormField(
-                menuMaxHeight: Responsive.height(30, context),
-                value: dropdownValue,
-                items: list.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(), 
-                onChanged: (String? value) {
-                  // This is called when the user selects an item.
-                  setState(() {
-                    dropdownValue = value!;
-                  });
-                },
-              )
-              */
-              ],
-            ),
-          )),
+            ],
+          ),
+        )
+      ),
     );
   }
 }
@@ -280,7 +302,6 @@ class RegisterButton_SignUp2 extends StatelessWidget {
 
             /**
             TODO: Collagare col server
-
             //print('run: authService.signup');
             // Send information to server and wait for response
             globals.authService.signup(
@@ -291,7 +312,6 @@ class RegisterButton_SignUp2 extends StatelessWidget {
               password: globals.textControllerPassword.text,
               confirmPassword: globals.textControllerPasswordConfirm.text,
             );
-
             */
           },
         ),
@@ -299,3 +319,4 @@ class RegisterButton_SignUp2 extends StatelessWidget {
     );
   }
 }
+
