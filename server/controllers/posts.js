@@ -165,7 +165,7 @@ export const getPostsBySearch = async (request, response) => {
         console.log(">>> getPostsByCategory: RegExp of userTypeToSearch is " + userTypeToSearch_RegExp)
 
         // Find all the posts that matches the taskCategory or location of posted by the userType provided.
-        const posts = await Post.find( { userType: userTypeToSearch_RegExp , taskCategory: searchQuery_RegExp , location: searchQuery_RegExp, toHide: false});
+        const posts = await Post.find({$and:[{userType: userTypeToSearch_RegExp},{toHide: false},{$or:[{taskCategory: searchQuery_RegExp},{location: searchQuery_RegExp}]}]});
         console.log(">>> getPostsBySearch: Number of posts found through search: " + posts.length);
         if (posts.length > 0) {
             console.log(">>> getPostsBySearch: Updating searched posts with users data...");
