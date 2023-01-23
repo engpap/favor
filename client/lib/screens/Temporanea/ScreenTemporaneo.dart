@@ -25,7 +25,7 @@ class ScreenTemporaneo extends StatelessWidget {
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 child: Column(
                   children: [
-                    customFieldMat(
+                    CustomFieldMat(
                       labelText: 'Enter your username',
                       prefixIcon: CupertinoIcons.profile_circled,
                       textEditingController: TextEditingController(),
@@ -37,7 +37,7 @@ class ScreenTemporaneo extends StatelessWidget {
 
                     SizedBox(height: 5,),
 
-                    customFieldMat(
+                    CustomFieldMat(
                       labelText: 'Enter your username',
                       prefixIcon: Icons.abc,
                       textEditingController: TextEditingController(),

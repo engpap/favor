@@ -16,6 +16,11 @@ extension StringValidator on String {
   bool isValidPassword() =>
       (new RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$')).hasMatch(this);
 
+  // true: if letters A-z, numbers 0-9, dot . or comma ,
+  bool isValidName() {
+    return RegExp(r'^[A-z.,\s0-9]+$').hasMatch(this);
+  }
+
   // TODO: TO REMOVE, THERE IS SERVER DATA!
   // true: any number between 0 and 99
   bool isValidAge() {

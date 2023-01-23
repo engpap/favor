@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/errors/error.dart';
 import 'package:project/functions/responsive.dart';
+import 'package:project/functions/stringExtensions.dart';
+import 'package:project/screens/components/customCard.dart';
+import 'package:project/screens/components/customFieldMat.dart';
 import 'package:project/screens/responsiveLayout.dart';
 import 'package:project/screens/components/customField.dart';
 
@@ -49,76 +52,134 @@ class SignUpScreen extends StatelessWidget {
   }
 }
 
-/// COLUMN of 5 customField:
+
 /// Name, Surname, Email, Password, PasswordConfirm
-class SignUp_form extends StatelessWidget {
-  const SignUp_form({super.key});
+class Form_SignUp extends StatefulWidget {
+  const Form_SignUp({super.key});
+
+  @override
+  State<Form_SignUp> createState() => _Form_SignUpState();
+}
+
+class _Form_SignUpState extends State<Form_SignUp> {
+  final formKey_signup = GlobalKey<FormState>();
+
+
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(
-        children: [
-          /// NAME
-          CustomField(
-            prefixIcon: CupertinoIcons.profile_circled,
-            placeholder: globals.PlaceholderName,
-            textController: globals.textControllerName,
-            status: globals.StatusName,
+      child: Material(
+        color: Colors.transparent,
+        child: Form(
+          autovalidateMode: AutovalidateMode.always,
+          key: formKey_signup,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              /// NAME
+              CustomCard(
+                padding: EdgeInsets.zero,
+                margin: EdgeInsets.zero,
+                child: CustomFieldMat(
+                  prefixIcon: CupertinoIcons.profile_circled,
+                  labelText: globals.LabelName,
+                  textEditingController: globals.textControllerName, 
+                  customValidator: (value) {                             
+                    if (value!.length < 1 || !value.isValidName()) 
+                      {return LabelSpace().whiteSpace()+"You can't insert number or special characters";}
+                    if (value.length > 50) 
+                      {return LabelSpace().whiteSpace()+"max 50 chars";}   
+                    else {return null;}
+                  },
+                  isSuffixClear: true,
+                ),
+              ),
+              SizedBox(height: 10,),
+              /// SURNAME
+              CustomCard(
+                padding: EdgeInsets.zero,
+                margin: EdgeInsets.zero,
+                child: CustomFieldMat(
+                  prefixIcon: CupertinoIcons.profile_circled,
+                  labelText: globals.LabelSurname,
+                  textEditingController: globals.textControllerSurname,
+                  customValidator: (value) {                             
+                    if (value!.length < 1 || !value.isValidName()) 
+                      {return LabelSpace().whiteSpace()+"You can't insert number or special characters";}
+                    if (value.length > 50) 
+                      {return LabelSpace().whiteSpace()+"max 50 chars";}   
+                    else {return null;}
+                  },
+                  isSuffixClear: true,
+                ),
+              ),
+              SizedBox(height: 10,),
+              /// EMAIL
+              CustomCard(
+                padding: EdgeInsets.zero,
+                margin: EdgeInsets.zero,
+                child: CustomFieldMat(
+                  prefixIcon: CupertinoIcons.mail_solid,
+                  labelText: globals.LabelEmail,
+                  textEditingController: globals.textControllerEmail,
+                  textInputType: TextInputType.emailAddress,
+                  customValidator: (value) {                             
+                    if (value!.length < 1 || !value.isValidEmail()) 
+                      {return LabelSpace().whiteSpace()+"You can't insert number or special characters";}
+                    if (value.length > 50) 
+                      {return LabelSpace().whiteSpace()+"max 50 chars";}   
+                    else {return null;}
+                  },
+                  isSuffixClear: true,
+                ),
+              ),
+              SizedBox(height: 10,),
+              /// PASSWORD
+              CustomCard(
+                padding: EdgeInsets.zero,
+                margin: EdgeInsets.zero,
+                child: CustomFieldMat(
+                  prefixIcon: CupertinoIcons.lock_circle_fill,
+                  labelText: globals.LabelPassword,
+                  textEditingController: globals.textControllerPassword,
+                  obcureText: true,
+                  customValidator: (value) {                             
+                    if (value!.length < 1 || !value.isValidPassword()) 
+                      {return LabelSpace().whiteSpace()+"at least 8 characters long and contains at least one uppercase letter, one lowercase letter, and one digit";}
+                    if (value.length > 50) 
+                      {return LabelSpace().whiteSpace()+"max 50 chars";}   
+                    else {return null;}
+                  },
+                  isSuffixClear: true,
+                ),
+              ),
+              SizedBox(height: 10,),
+              /// PASSWORD2
+              CustomCard(
+                padding: EdgeInsets.zero,
+                margin: EdgeInsets.zero,
+                child: CustomFieldMat(
+                  prefixIcon: CupertinoIcons.lock_circle_fill,
+                  labelText: globals.LabelPasswordConfirm,
+                  textEditingController: globals.textControllerPasswordConfirm,
+                  textInputAction: TextInputAction.done,
+                  obcureText: true,
+                  customValidator: (value) {                             
+                    if (value!.length < 1 || !value.isValidPassword()) 
+                      {return LabelSpace().whiteSpace()+"at least 8 characters long and contains at least one uppercase letter, one lowercase letter, and one digit";}
+                    if (value.length > 50) 
+                      {return LabelSpace().whiteSpace()+"max 50 chars";}
+                    if (value != globals.textControllerPassword.text) 
+                      {return LabelSpace().whiteSpace()+"The two password must be equal";}
+                    else {return null;}
+                  },
+                  isSuffixClear: true,
+                ),
+              ),
+            ],
           ),
-          Divider(
-            height: 5,
-            color: Colors.transparent,
-          ),
-
-          /// SURNAME
-          CustomField(
-            prefixIcon: CupertinoIcons.profile_circled,
-            placeholder: globals.PlaceholderSurname,
-            textController: globals.textControllerSurname,
-            status: globals.StatusSurname,
-          ),
-          Divider(
-            height: 5,
-            color: Colors.transparent,
-          ),
-
-          /// EMAIL
-          CustomField(
-            prefixIcon: CupertinoIcons.mail_solid,
-            placeholder: globals.PlaceholderEmail,
-            textController: globals.textControllerEmail,
-            status: globals.StatusEmail,
-            textInputType: TextInputType.emailAddress,
-          ),
-          Divider(
-            height: 5,
-            color: Colors.transparent,
-          ),
-
-          /// PASSWORD
-          CustomField(
-            prefixIcon: CupertinoIcons.lock_circle_fill,
-            placeholder: globals.PlaceholderPassword,
-            textController: globals.textControllerPassword,
-            status: globals.StatusPassword,
-            obcureText: true,
-          ),
-          Divider(
-            height: 5,
-            color: Colors.transparent,
-          ),
-
-          /// PASSWORD CONFIRM
-          CustomField(
-            prefixIcon: CupertinoIcons.lock_circle_fill,
-            placeholder: globals.PlaceholderPasswordConfirm,
-            textController: globals.textControllerPasswordConfirm,
-            status: globals.StatusPasswordConfirm,
-            obcureText: true,
-            textInputAction: TextInputAction.done,
-          ),
-        ],
+        )
       ),
     );
   }

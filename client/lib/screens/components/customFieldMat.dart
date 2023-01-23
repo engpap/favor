@@ -5,8 +5,14 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/functions/responsive.dart';
 
-class customFieldMat extends StatefulWidget {
-  customFieldMat({
+  class LabelSpace{
+    whiteSpace(){
+      return "         ";
+    }
+  }
+
+class CustomFieldMat extends StatefulWidget {
+  CustomFieldMat({
     super.key,
     required this.labelText,
     required this.prefixIcon,
@@ -57,11 +63,15 @@ class customFieldMat extends StatefulWidget {
   //Remember to keep isSuffixClear = false.
   CupertinoButton suffixButton;
 
+
+
+  final String wspace = "         ";
+
   @override
-  State<customFieldMat> createState() => _customFieldMatState();
+  State<CustomFieldMat> createState() => _CustomFieldMatState();
 }
 
-class _customFieldMatState extends State<customFieldMat> {
+class _CustomFieldMatState extends State<CustomFieldMat> {
   // *** START PICKER ***
   int selectedValue = 0; // initial value 0
   late FixedExtentScrollController scrollController;

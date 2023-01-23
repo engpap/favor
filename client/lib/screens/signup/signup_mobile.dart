@@ -50,7 +50,7 @@ class SignUpScreen_M extends StatelessWidget {
                   ),
                 ),
 
-                SignUp_form(),
+                Form_SignUp(),
                 Divider(height: Responsive.height(7, context), color: Colors.transparent,),
                 SignUp_registerButton(),
                 Divider(height: Responsive.height(2, context), color: Colors.transparent,),

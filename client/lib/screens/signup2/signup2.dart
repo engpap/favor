@@ -11,6 +11,7 @@ import 'package:project/screens/components/customCard.dart';
 import 'package:project/screens/responsiveLayout.dart';
 import 'package:project/screens/components/customField.dart';
 
+import 'globals.dart' as globals;
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/screens/signup2/signup2_mobile.dart';
 import 'package:project/services/constantsService.dart';
@@ -65,17 +66,10 @@ class Form_SignUp2 extends StatefulWidget {
 class _Form_SignUp2State extends State<Form_SignUp2> {
   final formKey_signup2 = GlobalKey<FormState>();
 
-  final String wspace = "         ";
-
-  TextEditingController ageContoller = TextEditingController();
-  TextEditingController genderContoller = TextEditingController();
-  TextEditingController residenceContoller = TextEditingController();
-  TextEditingController jobContoller = TextEditingController();
 
   late Future<ProfileConstants> profileConstants;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     profileConstants = ConstantsService().getProfileConstants();
   }
@@ -99,14 +93,14 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
                       return CustomCard(
                         padding: EdgeInsets.zero,
                         margin: EdgeInsets.zero,
-                        child: customFieldMat(
+                        child: CustomFieldMat(
                           prefixIcon: CupertinoIcons.profile_circled, 
                           labelText: "Your Age", 
-                          textEditingController: ageContoller, 
+                          textEditingController: globals.ageContoller, 
                           readOnly: true,
                           customValidator: (value) {
                             if (!value!.isValidAge()) 
-                              {return wspace+"Insert a correct age.";}
+                              {return LabelSpace().whiteSpace()+"Insert a correct age.";}
                             else {return null;}
                           },
                           isSuffixClear: false,
@@ -129,17 +123,17 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
                       return CustomCard(
                         padding: EdgeInsets.zero,
                         margin: EdgeInsets.zero,
-                        child: customFieldMat(
+                        child: CustomFieldMat(
                           prefixIcon: CupertinoIcons.profile_circled, 
                           labelText: "Your gender",
-                          textEditingController: genderContoller, 
+                          textEditingController: globals.genderContoller, 
                           readOnly: true,
                           customValidator: (value) {
                             if(value == "")
-                              return wspace+"Select a gender from the picker.";
+                              return LabelSpace().whiteSpace()+"Select a gender from the picker.";
                             /**
                             if (!value!.isValidGender()) 
-                              {return wspace+"Just insert letter F or M";}
+                              {return LabelSpace().whiteSpace()+"Just insert letter F or M";}
                              */
                             else {return null;}
                           },
@@ -163,19 +157,19 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
                       return CustomCard(
                         padding: EdgeInsets.zero,
                         margin: EdgeInsets.zero,
-                        child: customFieldMat(
+                        child: CustomFieldMat(
                           prefixIcon: CupertinoIcons.profile_circled, 
                           labelText: "Your residence", 
-                          textEditingController: residenceContoller,
+                          textEditingController: globals.residenceContoller,
                           readOnly: true, 
                           customValidator: (value) {
                             if(value == "")
-                              return wspace+"Select a city from the picker.";
+                              return LabelSpace().whiteSpace()+"Select a city from the picker.";
                             /**
                             if (value!.length < 1 || !value.isValidResidence()) 
-                              {return wspace+"You can't insert special characters";}
+                              {return LabelSpace().whiteSpace()+"You can't insert special characters";}
                             if (value.length > 50) 
-                              {return wspace+"max 50 chars";}
+                              {return LabelSpace().whiteSpace()+"max 50 chars";}
                             */
                             else {return null;}
                           },
@@ -199,20 +193,19 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
                       return CustomCard(
                         padding: EdgeInsets.zero,
                         margin: EdgeInsets.zero,
-                        child: customFieldMat(
+                        child: CustomFieldMat(
                           prefixIcon: CupertinoIcons.profile_circled, 
                           labelText: "Your job", 
-                          textEditingController: jobContoller,
-                          textInputAction: TextInputAction.done,
+                          textEditingController: globals.jobContoller,
                           readOnly: true,
                           customValidator: (value) {
                             if(value == "")
-                              return wspace+"Select your from the picker.";
+                              return LabelSpace().whiteSpace()+"Select your from the picker.";
                             /*
                             if (value!.length < 1 || !value.isValidJob()) 
-                              {return wspace+"You can't insert number or special characters";}
+                              {return LabelSpace().whiteSpace()+"You can't insert number or special characters";}
                             if (value.length > 50) 
-                              {return wspace+"max 50 chars";}
+                              {return LabelSpace().whiteSpace()+"max 50 chars";}
                              */
                             else {return null;}
                           },
@@ -227,6 +220,27 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
                     return CupertinoActivityIndicator(
                         animating: false, radius: 10);
               })),
+              SizedBox(height: 10,),
+              // BIO
+              CustomCard(
+                padding: EdgeInsets.zero,
+                margin: EdgeInsets.zero,
+                child: CustomFieldMat(
+                  prefixIcon: CupertinoIcons.profile_circled, 
+                  labelText: "Your Bio", 
+                  textEditingController: globals.bioContoller,
+                  textInputAction: TextInputAction.done,
+                  customValidator: (value) {
+                    if (value!.length < 1 || !value.isValidJob()) 
+                      {return LabelSpace().whiteSpace()+"Briefly describe yourself.";}
+                    if (value.length > 50) 
+                      {return LabelSpace().whiteSpace()+"max 50 chars";}
+                    else {return null;}
+                  },
+                  isSuffixClear: true,
+                  
+                ),
+              ),
 
             ],
           ),
@@ -328,6 +342,12 @@ class RegisterButton_SignUp2 extends StatelessWidget {
               email: globals.textControllerEmail.text,
               password: globals.textControllerPassword.text,
               confirmPassword: globals.textControllerPasswordConfirm.text,
+
+              globals.ageContoller.text;
+              globals.genderContoller.text;
+              globals.residenceContoller.text;
+              globals.jobContoller.text;
+              globals.bioContoller.text
             );
             */
           },

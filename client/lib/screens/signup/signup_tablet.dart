@@ -85,7 +85,7 @@ class _SignUpScreen_TState extends State<SignUpScreen_T> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           
-                          SignUp_form(),
+                          Form_SignUp(),
                         ]),
                     ),
                   ),

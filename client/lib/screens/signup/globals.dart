@@ -1,17 +1,14 @@
 library globals;
 
 import 'package:flutter/cupertino.dart';
-import 'package:project/errors/error.dart';
-import 'package:project/errors/errorConstants.dart';
-import 'package:project/functions/stringExtensions.dart';
 import 'package:project/services/authService.dart';
 
 // SIGN UP VARIABLES
-final String PlaceholderName = "Name";
-final String PlaceholderSurname = "Surname";
-final String PlaceholderEmail = "Email address";
-final String PlaceholderPassword = "Password";
-final String PlaceholderPasswordConfirm = "Confirm your password";
+final String LabelName = "Name";
+final String LabelSurname = "Surname";
+final String LabelEmail = "Email address";
+final String LabelPassword = "Password";
+final String LabelPasswordConfirm = "Confirm your password";
 
 final TextEditingController textControllerName =
     TextEditingController(text: "");
@@ -24,13 +21,15 @@ final TextEditingController textControllerPassword =
 final TextEditingController textControllerPasswordConfirm =
     TextEditingController(text: "");
 
+
+final AuthService authService = AuthService();
+
+/**
 String StatusName = ErrorConstants.UNCHECKED_ERROR;
 String StatusSurname = ErrorConstants.UNCHECKED_ERROR;
 String StatusEmail = ErrorConstants.UNCHECKED_ERROR;
 String StatusPassword = ErrorConstants.UNCHECKED_ERROR;
 String StatusPasswordConfirm = ErrorConstants.UNCHECKED_ERROR;
-
-final AuthService authService = AuthService();
 
 // Update the status of the textsfields
 UpdateFieldsStatus(ErrorMessage? response) {
@@ -87,3 +86,4 @@ bool IsFieldsValid() {
   else
     return false;
 }
+ */
