@@ -46,3 +46,5 @@ app.*.map.json
 
 # Files that contain private information (such as IDs, IP addresses)
 lib/constants/
+android/app/build.gradle
+ios/Runner/Info.plist
