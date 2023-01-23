@@ -5,7 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/functions/responsive.dart';
 
-class customFieldMat extends StatelessWidget {
+class customFieldMat extends StatefulWidget {
   customFieldMat({
     super.key,
     required this.labelText,
@@ -17,6 +17,8 @@ class customFieldMat extends StatelessWidget {
     this.obcureText = false,
     //this.maxLength = 50,
     this.isSuffixClear = false,
+    this.isSuffixPicker = false,
+    this.contentList = const [Text("")],
     this.suffixButton = const CupertinoButton(
       onPressed: null,
       child: Text(""),
@@ -38,14 +40,30 @@ class customFieldMat extends StatelessWidget {
   final bool obcureText;
   //pass the maximum length of the field, default 50 characters
   //int maxLength;
+
   //do you want clearButton as suffixIcon? deafult false. 
-  //This as priority on suffixButton
+  //This as priority on suffixButton and isSuffixPicker
   bool isSuffixClear;
+
+  //do you want pickerButton as suffixIcon? deault false
+  bool isSuffixPicker;
+  // List of item showed in the picker menu'
+  List<Text> contentList;
+
   //pass a custom <CupertinoButton()> as sufixIcon, deafult: null.
-  //Remeber to keep isSuffixClear = false.
+  //Remember to keep isSuffixClear = false.
   CupertinoButton suffixButton;
 
-  
+  @override
+  State<customFieldMat> createState() => _customFieldMatState();
+}
+
+class _customFieldMatState extends State<customFieldMat> {
+  // *** START PICKER ***
+  int selectedValue = 0; // initial value 0
+  late FixedExtentScrollController scrollController;
+  // *** END PICKER ***
+
   MaterialStateColor stateColor() =>
       MaterialStateColor.resolveWith((Set<MaterialState> states) {
         if (states.contains(MaterialState.error)) {
@@ -140,8 +158,88 @@ class customFieldMat extends StatelessWidget {
         CupertinoIcons.xmark_circle_fill,
         color: favorColors.Yellow.withOpacity(0.8),
       ),
-      onPressed: () => textEditingController.clear(),
+      onPressed: () => widget.textEditingController.clear(),
     );
+
+
+  // *** START PICKER ***
+  // IF isSuffixPicker = TRUE 
+  // AND isSuffixClear = FALSE
+  // picker Button will be used.
+  
+  void initState() {
+    super.initState();
+    scrollController = FixedExtentScrollController(
+      initialItem: selectedValue,
+    );
+  }
+
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
+
+  CupertinoButton pickerButton() =>
+  CupertinoButton(
+    child: Icon(
+      CupertinoIcons.arrowtriangle_down_circle_fill,
+      color: favorColors.Yellow,
+    ),
+    onPressed: () {
+      scrollController.dispose();
+      scrollController =
+          FixedExtentScrollController(initialItem: selectedValue);
+      showCupertinoModalPopup(
+          context: context,
+          builder: (context) => CupertinoActionSheet(
+                actions: [buildPicker()],
+                cancelButton: CupertinoActionSheetAction(
+                  child: Text("Cancel"),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ));
+    });
+
+    Widget buildPicker() => SizedBox(
+      height: Responsive.height(30, context),
+      child: StatefulBuilder(
+        builder: (context, setState) => CupertinoPicker(
+          backgroundColor: Colors.white,
+          /*
+        selectionOverlay: CupertinoPickerDefaultSelectionOverlay(
+          background: favorColors.SecondaryBlue.withOpacity(0.2),
+        ),
+        */
+          itemExtent:
+              32, //Responsive.height(5, context), //height of current item
+          scrollController: scrollController,
+          children: List.generate(widget.contentList.length, (index) {
+            //final isSelected = this.selectedValue == index;
+            //final color = isSelected ? favorColors.PrimaryBlue : Colors.black;
+            final item = widget.contentList[index];
+            return Center(
+                child: Text(
+              item.data.toString(),
+              style: TextStyle(
+                fontSize: 24, //color: color
+              ),
+            ));
+          }),
+
+          onSelectedItemChanged: (int value) {
+            widget.textEditingController.text =
+                widget.contentList.elementAt(value).data.toString();
+            if (this.mounted) {
+              setState(() {
+                selectedValue = value;
+                print("Selected Value: ${selectedValue}");
+              });
+            }
+          },
+        ),
+      ),
+    );
+  // *** END PICKER ***
 
   @override
   Widget build(BuildContext context) {
@@ -149,21 +247,23 @@ class customFieldMat extends StatelessWidget {
       child: Theme(
         data: inputTheme(),
         child: TextFormField(
-          controller: textEditingController,
-          keyboardType: textInputType,
-          textInputAction: textInputAction,
-          obscureText: obcureText,
+          controller: widget.textEditingController,
+          keyboardType: widget.textInputType,
+          textInputAction: widget.textInputAction,
+          obscureText: widget.obcureText,
           decoration: InputDecoration(
-            prefixIcon: Icon(prefixIcon),
-            labelText: labelText,
-            suffixIcon: isSuffixClear 
+            prefixIcon: Icon(widget.prefixIcon),
+            labelText: widget.labelText,
+            suffixIcon: widget.isSuffixClear 
               ? clearButton()
-              : suffixButton,
+              : ( widget.isSuffixPicker 
+                ? pickerButton() 
+                : widget.suffixButton),
             errorStyle: TextStyle(textBaseline: TextBaseline.ideographic)
           ),
           cursorColor: stateColor(),
           cursorRadius: Radius.circular(8),
-          validator: customValidator,
+          validator: widget.customValidator,
           //maxLength: maxLength,
         ),
       ),

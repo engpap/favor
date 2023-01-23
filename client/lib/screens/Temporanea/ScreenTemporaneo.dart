@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:project/screens/Temporanea/customFieldMat.dart';
+import 'package:project/screens/components/customFieldMat.dart';
 
 class ScreenTemporaneo extends StatelessWidget {
   const ScreenTemporaneo({super.key});
