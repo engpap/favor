@@ -17,10 +17,11 @@ class Leaderboard_Screen_M extends StatefulWidget {
   const Leaderboard_Screen_M({super.key});
 
   @override
-  State<Leaderboard_Screen_M> createState() => _Leaderboard_Screen_MState();
+  State<Leaderboard_Screen_M> createState() => Leaderboard_Screen_MState();
 }
 
-class _Leaderboard_Screen_MState extends State<Leaderboard_Screen_M> {
+@visibleForTesting
+class Leaderboard_Screen_MState extends State<Leaderboard_Screen_M> {
   late Future<FavorConstants> favorConstants;
   late Future<Leaderboard?> leaderboard;
 

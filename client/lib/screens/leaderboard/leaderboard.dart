@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/functions/responsive.dart';
-import 'package:project/models/leaderboard.dart';
 
 import 'package:project/screens/components/starsWidget.dart';
 
