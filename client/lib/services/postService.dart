@@ -79,7 +79,7 @@ class PostService {
       required favorStartTime,
       required description}) async {
     try {
-      if (UserMode_inherited.of(context).stateWidget.callerStatus_state)
+      if (!UserMode_inherited.of(context).stateWidget.callerStatus_state)
         throw Exception(
             "Trying to publish a favor as Caller but userType is not Caller!");
       /*CallerPost post = CallerPost(
