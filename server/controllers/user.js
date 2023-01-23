@@ -120,7 +120,7 @@ const verifyGoogleIdToken = async (tokenId) => {
 export const insertPersonalInfo = async (request, response) => {
 
     console.log(">>> InsertPersonalInfo: Inserting personal information...");
-    const { proilePicture, gender, age, job, city, bio } = request.body;
+    const { profilePicture, gender, age, job, city, bio } = request.body;
     try {
         if (parseInt(age) <= 0)
             return response.status(400).json({ message: "Wrong age" });
@@ -130,10 +130,10 @@ export const insertPersonalInfo = async (request, response) => {
         if (!existingUser)
             return response.status(400).json({ message: "User has not registered yet" });
 
-        if (!(proilePicture && gender && age && job && city && bio))
+        if (!(profilePicture && gender && age && job && city && bio))
             return response.status(400).json({ message: "Some data is missing. Please, fill all the fields." });
 
-        const updatedUser = { ...existingUser._doc, profilePicture: proilePicture, gender: gender, age: age, job: job, city: city, bio: bio };
+        const updatedUser = { ...existingUser._doc, profilePicture: profilePicture, gender: gender, age: age, job: job, city: city, bio: bio };
 
         await User.findByIdAndUpdate(request.userId, updatedUser, { new: true });
 

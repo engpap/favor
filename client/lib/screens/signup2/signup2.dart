@@ -50,7 +50,6 @@ class SignUp2Screen extends StatelessWidget {
   }
 }
 
-
 /// SIGNUP2 FORM
 class Form_SignUp2 extends StatefulWidget {
   const Form_SignUp2({super.key});
@@ -61,7 +60,6 @@ class Form_SignUp2 extends StatefulWidget {
 
 class _Form_SignUp2State extends State<Form_SignUp2> {
   final formKey_signup2 = GlobalKey<FormState>();
-
 
   late Future<ProfileConstants> profileConstants;
   @override
@@ -74,174 +72,195 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
   Widget build(BuildContext context) {
     return Container(
       child: Material(
-        color: Colors.transparent,
-        child: Form(
-          autovalidateMode: AutovalidateMode.always,
-          key: formKey_signup2,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              // AGE
-              FutureBuilder<ProfileConstants>(
-                  future: profileConstants,
-                  builder: ((context, snapshot) {
-                    if (snapshot.hasData) {
-                      return CustomCard(
-                        padding: EdgeInsets.zero,
-                        margin: EdgeInsets.zero,
-                        child: CustomFieldMat(
-                          prefixIcon: CupertinoIcons.profile_circled, 
-                          labelText: "Your Age", 
-                          textEditingController: globals.ageContoller, 
-                          readOnly: true,
-                          customValidator: (value) {
-                            if (!value!.isValidAge()) 
-                              {return LabelSpace().whiteSpace()+"Insert a correct age.";}
-                            else {return null;}
-                          },
-                          isSuffixClear: false,
-                          isSuffixPicker: true,
-                          contentList: snapshot.data!.ages,
-                        ),
-                      );
-                    } else if (snapshot.hasError) {
-                      return Text('${snapshot.error}');
-                    }
-                    return CupertinoActivityIndicator(
-                        animating: false, radius: 10);
-              })),
-              SizedBox(height: 10,),
-              // GENDER
-              FutureBuilder<ProfileConstants>(
-                  future: profileConstants,
-                  builder: ((context, snapshot) {
-                    if (snapshot.hasData) {
-                      return CustomCard(
-                        padding: EdgeInsets.zero,
-                        margin: EdgeInsets.zero,
-                        child: CustomFieldMat(
-                          prefixIcon: CupertinoIcons.profile_circled, 
-                          labelText: "Your gender",
-                          textEditingController: globals.genderContoller, 
-                          readOnly: true,
-                          customValidator: (value) {
-                            if(value == "")
-                              return LabelSpace().whiteSpace()+"Select a gender from the picker.";
-                            /**
+          color: Colors.transparent,
+          child: Form(
+            autovalidateMode: AutovalidateMode.always,
+            key: formKey_signup2,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                // AGE
+                FutureBuilder<ProfileConstants>(
+                    future: profileConstants,
+                    builder: ((context, snapshot) {
+                      if (snapshot.hasData) {
+                        return CustomCard(
+                          padding: EdgeInsets.zero,
+                          margin: EdgeInsets.zero,
+                          child: CustomFieldMat(
+                            prefixIcon: CupertinoIcons.profile_circled,
+                            labelText: "Your Age",
+                            textEditingController: globals.ageContoller,
+                            readOnly: true,
+                            customValidator: (value) {
+                              if (!value!.isValidAge()) {
+                                return LabelSpace().whiteSpace() +
+                                    "Insert a correct age.";
+                              } else {
+                                return null;
+                              }
+                            },
+                            isSuffixClear: false,
+                            isSuffixPicker: true,
+                            contentList: snapshot.data!.ages,
+                          ),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text('${snapshot.error}');
+                      }
+                      return CupertinoActivityIndicator(
+                          animating: false, radius: 10);
+                    })),
+                SizedBox(
+                  height: 10,
+                ),
+                // GENDER
+                FutureBuilder<ProfileConstants>(
+                    future: profileConstants,
+                    builder: ((context, snapshot) {
+                      if (snapshot.hasData) {
+                        return CustomCard(
+                          padding: EdgeInsets.zero,
+                          margin: EdgeInsets.zero,
+                          child: CustomFieldMat(
+                            prefixIcon: CupertinoIcons.profile_circled,
+                            labelText: "Your gender",
+                            textEditingController: globals.genderContoller,
+                            readOnly: true,
+                            customValidator: (value) {
+                              if (value == "")
+                                return LabelSpace().whiteSpace() +
+                                    "Select a gender from the picker.";
+                              /**
                             if (!value!.isValidGender()) 
                               {return LabelSpace().whiteSpace()+"Just insert letter F or M";}
                              */
-                            else {return null;}
-                          },
-                          isSuffixClear: false,
-                          isSuffixPicker: true,
-                          contentList: snapshot.data!.genders,
-                        ),
-                      );
-                    } else if (snapshot.hasError) {
-                      return Text('${snapshot.error}');
-                    }
-                    return CupertinoActivityIndicator(
-                        animating: false, radius: 10);
-              })),
-              SizedBox(height: 10,),
-              // RESIDENCE
-              FutureBuilder<ProfileConstants>(
-                  future: profileConstants,
-                  builder: ((context, snapshot) {
-                    if (snapshot.hasData) {
-                      return CustomCard(
-                        padding: EdgeInsets.zero,
-                        margin: EdgeInsets.zero,
-                        child: CustomFieldMat(
-                          prefixIcon: CupertinoIcons.profile_circled, 
-                          labelText: "Your residence", 
-                          textEditingController: globals.residenceContoller,
-                          readOnly: true, 
-                          customValidator: (value) {
-                            if(value == "")
-                              return LabelSpace().whiteSpace()+"Select a city from the picker.";
-                            /**
+                              else {
+                                return null;
+                              }
+                            },
+                            isSuffixClear: false,
+                            isSuffixPicker: true,
+                            contentList: snapshot.data!.genders,
+                          ),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text('${snapshot.error}');
+                      }
+                      return CupertinoActivityIndicator(
+                          animating: false, radius: 10);
+                    })),
+                SizedBox(
+                  height: 10,
+                ),
+                // RESIDENCE
+                FutureBuilder<ProfileConstants>(
+                    future: profileConstants,
+                    builder: ((context, snapshot) {
+                      if (snapshot.hasData) {
+                        return CustomCard(
+                          padding: EdgeInsets.zero,
+                          margin: EdgeInsets.zero,
+                          child: CustomFieldMat(
+                            prefixIcon: CupertinoIcons.profile_circled,
+                            labelText: "Your residence",
+                            textEditingController: globals.residenceContoller,
+                            readOnly: true,
+                            customValidator: (value) {
+                              if (value == "")
+                                return LabelSpace().whiteSpace() +
+                                    "Select a city from the picker.";
+                              /**
                             if (value!.length < 1 || !value.isValidResidence()) 
                               {return LabelSpace().whiteSpace()+"You can't insert special characters";}
                             if (value.length > 50) 
                               {return LabelSpace().whiteSpace()+"max 50 chars";}
                             */
-                            else {return null;}
-                          },
-                          isSuffixClear: false,
-                          isSuffixPicker: true,
-                          contentList: snapshot.data!.cities,
-                        ),
-                      );
-                    } else if (snapshot.hasError) {
-                      return Text('${snapshot.error}');
-                    }
-                    return CupertinoActivityIndicator(
-                        animating: false, radius: 10);
-              })),
-              SizedBox(height: 10,),
-              // JOB
-              FutureBuilder<ProfileConstants>(
-                  future: profileConstants,
-                  builder: ((context, snapshot) {
-                    if (snapshot.hasData) {
-                      return CustomCard(
-                        padding: EdgeInsets.zero,
-                        margin: EdgeInsets.zero,
-                        child: CustomFieldMat(
-                          prefixIcon: CupertinoIcons.profile_circled, 
-                          labelText: "Your job", 
-                          textEditingController: globals.jobContoller,
-                          readOnly: true,
-                          customValidator: (value) {
-                            if(value == "")
-                              return LabelSpace().whiteSpace()+"Select your from the picker.";
-                            /*
+                              else {
+                                return null;
+                              }
+                            },
+                            isSuffixClear: false,
+                            isSuffixPicker: true,
+                            contentList: snapshot.data!.cities,
+                          ),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text('${snapshot.error}');
+                      }
+                      return CupertinoActivityIndicator(
+                          animating: false, radius: 10);
+                    })),
+                SizedBox(
+                  height: 10,
+                ),
+                // JOB
+                FutureBuilder<ProfileConstants>(
+                    future: profileConstants,
+                    builder: ((context, snapshot) {
+                      if (snapshot.hasData) {
+                        return CustomCard(
+                          padding: EdgeInsets.zero,
+                          margin: EdgeInsets.zero,
+                          child: CustomFieldMat(
+                            prefixIcon: CupertinoIcons.profile_circled,
+                            labelText: "Your job",
+                            textEditingController: globals.jobContoller,
+                            readOnly: true,
+                            customValidator: (value) {
+                              if (value == "")
+                                return LabelSpace().whiteSpace() +
+                                    "Select your from the picker.";
+                              /*
                             if (value!.length < 1 || !value.isValidJob()) 
                               {return LabelSpace().whiteSpace()+"You can't insert number or special characters";}
                             if (value.length > 50) 
                               {return LabelSpace().whiteSpace()+"max 50 chars";}
                              */
-                            else {return null;}
-                          },
-                          isSuffixClear: false,
-                          isSuffixPicker: true,
-                          contentList: snapshot.data!.jobs, 
-                        ),
-                      );
-                    } else if (snapshot.hasError) {
-                      return Text('${snapshot.error}');
-                    }
-                    return CupertinoActivityIndicator(
-                        animating: false, radius: 10);
-              })),
-              SizedBox(height: 10,),
-              // BIO
-              CustomCard(
-                padding: EdgeInsets.zero,
-                margin: EdgeInsets.zero,
-                child: CustomFieldMat(
-                  prefixIcon: CupertinoIcons.profile_circled, 
-                  labelText: "Your Bio", 
-                  textEditingController: globals.bioContoller,
-                  textInputAction: TextInputAction.done,
-                  customValidator: (value) {
-                    if (value!.length < 1 || !value.isValidJob()) 
-                      {return LabelSpace().whiteSpace()+"Briefly describe yourself.";}
-                    if (value.length > 50) 
-                      {return LabelSpace().whiteSpace()+"max 50 chars";}
-                    else {return null;}
-                  },
-                  isSuffixClear: true,
-                  
+                              else {
+                                return null;
+                              }
+                            },
+                            isSuffixClear: false,
+                            isSuffixPicker: true,
+                            contentList: snapshot.data!.jobs,
+                          ),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text('${snapshot.error}');
+                      }
+                      return CupertinoActivityIndicator(
+                          animating: false, radius: 10);
+                    })),
+                SizedBox(
+                  height: 10,
                 ),
-              ),
-
-            ],
-          ),
-        )
-      ),
+                // BIO
+                CustomCard(
+                  padding: EdgeInsets.zero,
+                  margin: EdgeInsets.zero,
+                  child: CustomFieldMat(
+                    prefixIcon: CupertinoIcons.profile_circled,
+                    labelText: "Your Bio",
+                    textEditingController: globals.bioContoller,
+                    textInputAction: TextInputAction.done,
+                    customValidator: (value) {
+                      if (value!.length < 1 || !value.isValidJob()) {
+                        return LabelSpace().whiteSpace() +
+                            "Briefly describe yourself.";
+                      }
+                      if (value.length > 50) {
+                        return LabelSpace().whiteSpace() + "max 50 chars";
+                      } else {
+                        return null;
+                      }
+                    },
+                    isSuffixClear: true,
+                  ),
+                ),
+              ],
+            ),
+          )),
     );
   }
 }
@@ -326,25 +345,18 @@ class RegisterButton_SignUp2 extends StatelessWidget {
           onPressed: () {
             // Console log
             print('Pressed: RegisterButton_SignUp2');
-
-            /**
-            TODO: Collagare col server
-            //print('run: authService.signup');
             // Send information to server and wait for response
-            globals.authService.signup(
+            globals.authService.insertPersonalInfo(
               context: context,
-
-              globals.ageContoller.text;
-              globals.genderContoller.text;
-              globals.residenceContoller.text;
-              globals.jobContoller.text;
-              globals.bioContoller.text
+              age: globals.ageContoller.text,
+              gender: globals.genderContoller.text,
+              city: globals.residenceContoller.text,
+              job: globals.jobContoller.text,
+              bio: globals.bioContoller.text,
             );
-            */
           },
         ),
       ),
     );
   }
 }
-

@@ -78,6 +78,7 @@ class AuthService {
         response: response,
         context: context,
         onSuccess: () {
+          Storage.setUserToken(jsonDecode(response.body)['token']);
           Navigator.pushReplacement(context,
               CupertinoPageRoute(builder: (context) => SignUp2Screen()));
         },
