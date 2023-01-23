@@ -349,7 +349,7 @@ class BookedFavorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: CustomCard_2(
+      child: CustomCard(
         padding: EdgeInsets.all(0),
         //margin: EdgeInsets.all(0),
         child: Container(

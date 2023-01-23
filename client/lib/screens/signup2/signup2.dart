@@ -14,7 +14,6 @@ import 'package:project/screens/signup2/signup2_mobile.dart';
 
 import 'signup2_tablet.dart';
 
-
 class SignUp2Screen extends StatelessWidget {
   const SignUp2Screen({super.key});
 
@@ -51,8 +50,6 @@ class SignUp2Screen extends StatelessWidget {
   }
 }
 
-
-
 //const List<String> list = <String>['One', 'Two', 'Three', 'Four', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17'];
 
 /// CALLER FORM
@@ -78,86 +75,103 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
   Widget build(BuildContext context) {
     return Container(
       child: Material(
-        color: Colors.transparent,
-        child: Form(
-          autovalidateMode: AutovalidateMode.always,
-          key: formKey_signup2,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              // AGE
-              CustomCard_2(
-                padding: EdgeInsets.zero,
-                margin: EdgeInsets.zero,
-                child: customFieldMat(
-                  prefixIcon: CupertinoIcons.profile_circled, 
-                  labelText: "Your Age", 
-                  textEditingController: ageContoller, 
-                  customValidator: (value) {
-                    if (!value!.isValidAge()) 
-                      {return wspace+"Insert a correct age [min 0 - max 99]";}
-                    else {return null;}
-                  },
-                  isSuffixClear: true,
+          color: Colors.transparent,
+          child: Form(
+            autovalidateMode: AutovalidateMode.always,
+            key: formKey_signup2,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                // AGE
+                CustomCard(
+                  padding: EdgeInsets.zero,
+                  margin: EdgeInsets.zero,
+                  child: customFieldMat(
+                    prefixIcon: CupertinoIcons.profile_circled,
+                    labelText: "Your Age",
+                    textEditingController: ageContoller,
+                    customValidator: (value) {
+                      if (!value!.isValidAge()) {
+                        return wspace + "Insert a correct age [min 0 - max 99]";
+                      } else {
+                        return null;
+                      }
+                    },
+                    isSuffixClear: true,
+                  ),
                 ),
-              ),
-              SizedBox(height: 10,),
-              // GENDER
-              CustomCard_2(
-                padding: EdgeInsets.zero,
-                margin: EdgeInsets.zero,
-                child: customFieldMat(
-                  prefixIcon: CupertinoIcons.profile_circled, 
-                  labelText: "Your gender", //  F (female) or M (male)
-                  textEditingController: genderContoller, 
-                  customValidator: (value) {
-                    if (!value!.isValidGender()) 
-                      {return wspace+"Just insert letter F or M";}
-                    else {return null;}
-                  },
-                  isSuffixClear: true,
+                SizedBox(
+                  height: 10,
                 ),
-              ),
-              SizedBox(height: 10,),
-              // RESIDENCE
-              CustomCard_2(
-                padding: EdgeInsets.zero,
-                margin: EdgeInsets.zero,
-                child: customFieldMat(
-                  prefixIcon: CupertinoIcons.profile_circled, 
-                  labelText: "Your residence", 
-                  textEditingController: residenceContoller, 
-                  customValidator: (value) {
-                    if (value!.length < 1 || !value.isValidResidence()) 
-                      {return wspace+"You can't insert special characters";}
-                    if (value.length > 50) 
-                      {return wspace+"max 50 chars";}
-                    else {return null;}
-                  },
-                  isSuffixClear: true,
+                // GENDER
+                CustomCard(
+                  padding: EdgeInsets.zero,
+                  margin: EdgeInsets.zero,
+                  child: customFieldMat(
+                    prefixIcon: CupertinoIcons.profile_circled,
+                    labelText: "Your gender", //  F (female) or M (male)
+                    textEditingController: genderContoller,
+                    customValidator: (value) {
+                      if (!value!.isValidGender()) {
+                        return wspace + "Just insert letter F or M";
+                      } else {
+                        return null;
+                      }
+                    },
+                    isSuffixClear: true,
+                  ),
                 ),
-              ),
-              SizedBox(height: 10,),
-              // JOB
-              CustomCard_2(
-                padding: EdgeInsets.zero,
-                margin: EdgeInsets.zero,
-                child: customFieldMat(
-                  prefixIcon: CupertinoIcons.profile_circled, 
-                  labelText: "Your job", 
-                  textEditingController: jobContoller, 
-                  customValidator: (value) {
-                    if (value!.length < 1 || !value.isValidJob()) 
-                      {return wspace+"You can't insert number or special characters";}
-                    if (value.length > 50) 
-                      {return wspace+"max 50 chars";}
-                    else {return null;}
-                  },
-                  isSuffixClear: true,
+                SizedBox(
+                  height: 10,
                 ),
-              ),
+                // RESIDENCE
+                CustomCard(
+                  padding: EdgeInsets.zero,
+                  margin: EdgeInsets.zero,
+                  child: customFieldMat(
+                    prefixIcon: CupertinoIcons.profile_circled,
+                    labelText: "Your residence",
+                    textEditingController: residenceContoller,
+                    customValidator: (value) {
+                      if (value!.length < 1 || !value.isValidResidence()) {
+                        return wspace + "You can't insert special characters";
+                      }
+                      if (value.length > 50) {
+                        return wspace + "max 50 chars";
+                      } else {
+                        return null;
+                      }
+                    },
+                    isSuffixClear: true,
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                // JOB
+                CustomCard(
+                  padding: EdgeInsets.zero,
+                  margin: EdgeInsets.zero,
+                  child: customFieldMat(
+                    prefixIcon: CupertinoIcons.profile_circled,
+                    labelText: "Your job",
+                    textEditingController: jobContoller,
+                    customValidator: (value) {
+                      if (value!.length < 1 || !value.isValidJob()) {
+                        return wspace +
+                            "You can't insert number or special characters";
+                      }
+                      if (value.length > 50) {
+                        return wspace + "max 50 chars";
+                      } else {
+                        return null;
+                      }
+                    },
+                    isSuffixClear: true,
+                  ),
+                ),
 
-              /** 
+                /** 
               TextFormField(),
               DropdownButtonFormField(
                 menuMaxHeight: Responsive.height(30, context),
@@ -176,14 +190,12 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
                 },
               )
               */
-            ],
-          ),
-        )
-      ),
+              ],
+            ),
+          )),
     );
   }
 }
-
 
 class customHeadingDesc extends StatelessWidget {
   customHeadingDesc({
@@ -200,37 +212,39 @@ class customHeadingDesc extends StatelessWidget {
     return Column(
       children: [
         /// PAGE TITLE
-          Container(
-            width: Responsive.width(100, context), 
-            margin: EdgeInsets.only(right: 9, left: 9),
-            child: Text(heading,
-              style: TextStyle(
+        Container(
+          width: Responsive.width(100, context),
+          margin: EdgeInsets.only(right: 9, left: 9),
+          child: Text(
+            heading,
+            style: TextStyle(
                 color: favorColors.PrimaryBlue,
                 fontSize: 37,
                 fontWeight: FontWeight.bold),
-            ),
           ),
-          /// DESCRIPTION
-          Container(
-            width: Responsive.width(100, context),
-            margin: EdgeInsets.only(
+        ),
+
+        /// DESCRIPTION
+        Container(
+          width: Responsive.width(100, context),
+          margin: EdgeInsets.only(
               top: Responsive.height(1, context),
               bottom: Responsive.height(3, context),
               right: 9,
               left: 9),
-            child: Text( description,
-              textAlign: TextAlign.left,
-              style: TextStyle(
+          child: Text(
+            description,
+            textAlign: TextAlign.left,
+            style: TextStyle(
                 color: favorColors.PrimaryBlue,
                 fontSize: 18,
                 fontWeight: FontWeight.bold),
-            ),
           ),
+        ),
       ],
     );
   }
 }
-
 
 /// BUTTON register.
 /// checks information validity both client and server sides.
