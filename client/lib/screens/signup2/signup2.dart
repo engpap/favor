@@ -1,15 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project/errors/error.dart';
-import 'package:project/errors/errorConstants.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/functions/stringExtensions.dart';
-import 'package:project/models/favorConstants.dart';
 import 'package:project/models/profileConstants.dart';
 import 'package:project/screens/components/customFieldMat.dart';
 import 'package:project/screens/components/customCard.dart';
 import 'package:project/screens/responsiveLayout.dart';
-import 'package:project/screens/components/customField.dart';
 
 import 'globals.dart' as globals;
 import 'package:project/functions/favorColors.dart' as favorColors;
@@ -337,11 +333,6 @@ class RegisterButton_SignUp2 extends StatelessWidget {
             // Send information to server and wait for response
             globals.authService.signup(
               context: context,
-              name: globals.textControllerName.text,
-              surname: globals.textControllerSurname.text,
-              email: globals.textControllerEmail.text,
-              password: globals.textControllerPassword.text,
-              confirmPassword: globals.textControllerPasswordConfirm.text,
 
               globals.ageContoller.text;
               globals.genderContoller.text;
