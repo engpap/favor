@@ -1,10 +1,13 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
+import 'package:project/functions/jsonToDartFunctions.dart';
+
 class ProfileConstants {
-  List<String> _genders;
-  List<String> _ages;
-  List<String> _cities;
-  List<String> _jobs;
+  List<Text> _genders;
+  List<Text> _ages;
+  List<Text> _cities;
+  List<Text> _jobs;
 
   ProfileConstants({
     required genders,
@@ -17,18 +20,18 @@ class ProfileConstants {
         _jobs = jobs;
 
   ProfileConstants.fromMap(Map<String, dynamic> json)
-      : _genders = convertJsonToStringList(json['GENDERS']),
-        _ages = convertJsonToStringList(json['AGES']),
-        _cities = convertJsonToStringList(json['CITIES']),
-        _jobs = convertJsonToStringList(json['JOBS']);
+      : _genders = convertToTextList(convertJsonToStringList(json['GENDERS'])),
+        _ages = convertToTextList(convertJsonToStringList(json['AGES'])),
+        _cities = convertToTextList(convertJsonToStringList(json['CITIES'])),
+        _jobs = convertToTextList(convertJsonToStringList(json['JOBS']));
 
   factory ProfileConstants.fromJson(String source) =>
       ProfileConstants.fromMap(jsonDecode(source));
 
-  List<String> get genders => _genders;
-  List<String> get ages => _ages;
-  List<String> get cities => _cities;
-  List<String> get jobs => _jobs;
+  List<Text> get genders => _genders;
+  List<Text> get ages => _ages;
+  List<Text> get cities => _cities;
+  List<Text> get jobs => _jobs;
 }
 
 List<String> convertJsonToStringList(String source) {

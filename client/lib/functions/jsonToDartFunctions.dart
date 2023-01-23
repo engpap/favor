@@ -27,3 +27,11 @@ List<Text> convertStringListToTextList(List<String> source) {
   }
   return result;
 }
+
+List<Text> convertToTextList(List<String> source) {
+  List<Text> result = [];
+  for (String string in source) {
+    result.add(Text(string));
+  }
+  return result;
+}
