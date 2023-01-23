@@ -95,7 +95,7 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
                   future: favorConstants,
                   builder: ((context, snapshot) {
                     if (snapshot.hasData) {
-                      return CustomCard_2(
+                      return CustomCard(
                         padding: EdgeInsets.zero,
                         margin: EdgeInsets.zero,
                         child: customFieldMat(
@@ -124,7 +124,7 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
                   future: favorConstants,
                   builder: ((context, snapshot) {
                     if (snapshot.hasData) {
-                      return CustomCard_2(
+                      return CustomCard(
                         padding: EdgeInsets.zero,
                         margin: EdgeInsets.zero,
                         child: customFieldMat(
@@ -153,7 +153,7 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
                   future: favorConstants,
                   builder: ((context, snapshot) {
                     if (snapshot.hasData) {
-                      return CustomCard_2(
+                      return CustomCard(
                         padding: EdgeInsets.zero,
                         margin: EdgeInsets.zero,
                         child: customFieldMat(
@@ -184,7 +184,7 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
                   future: favorConstants,
                   builder: ((context, snapshot) {
                     if (snapshot.hasData) {
-                      return CustomCard_2(
+                      return CustomCard(
                         padding: EdgeInsets.zero,
                         margin: EdgeInsets.zero,
                         child: customFieldMat(
@@ -302,7 +302,6 @@ class RegisterButton_SignUp2 extends StatelessWidget {
 
             /**
             TODO: Collagare col server
-
             //print('run: authService.signup');
             // Send information to server and wait for response
             globals.authService.signup(
@@ -313,7 +312,6 @@ class RegisterButton_SignUp2 extends StatelessWidget {
               password: globals.textControllerPassword.text,
               confirmPassword: globals.textControllerPasswordConfirm.text,
             );
-
             */
           },
         ),
@@ -321,3 +319,4 @@ class RegisterButton_SignUp2 extends StatelessWidget {
     );
   }
 }
+
