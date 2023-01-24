@@ -1,13 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project/errors/error.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/functions/stringExtensions.dart';
 import 'package:project/screens/components/customCard.dart';
 import 'package:project/screens/components/customFieldMat.dart';
 import 'package:project/screens/responsiveLayout.dart';
-import 'package:project/screens/components/customField.dart';
-
 import 'package:project/screens/signin/signin.dart';
 import 'package:project/screens/signup/signup_mobile.dart';
 import 'package:project/screens/signup/signup_tablet.dart';
@@ -21,38 +18,39 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () {
-          FocusScopeNode currentFocus = FocusScope.of(context);
-          if (!currentFocus.hasPrimaryFocus) {
-            currentFocus.unfocus();
-          }
-        },
-        child: Container(
-
-            //BCKGROUND GRADIENT IMAGE
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-              image: AssetImage("assets/images/bg_blue_gradient.jpg"),
-              fit: BoxFit.cover,
-              opacity: 1,
-              colorFilter: const ColorFilter.mode(
-                Colors.grey,
-                BlendMode.softLight,
-              ),
-            )),
-            child: CupertinoPageScaffold(
-                // .withAlpha(180) is used to add transparency, in order to see the bg-image
-                backgroundColor: favorColors.IntroBg.withAlpha(180),
-                child: SafeArea(
-                  child: ResponsiveLeayout(
-                    mobileBody: SignUpScreen_M(),
-                    tabletBody: SignUpScreen_T(),
-                  ),
-                ))));
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: Container(
+        //BACKGROUND GRADIENT IMAGE
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+          image: AssetImage("assets/images/bg_blue_gradient.jpg"),
+          fit: BoxFit.cover,
+          opacity: 1,
+          colorFilter: const ColorFilter.mode(
+            Colors.grey,
+            BlendMode.softLight,
+          ),
+        )),
+        //PAGE
+        child: CupertinoPageScaffold(
+          // .withAlpha(180) is used to add transparency, in order to see the bg-image
+          backgroundColor: favorColors.IntroBg.withAlpha(180),
+          child: SafeArea(
+            child: ResponsiveLeayout(
+              mobileBody: SignUpScreen_M(),
+              tabletBody: SignUpScreen_T(),
+            ),
+          ))));
   }
 }
 
 
+/// SIGNUP FORM
 /// Name, Surname, Email, Password, PasswordConfirm
 class Form_SignUp extends StatefulWidget {
   const Form_SignUp({super.key});
@@ -64,15 +62,13 @@ class Form_SignUp extends StatefulWidget {
 class _Form_SignUpState extends State<Form_SignUp> {
   final formKey_signup = GlobalKey<FormState>();
 
-
-
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Material(
         color: Colors.transparent,
         child: Form(
-          autovalidateMode: AutovalidateMode.always,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           key: formKey_signup,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -185,9 +181,7 @@ class _Form_SignUpState extends State<Form_SignUp> {
   }
 }
 
-/// BUTTON register.
-/// checks information validity both client and server sides.
-/// if all good push HomeScreen()
+/// BUTTON register
 class SignUp_registerButton extends StatelessWidget {
   const SignUp_registerButton({super.key});
 

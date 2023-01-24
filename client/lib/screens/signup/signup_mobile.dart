@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:project/functions/responsive.dart';
+import 'package:project/screens/components/customHeadingDesc.dart';
 import 'package:project/screens/signup/signup.dart';
 import 'package:project/functions/favorColors.dart' as favorColors;
-import 'package:project/screens/signup2/signup2.dart';
+
 
 class SignUpScreen_M extends StatelessWidget {
   const SignUpScreen_M({super.key});
@@ -32,9 +33,7 @@ class SignUpScreen_M extends StatelessWidget {
                 Divider(height: Responsive.height(2, context), color: Colors.transparent,),
                 Text(
                   "Have an account?",
-                  style: TextStyle(
-                    color: Colors.black, 
-                    fontSize: 16),
+                  style: TextStyle(color: favorColors.PrimaryBlue, fontSize: 16),
                 ),
                 Divider(height: Responsive.height(1, context), color: Colors.transparent,),
                 SignUp_loginButton(),

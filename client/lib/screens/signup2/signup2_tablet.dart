@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:project/functions/responsive.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
+import 'package:project/screens/components/customHeadingDesc.dart';
 import 'package:project/screens/signup2/signup2.dart';
 
 class SignUp2Screen_T extends StatelessWidget {

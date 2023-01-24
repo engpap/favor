@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:project/functions/responsive.dart';
-
-import 'package:project/functions/favorColors.dart' as favorColors;
+import 'package:project/screens/components/customHeadingDesc.dart';
 import 'package:project/screens/signup/signup.dart';
-import 'package:project/screens/signup2/signup2.dart';
+import 'package:project/functions/favorColors.dart' as favorColors;
 
 class SignUpScreen_T extends StatefulWidget {
   const SignUpScreen_T({super.key});
@@ -43,13 +42,17 @@ class _SignUpScreen_TState extends State<SignUpScreen_T> {
                             ),
                             // BUTTON
                             SignUp_registerButton(),
-                            
-                            customHeadingDesc(
-                              heading: "", 
-                              description: "Have an account?"
+                            Divider(
+                            height: Responsive.height(6, context),
+                            color: Colors.transparent,
                             ),
-                
                             // BUTTON
+                            Center(
+                              child: Text(
+                                "Have an account?",
+                                style: TextStyle(color: favorColors.PrimaryBlue, fontSize: 20),
+                              ),
+                            ),
                             SignUp_loginButton(),
                           ]),
                       ),
@@ -67,13 +70,11 @@ class _SignUpScreen_TState extends State<SignUpScreen_T> {
                           ]),
                       ),
                     ),
-
                   ],
                 ),
               ],
             ),
           ),
-
       ),
     );
   }
