@@ -8,11 +8,15 @@ class User {
   final String surname;
   final MemoryImage profilePicture;
   final String? email;
-  final String? password;
-  final String? confirmPassword;
+  //final String? password;
+  //final String? confirmPassword;
   final String? token;
   final int? rankingPoints;
   final int? averageRatings;
+  final String? gender;
+  final int? age;
+  final String? city;
+  final String? job;
   final String? bio;
 
   User({
@@ -21,11 +25,15 @@ class User {
     required this.surname,
     required this.profilePicture,
     this.email,
-    this.password,
-    this.confirmPassword,
-    this.token,
+    //this.password,
+    //this.confirmPassword,
     this.rankingPoints,
     this.averageRatings,
+    this.token,
+    this.gender,
+    this.age,
+    this.city,
+    this.job,
     this.bio,
   });
 
@@ -36,13 +44,17 @@ class User {
         surname = json['surname'],
         profilePicture = MemoryImage(base64Decode(json['profilePicture'])),
         email = json['email'],
-        password = json['password'],
-        confirmPassword = json['confirmPassword'],
+        //password = json['password'],
+        //confirmPassword = json['confirmPassword'],
         token = json['token'],
         rankingPoints =
             json['rankingPoints'] != null ? json['rankingPoints'] : 0,
         averageRatings =
             json['rankingPoints'] != null ? json['rankingPoints'] : 0,
+        gender = json['gender'],
+        age = json['age'],
+        city = json['city'],
+        job = json['job'],
         bio = json['bio'];
 
   Map<String, dynamic> toJson() => {
@@ -50,8 +62,6 @@ class User {
         'name': name,
         'surname': surname,
         'email': email,
-        'password': password,
-        'confirmPassword': confirmPassword,
         'token': token,
       };
 
