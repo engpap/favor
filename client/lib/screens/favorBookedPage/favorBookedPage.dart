@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/models/bookedFavor.dart';
 
-import 'package:project/models/post.dart';
 import 'package:project/screens/favorBookedPage/favorBookedPage_mobile.dart';
 import 'package:project/screens/favorBookedPage/favorBookedPage_tablet.dart';
 

@@ -1,14 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'package:project/errors/errorConstants.dart';
+
 import 'package:project/functions/responsive.dart';
 import 'package:project/functions/utilities.dart';
 import 'package:project/models/bookedFavor.dart';
 import 'package:project/models/callerPost.dart';
 import 'package:project/models/post.dart';
 import 'package:project/screens/components/customCard.dart';
-import 'package:project/screens/components/customField.dart';
 import 'package:project/screens/components/starsWidget.dart';
 import 'package:project/screens/favorBookedPage/favorBookedPage.dart';
 import 'package:project/screens/favorInformationPage/favorInformationPage.dart';

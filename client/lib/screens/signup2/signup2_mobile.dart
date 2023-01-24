@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/screens/components/customHeadingDesc.dart';
 import 'package:project/screens/signup2/signup2.dart';
-import 'package:project/functions/favorColors.dart' as favorColors;
 
 class SignUp2Screen_M extends StatelessWidget {
   const SignUp2Screen_M({super.key});

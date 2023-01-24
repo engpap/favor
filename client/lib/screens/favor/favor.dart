@@ -9,7 +9,6 @@ import 'package:project/screens/components/favor_PickerMenu.dart';
 import 'package:project/screens/home.dart';
 import 'package:project/screens/responsiveLayout.dart';
 import 'package:project/services/constantsService.dart';
-import 'package:project/services/postService.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'globals.dart' as globals;

@@ -23,9 +23,8 @@ class Introduction2Screen extends StatelessWidget {
         backgroundColor: favorColors.IntroBg,
         child: SafeArea(
           child: ResponsiveLeayout(
-            mobileBody: Introduction2Screen_M(),
-            //TODO do we need tablet?
-            tabletBody: Introduction2Screen_M(),
+            mobileBody: Introduction2Screen_M_T(),
+            tabletBody: Introduction2Screen_M_T(),
           ),
         )
       )
@@ -33,9 +32,9 @@ class Introduction2Screen extends StatelessWidget {
   }
 }
 
-
-class Introduction2Screen_M extends StatelessWidget {
-  const Introduction2Screen_M({super.key});
+//USED BOTH MOBILE AND TABLET
+class Introduction2Screen_M_T extends StatelessWidget {
+  const Introduction2Screen_M_T({super.key});
 
   @override
   Widget build(BuildContext context) {
