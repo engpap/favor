@@ -10,8 +10,6 @@ import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/functions/favorTime.dart' as favorTime;
 import 'package:project/services/postService.dart';
 
-import "package:googleapis_auth/auth_io.dart";
-
 class favorInformationPage_Screen_M extends StatelessWidget {
   favorInformationPage_Screen_M({
     super.key,

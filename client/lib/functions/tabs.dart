@@ -2,10 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:project/screens/account.dart';
 import 'package:project/screens/explore/explore.dart';
 import 'package:project/screens/favor/favor.dart';
-import 'package:project/screens/favor/favor2.dart'; //
 import 'package:project/screens/feed/feed.dart';
 import 'package:project/screens/leaderboard/leaderboard.dart';
-import 'package:project/functions/favorColors.dart' as favorColors;
 
 /// Enumeration of the Tabs present in the BottomNavigationBar
 enum TabsName { Home, Explore, Favor, Leaderboard, Account }

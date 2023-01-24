@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/screens/home.dart';
 import 'package:project/screens/responsiveLayout.dart';
-import 'package:project/screens/signin/signin.dart';
 import 'package:project/functions/favorColors.dart' as favorColors;
 
 import 'introduction-1.dart';
@@ -24,16 +23,15 @@ class Introduction3Screen extends StatelessWidget {
             backgroundColor: favorColors.IntroBg,
             child: SafeArea(
               child: ResponsiveLeayout(
-                mobileBody: Introduction3Screen_M(),
-                //TODO do we need tablet?
-                tabletBody: Introduction3Screen_M(),
+                mobileBody: Introduction3Screen_M_T(),
+                tabletBody: Introduction3Screen_M_T(),
               ),
             )));
   }
 }
 
-class Introduction3Screen_M extends StatelessWidget {
-  const Introduction3Screen_M({super.key});
+class Introduction3Screen_M_T extends StatelessWidget {
+  const Introduction3Screen_M_T({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +46,6 @@ class Introduction3Screen_M extends StatelessWidget {
               Navigator.pushReplacement(
                 context,
                 CupertinoPageRoute(builder: (context) => const HomeScreen()),
-
                 /// HomeScreen is pushed so the users can see how the app looks like and eventually sign up.
               );
             },

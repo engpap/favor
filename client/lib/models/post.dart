@@ -1,8 +1,4 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
-import 'package:project/models/callerPost.dart';
-import 'package:project/services/postService.dart';
 
 abstract class Post {
   final String? id;

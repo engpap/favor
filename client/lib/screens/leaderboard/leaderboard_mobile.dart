@@ -5,7 +5,6 @@ import 'package:project/functions/responsive.dart';
 import 'package:project/functions/utilities.dart';
 import 'package:project/models/favorConstants.dart';
 import 'package:project/models/leaderboard.dart';
-import 'package:project/screens/favor/favor.dart';
 import 'package:project/screens/leaderboard/leaderboard.dart';
 import 'package:project/services/constantsService.dart';
 import 'package:project/services/leaderboardService.dart';
