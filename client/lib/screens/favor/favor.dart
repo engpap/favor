@@ -32,7 +32,6 @@ class FavorScreen extends StatelessWidget {
             backgroundColor: favorColors.IntroBg,
             child: SafeArea(
               child: ResponsiveLeayout(
-                //mobileBody: Favor2_Screen_M(),
                 mobileBody: FavorScreen_M(),
                 //TODO do we need tablet?
                 tabletBody: FavorScreen_M(),
@@ -287,15 +286,15 @@ class _Favor_publishFavorButtonState extends State<Favor_publishFavorButton> {
                       context: context,
                       taskCategory: globals.categoryTextController.text,
                       location: globals.locationTextController.text,
-                      availabilityStartTime: DateTime.now(), //TODO: change
-                      availabilityEndTime: DateTime.now(), //TODO: change
+                      availabilityStartTime: favorTime.formatter.parse(globals.availabilityStartTimeTextController.text),
+                      availabilityEndTime: favorTime.formatter.parse(globals.availabilityEndTimeTextController.text),
                       description: globals.boxDescriptionTextController.text,
                     )
                   : globals.postService.publishCallerFavor(
                       context: context,
                       taskCategory: globals.categoryTextController.text,
                       location: globals.locationTextController.text,
-                      favorStartTime: DateTime.now(), //TODO: change
+                      favorStartTime: favorTime.formatter.parse(globals.favorStartTimeTextController.text),
                       description: globals.boxDescriptionTextController.text,
                     ),
               builder: (context, snapshot) {
