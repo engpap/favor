@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:project/functions/responsive.dart';
-
-import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/screens/signup/signup.dart';
+import 'package:project/functions/favorColors.dart' as favorColors;
+import 'package:project/screens/signup2/signup2.dart';
 
 class SignUpScreen_M extends StatelessWidget {
   const SignUpScreen_M({super.key});
@@ -13,48 +13,23 @@ class SignUpScreen_M extends StatelessWidget {
       padding: EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16),
       child: Center(
         child: SingleChildScrollView(
-          reverse: true,
+          reverse: false,
           child: ConstrainedBox(
             constraints: BoxConstraints(
               maxWidth: Responsive.fixedWidth(),
             ),
             child: Column(
               children: [
-                /// PAGE TITLE
-                Container(
-                  width: Responsive.width(100, context), 
-                  margin: EdgeInsets.only(right: 9, left: 9),
-                  child: Text(
-                    "Create Account",
-                    style: TextStyle(
-                      color: favorColors.PrimaryBlue,
-                      fontSize: 37,
-                      fontWeight: FontWeight.bold),
-                  ),
+                // HEADING +  DESCRIPTION
+                customHeadingDesc(
+                  heading: "Create Account", 
+                  description: "Please fill all informations below."
                 ),
-                /// DESCRIPTION
-                Container(
-                  width: Responsive.width(100, context),
-                  margin: EdgeInsets.only(
-                    top: Responsive.height(1, context),
-                    bottom: Responsive.height(3, context),
-                    right: 9,
-                    left: 9),
-                  child: Text(
-                    "Please fill all informations below.",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      color: favorColors.PrimaryBlue,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
-                  ),
-                ),
-
+                // FORM
                 Form_SignUp(),
-                Divider(height: Responsive.height(7, context), color: Colors.transparent,),
+                Divider(height: Responsive.height(2, context), color: Colors.transparent,),
                 SignUp_registerButton(),
                 Divider(height: Responsive.height(2, context), color: Colors.transparent,),
-
                 Text(
                   "Have an account?",
                   style: TextStyle(
@@ -62,7 +37,6 @@ class SignUpScreen_M extends StatelessWidget {
                     fontSize: 16),
                 ),
                 Divider(height: Responsive.height(1, context), color: Colors.transparent,),
-
                 SignUp_loginButton(),
               ]),
           ),
