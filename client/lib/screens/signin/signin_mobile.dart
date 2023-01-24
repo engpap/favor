@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:project/functions/responsive.dart';
-
-import 'package:project/functions/favorColors.dart' as favorColors;
+import 'package:project/screens/components/customHeadingDesc.dart';
 import 'package:project/screens/signin/signin.dart';
+import 'package:project/functions/favorColors.dart' as favorColors;
 
 class SignInScreen_M extends StatelessWidget {
   const SignInScreen_M({super.key});
@@ -13,77 +13,41 @@ class SignInScreen_M extends StatelessWidget {
       padding: EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16),
       child: Center(
         child: SingleChildScrollView(
-          reverse: true,
+          reverse: false,
           child: ConstrainedBox(
             constraints: BoxConstraints(
               maxWidth: Responsive.fixedWidth(),
             ),
             child: Column(children: [
-              /// PAGE TITLE
-              Container(
-                width: Responsive.width(100, context),
-                margin: EdgeInsets.only(right: 9, left: 9),
-                child: Text(
-                  "Welcome to Favor",
-                  style: TextStyle(
-                      color: favorColors.PrimaryBlue,
-                      fontSize: 37,
-                      fontWeight: FontWeight.bold),
+              // HEADING +  DESCRIPTION
+                customHeadingDesc(
+                  heading: "Welcome to Favor", 
+                  description: "Please enter your registration email and password."
                 ),
-              ),
-
-              /// DESCRIPTION
-              Container(
-                width: Responsive.width(100, context),
-                margin: EdgeInsets.only(
-                    top: Responsive.height(1, context),
-                    bottom: Responsive.height(3, context),
-                    right: 9,
-                    left: 9),
-                child: Text(
-                  textAlign: TextAlign.left,
-                  "Please enter your registration email and password.",
-                  style: TextStyle(
-                      color: favorColors.PrimaryBlue,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-
-              SignIn_form(),
-
+              // FORM
+              Form_SignIn(),
+              // BUTTON - continue
               Divider(
                 height: Responsive.height(2, context),
                 color: Colors.transparent,
               ),
-
               SignIn_loginButton(),
-
-              Divider(
-                height: Responsive.height(1, context),
-                color: Colors.transparent,
-              ),
-
+              // OR BUTTON - google
               Text(
                 "or",
-                style: TextStyle(color: Colors.black, fontSize: 16),
+                style: TextStyle(color: favorColors.PrimaryBlue, fontSize: 16),
               ),
-
               SignIn_googleButton(),
-
+              // OR BUTTON - register
               Divider(
                 height: Responsive.height(7, context),
                 color: Colors.transparent,
               ),
               Text(
                 "Not a member yet?",
-                style: TextStyle(color: Colors.black, fontSize: 16),
+                style: TextStyle(color: favorColors.PrimaryBlue, fontSize: 16),
               ),
-              Divider(
-                height: Responsive.height(2, context),
-                color: Colors.transparent,
-              ),
-
+              // BUTTON
               SignIn_signUpButton(),
             ]),
           ),

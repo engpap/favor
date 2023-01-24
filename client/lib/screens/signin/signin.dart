@@ -1,18 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project/errors/errorConstants.dart';
 import 'package:project/functions/responsive.dart';
-import 'package:project/screens/components/customField.dart';
+import 'package:project/functions/stringExtensions.dart';
+import 'package:project/screens/components/customCard.dart';
+import 'package:project/screens/components/customFieldMat.dart';
 import 'package:project/screens/home.dart';
-import 'package:project/errors/error.dart';
-
 import 'package:project/screens/signin/signin_mobile.dart';
 import 'package:project/screens/signin/signin_tablet.dart';
-
 import 'package:project/screens/responsiveLayout.dart';
+import 'package:project/screens/signup/signup.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
-import 'package:project/screens/signup/signup.dart';
 import 'globals.dart' as globals;
 
 class SignInScreen extends StatelessWidget {
@@ -21,70 +19,102 @@ class SignInScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () {
-          FocusScopeNode currentFocus = FocusScope.of(context);
-          if (!currentFocus.hasPrimaryFocus) {
-            currentFocus.unfocus();
-          }
-        },
-        child: Container(
-          //BCKGROUND GRADIENT IMAGE
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-            image: AssetImage("assets/images/bg_blue_gradient.jpg"),
-            fit: BoxFit.cover,
-            opacity: 1,
-            colorFilter: const ColorFilter.mode(
-              Colors.grey,
-              BlendMode.softLight,
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: Container(
+        //BACKGROUND GRADIENT IMAGE
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+          image: AssetImage("assets/images/bg_blue_gradient.jpg"),
+          fit: BoxFit.cover,
+          opacity: 1,
+          colorFilter: const ColorFilter.mode(
+            Colors.grey,
+            BlendMode.softLight,
+          ),
+        )),
+        //PAGE
+        child: CupertinoPageScaffold(
+          // .withAlpha(180) is used to add transparency, in order to see the bg-image
+          backgroundColor: favorColors.IntroBg.withAlpha(180),
+          child: SafeArea(
+            child: ResponsiveLeayout(
+              mobileBody: SignInScreen_M(),
+              tabletBody: SignInScreen_T(),
             ),
-          )),
-
-          child: CupertinoPageScaffold(
-              // .withAlpha(180) is used to add transparency, in order to see the bg-image
-              backgroundColor: favorColors.IntroBg.withAlpha(180),
-              child: SafeArea(
-                child: ResponsiveLeayout(
-                  mobileBody: SignInScreen_M(),
-                  tabletBody: SignInScreen_T(),
-                ),
-              )),
-        ));
+          ))));
   }
 }
 
-/// COLUMN of 2 customField:
-/// Email, Password
-class SignIn_form extends StatelessWidget {
-  const SignIn_form({super.key});
+/// SIGNIN FORM
+class Form_SignIn extends StatefulWidget {
+  const Form_SignIn({super.key});
+
+  @override
+  State<Form_SignIn> createState() => _Form_SignInState();
+}
+
+class _Form_SignInState extends State<Form_SignIn> {
+  final formKey_signin = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(
-        children: [
-          /// EMAIL
-          CustomField(
-            prefixIcon: CupertinoIcons.mail_solid,
-            placeholder: globals.PlaceholderEmail,
-            textController: globals.textControllerEmail,
-            status: globals.StatusEmail,
-            textInputType: TextInputType.emailAddress,
+      child: Material(
+        color: Colors.transparent,
+        child: Form(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          key: formKey_signin,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              /// EMAIL
+              CustomCard(
+                padding: EdgeInsets.zero,
+                margin: EdgeInsets.zero,
+                child: CustomFieldMat(
+                  prefixIcon: CupertinoIcons.mail_solid,
+                  labelText: globals.LabelEmail,
+                  textEditingController: globals.textControllerEmail,
+                  textInputType: TextInputType.emailAddress,
+                  customValidator: (value) {                             
+                    if (value!.length < 1 || !value.isValidEmail()) 
+                      {return LabelSpace().whiteSpace()+"This mail is not valid";}
+                    if (value.length > 50) 
+                      {return LabelSpace().whiteSpace()+"This is too long";}   
+                    else {return null;}
+                  },
+                  isSuffixClear: true,
+                ),
+              ),
+              SizedBox(height: 10,),
+              /// PASSWORD
+              CustomCard(
+                padding: EdgeInsets.zero,
+                margin: EdgeInsets.zero,
+                child: CustomFieldMat(
+                  prefixIcon: CupertinoIcons.lock_circle_fill,
+                  labelText: globals.LabelPassword,
+                  textEditingController: globals.textControllerPassword,
+                  obcureText: true,
+                  customValidator: (value) {                             
+                    if (value!.length < 1 || !value.isValidPassword()) 
+                      {return LabelSpace().whiteSpace()+"This password is not valid.";}
+                    if (value.length > 50) 
+                      {return LabelSpace().whiteSpace()+"max 50 chars";}   
+                    else {return null;}
+                  },
+                  isSuffixClear: true,
+                ),
+              ),
+              SizedBox(height: 10,),
+            ],
           ),
-          Divider(
-            height: 5,
-            color: Colors.transparent,
-          ),
-
-          /// PASSWORD
-          CustomField(
-            prefixIcon: CupertinoIcons.lock_circle_fill,
-            placeholder: globals.PlaceholderPassword,
-            textController: globals.textControllerPassword,
-            status: globals.StatusPassword,
-            obcureText: true,
-          ),
-        ],
+        )
       ),
     );
   }
@@ -141,7 +171,7 @@ class SignIn_loginButton extends StatelessWidget {
   }
 }
 
-/// BUTTON google login
+/// BUTTON - google
 class SignIn_googleButton extends StatelessWidget {
   const SignIn_googleButton({super.key});
 
@@ -162,11 +192,9 @@ class SignIn_googleButton extends StatelessWidget {
       child: SizedBox(
         width: Responsive.width(65, context),
         child: CupertinoButton(
-          //color: Colors.deepOrangeAccent,
           padding: EdgeInsets.zero,
           child: Image(
-            image: AssetImage(
-                "assets/images/google/btn_google_signin_light_normal_web@2x.png"),
+            image: AssetImage("assets/images/google/btn_google_signin_light_normal_web@2x.png"),
           ),
           onPressed: () {
             // Console log

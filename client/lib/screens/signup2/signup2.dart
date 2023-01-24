@@ -6,13 +6,12 @@ import 'package:project/models/profileConstants.dart';
 import 'package:project/screens/components/customFieldMat.dart';
 import 'package:project/screens/components/customCard.dart';
 import 'package:project/screens/responsiveLayout.dart';
-
-import 'globals.dart' as globals;
-import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/screens/signup2/signup2_mobile.dart';
+import 'package:project/screens/signup2/signup2_tablet.dart';
 import 'package:project/services/constantsService.dart';
 
-import 'signup2_tablet.dart';
+import 'package:project/functions/favorColors.dart' as favorColors;
+import 'globals.dart' as globals;
 
 class SignUp2Screen extends StatelessWidget {
   const SignUp2Screen({super.key});
@@ -20,37 +19,39 @@ class SignUp2Screen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () {
-          FocusScopeNode currentFocus = FocusScope.of(context);
-          if (!currentFocus.hasPrimaryFocus) {
-            currentFocus.unfocus();
-          }
-        },
-        child: Container(
-            //BACKGROUND GRADIENT IMAGE
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-              image: AssetImage("assets/images/bg_blue_gradient.jpg"),
-              fit: BoxFit.cover,
-              opacity: 1,
-              colorFilter: const ColorFilter.mode(
-                Colors.grey,
-                BlendMode.softLight,
-              ),
-            )),
-            child: CupertinoPageScaffold(
-                // .withAlpha(180) is used to add transparency, in order to see the bg-image
-                backgroundColor: favorColors.IntroBg.withAlpha(180),
-                child: SafeArea(
-                  child: ResponsiveLeayout(
-                    mobileBody: SignUp2Screen_M(),
-                    tabletBody: SignUp2Screen_T(),
-                  ),
-                ))));
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: Container(
+        //BACKGROUND GRADIENT IMAGE
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+          image: AssetImage("assets/images/bg_blue_gradient.jpg"),
+          fit: BoxFit.cover,
+          opacity: 1,
+          colorFilter: const ColorFilter.mode(
+            Colors.grey,
+            BlendMode.softLight,
+          ),
+        )),
+        //PAGE
+        child: CupertinoPageScaffold(
+          // .withAlpha(180) is used to add transparency, in order to see the bg-image
+          backgroundColor: favorColors.IntroBg.withAlpha(180),
+          child: SafeArea(
+            child: ResponsiveLeayout(
+              mobileBody: SignUp2Screen_M(),
+              tabletBody: SignUp2Screen_T(),
+            ),
+          ))));
   }
 }
 
 /// SIGNUP2 FORM
+/// Age, Gender, Residence, Job, Bio
 class Form_SignUp2 extends StatefulWidget {
   const Form_SignUp2({super.key});
 
@@ -74,7 +75,7 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
       child: Material(
           color: Colors.transparent,
           child: Form(
-            autovalidateMode: AutovalidateMode.always,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             key: formKey_signup2,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -89,7 +90,7 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
                           margin: EdgeInsets.zero,
                           child: CustomFieldMat(
                             prefixIcon: CupertinoIcons.profile_circled,
-                            labelText: "Your Age",
+                            labelText: globals.LabelAge,
                             textEditingController: globals.ageContoller,
                             readOnly: true,
                             customValidator: (value) {
@@ -124,7 +125,7 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
                           margin: EdgeInsets.zero,
                           child: CustomFieldMat(
                             prefixIcon: CupertinoIcons.profile_circled,
-                            labelText: "Your gender",
+                            labelText: globals.LabelGender,
                             textEditingController: globals.genderContoller,
                             readOnly: true,
                             customValidator: (value) {
@@ -132,9 +133,9 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
                                 return LabelSpace().whiteSpace() +
                                     "Select a gender from the picker.";
                               /**
-                            if (!value!.isValidGender()) 
-                              {return LabelSpace().whiteSpace()+"Just insert letter F or M";}
-                             */
+                              if (!value!.isValidGender()) 
+                                {return LabelSpace().whiteSpace()+"Just insert letter F or M";}
+                              */
                               else {
                                 return null;
                               }
@@ -163,7 +164,7 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
                           margin: EdgeInsets.zero,
                           child: CustomFieldMat(
                             prefixIcon: CupertinoIcons.profile_circled,
-                            labelText: "Your residence",
+                            labelText: globals.LabelResidence,
                             textEditingController: globals.residenceContoller,
                             readOnly: true,
                             customValidator: (value) {
@@ -171,11 +172,11 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
                                 return LabelSpace().whiteSpace() +
                                     "Select a city from the picker.";
                               /**
-                            if (value!.length < 1 || !value.isValidResidence()) 
-                              {return LabelSpace().whiteSpace()+"You can't insert special characters";}
-                            if (value.length > 50) 
-                              {return LabelSpace().whiteSpace()+"max 50 chars";}
-                            */
+                              if (value!.length < 1 || !value.isValidResidence()) 
+                                {return LabelSpace().whiteSpace()+"You can't insert special characters";}
+                              if (value.length > 50) 
+                                {return LabelSpace().whiteSpace()+"max 50 chars";}
+                              */
                               else {
                                 return null;
                               }
@@ -204,7 +205,7 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
                           margin: EdgeInsets.zero,
                           child: CustomFieldMat(
                             prefixIcon: CupertinoIcons.profile_circled,
-                            labelText: "Your job",
+                            labelText: globals.LabelJob,
                             textEditingController: globals.jobContoller,
                             readOnly: true,
                             customValidator: (value) {
@@ -212,11 +213,11 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
                                 return LabelSpace().whiteSpace() +
                                     "Select your from the picker.";
                               /*
-                            if (value!.length < 1 || !value.isValidJob()) 
-                              {return LabelSpace().whiteSpace()+"You can't insert number or special characters";}
-                            if (value.length > 50) 
-                              {return LabelSpace().whiteSpace()+"max 50 chars";}
-                             */
+                              if (value!.length < 1 || !value.isValidJob()) 
+                                {return LabelSpace().whiteSpace()+"You can't insert number or special characters";}
+                              if (value.length > 50) 
+                                {return LabelSpace().whiteSpace()+"max 50 chars";}
+                              */
                               else {
                                 return null;
                               }
@@ -241,7 +242,7 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
                   margin: EdgeInsets.zero,
                   child: CustomFieldMat(
                     prefixIcon: CupertinoIcons.profile_circled,
-                    labelText: "Your Bio",
+                    labelText: globals.LabelBio,
                     textEditingController: globals.bioContoller,
                     textInputAction: TextInputAction.done,
                     customValidator: (value) {
@@ -265,58 +266,7 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
   }
 }
 
-class customHeadingDesc extends StatelessWidget {
-  customHeadingDesc({
-    super.key,
-    required this.heading,
-    required this.description,
-  });
-
-  String heading;
-  String description;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        /// PAGE TITLE
-        Container(
-          width: Responsive.width(100, context),
-          margin: EdgeInsets.only(right: 9, left: 9),
-          child: Text(
-            heading,
-            style: TextStyle(
-                color: favorColors.PrimaryBlue,
-                fontSize: 37,
-                fontWeight: FontWeight.bold),
-          ),
-        ),
-
-        /// DESCRIPTION
-        Container(
-          width: Responsive.width(100, context),
-          margin: EdgeInsets.only(
-              top: Responsive.height(1, context),
-              bottom: Responsive.height(3, context),
-              right: 9,
-              left: 9),
-          child: Text(
-            description,
-            textAlign: TextAlign.left,
-            style: TextStyle(
-                color: favorColors.PrimaryBlue,
-                fontSize: 18,
-                fontWeight: FontWeight.bold),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
 /// BUTTON register.
-/// checks information validity both client and server sides.
-/// if all good push HomeScreen()
 class RegisterButton_SignUp2 extends StatelessWidget {
   const RegisterButton_SignUp2({super.key});
 

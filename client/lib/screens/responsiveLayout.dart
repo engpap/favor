@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 class ResponsiveLeayout extends StatelessWidget {
   // screen max width for a mobile app
-  final int mobileMaxWidth = 600;
+  final int mobileMaxWidth = 780; //600
 
   final Widget mobileBody;
   final Widget tabletBody;
@@ -27,3 +27,21 @@ class ResponsiveLeayout extends StatelessWidget {
     );
   }
 }
+
+/**
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16),
+      child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [  
+
+              ],
+            ),
+          ),
+      ),
+    );
+  }
+ */
