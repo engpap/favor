@@ -157,3 +157,15 @@ export const getProfileConstants = async (request, response) => {
         response.status(404).json({ message: error.message });
     }
 }
+
+export const getMyUserProfile = async (request, response) => {
+    try{
+        // Select everything except the password
+        const user = await User.findById(request.userId).select("-password");
+        console.log(">>> getMyUserProfile: this is the data sent to client -> "+user)
+        return response.status(200).json({...user._doc});
+    }catch(error){
+        response.status(404).json({ message: error.message });
+    }
+
+}
