@@ -118,8 +118,8 @@ class FavorWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: AssetImage("assets/images/chris.jpg"),
-                    //image: post!.profilePicture!.image,
+                    //image: AssetImage("assets/images/chris.jpg"),
+                    image: post!.profilePicture!.image,
                     fit: BoxFit.cover,
                   ),
                   border: Border.all(
