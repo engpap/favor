@@ -19,14 +19,14 @@ class ProfileConstants {
         _cities = cities,
         _jobs = jobs;
 
-  ProfileConstants.fromMap(String json) //TODO: CHANGE NAME, ITS NOT MAP
+  ProfileConstants.fromJsonString(String json)
       : _genders = convertJsonToTextList(json, 'GENDERS'),
         _ages = convertJsonToTextList(json, 'AGES'),
         _cities = convertJsonToTextList(json, 'CITIES'),
         _jobs = convertJsonToTextList(json, 'JOBS');
 
   factory ProfileConstants.fromJson(String source) =>
-      ProfileConstants.fromMap(source);
+      ProfileConstants.fromJsonString(source);
 
   List<Text> get genders => _genders;
   List<Text> get ages => _ages;
