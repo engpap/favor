@@ -139,13 +139,12 @@ class UserMode_inherited extends InheritedWidget {
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-    Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return ResponsiveLeayout(
       mobileBody: buildHome(context),
       tabletBody: buildHome(context),
     );
   }
-
 
   @override
   Widget buildHome(BuildContext context) {
@@ -153,6 +152,7 @@ class HomeScreen extends StatelessWidget {
       key: UniqueKey(),
       child: CupertinoTabScaffold(
           tabBar: CupertinoTabBar(
+            key: Key("cupertino_tab_bar"),
             activeColor: favorColors.PrimaryBlue,
             items: [
               // HOME

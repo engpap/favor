@@ -19,34 +19,34 @@ class SignInScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        FocusScopeNode currentFocus = FocusScope.of(context);
-        if (!currentFocus.hasPrimaryFocus) {
-          currentFocus.unfocus();
-        }
-      },
-      child: Container(
-        //BACKGROUND GRADIENT IMAGE
-        decoration: const BoxDecoration(
-            image: DecorationImage(
-          image: AssetImage("assets/images/bg_blue_gradient.jpg"),
-          fit: BoxFit.cover,
-          opacity: 1,
-          colorFilter: const ColorFilter.mode(
-            Colors.grey,
-            BlendMode.softLight,
-          ),
-        )),
-        //PAGE
-        child: CupertinoPageScaffold(
-          // .withAlpha(180) is used to add transparency, in order to see the bg-image
-          backgroundColor: favorColors.IntroBg.withAlpha(180),
-          child: SafeArea(
-            child: ResponsiveLeayout(
-              mobileBody: SignInScreen_M(),
-              tabletBody: SignInScreen_T(),
-            ),
-          ))));
+        onTap: () {
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          if (!currentFocus.hasPrimaryFocus) {
+            currentFocus.unfocus();
+          }
+        },
+        child: Container(
+            //BACKGROUND GRADIENT IMAGE
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+              image: AssetImage("assets/images/bg_blue_gradient.jpg"),
+              fit: BoxFit.cover,
+              opacity: 1,
+              colorFilter: const ColorFilter.mode(
+                Colors.grey,
+                BlendMode.softLight,
+              ),
+            )),
+            //PAGE
+            child: CupertinoPageScaffold(
+                // .withAlpha(180) is used to add transparency, in order to see the bg-image
+                backgroundColor: favorColors.IntroBg.withAlpha(180),
+                child: SafeArea(
+                  child: ResponsiveLeayout(
+                    mobileBody: SignInScreen_M(),
+                    tabletBody: SignInScreen_T(),
+                  ),
+                ))));
   }
 }
 
@@ -64,65 +64,78 @@ class _Form_SignInState extends State<Form_SignIn> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      key: Key("form_sign_in_container"),
       child: Material(
-        color: Colors.transparent,
-        child: Form(
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          key: formKey_signin,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              /// EMAIL
-              CustomCard(
-                padding: EdgeInsets.zero,
-                margin: EdgeInsets.zero,
-                child: CustomFieldMat(
-                  prefixIcon: CupertinoIcons.mail_solid,
-                  labelText: globals.LabelEmail,
-                  textEditingController: globals.textControllerEmail,
-                  textInputType: TextInputType.emailAddress,
-                  customValidator: (value) {                             
-                    if (value!.length < 1 || !value.isValidEmail()) 
-                      {return LabelSpace().whiteSpace()+"This mail is not valid";}
-                    if (value.length > 50) 
-                      {return LabelSpace().whiteSpace()+"This is too long";}   
-                    else {return null;}
-                  },
-                  isSuffixClear: true,
+          color: Colors.transparent,
+          child: Form(
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            key: formKey_signin,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                /// EMAIL
+                CustomCard(
+                  padding: EdgeInsets.zero,
+                  margin: EdgeInsets.zero,
+                  child: CustomFieldMat(
+                    prefixIcon: CupertinoIcons.mail_solid,
+                    labelText: globals.LabelEmail,
+                    textEditingController: globals.textControllerEmail,
+                    textInputType: TextInputType.emailAddress,
+                    customValidator: (value) {
+                      if (value!.length < 1 || !value.isValidEmail()) {
+                        return LabelSpace().whiteSpace() +
+                            "This mail is not valid";
+                      }
+                      if (value.length > 50) {
+                        return LabelSpace().whiteSpace() + "This is too long";
+                      } else {
+                        return null;
+                      }
+                    },
+                    isSuffixClear: true,
+                  ),
                 ),
-              ),
-              SizedBox(height: 10,),
-              /// PASSWORD
-              CustomCard(
-                padding: EdgeInsets.zero,
-                margin: EdgeInsets.zero,
-                child: CustomFieldMat(
-                  prefixIcon: CupertinoIcons.lock_circle_fill,
-                  labelText: globals.LabelPassword,
-                  textEditingController: globals.textControllerPassword,
-                  obcureText: true,
-                  customValidator: (value) {                             
-                    if (value!.length < 1 || !value.isValidPassword()) 
-                      {return LabelSpace().whiteSpace()+"This password is not valid.";}
-                    if (value.length > 50) 
-                      {return LabelSpace().whiteSpace()+"max 50 chars";}   
-                    else {return null;}
-                  },
-                  isSuffixClear: true,
+                SizedBox(
+                  height: 10,
                 ),
-              ),
-              SizedBox(height: 10,),
-            ],
-          ),
-        )
-      ),
+
+                /// PASSWORD
+                CustomCard(
+                  padding: EdgeInsets.zero,
+                  margin: EdgeInsets.zero,
+                  child: CustomFieldMat(
+                    prefixIcon: CupertinoIcons.lock_circle_fill,
+                    labelText: globals.LabelPassword,
+                    textEditingController: globals.textControllerPassword,
+                    obcureText: true,
+                    customValidator: (value) {
+                      if (value!.length < 1 || !value.isValidPassword()) {
+                        return LabelSpace().whiteSpace() +
+                            "This password is not valid.";
+                      }
+                      if (value.length > 50) {
+                        return LabelSpace().whiteSpace() + "max 50 chars";
+                      } else {
+                        return null;
+                      }
+                    },
+                    isSuffixClear: true,
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+              ],
+            ),
+          )),
     );
   }
 }
 
 /// SIGNIN BUTTON
 class SignIn_loginButton extends StatelessWidget {
-  const SignIn_loginButton({super.key});
+  const SignIn_loginButton({key: const Key('SignIn_loginButton')});
 
   @override
   Widget build(BuildContext context) {
@@ -194,7 +207,8 @@ class SignIn_googleButton extends StatelessWidget {
         child: CupertinoButton(
           padding: EdgeInsets.zero,
           child: Image(
-            image: AssetImage("assets/images/google/btn_google_signin_light_normal_web@2x.png"),
+            image: AssetImage(
+                "assets/images/google/btn_google_signin_light_normal_web@2x.png"),
           ),
           onPressed: () {
             // Console log
