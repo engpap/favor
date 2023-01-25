@@ -165,18 +165,6 @@ class SignIn_loginButton extends StatelessWidget {
                 context: context,
                 email: globals.textControllerEmail.text,
                 password: globals.textControllerPassword.text);
-            // when you recive server response run:
-            //TODO: check conditions in signinResponse
-            /*signinResponse.then((value) {
-              if (value.type == ErrorConstants.NO_ERROR) {
-                Navigator.pushReplacement(
-                  context,
-                  CupertinoPageRoute(builder: (context) => const HomeScreen()),
-                );
-              } else {
-                print('IsFieldsValid = FALSE!');
-              }
-            );*/
           },
         ),
       ),

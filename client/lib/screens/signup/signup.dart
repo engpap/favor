@@ -18,37 +18,36 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        FocusScopeNode currentFocus = FocusScope.of(context);
-        if (!currentFocus.hasPrimaryFocus) {
-          currentFocus.unfocus();
-        }
-      },
-      child: Container(
-        //BACKGROUND GRADIENT IMAGE
-        decoration: const BoxDecoration(
-            image: DecorationImage(
-          image: AssetImage("assets/images/bg_blue_gradient.jpg"),
-          fit: BoxFit.cover,
-          opacity: 1,
-          colorFilter: const ColorFilter.mode(
-            Colors.grey,
-            BlendMode.softLight,
-          ),
-        )),
-        //PAGE
-        child: CupertinoPageScaffold(
-          // .withAlpha(180) is used to add transparency, in order to see the bg-image
-          backgroundColor: favorColors.IntroBg.withAlpha(180),
-          child: SafeArea(
-            child: ResponsiveLeayout(
-              mobileBody: SignUpScreen_M(),
-              tabletBody: SignUpScreen_T(),
-            ),
-          ))));
+        onTap: () {
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          if (!currentFocus.hasPrimaryFocus) {
+            currentFocus.unfocus();
+          }
+        },
+        child: Container(
+            //BACKGROUND GRADIENT IMAGE
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+              image: AssetImage("assets/images/bg_blue_gradient.jpg"),
+              fit: BoxFit.cover,
+              opacity: 1,
+              colorFilter: const ColorFilter.mode(
+                Colors.grey,
+                BlendMode.softLight,
+              ),
+            )),
+            //PAGE
+            child: CupertinoPageScaffold(
+                // .withAlpha(180) is used to add transparency, in order to see the bg-image
+                backgroundColor: favorColors.IntroBg.withAlpha(180),
+                child: SafeArea(
+                  child: ResponsiveLeayout(
+                    mobileBody: SignUpScreen_M(),
+                    tabletBody: SignUpScreen_T(),
+                  ),
+                ))));
   }
 }
-
 
 /// SIGNUP FORM
 /// Name, Surname, Email, Password, PasswordConfirm
@@ -66,117 +65,151 @@ class _Form_SignUpState extends State<Form_SignUp> {
   Widget build(BuildContext context) {
     return Container(
       child: Material(
-        color: Colors.transparent,
-        child: Form(
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          key: formKey_signup,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              /// NAME
-              CustomCard(
-                padding: EdgeInsets.zero,
-                margin: EdgeInsets.zero,
-                child: CustomFieldMat(
-                  prefixIcon: CupertinoIcons.profile_circled,
-                  labelText: globals.LabelName,
-                  textEditingController: globals.textControllerName, 
-                  customValidator: (value) {                             
-                    if (value!.length < 1 || !value.isValidName()) 
-                      {return LabelSpace().whiteSpace()+"You can't insert number or special characters";}
-                    if (value.length > 50) 
-                      {return LabelSpace().whiteSpace()+"max 50 chars";}   
-                    else {return null;}
-                  },
-                  isSuffixClear: true,
+          color: Colors.transparent,
+          child: Form(
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            key: formKey_signup,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                /// NAME
+                CustomCard(
+                  padding: EdgeInsets.zero,
+                  margin: EdgeInsets.zero,
+                  child: CustomFieldMat(
+                    prefixIcon: CupertinoIcons.profile_circled,
+                    labelText: globals.LabelName,
+                    textEditingController: globals.textControllerName,
+                    customValidator: (value) {
+                      if (value!.length < 1 || !value.isValidName()) {
+                        return LabelSpace().whiteSpace() +
+                            "You can't insert number or special characters";
+                      }
+                      if (value.length > 50) {
+                        return LabelSpace().whiteSpace() + "max 50 chars";
+                      } else {
+                        return null;
+                      }
+                    },
+                    isSuffixClear: true,
+                  ),
                 ),
-              ),
-              SizedBox(height: 10,),
-              /// SURNAME
-              CustomCard(
-                padding: EdgeInsets.zero,
-                margin: EdgeInsets.zero,
-                child: CustomFieldMat(
-                  prefixIcon: CupertinoIcons.profile_circled,
-                  labelText: globals.LabelSurname,
-                  textEditingController: globals.textControllerSurname,
-                  customValidator: (value) {                             
-                    if (value!.length < 1 || !value.isValidName()) 
-                      {return LabelSpace().whiteSpace()+"You can't insert number or special characters";}
-                    if (value.length > 50) 
-                      {return LabelSpace().whiteSpace()+"max 50 chars";}   
-                    else {return null;}
-                  },
-                  isSuffixClear: true,
+                SizedBox(
+                  height: 10,
                 ),
-              ),
-              SizedBox(height: 10,),
-              /// EMAIL
-              CustomCard(
-                padding: EdgeInsets.zero,
-                margin: EdgeInsets.zero,
-                child: CustomFieldMat(
-                  prefixIcon: CupertinoIcons.mail_solid,
-                  labelText: globals.LabelEmail,
-                  textEditingController: globals.textControllerEmail,
-                  textInputType: TextInputType.emailAddress,
-                  customValidator: (value) {                             
-                    if (value!.length < 1 || !value.isValidEmail()) 
-                      {return LabelSpace().whiteSpace()+"You can't insert number or special characters";}
-                    if (value.length > 50) 
-                      {return LabelSpace().whiteSpace()+"max 50 chars";}   
-                    else {return null;}
-                  },
-                  isSuffixClear: true,
+
+                /// SURNAME
+                CustomCard(
+                  padding: EdgeInsets.zero,
+                  margin: EdgeInsets.zero,
+                  child: CustomFieldMat(
+                    prefixIcon: CupertinoIcons.profile_circled,
+                    labelText: globals.LabelSurname,
+                    textEditingController: globals.textControllerSurname,
+                    customValidator: (value) {
+                      if (value!.length < 1 || !value.isValidName()) {
+                        return LabelSpace().whiteSpace() +
+                            "You can't insert number or special characters";
+                      }
+                      if (value.length > 50) {
+                        return LabelSpace().whiteSpace() + "max 50 chars";
+                      } else {
+                        return null;
+                      }
+                    },
+                    isSuffixClear: true,
+                  ),
                 ),
-              ),
-              SizedBox(height: 10,),
-              /// PASSWORD
-              CustomCard(
-                padding: EdgeInsets.zero,
-                margin: EdgeInsets.zero,
-                child: CustomFieldMat(
-                  prefixIcon: CupertinoIcons.lock_circle_fill,
-                  labelText: globals.LabelPassword,
-                  textEditingController: globals.textControllerPassword,
-                  obcureText: true,
-                  customValidator: (value) {                             
-                    if (value!.length < 1 || !value.isValidPassword()) 
-                      {return LabelSpace().whiteSpace()+"at least 8 characters long and contains at least one uppercase letter, one lowercase letter, and one digit";}
-                    if (value.length > 50) 
-                      {return LabelSpace().whiteSpace()+"max 50 chars";}   
-                    else {return null;}
-                  },
-                  isSuffixClear: true,
+                SizedBox(
+                  height: 10,
                 ),
-              ),
-              SizedBox(height: 10,),
-              /// PASSWORD2
-              CustomCard(
-                padding: EdgeInsets.zero,
-                margin: EdgeInsets.zero,
-                child: CustomFieldMat(
-                  prefixIcon: CupertinoIcons.lock_circle_fill,
-                  labelText: globals.LabelPasswordConfirm,
-                  textEditingController: globals.textControllerPasswordConfirm,
-                  textInputAction: TextInputAction.done,
-                  obcureText: true,
-                  customValidator: (value) {                             
-                    if (value!.length < 1 || !value.isValidPassword()) 
-                      {return LabelSpace().whiteSpace()+"at least 8 characters long and contains at least one uppercase letter, one lowercase letter, and one digit";}
-                    if (value.length > 50) 
-                      {return LabelSpace().whiteSpace()+"max 50 chars";}
-                    if (value != globals.textControllerPassword.text) 
-                      {return LabelSpace().whiteSpace()+"The two password must be equal";}
-                    else {return null;}
-                  },
-                  isSuffixClear: true,
+
+                /// EMAIL
+                CustomCard(
+                  padding: EdgeInsets.zero,
+                  margin: EdgeInsets.zero,
+                  child: CustomFieldMat(
+                    prefixIcon: CupertinoIcons.mail_solid,
+                    labelText: globals.LabelEmail,
+                    textEditingController: globals.textControllerEmail,
+                    textInputType: TextInputType.emailAddress,
+                    customValidator: (value) {
+                      if (value!.length < 1 || !value.isValidEmail()) {
+                        return LabelSpace().whiteSpace() +
+                            "You can't insert number or special characters";
+                      }
+                      if (value.length > 50) {
+                        return LabelSpace().whiteSpace() + "max 50 chars";
+                      } else {
+                        return null;
+                      }
+                    },
+                    isSuffixClear: true,
+                  ),
                 ),
-              ),
-            ],
-          ),
-        )
-      ),
+                SizedBox(
+                  height: 10,
+                ),
+
+                /// PASSWORD
+                CustomCard(
+                  padding: EdgeInsets.zero,
+                  margin: EdgeInsets.zero,
+                  child: CustomFieldMat(
+                    prefixIcon: CupertinoIcons.lock_circle_fill,
+                    labelText: globals.LabelPassword,
+                    textEditingController: globals.textControllerPassword,
+                    obcureText: true,
+                    customValidator: (value) {
+                      if (value!.length < 1 || !value.isValidPassword()) {
+                        return LabelSpace().whiteSpace() +
+                            "at least 8 characters long and contains at least one uppercase letter, one lowercase letter, and one digit";
+                      }
+                      if (value.length > 50) {
+                        return LabelSpace().whiteSpace() + "max 50 chars";
+                      } else {
+                        return null;
+                      }
+                    },
+                    isSuffixClear: true,
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+
+                /// PASSWORD2
+                CustomCard(
+                  padding: EdgeInsets.zero,
+                  margin: EdgeInsets.zero,
+                  child: CustomFieldMat(
+                    prefixIcon: CupertinoIcons.lock_circle_fill,
+                    labelText: globals.LabelPasswordConfirm,
+                    textEditingController:
+                        globals.textControllerPasswordConfirm,
+                    textInputAction: TextInputAction.done,
+                    obcureText: true,
+                    customValidator: (value) {
+                      if (value!.length < 1 || !value.isValidPassword()) {
+                        return LabelSpace().whiteSpace() +
+                            "at least 8 characters long and contains at least one uppercase letter, one lowercase letter, and one digit";
+                      }
+                      if (value.length > 50) {
+                        return LabelSpace().whiteSpace() + "max 50 chars";
+                      }
+                      if (value != globals.textControllerPassword.text) {
+                        return LabelSpace().whiteSpace() +
+                            "The two password must be equal";
+                      } else {
+                        return null;
+                      }
+                    },
+                    isSuffixClear: true,
+                  ),
+                ),
+              ],
+            ),
+          )),
     );
   }
 }
@@ -221,29 +254,6 @@ class SignUp_registerButton extends StatelessWidget {
               password: globals.textControllerPassword.text,
               confirmPassword: globals.textControllerPasswordConfirm.text,
             );
-            /*Future<ErrorMessage> signupResponse = globals.authService
-                .signup(
-              name: globals.textControllerName.text,
-              surname: globals.textControllerSurname.text,
-              email: globals.textControllerEmail.text,
-              password: globals.textControllerPassword.text,
-              confirmPassword: globals.textControllerPasswordConfirm.text,
-            )
-                .then((value) {
-              // Update fields status in base of client check and the server response output
-              globals.UpdateFieldsStatus(value);
-              // if fields are valid go to signin screen, else stay in this page
-              if (globals.IsFieldsValid()) {
-                print('IsFieldsValid = TRUE: push SingInScreen()');
-                Navigator.push(
-                  context,
-                  CupertinoPageRoute(
-                      builder: (context) => const SignInScreen()),
-                );
-              } else {
-                print('IsFieldsValid = FALSE!');
-              }
-            });*/
           },
         ),
       ),
