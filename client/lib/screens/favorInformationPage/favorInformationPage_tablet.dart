@@ -27,7 +27,7 @@ class favorInformationPage_Screen_T extends StatelessWidget {
           reverse: true,
           child: ConstrainedBox(
             constraints: BoxConstraints(
-              maxWidth: Responsive.fixedWidth(),
+              maxWidth: Responsive.homeColumnWidth(context), //Responsive.fixedWidth(),
             ),
             child: Column(
               children: [

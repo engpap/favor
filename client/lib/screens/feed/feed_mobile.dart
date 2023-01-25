@@ -68,6 +68,8 @@ class _Feed_Screen_MState extends State<Feed_Screen_M> {
                     color: favorColors.PrimaryBlue,
                   ),
                   textAlign: TextAlign.left,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
 
@@ -97,7 +99,7 @@ class _Feed_Screen_MState extends State<Feed_Screen_M> {
         // FAVOR CATEGORIES
         Container(
           padding: EdgeInsets.only(left: 8, right: 8),
-          height: Responsive.height(16, context),
+          height: Responsive.heightFixOver(130, 40, context),
           // CATEGORY LIST (scrollable horizontaly)
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -114,6 +116,8 @@ class _Feed_Screen_MState extends State<Feed_Screen_M> {
                     color: favorColors.PrimaryBlue,
                   ),
                   textAlign: TextAlign.left,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               Divider(
@@ -148,6 +152,9 @@ class _Feed_Screen_MState extends State<Feed_Screen_M> {
                     fontWeight: FontWeight.bold,
                     color: favorColors.PrimaryBlue,
                   ),
+                  textAlign: TextAlign.left,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
 
@@ -315,26 +322,3 @@ class _Carousel_BookedFavorWidgetState
     );
   }
 }
-
-//TODO: APPENA POSSIBILE REMOVE THIS
-BookedFavor BOOKED = new BookedFavor(
-    id: "id",
-    bookedAt: DateTime(0),
-    providerId: "providerId",
-    callerId: "callerId",
-    post: new CallerPost(
-        id: "id",
-        creatorId: "creatorId",
-        createdAt: "createdAt",
-        name: "name",
-        surname: "surname",
-        profilePicture: null,
-        userType: "userType",
-        taskCategory: "taskCategory",
-        location: "location",
-        favorStartTime: DateTime(0),
-        description: "description",
-        averageRatings: 2,
-        rankingPosition: 1,
-        rankingLocation: "rankingLocation",
-        bio: "bio"));

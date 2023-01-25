@@ -17,7 +17,7 @@ class SignUpScreen_M extends StatelessWidget {
           reverse: false,
           child: ConstrainedBox(
             constraints: BoxConstraints(
-              maxWidth: Responsive.fixedWidth(),
+              maxWidth: Responsive.homeColumnWidth(context), //Responsive.fixedWidth(),
             ),
             child: Column(
               children: [

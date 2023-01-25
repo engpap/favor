@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:project/functions/responsive.dart';
 import 'package:project/functions/favorColors.dart' as favorColors;
 
 /// Custom card to avoid duplicated code across the application.
@@ -8,12 +7,14 @@ class CustomCard extends StatelessWidget {
     super.key,
     required this.child,
     this.customHeight,
+    this.customWidth,
     this.padding = const EdgeInsets.all(9),
     this.margin = const EdgeInsets.all(9),
   });
 
   final Widget child;
   final double? customHeight;
+  final double? customWidth;
   final EdgeInsets padding;
   final EdgeInsets margin;
 
@@ -21,7 +22,10 @@ class CustomCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: customHeight != null
-          ? Responsive.width(customHeight!, context)
+          ? customHeight!
+          : null,
+      width: customWidth != null
+          ? customWidth!
           : null,
       margin: margin,
       padding: padding,

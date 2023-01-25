@@ -58,8 +58,8 @@ class FavorCategoryWidget extends StatelessWidget {
         children: [
           // IMAGE
           Container(
-            width: Responsive.width(22, context),
-            height: Responsive.width(22, context),
+            height: Responsive.heightFixOver(80, 22, context),
+            width: Responsive.heightFixOver(80, 22, context),
             decoration: BoxDecoration(
               shape: BoxShape.rectangle,
               image: DecorationImage(
@@ -102,228 +102,239 @@ class FavorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomCard(
-      customHeight: 59,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      customWidth: Responsive.homeColumnWidth(context), //Responsive.fixedWidth(),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // FAVOR INFORMATION
-          SizedBox(
-            width: Responsive.width(55, context),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
+          // 1st ROW - HEADING
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // IMAGE
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: AssetImage("assets/images/chris.jpg"),
+                    //image: post!.profilePicture!.image,
+                    fit: BoxFit.cover,
+                  ),
+                  border: Border.all(
+                    color: favorColors.LightGrey,
+                    width: 1.0,
+                  ),
+                ),
+              ),
+              SizedBox(width: 10,),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  //HEADING
+                  // NAME + SURNAME
                   Container(
                     child: Text(
-                      post!.taskCategory,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: favorColors.PrimaryBlue,
-                      ),
+                      "${post!.name} ${post!.surname}",
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold,
+                          color: favorColors.PrimaryBlue),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  Divider(
-                    height: Responsive.height(1, context),
-                    color: Colors.transparent,
+                  Row(
+                    children: [
+                      // ROLE
+                      Container(
+                        child: Text(
+                          post!.userType,
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: favorColors.SecondaryBlue),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      SizedBox(width: 5,),
+                      // STARS
+                      StarsWidget(number: post!.averageRatings, size: 12,),
+                    ],
                   ),
-                  // AREA
+                  
+                ],
+              ),
+              // to fill the space in between
+              Expanded(child: Container()),
+              // TASK CATEGORY
+              Container(
+                padding: EdgeInsets.only(right: 9),
+                child: Text(
+                  post!.taskCategory,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: favorColors.PrimaryBlue,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+          // 2nd ROW - favor's description
+          SizedBox(height: 10,),
+          // DESCRIPTION
+          Container(
+            padding: EdgeInsets.only(left: 51, right: 9),
+            child: Text(
+              post!.description,
+              style: TextStyle(
+                fontSize: 18,
+              ),
+              maxLines: 5,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          // 3rd ROW - favor's time
+          SizedBox(height: 10,),
+          // TIME
+          Container(
+            padding: EdgeInsets.only(right: 9, left: 9),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // ICON
+                Padding(
+                  padding: EdgeInsets.only(right: 8.0),
+                  child: Icon(
+                    CupertinoIcons.time,
+                    color: Colors.black45,
+                    //scolor: favorColors.PrimaryBlue,
+                    size: 24, //
+                  ),
+                ),
+                SizedBox(width: 8,),
+                // VALUE
+                Container(
+                  child: Text(
+                    (post is CallerPost)
+                        ? "From: ${favorTime.formatter.format(post!.getFavorStartTime())}"
+                        : "From: ${favorTime.formatter.format(post!.getAvailabilityStartTime())}\nTo: ${favorTime.formatter.format(post!.getAvailabilityEndTime())}",
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.black45,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // 4th ROW - favor's location
+          SizedBox(height: 10,),
+          // LOCATION
+          Container(
+            padding: EdgeInsets.only(right: 9, left: 9),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // ICON
+                Padding(
+                  padding: EdgeInsets.only(right: 8.0),
+                  child: Icon(
+                    CupertinoIcons.location_solid,
+                    color: Colors.black45,
+                    //scolor: favorColors.PrimaryBlue,
+                    size: 24, //
+                  ),
+                ),
+                SizedBox(width: 8,),
+                // VALUE
                   Container(
                     child: Container(
-                      //color: Colors.amber,
                       child: Text(
                         post!.location,
                         style: TextStyle(
-                          fontSize: 16,
-                          color: favorColors.PrimaryBlue,
+                          fontSize: 15,
+                          color:Colors.black45,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ),
-                  Divider(
-                    height: Responsive.height(1, context),
-                    color: Colors.transparent,
-                  ),
-                  //INFORMATION
-                  Container(
-                    //color: Colors.pink,
-                    child: Text(
-                      post!.description,
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
-                      maxLines: 5,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Divider(
-                    height: Responsive.height(2, context),
-                    color: Colors.transparent,
-                  ),
-                  // TIME
-                  Container(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        //icon clock
-                        Padding(
-                          padding: EdgeInsets.only(right: 8.0),
-                          child: Icon(
-                            CupertinoIcons.time,
-                            color: favorColors.PrimaryBlue,
-                            size: 24, //
-                          ),
-                        ),
-                        //actual time
-                        Container(
-                          child: Text(
-                            (post is CallerPost)
-                                ? "${favorTime.formatter.format(post!.getFavorStartTime())}"
-                                : "${favorTime.formatter.format(post!.getAvailabilityStartTime())} - ${favorTime.formatter.format(post!.getAvailabilityEndTime())}",
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: favorColors.PrimaryBlue,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+              ],
             ),
           ),
-
-          // Person Information
-          SizedBox(
-            width: Responsive.width(33, context),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  // IMAGE
-                  Container(
-                    width: Responsive.width(20, context),
-                    height: Responsive.width(20, context),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: AssetImage("assets/images/chris.jpg"),
-                        //image: image, TODO: post!.profilePicture
-                        fit: BoxFit.cover,
-                      ),
-                      border: Border.all(
-                        color: favorColors.LightGrey,
-                        width: 2.0,
-                      ),
-                      //borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          spreadRadius: 0.5,
-                          blurRadius: 5,
-                          offset: Offset(0, 1),
-                        ),
-                      ],
+          // 5th ROW - more button
+          SizedBox(height: 10,),
+          Row(
+            children: [
+              // MORE BUTTON
+              Container(
+                padding: EdgeInsets.only(left: 45),
+                height: 32,
+                width: 200,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: favorColors.LightGrey,
+                    width: 1.0,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      spreadRadius: 0.5,
+                      blurRadius: 5,
+                      offset: Offset(0, 1),
                     ),
+                  ],
+                ),
+                child: CupertinoButton(
+                  padding: EdgeInsets.all(0),
+                  color: favorColors.PrimaryBlue,
+                  borderRadius: BorderRadius.circular(90),
+                  child: Text(
+                    "More...",
+                    style: TextStyle(
+                        fontSize: 14, fontWeight: FontWeight.bold),
                   ),
-                  // Name and Surname
-                  Container(
-                    child: Text(
-                      "${post!.name} ${post!.surname}",
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  // ROLE
-                  Container(
-                    child: Text(
-                      post!.userType,
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: favorColors.SecondaryBlue),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Divider(
-                    height: Responsive.height(1, context),
-                    color: Colors.transparent,
-                  ),
-                  // RANK
-                  Container(
-                    child: Text(
-                      "${post!.rankingPosition} in ${post!.rankingLocation}",
-                      style: TextStyle(
-                        fontSize: 14,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  // STARS
-                  StarsWidget(number: post!.averageRatings),
-                  Divider(
-                    height: Responsive.height(1, context),
-                    color: Colors.transparent,
-                  ),
-                  // MORE BUTTON
-                  Container(
-                    height: 32,
-                    width: Responsive.width(100, context),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: favorColors.LightGrey,
-                        width: 1.0,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          spreadRadius: 0.5,
-                          blurRadius: 5,
-                          offset: Offset(0, 1),
-                        ),
-                      ],
-                    ),
-                    child: CupertinoButton(
-                      padding: EdgeInsets.all(0),
-                      color: favorColors.PrimaryBlue,
-                      borderRadius: BorderRadius.circular(90),
-                      child: Text(
-                        "More...",
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.bold),
-                      ),
-                      onPressed: () {
-                        print('Pressed: _moreButton');
-                        Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                              builder: (context) => favorInformationPage_Screen(
-                                    post: post,
-                                  )),
-                        );
-                      },
-                    ),
-                  ),
-                ],
+                  onPressed: () {
+                    print('Pressed: _moreButton');
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (context) => favorInformationPage_Screen(
+                                post: post,
+                              )),
+                    );
+                  },
+                ),
               ),
+              // to fill the space in between
+              Expanded(child: Container()),
+            ],
+          ),
+          SizedBox(height: 10,),
+          /**
+          // RANK
+          Container(
+            child: Text(
+              "${post!.rankingPosition} in ${post!.rankingLocation}",
+              style: TextStyle(
+                fontSize: 14,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
-          )
+          ),
+          */
         ],
       ),
     );
@@ -514,7 +525,7 @@ BookedFavor BOOKED = new BookedFavor(
         rankingLocation: "rankingLocation",
         bio: "bio"));
 
-// SEARCH BAR
+// SEARCH BAR TODO: serve o va rimossa?
 class SearchFavor extends StatelessWidget {
   SearchFavor({super.key});
 

@@ -30,7 +30,7 @@ class _SignUpScreen_TState extends State<SignUpScreen_T> {
                     SingleChildScrollView(
                       reverse: true,
                       child: Container(
-                        width: Responsive.fixedWidth(),
+                        width: Responsive.homeColumnWidth(context), //Responsive.fixedWidth(),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,7 +61,7 @@ class _SignUpScreen_TState extends State<SignUpScreen_T> {
                     SingleChildScrollView(
                       reverse: true,
                       child: Container(
-                        width: Responsive.fixedWidth(),
+                        width: Responsive.homeColumnWidth(context), //Responsive.fixedWidth(),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [

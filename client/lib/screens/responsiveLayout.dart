@@ -3,14 +3,14 @@ import 'package:flutter/cupertino.dart';
 
 class ResponsiveLeayout extends StatelessWidget {
   // screen max width for a mobile app
-  final int mobileMaxWidth = 780; //600
+  final int mobileMaxWidth = 640; //780
 
   final Widget mobileBody;
   final Widget tabletBody;
 
   const ResponsiveLeayout({
-    super.key, 
-    required this.mobileBody, 
+    super.key,
+    required this.mobileBody,
     required this.tabletBody,
   });
 
