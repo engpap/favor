@@ -199,7 +199,6 @@ class _FavorScreen_M extends State<FavorScreen_M> {
   }
 }
 
-
 class Favor_boxDescription extends StatelessWidget {
   // menu placeholder
   final String placeholder;
@@ -256,6 +255,7 @@ class _Favor_publishFavorButtonState extends State<Favor_publishFavorButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      key: Key("publish_favor_button"),
       margin: EdgeInsets.only(top: 9, right: 9, left: 9, bottom: 9),
       decoration: BoxDecoration(
         boxShadow: [
@@ -285,15 +285,18 @@ class _Favor_publishFavorButtonState extends State<Favor_publishFavorButton> {
                       context: context,
                       taskCategory: globals.categoryTextController.text,
                       location: globals.locationTextController.text,
-                      availabilityStartTime: favorTime.formatter.parse(globals.availabilityStartTimeTextController.text),
-                      availabilityEndTime: favorTime.formatter.parse(globals.availabilityEndTimeTextController.text),
+                      availabilityStartTime: favorTime.formatter.parse(
+                          globals.availabilityStartTimeTextController.text),
+                      availabilityEndTime: favorTime.formatter.parse(
+                          globals.availabilityEndTimeTextController.text),
                       description: globals.boxDescriptionTextController.text,
                     )
                   : globals.postService.publishCallerFavor(
                       context: context,
                       taskCategory: globals.categoryTextController.text,
                       location: globals.locationTextController.text,
-                      favorStartTime: favorTime.formatter.parse(globals.favorStartTimeTextController.text),
+                      favorStartTime: favorTime.formatter
+                          .parse(globals.favorStartTimeTextController.text),
                       description: globals.boxDescriptionTextController.text,
                     ),
               builder: (context, snapshot) {
