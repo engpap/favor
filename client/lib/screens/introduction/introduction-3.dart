@@ -41,6 +41,7 @@ class Introduction3Screen_M_T extends StatelessWidget {
           // ACTUAL PAGE
           Expanded(
               child: GestureDetector(
+            key: Key("gesture_detector_intro3"),
             onTap: () {
               Navigator.pushReplacement(
                 context,
