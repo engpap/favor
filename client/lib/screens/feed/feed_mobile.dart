@@ -9,6 +9,7 @@ import 'package:project/models/callerPost.dart'; //to remove
 import 'package:project/models/favorCategories.dart';
 import 'package:project/models/favorConstants.dart';
 import 'package:project/models/post.dart';
+import 'package:project/screens/components/customHeadingDesc.dart';
 import 'package:project/screens/feed/feed.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
@@ -39,136 +40,83 @@ class _Feed_Screen_MState extends State<Feed_Screen_M> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Divider(
-          height: Responsive.height(1, context),
-          color: Colors.transparent,
-        ),
-
-        // FAVOR BOOKED
-        // TODO: far comparire solo se il server ritorna dei booked favors
-        Container(
-          padding: EdgeInsets.only(left: 0, right: 0),
-          height: Responsive.height(17, context),
-          // BOOKED LIST (scrollable horizontaly)
+    return Container(
+      padding: EdgeInsets.only(left: 8, right: 8),
+      child: Center(
+        child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              //HEADING
-              Container(
-                width: Responsive.width(100, context),
-                padding: EdgeInsets.only(right: 8, left: 8),
-                child: Text(
-                  "${bookedListHeading}",
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: favorColors.PrimaryBlue,
-                  ),
-                  textAlign: TextAlign.left,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
+              //
+              Divider(
+                height: Responsive.height(1, context),
+                color: Colors.transparent,
               ),
-
-              /// If the token does not exist, then the user has never signed
-              /// up/in. Thus, booked favors cannot be shown.
+              // FAVOR BOOKED
               FutureBuilder<bool>(
                 future: isThereUserToken,
                 builder: ((context, snapshot) {
                   if (snapshot.hasData && snapshot.data != null) {
                     return snapshot.data!
-                        ? Expanded(child: Carousel_BookedFavorWidget())
-                        : Expanded(
-                            child: Text(
-                                "You have to be registered to book favors!"));
+                        // IF THERE ARE BOOKED FAVOR - display them
+                        ? Container(
+                          height: Responsive.heightFixOver(130, 40, context),
+                          child: Column(
+                            children: [
+                              //HEADING
+                              customHeading2(heading: "${bookedListHeading}", size: 22,),
+                              // BOOKED LIST (scrollable horizontaly)
+                              Expanded(child: Carousel_BookedFavorWidget())
+                            ],
+                          ),
+                        )
+                        // IF THERE ARE NO BOOKED FAVOR (or you're not logged in) - display empty container
+                        : Container();
                   }
-                  return CupertinoActivityIndicator(
-                      animating: false, radius: 20);
+                  return CupertinoActivityIndicator(animating: false, radius: 20);
                 }),
               ),
-            ],
-          ),
-        ),
-        Divider(
-          height: Responsive.height(1, context),
-          color: Colors.transparent,
-        ),
-        // FAVOR CATEGORIES
-        Container(
-          padding: EdgeInsets.only(left: 8, right: 8),
-          height: Responsive.heightFixOver(130, 40, context),
-          // CATEGORY LIST (scrollable horizontaly)
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              //HEADING
+              //
+              Divider(
+                height: Responsive.height(1, context),
+                color: Colors.transparent,
+              ),              
+              // FAVOR CATEGORIES
               Container(
-                width: Responsive.width(100, context),
-                padding: EdgeInsets.only(right: 0, left: 0),
-                child: Text(
-                  "${categoryListHeading}",
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: favorColors.PrimaryBlue,
-                  ),
-                  textAlign: TextAlign.left,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                height: Responsive.heightFixOver(130, 40, context),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    // HEADING
+                    customHeading2(heading: "${categoryListHeading}", size: 22,),
+                    Divider(
+                      height: Responsive.height(1, context),
+                      color: Colors.transparent,
+                    ),
+                    // CATEGORY LIST (scrollable horizontaly)
+                    Expanded(child: Carousel_FavorCategoryWidget()),
+                  ],
                 ),
               ),
+              //
               Divider(
                 height: Responsive.height(1, context),
                 color: Colors.transparent,
               ),
-              //ELEMENTS
-              Expanded(child: Carousel_FavorCategoryWidget()),
+              // FAVOR RECOMMENDATIONS
+              // HEADING
+              customHeading2(heading: "${reccomendationListHeading}", size: 22,),
+              // RECOMMENDATION LIST (scrollable vertically) 
+              RecommendedFavorWidgetsList_Widget(shrinkWrap: true), 
             ],
           ),
         ),
-        Divider(
-          height: Responsive.height(1, context),
-          color: Colors.transparent,
-        ),
-        // FAVOR RECOMMENDATIONS
-        Expanded(
-          //color: Colors.lightBlue,
-
-          // RECOMMENDATION LIST (scrollable vertically)
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              //HEADING
-              Container(
-                width: Responsive.width(100, context),
-                padding: EdgeInsets.only(right: 8, left: 8),
-                child: Text(
-                  "${reccomendationListHeading}",
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: favorColors.PrimaryBlue,
-                  ),
-                  textAlign: TextAlign.left,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-
-              //ELEMENTS
-              Expanded(
-                child: RecommendedFavorWidgetsList_Widget(shrinkWrap: false),
-              ),
-            ],
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
+
+
 
 class Carousel_FavorCategoryWidget extends StatefulWidget {
   const Carousel_FavorCategoryWidget({super.key});
@@ -254,6 +202,7 @@ class _RecommendedFavorWidgetsList_WidgetState
   @override
   Widget build(BuildContext context) {
     return PagedListView<int, Post>(
+      primary: false, //
       shrinkWrap: widget.shrinkWrap,
       pagingController: _pagingController,
       builderDelegate: PagedChildBuilderDelegate<Post>(

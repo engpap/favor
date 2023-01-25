@@ -50,3 +50,38 @@ class customHeadingDesc extends StatelessWidget {
     );
   }
 }
+
+
+class customHeading2 extends StatelessWidget {
+  customHeading2({
+    super.key,
+    required this.heading,
+    this.size = 37
+  });
+
+  String heading;
+  double size;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [ 
+        Container(
+          width: Responsive.width(100, context),
+          margin: EdgeInsets.only(right: 9, left: 9),
+          child: Text(
+            heading,
+            style: TextStyle(
+                color: favorColors.PrimaryBlue,
+                fontSize: size,
+                fontWeight: FontWeight.bold),
+            textAlign: TextAlign.left,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
