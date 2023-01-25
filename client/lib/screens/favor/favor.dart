@@ -255,7 +255,6 @@ class _Favor_publishFavorButtonState extends State<Favor_publishFavorButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      key: Key("publish_favor_button"),
       margin: EdgeInsets.only(top: 9, right: 9, left: 9, bottom: 9),
       decoration: BoxDecoration(
         boxShadow: [
@@ -270,6 +269,7 @@ class _Favor_publishFavorButtonState extends State<Favor_publishFavorButton> {
       child: SizedBox(
         width: Responsive.width(65, context),
         child: CupertinoButton(
+          key: Key("publish_favor_button"),
           color: favorColors.PrimaryBlue,
           child: const Text(
             "Publish",
