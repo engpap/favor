@@ -263,8 +263,7 @@ class _Carousel_BookedFavorWidgetState
       scrollDirection: Axis.horizontal,
       pagingController: _pagingController,
       builderDelegate: PagedChildBuilderDelegate<BookedFavor>(
-        itemBuilder: (context, item, index) => BookedFavorWidget(
-            categoryName: item.post.taskCategory, booked: item),
+        itemBuilder: (context, item, index) => BookedFavorWidget(booked: item),
         firstPageProgressIndicatorBuilder: (_) =>
             Center(child: CupertinoActivityIndicator()),
       ),

@@ -344,14 +344,8 @@ class FavorWidget extends StatelessWidget {
 class BookedFavorWidget extends StatelessWidget {
   BookedFavorWidget({
     super.key,
-    required this.categoryName,
     required this.booked,
   });
-
-  //TODO: change assets with network image
-  String categoryName;
-
-  String time = "18.00";
 
   BookedFavor booked;
 
@@ -362,9 +356,7 @@ class BookedFavorWidget extends StatelessWidget {
         padding: EdgeInsets.all(0),
         //margin: EdgeInsets.all(0),
         child: Container(
-          //color: Colors.pink,
-          width: Responsive.width(50, context),
-          //height: Responsive.width(10, context),
+          width: Responsive.widthFixOver(210, 55, context),
           child: ClipRRect(
             borderRadius: BorderRadius.all(
               Radius.circular(10),
@@ -381,60 +373,55 @@ class BookedFavorWidget extends StatelessWidget {
                     MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(0)),
               ),
               onPressed: () {
-                // TODO: AGGIUNGERE PUSH AD UNA NUOVA PAGINA ***
                 print('Pressed: BookedFavor');
                 Navigator.push(
                   context,
                   CupertinoPageRoute(
-                      builder: (context) => favorBookedPage_Screen(
-                            bookedFavor: BOOKED, //TODO: cambiare riferimento
-                          )),
+                    builder: (context) => 
+                      favorBookedPage_Screen(bookedFavor: booked,)),
                 );
               },
+              // LAYOUT
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // IMAGE
                   SizedBox(
-                    width: Responsive.width(20, context),
-                    height: Responsive.width(100, context),
+                    width: Responsive.widthFixOver(80, 20, context),
+                    height: Responsive.widthFixOver(80, 100, context),
                     child: Container(
-                      width: Responsive.width(100, context),
-                      //height: Responsive.width(100, context),
                       decoration: BoxDecoration(
-                        //color: Colors.amber,
                         shape: BoxShape.rectangle,
                         image: DecorationImage(
-                          //TODO: change assets with network image
-                          image:
-                              FeedUtilities.getFavorCategoryImage(categoryName),
+                          image: FeedUtilities.getFavorCategoryImage(booked.post.taskCategory),
                           fit: BoxFit.cover,
-                          opacity: 0.1,
+                          opacity: 1,
                         ),
                         border: Border.all(
                           color: favorColors.LightGrey,
                           width: 0.0,
                         ),
-                        //borderRadius: BorderRadius.circular(10),
                         borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10),
-                            bottomLeft: Radius.circular(10)),
+                          topLeft: Radius.circular(10),
+                          bottomLeft: Radius.circular(10),
+                          topRight: Radius.circular(90),
+                          bottomRight: Radius.circular(90),
+                        ),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withOpacity(0.1),
                             spreadRadius: 0.5,
                             blurRadius: 5,
-                            offset: Offset(0, 1),
+                            offset: Offset(0, 0),
                           ),
                         ],
                       ),
                     ),
                   ),
-                  // FIELDS
+                  SizedBox(width: 5,),
+                  // INFORMATIONS
                   Container(
-                    //color: Colors.green,
-                    width: Responsive.width(29, context),
+                    width: Responsive.widthFixOver(120, 29, context),
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -443,22 +430,23 @@ class BookedFavorWidget extends StatelessWidget {
                           Text(
                             '${booked.post.name} ${booked.post.surname}',
                             style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
+                              fontSize: 16, fontWeight: FontWeight.bold),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
-                          // TASK CATEGORY
+                          SizedBox(height: 1,),
+                          // ROLE
                           Text(
-                            categoryName, // Text(booked.post.taskCategory,
+                            booked.post.userType,
                             style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.normal),
+                              fontSize: 16, 
+                              fontWeight: FontWeight.normal,
+                              color: favorColors.SecondaryBlue
+                            ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
-                          Divider(
-                            height: Responsive.height(1, context),
-                            color: Colors.transparent,
-                          ),
+                          SizedBox(height: 5,),
                           // TIME
                           Container(
                             child: Row(
@@ -501,29 +489,6 @@ class BookedFavorWidget extends StatelessWidget {
     );
   }
 }
-
-//TODO: APPENA POSSIBILE REMOVE THIS
-BookedFavor BOOKED = new BookedFavor(
-    id: "id",
-    bookedAt: DateTime(0),
-    providerId: "providerId",
-    callerId: "callerId",
-    post: new CallerPost(
-        id: "id",
-        creatorId: "creatorId",
-        createdAt: "createdAt",
-        name: "name",
-        surname: "surname",
-        profilePicture: null,
-        userType: "userType",
-        taskCategory: "taskCategory",
-        location: "location",
-        favorStartTime: DateTime(0),
-        description: "description",
-        averageRatings: 2,
-        rankingPosition: 1,
-        rankingLocation: "rankingLocation",
-        bio: "bio"));
 
 // SEARCH BAR TODO: serve o va rimossa?
 class SearchFavor extends StatelessWidget {

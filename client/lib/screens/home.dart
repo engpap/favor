@@ -5,6 +5,7 @@ import 'package:project/functions/responsive.dart';
 import 'package:project/functions/tabs.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
+import 'package:project/screens/responsiveLayout.dart';
 
 /// Class used to controll the UserMode
 /// it's a StatefulWidget that wraps an InheritedWidget in order to get both functionalities
@@ -138,8 +139,16 @@ class UserMode_inherited extends InheritedWidget {
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
+    Widget build(BuildContext context) {
+    return ResponsiveLeayout(
+      mobileBody: buildHome(context),
+      tabletBody: buildHome(context),
+    );
+  }
+
+
   @override
-  Widget build(BuildContext context) {
+  Widget buildHome(BuildContext context) {
     return UserMode(
       key: UniqueKey(),
       child: CupertinoTabScaffold(
