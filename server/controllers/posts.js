@@ -88,17 +88,20 @@ export const createPost = async (req, res) => {
  * @param {*} response contaning a maximum number of posts equals to LIMIT value, the current page, the total number of pages
  */
 export const getPosts = async (request, response) => {
-    const { page } = request.query;
+    const { page,userType } = request.query;
     try {
         const LIMIT = 4;
         const pageStartIndex = (Number(page) - 1) * LIMIT;
 
-        const total = await Post.countDocuments({});
+        const userTypeSearchQuery_RegExp = new RegExp(userType, 'i');
+        console.log(">>> getPosts: RegExp of userType searchquery is " + userTypeSearchQuery_RegExp)
+ 
+        const total = await Post.countDocuments({userType:userTypeSearchQuery_RegExp});
 
         // To return all documents in a collection, omit parameter of find().  
         // To sort posts from newest to oldest order, pass -1 as the parameter of sort().
         // To skip the posts before the current page start index.
-        const posts = await Post.find().sort({ _id: -1 }).limit(LIMIT).skip(pageStartIndex);
+        const posts = await Post.find({userType:userTypeSearchQuery_RegExp}).sort({ _id: -1 }).limit(LIMIT).skip(pageStartIndex);
 
         //TODO: calcola il rankingPosition in maniera dinamica e restituisce la location ranking
 
@@ -115,7 +118,7 @@ export const getPosts = async (request, response) => {
         }
 
         response.status(200).json({ data: newPosts, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) });
-        console.log(">>> getPosts: Sent posts to client");
+        console.log(">>> getPosts: Sent "+newPosts.length+" posts to client");
         //console.log(">>> getPosts: There are the posts:\n",newPosts);
     } catch (error) {
         response.status(404).json({ message: error.message });
@@ -204,7 +207,7 @@ export const bookFavor = async (request, response) => {
         if (postToBook.toHide == true)
             return response.status(400).json({ message: 'Favor already booked!' });
 
-        if (!request.userId == postToBook.creatorId)
+        if (request.userId == postToBook.creatorId)
             return response.status(400).json({ message: 'Cannot book your own favor!' });
 
         var providerId = '';
