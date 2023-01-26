@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mockito/mockito.dart';
 import 'package:project/screens/home.dart';
 import 'package:project/screens/signin/signin.dart';
@@ -33,37 +35,17 @@ void executeUnitTests() {
 }
 
 void executeWidgetTests() {
-  /*
-  testWidgets("showToast is called with message when status code is 401",
-      (WidgetTester tester) async {
-    var feedScreenContext;
-    await tester.pumpWidget(
-      CupertinoApp(
-        home: Builder(
-          builder: (context) {
-            feedScreenContext = context;
-            return HomeScreen();
-          },
-        ),
-      ),
-    );
-    var response = http.Response('{"message": "ServerMessage"}', 408);
-    httpErrorHandle(
-      response: response,
-      context: feedScreenContext,
-      onSuccess: () {},
-    );
-    //await tester.pump();
-    await tester.pumpAndSettle();
-    expect(find.text("ServerMessage"), findsOneWidget);
-  });*/
-
   testWidgets(
       "httpErrorHandle should navigate to SignInScreen when status code is 401",
       (WidgetTester tester) async {
     var feedScreenContext;
     await tester.pumpWidget(
       CupertinoApp(
+        localizationsDelegates: [
+          DefaultMaterialLocalizations.delegate,
+          DefaultCupertinoLocalizations.delegate,
+          DefaultWidgetsLocalizations.delegate,
+        ],
         home: Builder(
           builder: (context) {
             feedScreenContext = context;
@@ -78,6 +60,6 @@ void executeWidgetTests() {
         response: response, context: feedScreenContext, onSuccess: () {});
     await tester.pumpAndSettle();
     // Check if the SignInScreen is pushed
-    expect(find.byType(SignInScreen), findsOneWidget);
+    expect(find.byKey(Key("form_sign_in_container")), findsOneWidget);
   });
 }
