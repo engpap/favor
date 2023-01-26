@@ -193,5 +193,7 @@ class AuthService {
     Storage.removeUserId();
     Storage.invalidateToken();
     Provider.of<UserProvider>(context, listen: false).clearUser();
+    Navigator.pushReplacement(
+        context, CupertinoPageRoute(builder: (context) => SignInScreen()));
   }
 }
