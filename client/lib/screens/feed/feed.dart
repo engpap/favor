@@ -175,7 +175,7 @@ class FavorWidget extends StatelessWidget {
                 child: Text(
                   post!.taskCategory,
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: favorColors.PrimaryBlue,
                   ),

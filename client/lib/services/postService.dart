@@ -18,6 +18,9 @@ import 'package:project/constants/globalVars.dart';
 import 'package:project/models/post.dart';
 import 'package:project/models/favorConstants.dart';
 
+import 'package:project/screens/favor/globals.dart' as globals_favor;
+import 'package:project/functions/favorTime.dart' as favorTime;
+
 class PostService {
   Future<void> publishProviderFavor(
       {required BuildContext context,
@@ -59,12 +62,21 @@ class PostService {
         response: response,
         context: context,
         onSuccess: () {
+
+          // Reset Variables
+          globals_favor.categoryTextController.clear();
+          globals_favor.locationTextController.clear();
+          globals_favor.boxDescriptionTextController.clear();
+          globals_favor.availabilityStartTimeTextController.text = favorTime.formatter.format(DateTime.now());
+          globals_favor.availabilityEndTimeTextController.text = favorTime.formatter.format(DateTime.now());
+          globals_favor.favorStartTimeTextController.text = favorTime.formatter.format(DateTime.now());
+
           Navigator.push(
               context,
               CupertinoPageRoute(
                   builder: (context) => favorInformationPage_Screen(
-                      post: ProviderPost.fromJson(jsonDecode(response.body)),
-                      userType: 'provider', //TODO: chek it
+                        post: ProviderPost.fromJson(jsonDecode(response.body)),
+                        userType: 'provider', 
                       )));
         },
       );
@@ -110,12 +122,21 @@ class PostService {
         response: response,
         context: context,
         onSuccess: () {
+
+          // Reset Variables
+          globals_favor.categoryTextController.clear();
+          globals_favor.locationTextController.clear();
+          globals_favor.boxDescriptionTextController.clear();
+          globals_favor.availabilityStartTimeTextController.text = favorTime.formatter.format(DateTime.now());
+          globals_favor.availabilityEndTimeTextController.text = favorTime.formatter.format(DateTime.now());
+          globals_favor.favorStartTimeTextController.text = favorTime.formatter.format(DateTime.now());
+
           Navigator.push(
               context,
               CupertinoPageRoute(
                   builder: (context) => favorInformationPage_Screen(
-                      post: ProviderPost.fromJson(jsonDecode(response.body)),
-                      userType: 'caller', //TODO: chek it
+                        post: ProviderPost.fromJson(jsonDecode(response.body)),
+                        userType: 'caller',
                       )));
         },
       );
@@ -215,16 +236,14 @@ class PostService {
     return posts;
   }
 
-  Future<void> bookFavor({
-    required BuildContext context,
-    required Post? post,
-    required String userType
-  }) async {
+  Future<void> bookFavor(
+      {required BuildContext context,
+      required Post? post,
+      required String userType}) async {
     try {
       if (post?.userType ==
           //UserMode_inherited.of(context).stateWidget.getUserMode() TODO: check it
-          userType
-        )
+          userType)
         showToast(context,
             "Cannot book favor if User Mode is the same of publisher!");
 
