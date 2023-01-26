@@ -32,10 +32,20 @@ class Feed_Screen_M extends StatefulWidget {
 
 class _Feed_Screen_MState extends State<Feed_Screen_M> {
   late Future<bool> isThereUserToken;
+
+  static const _pageSize = 4;
+  PagingController<int, Post> _pagingController =
+      PagingController(firstPageKey: 1);
+  bool _shrinkWrap = true;
+
   @override
   void initState() {
     super.initState();
     isThereUserToken = Storage.isThereUserToken();
+
+    _pagingController.addPageRequestListener((pageKey) {
+      fetchPage(context, pageKey);
+    });
   }
 
   @override
@@ -43,80 +53,133 @@ class _Feed_Screen_MState extends State<Feed_Screen_M> {
     return Container(
       padding: EdgeInsets.only(left: 8, right: 8),
       child: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              //
-              Divider(
-                height: Responsive.height(1, context),
-                color: Colors.transparent,
-              ),
-              // FAVOR BOOKED
-              FutureBuilder<bool>(
-                future: isThereUserToken,
-                builder: ((context, snapshot) {
-                  if (snapshot.hasData && snapshot.data != null) {
-                    return snapshot.data!
-                        // IF THERE ARE BOOKED FAVOR - display them
-                        ? Container(
-                          height: Responsive.heightFixOver(130, 40, context),
-                          child: Column(
-                            children: [
-                              //HEADING
-                              customHeading2(heading: "${bookedListHeading}", size: 22,),
-                              // BOOKED LIST (scrollable horizontaly)
-                              Expanded(child: Carousel_BookedFavorWidget())
-                            ],
-                          ),
-                        )
-                        // IF THERE ARE NO BOOKED FAVOR (or you're not logged in) - display empty container
-                        : Container();
-                  }
-                  return CupertinoActivityIndicator(animating: false, radius: 20);
-                }),
-              ),
-              //
-              Divider(
-                height: Responsive.height(1, context),
-                color: Colors.transparent,
-              ),              
-              // FAVOR CATEGORIES
-              Container(
-                height: Responsive.heightFixOver(130, 40, context),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    // HEADING
-                    customHeading2(heading: "${categoryListHeading}", size: 22,),
-                    Divider(
-                      height: Responsive.height(1, context),
-                      color: Colors.transparent,
-                    ),
-                    // CATEGORY LIST (scrollable horizontaly)
-                    Expanded(child: Carousel_FavorCategoryWidget()),
-                  ],
+        child: RefreshIndicator(
+          color: Colors.red,
+          backgroundColor: Colors.blue,
+          onRefresh: () async {
+            _pagingController.refresh();
+            return;
+          },
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                //
+                Divider(
+                  height: Responsive.height(1, context),
+                  color: Colors.transparent,
                 ),
-              ),
-              //
-              Divider(
-                height: Responsive.height(1, context),
-                color: Colors.transparent,
-              ),
-              // FAVOR RECOMMENDATIONS
-              // HEADING
-              customHeading2(heading: "${reccomendationListHeading}", size: 22,),
-              // RECOMMENDATION LIST (scrollable vertically) 
-              RecommendedFavorWidgetsList_Widget(shrinkWrap: true), 
-            ],
+                // FAVOR BOOKED
+                FutureBuilder<bool>(
+                  future: isThereUserToken,
+                  builder: ((context, snapshot) {
+                    if (snapshot.hasData && snapshot.data != null) {
+                      return snapshot.data!
+                          // IF THERE ARE BOOKED FAVOR - display them
+                          ? Container(
+                              height:
+                                  Responsive.heightFixOver(130, 40, context),
+                              child: Column(
+                                children: [
+                                  //HEADING
+                                  customHeading2(
+                                    heading: "${bookedListHeading}",
+                                    size: 22,
+                                  ),
+                                  // BOOKED LIST (scrollable horizontaly)
+                                  Expanded(child: Carousel_BookedFavorWidget())
+                                ],
+                              ),
+                            )
+                          // IF THERE ARE NO BOOKED FAVOR (or you're not logged in) - display empty container
+                          : Container();
+                    }
+                    return CupertinoActivityIndicator(
+                        animating: false, radius: 20);
+                  }),
+                ),
+                //
+                Divider(
+                  height: Responsive.height(1, context),
+                  color: Colors.transparent,
+                ),
+                // FAVOR CATEGORIES
+                Container(
+                  height: Responsive.heightFixOver(130, 40, context),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      // HEADING
+                      customHeading2(
+                        heading: "${categoryListHeading}",
+                        size: 22,
+                      ),
+                      Divider(
+                        height: Responsive.height(1, context),
+                        color: Colors.transparent,
+                      ),
+                      // CATEGORY LIST (scrollable horizontaly)
+                      Expanded(child: Carousel_FavorCategoryWidget()),
+                    ],
+                  ),
+                ),
+                //
+                Divider(
+                  height: Responsive.height(1, context),
+                  color: Colors.transparent,
+                ),
+                // FAVOR RECOMMENDATIONS
+                // HEADING
+                customHeading2(
+                  heading: "${reccomendationListHeading}",
+                  size: 22,
+                ),
+                // RECOMMENDATION LIST (scrollable vertically)
+                //RecommendedFavorWidgetsList_Widget(shrinkWrap: true),
+                buildRec(context, true),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
+
+  //RECOMMENDER LIST -------
+
+  Future<void> fetchPage(BuildContext context, int pageKey) async {
+    try {
+      final newItems = await PostService().getPosts(context, pageKey);
+      final isLastPage = newItems.length < _pageSize;
+      if (isLastPage) {
+        _pagingController.appendLastPage(newItems);
+      } else {
+        final nextPageKey = pageKey + 1;
+        _pagingController.appendPage(newItems, nextPageKey);
+      }
+    } catch (error) {
+      _pagingController.error = error;
+    }
+  }
+
+  Widget buildRec(BuildContext context, bool shrinkWrap) {
+    return PagedListView<int, Post>(
+      primary: false, //
+      shrinkWrap: _shrinkWrap,
+      pagingController: _pagingController,
+      builderDelegate: PagedChildBuilderDelegate<Post>(
+          itemBuilder: (context, item, index) => FavorWidget(
+                post: item,
+              ),
+          firstPageProgressIndicatorBuilder: (_) => Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CupertinoActivityIndicator(animating: false, radius: 10)
+                ],
+              )),
+    );
+  }
 }
-
-
 
 class Carousel_FavorCategoryWidget extends StatefulWidget {
   const Carousel_FavorCategoryWidget({super.key});
@@ -160,10 +223,11 @@ class _Carousel_FavorCategoryWidgetState
 }
 
 ///  The attrbure "shrinkWrap" is used for centering the activity indicator and build the posts correctly based on the screen we are.
+/*
 class RecommendedFavorWidgetsList_Widget extends StatefulWidget {
   RecommendedFavorWidgetsList_Widget({super.key, required this.shrinkWrap});
 
-  bool shrinkWrap;
+  
 
   @override
   State<RecommendedFavorWidgetsList_Widget> createState() =>
@@ -172,52 +236,20 @@ class RecommendedFavorWidgetsList_Widget extends StatefulWidget {
 
 class _RecommendedFavorWidgetsList_WidgetState
     extends State<RecommendedFavorWidgetsList_Widget> {
-  static const _pageSize = 4;
-  final PagingController<int, Post> _pagingController =
-      PagingController(firstPageKey: 1);
 
-  @override
-  void initState() {
-    _pagingController.addPageRequestListener((pageKey) {
-      _fetchPage(context, pageKey);
-    });
-    super.initState();
-  }
 
-  Future<void> _fetchPage(BuildContext context, int pageKey) async {
-    try {
-      final newItems = await PostService().getPosts(context, pageKey);
-      final isLastPage = newItems.length < _pageSize;
-      if (isLastPage) {
-        _pagingController.appendLastPage(newItems);
-      } else {
-        final nextPageKey = pageKey + 1;
-        _pagingController.appendPage(newItems, nextPageKey);
-      }
-    } catch (error) {
-      _pagingController.error = error;
-    }
-  }
+  
+
+  
+
+  
 
   @override
   Widget build(BuildContext context) {
-    return PagedListView<int, Post>(
-      primary: false, //
-      shrinkWrap: widget.shrinkWrap,
-      pagingController: _pagingController,
-      builderDelegate: PagedChildBuilderDelegate<Post>(
-          itemBuilder: (context, item, index) => FavorWidget(
-                post: item,
-              ),
-          firstPageProgressIndicatorBuilder: (_) => Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CupertinoActivityIndicator(animating: false, radius: 10)
-                ],
-              )),
-    );
+    return Container();
   }
 }
+*/
 
 //TODO: da controllare la funzione del server (ho fatto solo copia ed incolla dal Carousel_FavorCategoryWidget)
 class Carousel_BookedFavorWidget extends StatefulWidget {
