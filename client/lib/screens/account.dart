@@ -23,17 +23,27 @@ class _AccountScreenState extends State<AccountScreen> {
       child: Container(
         child: SafeArea(
             child: Center(
-          child: FutureBuilder<String?>(
-              future: Storage.getUserToken(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Text('Token got from server: ${snapshot.data!}');
-                } else if (snapshot.hasError) {
-                  return Text('${snapshot.error}');
+          child: Column(
+            children: [
+              CupertinoButton(
+                child: Text("sign out"),
+                onPressed: (() {
+                  
                 }
-                // By default, show a loading spinner.
-                return CupertinoActivityIndicator(animating: false, radius: 10);
-              }),
+              )),
+              FutureBuilder<String?>(
+                  future: Storage.getUserToken(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Text('Token got from server: ${snapshot.data!}');
+                    } else if (snapshot.hasError) {
+                      return Text('${snapshot.error}');
+                    }
+                    // By default, show a loading spinner.
+                    return CupertinoActivityIndicator(animating: false, radius: 10);
+                  }),
+            ],
+          ),
         )),
       ),
     );
