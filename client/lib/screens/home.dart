@@ -168,7 +168,7 @@ class HomeScreen extends StatelessWidget {
               // NEW FAVOR
               BottomNavigationBarItem(
                 icon: TabsName.values[2].icon,
-                label: "New Favor", //OLD VALUE: TabsName.values[2].name,
+                label: "New Favor", //OLD VALUE: TabsName.values[2].name, TODO: cambiarlo
               ),
               // LEADERBOARD
               BottomNavigationBarItem(

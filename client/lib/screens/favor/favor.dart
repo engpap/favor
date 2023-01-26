@@ -300,7 +300,6 @@ class _Favor_publishFavorButtonState extends State<Favor_publishFavorButton> {
                       description: globals.boxDescriptionTextController.text,
                     ),
               builder: (context, snapshot) {
-                print("VEDIAMO SE ARRIVA SE NON PUSHO UNA PAGINA");
                 //TODO: queste funzioni non partono mai
                 if (snapshot.hasData) {
                   print(">>> Post created! Redirecting to Information page...");

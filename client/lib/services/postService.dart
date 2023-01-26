@@ -3,20 +3,14 @@ import 'package:http/http.dart' as http;
 import 'package:project/errors/error_handling.dart';
 import 'package:project/functions/showToast.dart';
 import 'package:project/models/callerPost.dart';
-import 'package:project/models/favorCategories.dart';
 import 'package:project/models/providerPost.dart';
 import 'package:project/helpers/storage.dart';
 import 'dart:convert';
 
-import 'package:project/providers/user_provider.dart';
 import 'package:project/screens/favorInformationPage/favorInformationPage.dart';
-import 'package:project/screens/feed/feed.dart';
 import 'package:project/screens/home.dart';
-import 'package:project/screens/signin/signin.dart';
-import 'package:provider/provider.dart';
 import 'package:project/constants/globalVars.dart';
 import 'package:project/models/post.dart';
-import 'package:project/models/favorConstants.dart';
 
 import 'package:project/screens/favor/globals.dart' as globals_favor;
 import 'package:project/functions/favorTime.dart' as favorTime;
@@ -62,6 +56,8 @@ class PostService {
         response: response,
         context: context,
         onSuccess: () {
+          // TODO: refresh home
+          // ***
 
           // Reset Variables
           globals_favor.categoryTextController.clear();
@@ -122,7 +118,9 @@ class PostService {
         response: response,
         context: context,
         onSuccess: () {
-
+          // TODO: refresh home
+          // ***
+          
           // Reset Variables
           globals_favor.categoryTextController.clear();
           globals_favor.locationTextController.clear();
@@ -259,7 +257,10 @@ class PostService {
         response: response,
         context: context,
         onSuccess: () {
-          /** 
+          // TODO: refresh home
+          // ***
+          
+          /** OLD
            Navigator.pushReplacement(
               context, CupertinoPageRoute(builder: (context) => Feed_Screen()));
           */
