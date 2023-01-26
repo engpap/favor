@@ -4,7 +4,9 @@ import 'package:integration_test/integration_test.dart';
 import 'package:project/functions/tabs.dart';
 
 import 'package:project/main.dart' as app;
+import 'package:project/screens/favor/favor.dart';
 import 'package:project/screens/home.dart';
+import 'package:project/screens/signin/signin.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -34,7 +36,7 @@ void main() {
     });
 
     testWidgets(
-        "If user tries to create a favor but it is not logged, then the app shows the Sign In Screen",
+        "User enters the app for the first time and move to FavorScreen",
         (tester) async {
       app.main();
       await tester.pumpAndSettle();
@@ -55,62 +57,11 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byType(HomeScreen), findsOneWidget);
 
-      final addIconItem = find.byWidget(TabsName.values[2].icon);
-      await tester.tap(addIconItem);
-
-      /*
-      var new_favor_icon;
-      // Find and tap the add button in the HomeScreen.
-      /*
-      final bottomBarItems = find.byType(BottomNavigationBarItem);
-
-      final home_screen_widget = find
-          .byKey(Key("home_screen_widget"))
-          .evaluate()
-          .first
-          .widget as UserMode;
-      final cupertinoTabScaffold =
-          home_screen_widget.child as CupertinoTabScaffold;
-      final tabBar = cupertinoTabScaffold.tabBar;
-      final items = tabBar.items;
-      //final BottomNavigationBarItem addIconItem = items[2];
-      final item2 = find.byType(BottomNavigationBarItem);
-*/
-
-      final bottomTabBar = find.byKey(Key("bottom_navigation_bar"));
-
-      await tester.tapAt(tester.getCenter(bottomTabBar));
+      // Find and tap on "New Favor" item in the bottom navigation bar
+      final new_favor_navbar_item = find.text("New Favor");
+      await tester.tap(new_favor_navbar_item);
       await tester.pumpAndSettle();
-      expect(find.byType(DetailScreen), findsOneWidget);
-      
-      final Finder publishButton = find.byKey(Key('publishButton'));
-      await tester.tap(publishButton);
-
-      final signInButton = find.byKey(Key("form_sign_in_container"));
-
-      //await driver.
-      //final bottomNavigationBarItem = find.by
-      // await tester.tap(addIconItem);
-      // await tester.tap(BottomNavigationBarItem);
-      //BottomNavigationBarItem.visitChildElements((element) {
-      //  new_favor_icon = (element as CupertinoTabScaffold).tabBar.items[2];
-      //});
-
-      // FOR ME:   until finding home_screen_widget it works
-
-      //await tester.tap(new_favor_icon);
-
-      //await tester.tap(addButton);
-
-      // Emulate a tap on the publish favor button.
-
-      // Trigger a frame.
-      await tester.pumpAndSettle();
-
-      // Verify the we are in the SignInScreen by checking the presence of the
-      // SignUp button
-      expect(find.byKey(Key('SignIn_loginButton')), findsOneWidget);
-      */
+      expect(find.byType(FavorScreen), findsOneWidget);
     });
   });
 }
