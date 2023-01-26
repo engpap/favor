@@ -16,7 +16,6 @@ import 'package:project/functions/favorTime.dart' as favorTime;
 class favorInformationPage_Screen extends StatelessWidget {
   favorInformationPage_Screen({super.key,
   required this.post,
- 
   });
 
   Post? post;
