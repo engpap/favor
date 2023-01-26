@@ -16,9 +16,11 @@ import 'package:project/functions/favorTime.dart' as favorTime;
 class favorInformationPage_Screen extends StatelessWidget {
   favorInformationPage_Screen({super.key,
   required this.post,
+  required this.userType,
   });
-
+  
   Post? post;
+  String userType;
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +35,8 @@ class favorInformationPage_Screen extends StatelessWidget {
             backgroundColor: favorColors.IntroBg,
             child: SafeArea(
               child: ResponsiveLeayout(
-                mobileBody: favorInformationPage_Screen_M(post: post),
-                tabletBody: favorInformationPage_Screen_T(post: post),
+                mobileBody: favorInformationPage_Screen_M(post: post, userType: userType),
+                tabletBody: favorInformationPage_Screen_T(post: post, userType: userType),
               ),
             )));
   }
@@ -330,9 +332,11 @@ class FavorBook extends StatelessWidget {
   FavorBook({
     super.key,
     required this.post,
+    required this.userType,
   });
 
   Post? post;
+  String userType;
 
   @override
   Widget build(BuildContext context) {
@@ -378,7 +382,7 @@ class FavorBook extends StatelessWidget {
             onPressed: () {
               print('Pressed: _bookButton');
               PostService()
-                  .bookFavor(context: context, post: post);
+                  .bookFavor(context: context, post: post, userType: userType);
             },
           ),
         ),

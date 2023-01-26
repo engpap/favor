@@ -59,11 +59,13 @@ class PostService {
         response: response,
         context: context,
         onSuccess: () {
-          Navigator.pushReplacement(
+          Navigator.push(
               context,
               CupertinoPageRoute(
                   builder: (context) => favorInformationPage_Screen(
-                      post: ProviderPost.fromJson(jsonDecode(response.body)))));
+                      post: ProviderPost.fromJson(jsonDecode(response.body)),
+                      userType: 'provider', //TODO: chek it
+                      )));
         },
       );
     } catch (error) {
@@ -108,11 +110,13 @@ class PostService {
         response: response,
         context: context,
         onSuccess: () {
-          Navigator.pushReplacement(
+          Navigator.push(
               context,
               CupertinoPageRoute(
                   builder: (context) => favorInformationPage_Screen(
-                      post: ProviderPost.fromJson(jsonDecode(response.body)))));
+                      post: ProviderPost.fromJson(jsonDecode(response.body)),
+                      userType: 'caller', //TODO: chek it
+                      )));
         },
       );
     } catch (error) {
@@ -214,10 +218,13 @@ class PostService {
   Future<void> bookFavor({
     required BuildContext context,
     required Post? post,
+    required String userType
   }) async {
     try {
       if (post?.userType ==
-          UserMode_inherited.of(context).stateWidget.getUserMode())
+          //UserMode_inherited.of(context).stateWidget.getUserMode() TODO: check it
+          userType
+        )
         showToast(context,
             "Cannot book favor if User Mode is the same of publisher!");
 
@@ -233,8 +240,11 @@ class PostService {
         response: response,
         context: context,
         onSuccess: () {
-          Navigator.pushReplacement(
+          /** 
+           Navigator.pushReplacement(
               context, CupertinoPageRoute(builder: (context) => Feed_Screen()));
+          */
+          Navigator.pop(context); //TODO: check
         },
       );
     } catch (error) {

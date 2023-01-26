@@ -15,9 +15,11 @@ class favorInformationPage_Screen_T extends StatelessWidget {
   favorInformationPage_Screen_T({
     super.key,
     required this.post,
+    required this.userType,
   });
 
   Post? post;
+  String userType;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,7 @@ class favorInformationPage_Screen_T extends StatelessWidget {
                 // FAVOR PERSON
                 CustomCard(child: FavorPerson(post: post),),
                 // FAVOR BOOK
-                FavorBook(post: post),
+                FavorBook(post: post, userType: userType,),
               ],
             ),
           ),

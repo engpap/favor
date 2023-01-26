@@ -13,6 +13,7 @@ import 'package:project/screens/favorInformationPage/favorInformationPage.dart';
 import 'package:project/screens/feed/feed_mobile.dart';
 import 'package:project/screens/feed/feed_tablet.dart';
 import 'package:project/screens/feed/feed_utilities.dart';
+import 'package:project/screens/home.dart';
 import 'package:project/screens/responsiveLayout.dart';
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/functions/favorTime.dart' as favorTime;
@@ -307,12 +308,14 @@ class FavorWidget extends StatelessWidget {
                   ),
                   onPressed: () {
                     print('Pressed: _moreButton');
+                    String userType = UserMode_inherited.of(context).stateWidget.getUserMode();
                     Navigator.push(
                       context,
                       CupertinoPageRoute(
-                          builder: (context) => favorInformationPage_Screen(
-                                post: post,
-                              )),
+                        builder: (context) => favorInformationPage_Screen(
+                          post: post, userType: userType,
+                        )
+                      ),
                     );
                   },
                 ),
