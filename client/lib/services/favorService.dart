@@ -36,6 +36,30 @@ class FavorService {
     return bookedFavors;
   }
 
+  /// Request the first page of booked favors. If there is at least one
+  /// booked favor, then it returns true, otherwise it returns false.
+  Future<bool> hasUserBookedSomeFavors(BuildContext context) async {
+    bool result = false;
+    try {
+      http.Response response = await http
+          .get(Uri.parse('$uri/favors/getBookedFavors?page=1'), headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+        'x-auth-token': await Storage.getUserToken(),
+      });
+
+      httpErrorHandle(
+          response: response,
+          context: context,
+          onSuccess: () {
+            result = jsonDecode(response.body)['data'].length > 0;
+          });
+    } catch (error) {
+      throw Exception(
+          ">>> hasUserBookedSomeFavors exception: " + error.toString());
+    }
+    return result;
+  }
+
   /**
    * This method should be called only by PROVIDERS.
    */
