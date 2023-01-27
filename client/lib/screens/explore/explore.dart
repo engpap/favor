@@ -21,7 +21,8 @@ class Explore_Screen extends StatelessWidget {
             child: SafeArea(
           child: ResponsiveLeayout(
             mobileBody: Explore_Screen_M(),
-            tabletBody: Explore_Screen_T(),
+            //TODO:
+            tabletBody: Explore_Screen_M(),
           ),
         )));
   }
