@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/helpers/storage.dart';
 import 'package:project/providers/user_provider.dart';
+import 'package:project/screens/explore/providerExplore.dart';
 import 'package:project/screens/loading/loading_page.dart';
 import 'package:provider/provider.dart';
 import 'package:project/screens/introduction/introduction-1.dart';
@@ -9,7 +10,10 @@ import 'package:project/screens/home.dart';
 
 void main() {
   runApp(MultiProvider(
-      providers: [ChangeNotifierProvider(create: (context) => UserProvider())],
+      providers: [
+        ChangeNotifierProvider(create: (context) => UserProvider()),
+        ChangeNotifierProvider(create: (context) => ExploreQuery())
+        ],
       child: const MyApp()));
 }
 

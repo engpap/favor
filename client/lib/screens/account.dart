@@ -1,7 +1,12 @@
 // TODO Account page
 import 'package:flutter/cupertino.dart';
 import 'package:project/helpers/storage.dart';
+import 'package:project/providers/user_provider.dart';
+import 'package:project/screens/home.dart';
+import 'package:project/services/authService.dart';
+import 'package:provider/provider.dart';
 
+import 'package:project/functions/tabs.dart' as FavorTab;
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -11,6 +16,8 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
+  CupertinoTabController tabController = FavorTab.tabController;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -26,11 +33,16 @@ class _AccountScreenState extends State<AccountScreen> {
           child: Column(
             children: [
               CupertinoButton(
-                child: Text("sign out"),
-                onPressed: (() {
-                  
-                }
-              )),
+                  //child: Text("${Provider.of<UserProvider>(context, listen: false).user?.name}"),
+                  //child: Text("${UserProvider().user?.name.toString()}"),
+                  child: Text("cambio schermo"),
+                  onPressed: (() {
+                    //log out
+                    //AuthService().signout(context: context);
+                    tabController.index = 2;
+                    //print(tabController.index);
+                  }
+                )),
               FutureBuilder<String?>(
                   future: Storage.getUserToken(),
                   builder: (context, snapshot) {
@@ -40,7 +52,8 @@ class _AccountScreenState extends State<AccountScreen> {
                       return Text('${snapshot.error}');
                     }
                     // By default, show a loading spinner.
-                    return CupertinoActivityIndicator(animating: false, radius: 10);
+                    return CupertinoActivityIndicator(
+                        animating: false, radius: 10);
                   }),
             ],
           ),

@@ -112,7 +112,7 @@ class AuthService {
           Storage.setUserId(jsonDecode(response.body)['_id']);
           Navigator.pushReplacement(
             context,
-            CupertinoPageRoute(builder: (context) => const HomeScreen()),
+            CupertinoPageRoute(builder: (context) =>  HomeScreen()),
           );
         },
       );
@@ -173,7 +173,7 @@ class AuthService {
             // If response.statusCode is 200, then it means it is an
             // already registered user
             Navigator.push(context,
-                CupertinoPageRoute(builder: (context) => const HomeScreen()));
+                CupertinoPageRoute(builder: (context) =>  HomeScreen()));
         } else {
           httpErrorHandle(
               response: response, context: context, onSuccess: () {});

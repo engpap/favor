@@ -204,7 +204,7 @@ class SignIn_googleButton extends StatelessWidget {
             globals.authService.googleSignIn(context: context);
             Navigator.push(
               context,
-              CupertinoPageRoute(builder: (context) => const HomeScreen()),
+              CupertinoPageRoute(builder: (context) => HomeScreen()),
             );
           },
         ),

@@ -8,6 +8,7 @@ import 'package:project/models/callerPost.dart';
 import 'package:project/models/post.dart';
 import 'package:project/screens/components/customCard.dart';
 import 'package:project/screens/components/starsWidget.dart';
+import 'package:project/screens/explore/providerExplore.dart';
 import 'package:project/screens/favorBookedPage/favorBookedPage.dart';
 import 'package:project/screens/favorInformationPage/favorInformationPage.dart';
 import 'package:project/screens/feed/feed_mobile.dart';
@@ -17,6 +18,8 @@ import 'package:project/screens/home.dart';
 import 'package:project/screens/responsiveLayout.dart';
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/functions/favorTime.dart' as favorTime;
+import 'package:project/functions/tabs.dart' as FavorTab;
+import 'package:provider/provider.dart';
 
 class Feed_Screen extends StatelessWidget {
   const Feed_Screen({super.key});
@@ -48,6 +51,7 @@ class FavorCategoryWidget extends StatelessWidget {
   });
 
   final String categoryName;
+  CupertinoTabController tabController = FavorTab.tabController;
 
   @override
   Widget build(BuildContext context) {
@@ -58,33 +62,45 @@ class FavorCategoryWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           // IMAGE
-          Container(
-            height: Responsive.heightFixOver(80, 22, context),
-            width: Responsive.heightFixOver(80, 22, context),
-            decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              image: DecorationImage(
-                image: FeedUtilities.getFavorCategoryImage(categoryName),
-                fit: BoxFit.cover,
-              ),
-              border: Border.all(
-                color: favorColors.LightGrey,
-                width: 2.0,
-              ),
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  spreadRadius: 0.5,
-                  blurRadius: 5,
-                  offset: Offset(0, 1),
-                ),
-              ],
+          ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(favorColors.IntroBg),
+              foregroundColor:
+                  MaterialStateProperty.all<Color>(favorColors.PrimaryBlue),
+              overlayColor:
+                  MaterialStateProperty.all<Color>(favorColors.SecondaryBlue),
+              padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(0)),
             ),
-          ),
-          Divider(
-            height: Responsive.height(0.5, context),
-            color: Colors.transparent,
+            onPressed: () {
+              // go to Explore Tab
+              context.read<ExploreQuery>().update(categoryName);
+              tabController.index = 1;
+            },
+
+            child: Container(
+              height: Responsive.heightFixOver(80, 22, context),
+              width: Responsive.heightFixOver(80, 22, context),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                image: DecorationImage(
+                  image: FeedUtilities.getFavorCategoryImage(categoryName),
+                  fit: BoxFit.cover,
+                ),
+                border: Border.all(
+                  color: favorColors.LightGrey,
+                  width: 2.0,
+                ),
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    spreadRadius: 0.5,
+                    blurRadius: 5,
+                    offset: Offset(0, 1),
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
@@ -103,7 +119,8 @@ class FavorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomCard(
-      customWidth: Responsive.homeColumnWidth(context), //Responsive.fixedWidth(),
+      customWidth:
+          Responsive.homeColumnWidth(context), //Responsive.fixedWidth(),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,7 +146,9 @@ class FavorWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(width: 10,),
+              SizedBox(
+                width: 10,
+              ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,8 +157,9 @@ class FavorWidget extends StatelessWidget {
                   Container(
                     child: Text(
                       "${post!.name} ${post!.surname}",
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold,
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
                           color: favorColors.PrimaryBlue),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -159,12 +179,16 @@ class FavorWidget extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      SizedBox(width: 5,),
+                      SizedBox(
+                        width: 5,
+                      ),
                       // STARS
-                      StarsWidget(number: post!.averageRatings, size: 12,),
+                      StarsWidget(
+                        number: post!.averageRatings,
+                        size: 12,
+                      ),
                     ],
                   ),
-                  
                 ],
               ),
               // to fill the space in between
@@ -186,7 +210,9 @@ class FavorWidget extends StatelessWidget {
             ],
           ),
           // 2nd ROW - favor's description
-          SizedBox(height: 10,),
+          SizedBox(
+            height: 10,
+          ),
           // DESCRIPTION
           Container(
             padding: EdgeInsets.only(left: 51, right: 9),
@@ -200,7 +226,9 @@ class FavorWidget extends StatelessWidget {
             ),
           ),
           // 3rd ROW - favor's time
-          SizedBox(height: 10,),
+          SizedBox(
+            height: 10,
+          ),
           // TIME
           Container(
             padding: EdgeInsets.only(right: 9, left: 9),
@@ -218,7 +246,9 @@ class FavorWidget extends StatelessWidget {
                     size: 24, //
                   ),
                 ),
-                SizedBox(width: 8,),
+                SizedBox(
+                  width: 8,
+                ),
                 // VALUE
                 Container(
                   child: Text(
@@ -237,7 +267,9 @@ class FavorWidget extends StatelessWidget {
             ),
           ),
           // 4th ROW - favor's location
-          SizedBox(height: 10,),
+          SizedBox(
+            height: 10,
+          ),
           // LOCATION
           Container(
             padding: EdgeInsets.only(right: 9, left: 9),
@@ -255,26 +287,30 @@ class FavorWidget extends StatelessWidget {
                     size: 24, //
                   ),
                 ),
-                SizedBox(width: 8,),
+                SizedBox(
+                  width: 8,
+                ),
                 // VALUE
-                  Container(
-                    child: Container(
-                      child: Text(
-                        post!.location,
-                        style: TextStyle(
-                          fontSize: 15,
-                          color:Colors.black45,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                Container(
+                  child: Container(
+                    child: Text(
+                      post!.location,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.black45,
                       ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
+                ),
               ],
             ),
           ),
           // 5th ROW - more button
-          SizedBox(height: 10,),
+          SizedBox(
+            height: 10,
+          ),
           Row(
             children: [
               // MORE BUTTON
@@ -303,19 +339,20 @@ class FavorWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(90),
                   child: Text(
                     "More...",
-                    style: TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                   ),
                   onPressed: () {
                     print('Pressed: _moreButton');
-                    String userType = UserMode_inherited.of(context).stateWidget.getUserMode();
+                    String userType = UserMode_inherited.of(context)
+                        .stateWidget
+                        .getUserMode();
                     Navigator.push(
                       context,
                       CupertinoPageRoute(
-                        builder: (context) => favorInformationPage_Screen(
-                          post: post, userType: userType,
-                        )
-                      ),
+                          builder: (context) => favorInformationPage_Screen(
+                                post: post,
+                                userType: userType,
+                              )),
                     );
                   },
                 ),
@@ -324,7 +361,9 @@ class FavorWidget extends StatelessWidget {
               Expanded(child: Container()),
             ],
           ),
-          SizedBox(height: 10,),
+          SizedBox(
+            height: 10,
+          ),
           /**
           // RANK
           Container(
@@ -380,8 +419,9 @@ class BookedFavorWidget extends StatelessWidget {
                 Navigator.push(
                   context,
                   CupertinoPageRoute(
-                    builder: (context) => 
-                      favorBookedPage_Screen(bookedFavor: booked,)),
+                      builder: (context) => favorBookedPage_Screen(
+                            bookedFavor: booked,
+                          )),
                 );
               },
               // LAYOUT
@@ -396,7 +436,8 @@ class BookedFavorWidget extends StatelessWidget {
                       decoration: BoxDecoration(
                         shape: BoxShape.rectangle,
                         image: DecorationImage(
-                          image: FeedUtilities.getFavorCategoryImage(booked.post.taskCategory),
+                          image: FeedUtilities.getFavorCategoryImage(
+                              booked.post.taskCategory),
                           fit: BoxFit.cover,
                           opacity: 1,
                         ),
@@ -421,7 +462,9 @@ class BookedFavorWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(width: 5,),
+                  SizedBox(
+                    width: 5,
+                  ),
                   // INFORMATIONS
                   Container(
                     width: Responsive.widthFixOver(120, 29, context),
@@ -433,23 +476,26 @@ class BookedFavorWidget extends StatelessWidget {
                           Text(
                             '${booked.post.name} ${booked.post.surname}',
                             style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
+                                fontSize: 16, fontWeight: FontWeight.bold),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
-                          SizedBox(height: 1,),
+                          SizedBox(
+                            height: 1,
+                          ),
                           // ROLE
                           Text(
                             booked.post.userType,
                             style: TextStyle(
-                              fontSize: 16, 
-                              fontWeight: FontWeight.normal,
-                              color: favorColors.SecondaryBlue
-                            ),
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal,
+                                color: favorColors.SecondaryBlue),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
-                          SizedBox(height: 5,),
+                          SizedBox(
+                            height: 5,
+                          ),
                           // TIME
                           Container(
                             child: Row(

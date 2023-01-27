@@ -18,11 +18,11 @@ class Explore_Screen extends StatelessWidget {
           }
         },
         child: CupertinoPageScaffold(
-          child: SafeArea(
-            child: ResponsiveLeayout(
-              mobileBody: Explore_Screen_M(),
-              tabletBody: Explore_Screen_T(),
-            ),
+            child: SafeArea(
+          child: ResponsiveLeayout(
+            mobileBody: Explore_Screen_M(),
+            tabletBody: Explore_Screen_T(),
+          ),
         )));
   }
 }

@@ -2,7 +2,7 @@ import 'package:project/screens/components/cupertinoNavigationBar_favor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/functions/responsive.dart';
-import 'package:project/functions/tabs.dart';
+import 'package:project/functions/tabs.dart' as FavorTab;
 
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/screens/responsiveLayout.dart';
@@ -137,7 +137,9 @@ class UserMode_inherited extends InheritedWidget {
 }
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  HomeScreen({super.key});
+
+  CupertinoTabController tabController = FavorTab.tabController;
 
   Widget build(BuildContext context) {
     return ResponsiveLeayout(
@@ -151,41 +153,42 @@ class HomeScreen extends StatelessWidget {
     return UserMode(
       key: UniqueKey(),
       child: CupertinoTabScaffold(
+        controller: tabController,
           tabBar: CupertinoTabBar(
             key: Key("cupertino_tab_bar"),
             activeColor: favorColors.PrimaryBlue,
             items: [
               // HOME
               BottomNavigationBarItem(
-                icon: TabsName.values[0].icon,
-                label: TabsName.values[0].name,
+                icon: FavorTab.TabsName.values[0].icon,
+                label: FavorTab.TabsName.values[0].name,
               ),
               // CHAT
               BottomNavigationBarItem(
-                icon: TabsName.values[1].icon,
-                label: TabsName.values[1].name,
+                icon: FavorTab.TabsName.values[1].icon,
+                label: FavorTab.TabsName.values[1].name,
               ),
               // NEW FAVOR
               BottomNavigationBarItem(
-                icon: TabsName.values[2].icon,
+                icon: FavorTab.TabsName.values[2].icon,
                 label: "New Favor", //OLD VALUE: TabsName.values[2].name, TODO: cambiarlo
               ),
               // LEADERBOARD
               BottomNavigationBarItem(
-                icon: TabsName.values[3].icon,
-                label: TabsName.values[3].name,
+                icon: FavorTab.TabsName.values[3].icon,
+                label: FavorTab.TabsName.values[3].name,
               ),
               // ACCOUNT
               BottomNavigationBarItem(
-                icon: TabsName.values[4].icon,
-                label: TabsName.values[4].name,
+                icon: FavorTab.TabsName.values[4].icon,
+                label: FavorTab.TabsName.values[4].name,
               ),
             ],
           ),
           // BUILD THE INSIDE SCREEN
           tabBuilder: (context, i) {
             return DetailScreen(
-              topic: TabsName.values[i].screen,
+              topic: FavorTab.TabsName.values[i].screen,
             );
           }),
     );

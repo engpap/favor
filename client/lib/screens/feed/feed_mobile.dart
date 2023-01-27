@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_launcher_icons/utils.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/functions/showToast.dart';
 import 'package:project/functions/utilities.dart';
@@ -33,10 +34,15 @@ class Feed_Screen_M extends StatefulWidget {
 class _Feed_Screen_MState extends State<Feed_Screen_M> {
   late Future<bool> isThereUserToken;
 
+  // RECOMMEDED
   static const _pageSize = 4;
   PagingController<int, Post> _pagingController =
       PagingController(firstPageKey: 1);
   bool _shrinkWrap = true;
+  // BOOKED
+  PagingController<int, BookedFavor> _pagingControllerB =
+      PagingController(firstPageKey: 1);
+  late Future<bool> isNotEmptyBookedList;
 
   @override
   void initState() {
@@ -46,6 +52,10 @@ class _Feed_Screen_MState extends State<Feed_Screen_M> {
     _pagingController.addPageRequestListener((pageKey) {
       fetchPage(context, pageKey);
     });
+
+    _pagingControllerB.addPageRequestListener((pageKey) {
+      isNotEmptyBookedList = fetchPageB(pageKey);
+    });
   }
 
   @override
@@ -54,10 +64,11 @@ class _Feed_Screen_MState extends State<Feed_Screen_M> {
       padding: EdgeInsets.only(left: 8, right: 8),
       child: Center(
         child: RefreshIndicator(
-          color: Colors.red,
-          backgroundColor: Colors.blue,
+          color: favorColors.PrimaryBlue,
+          backgroundColor: Colors.white,
           onRefresh: () async {
             _pagingController.refresh();
+            _pagingControllerB.refresh();
             return;
           },
           child: SingleChildScrollView(
@@ -70,33 +81,56 @@ class _Feed_Screen_MState extends State<Feed_Screen_M> {
                   color: Colors.transparent,
                 ),
                 // FAVOR BOOKED
-                FutureBuilder<bool>(
+                FutureBuilder(
                   future: isThereUserToken,
                   builder: ((context, snapshot) {
+                    // if user HAS TOKEN
                     if (snapshot.hasData && snapshot.data != null) {
-                      return snapshot.data!
-                          // IF THERE ARE BOOKED FAVOR - display them
-                          ? Container(
-                              height:
-                                  Responsive.heightFixOver(130, 40, context),
-                              child: Column(
-                                children: [
-                                  //HEADING
-                                  customHeading2(
-                                    heading: "${bookedListHeading}",
-                                    size: 22,
-                                  ),
-                                  // BOOKED LIST (scrollable horizontaly)
-                                  Expanded(child: Carousel_BookedFavorWidget())
-                                ],
-                              ),
-                            )
-                          // IF THERE ARE NO BOOKED FAVOR (or you're not logged in) - display empty container
-                          : Container();
+                      if (snapshot.data!) {
+                        return 
+                            /**
+                             * TODO: riprovare a fixarlo
+                            FutureBuilder(
+                              future: isNotEmptyBookedList,
+                              builder: ((context, snapshot) {
+                                // if user HAS BOOKED FAVORS
+                                if (snapshot.hasData && snapshot.data != null) {
+                                  if (snapshot.data!){
+                                    return 
+                            */
+                                    Container(
+                                      height:Responsive.heightFixOver(130, 40, context),
+                                      child: Column(
+                                        children: [
+                                          //HEADING
+                                          customHeading2(
+                                            heading: "${bookedListHeading}",
+                                            size: 22,
+                                          ),
+                                          // BOOKED LIST (scrollable horizontaly)
+                                          Expanded(child: buildBooked(context))
+                                        ],
+                                      ),
+                                    );
+                              /**
+                                  } else {
+                                    // if user HAS NO BOOKED FAVORS
+                                    return Container();
+                                  }
+                                }
+                                return CupertinoActivityIndicator(animating: false, radius: 20);
+                              }),
+                            );
+                            */
+                      } else {
+                        // if user HAS NO TOKEN
+                        return Container();
+                      }
                     }
-                    return CupertinoActivityIndicator(
-                        animating: false, radius: 20);
-                  }),
+                    // WHILE WAITING
+                    return CupertinoActivityIndicator(animating: false, radius: 20);
+                  }
+                  ),
                 ),
                 //
                 Divider(
@@ -146,22 +180,6 @@ class _Feed_Screen_MState extends State<Feed_Screen_M> {
   }
 
   //RECOMMENDER LIST -------
-
-  Future<void> fetchPage(BuildContext context, int pageKey) async {
-    try {
-      final newItems = await PostService().getPosts(context, pageKey);
-      final isLastPage = newItems.length < _pageSize;
-      if (isLastPage) {
-        _pagingController.appendLastPage(newItems);
-      } else {
-        final nextPageKey = pageKey + 1;
-        _pagingController.appendPage(newItems, nextPageKey);
-      }
-    } catch (error) {
-      _pagingController.error = error;
-    }
-  }
-
   Widget buildRec(BuildContext context, bool shrinkWrap) {
     return PagedListView<int, Post>(
       primary: false, //
@@ -178,6 +196,52 @@ class _Feed_Screen_MState extends State<Feed_Screen_M> {
                 ],
               )),
     );
+  }
+
+  Future<void> fetchPage(BuildContext context, int pageKey) async {
+    try {
+      final newItems = await PostService().getPosts(context, pageKey);
+      final isLastPage = newItems.length < _pageSize;
+      if (isLastPage) {
+        _pagingController.appendLastPage(newItems);
+      } else {
+        final nextPageKey = pageKey + 1;
+        _pagingController.appendPage(newItems, nextPageKey);
+      }
+    } catch (error) {
+      _pagingController.error = error;
+    }
+  }
+
+  // BOOKED LIST ----
+  Widget buildBooked(BuildContext context) {
+    return PagedListView<int, BookedFavor>(
+      scrollDirection: Axis.horizontal,
+      pagingController: _pagingControllerB,
+      builderDelegate: PagedChildBuilderDelegate<BookedFavor>(
+        itemBuilder: (context, item, index) => BookedFavorWidget(booked: item),
+        firstPageProgressIndicatorBuilder: (_) =>
+            Center(child: CupertinoActivityIndicator()),
+      ),
+    );
+  }
+
+  Future<bool> fetchPageB(int pageKey) async {
+    try {
+      final newItems = await FavorService().getBookedFavors(context, pageKey);
+      final isLastPage = newItems.length < _pageSize;
+      if (isLastPage) {
+        _pagingControllerB.appendLastPage(newItems);
+      } else {
+        final nextPageKey = pageKey + newItems.length;
+        _pagingControllerB.appendPage(newItems, nextPageKey);
+      }
+    } catch (error) {
+      _pagingControllerB.error = error;
+    }
+    // isNotEmptyBookedList
+    printStatus("CI SONO ELEMENTI IN LISTA? -- ${_pagingControllerB.itemList!.isNotEmpty}");
+    return _pagingControllerB.itemList!.isNotEmpty;
   }
 }
 
@@ -219,86 +283,5 @@ class _Carousel_FavorCategoryWidgetState
           // By default, show a loading spinner.
           return CupertinoActivityIndicator(animating: false, radius: 10);
         }));
-  }
-}
-
-///  The attrbure "shrinkWrap" is used for centering the activity indicator and build the posts correctly based on the screen we are.
-/*
-class RecommendedFavorWidgetsList_Widget extends StatefulWidget {
-  RecommendedFavorWidgetsList_Widget({super.key, required this.shrinkWrap});
-
-  
-
-  @override
-  State<RecommendedFavorWidgetsList_Widget> createState() =>
-      _RecommendedFavorWidgetsList_WidgetState();
-}
-
-class _RecommendedFavorWidgetsList_WidgetState
-    extends State<RecommendedFavorWidgetsList_Widget> {
-
-
-  
-
-  
-
-  
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
-*/
-
-//TODO: da controllare la funzione del server (ho fatto solo copia ed incolla dal Carousel_FavorCategoryWidget)
-class Carousel_BookedFavorWidget extends StatefulWidget {
-  const Carousel_BookedFavorWidget({super.key});
-
-  @override
-  State<Carousel_BookedFavorWidget> createState() =>
-      _Carousel_BookedFavorWidgetState();
-}
-
-class _Carousel_BookedFavorWidgetState
-    extends State<Carousel_BookedFavorWidget> {
-  static const _pageSize = 4;
-  final PagingController<int, BookedFavor> _pagingController =
-      PagingController(firstPageKey: 1);
-
-  @override
-  void initState() {
-    _pagingController.addPageRequestListener((pageKey) {
-      _fetchPage(pageKey);
-    });
-    super.initState();
-  }
-
-  Future<void> _fetchPage(int pageKey) async {
-    try {
-      final newItems = await FavorService().getBookedFavors(context, pageKey);
-      final isLastPage = newItems.length < _pageSize;
-      if (isLastPage) {
-        _pagingController.appendLastPage(newItems);
-      } else {
-        final nextPageKey = pageKey + newItems.length;
-        _pagingController.appendPage(newItems, nextPageKey);
-      }
-    } catch (error) {
-      _pagingController.error = error;
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return PagedListView<int, BookedFavor>(
-      scrollDirection: Axis.horizontal,
-      pagingController: _pagingController,
-      builderDelegate: PagedChildBuilderDelegate<BookedFavor>(
-        itemBuilder: (context, item, index) => BookedFavorWidget(booked: item),
-        firstPageProgressIndicatorBuilder: (_) =>
-            Center(child: CupertinoActivityIndicator()),
-      ),
-    );
   }
 }

@@ -45,7 +45,7 @@ class Introduction3Screen_M_T extends StatelessWidget {
             onTap: () {
               Navigator.pushReplacement(
                 context,
-                CupertinoPageRoute(builder: (context) => const HomeScreen()),
+                CupertinoPageRoute(builder: (context) => HomeScreen()),
                 /// HomeScreen is pushed so the users can see how the app looks like and eventually sign up.
               );
             },

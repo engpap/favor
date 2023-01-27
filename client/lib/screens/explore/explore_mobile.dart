@@ -6,6 +6,9 @@ import 'package:project/screens/home.dart';
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/services/postService.dart';
 
+import 'package:project/screens/explore/providerExplore.dart';
+import 'package:provider/provider.dart';
+
 class Explore_Screen_M extends StatefulWidget {
   Explore_Screen_M({super.key});
 
@@ -15,8 +18,6 @@ class Explore_Screen_M extends StatefulWidget {
 
 class _Explore_Screen_MState extends State<Explore_Screen_M> {
   late Future<List<Post>> posts;
-
-  final TextEditingController searchBarTextController = TextEditingController();
 
   @override
   void initState() {
@@ -28,7 +29,7 @@ class _Explore_Screen_MState extends State<Explore_Screen_M> {
   Future<List<Post>> searchPosts() {
     return posts = PostService().getPostsBySearch(
         context: context,
-        searchQuery: searchBarTextController.text,
+        searchQuery: context.read<ExploreQuery>().text,
         userTypeToSearch:
             UserMode_inherited.of(context).stateWidget.getOppositeUserMode());
   }
@@ -106,7 +107,7 @@ class _Explore_Screen_MState extends State<Explore_Screen_M> {
                         CupertinoIcons.xmark_circle_fill,
                         color: favorColors.Yellow.withOpacity(0.8),
                       ),
-                      onPressed: () => searchBarTextController.clear(),
+                      onPressed: () => context.watch<ExploreQuery>().clear(),
                     ),
                     maxLength: 30, // reasonable value
                     maxLines: 1, // reasonable value
@@ -116,9 +117,9 @@ class _Explore_Screen_MState extends State<Explore_Screen_M> {
                       color: Colors.grey,
                       fontWeight: FontWeight.normal,
                     ),
-                    controller: searchBarTextController,
+                    controller: context.watch<ExploreQuery>().controller,
                     onSubmitted: (value) {
-                      print('Submitted [${searchBarTextController}]: $value');
+                      print('Submitted [${context.read<ExploreQuery>()}]: $value');
                       this.searchPosts();
                     }),
               )),
