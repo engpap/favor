@@ -5,6 +5,7 @@ export const createJsonPost = async (post, user, userType) => {
         ...post._doc,
         name: user.name,
         surname: user.surname,
+        email: user.email,
         profilePicture: user.profilePicture,
         bio: user.bio,
         averageRatings: user.averageRatings ? user.averageRatings : 0,

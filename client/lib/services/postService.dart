@@ -63,16 +63,19 @@ class PostService {
           globals_favor.categoryTextController.clear();
           globals_favor.locationTextController.clear();
           globals_favor.boxDescriptionTextController.clear();
-          globals_favor.availabilityStartTimeTextController.text = favorTime.formatter.format(DateTime.now());
-          globals_favor.availabilityEndTimeTextController.text = favorTime.formatter.format(DateTime.now());
-          globals_favor.favorStartTimeTextController.text = favorTime.formatter.format(DateTime.now());
+          globals_favor.availabilityStartTimeTextController.text =
+              favorTime.formatter.format(DateTime.now());
+          globals_favor.availabilityEndTimeTextController.text =
+              favorTime.formatter.format(DateTime.now());
+          globals_favor.favorStartTimeTextController.text =
+              favorTime.formatter.format(DateTime.now());
 
           Navigator.push(
               context,
               CupertinoPageRoute(
                   builder: (context) => favorInformationPage_Screen(
                         post: ProviderPost.fromJson(jsonDecode(response.body)),
-                        userType: 'provider', 
+                        userType: 'provider',
                       )));
         },
       );
@@ -120,14 +123,17 @@ class PostService {
         onSuccess: () {
           // TODO: refresh home
           // ***
-          
+
           // Reset Variables
           globals_favor.categoryTextController.clear();
           globals_favor.locationTextController.clear();
           globals_favor.boxDescriptionTextController.clear();
-          globals_favor.availabilityStartTimeTextController.text = favorTime.formatter.format(DateTime.now());
-          globals_favor.availabilityEndTimeTextController.text = favorTime.formatter.format(DateTime.now());
-          globals_favor.favorStartTimeTextController.text = favorTime.formatter.format(DateTime.now());
+          globals_favor.availabilityStartTimeTextController.text =
+              favorTime.formatter.format(DateTime.now());
+          globals_favor.availabilityEndTimeTextController.text =
+              favorTime.formatter.format(DateTime.now());
+          globals_favor.favorStartTimeTextController.text =
+              favorTime.formatter.format(DateTime.now());
 
           Navigator.push(
               context,
@@ -241,9 +247,11 @@ class PostService {
     try {
       if (post?.userType ==
           //UserMode_inherited.of(context).stateWidget.getUserMode() TODO: check it
-          userType)
+          userType) {
         showToast(context,
             "Cannot book favor if User Mode is the same of publisher!");
+        return;
+      }
 
       http.Response response = await http.post(
         Uri.parse('$uri/posts/${post?.id}/bookFavor'),
@@ -259,7 +267,7 @@ class PostService {
         onSuccess: () {
           // TODO: refresh home
           // ***
-          
+
           /** OLD
            Navigator.pushReplacement(
               context, CupertinoPageRoute(builder: (context) => Feed_Screen()));

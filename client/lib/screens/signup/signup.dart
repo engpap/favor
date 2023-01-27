@@ -55,10 +55,11 @@ class Form_SignUp extends StatefulWidget {
   const Form_SignUp({super.key});
 
   @override
-  State<Form_SignUp> createState() => _Form_SignUpState();
+  State<Form_SignUp> createState() => Form_SignUpState();
 }
 
-class _Form_SignUpState extends State<Form_SignUp> {
+@visibleForTesting
+class Form_SignUpState extends State<Form_SignUp> {
   final formKey_signup = GlobalKey<FormState>();
 
   @override
@@ -77,6 +78,7 @@ class _Form_SignUpState extends State<Form_SignUp> {
                   padding: EdgeInsets.zero,
                   margin: EdgeInsets.zero,
                   child: CustomFieldMat(
+                    key: Key("name_custom_field_mat"),
                     prefixIcon: CupertinoIcons.profile_circled,
                     labelText: globals.LabelName,
                     textEditingController: globals.textControllerName,

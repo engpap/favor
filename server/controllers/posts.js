@@ -193,7 +193,7 @@ export const getPostsBySearch = async (request, response) => {
 
 export const bookFavor = async (request, response) => {
     const { id } = request.params;
-    console.log(">>> bookFavor: Favor id to book is " + id);
+    console.log(">>> bookFavor: Trying to book Favor with id: " + id);
     try {
 
         if (!request.userId)
@@ -207,8 +207,10 @@ export const bookFavor = async (request, response) => {
         if (postToBook.toHide == true)
             return response.status(400).json({ message: 'Favor already booked!' });
 
-        if (request.userId == postToBook.creatorId)
+        if (request.userId == postToBook.creatorId){
+            console.log('>>> bookFavor: Cannot book your own favor. Returning status 400!')
             return response.status(400).json({ message: 'Cannot book your own favor!' });
+        }
 
         var providerId = '';
         var callerId = '';

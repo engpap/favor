@@ -12,13 +12,13 @@ import 'package:project/screens/components/starsWidget.dart';
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/functions/favorTime.dart' as favorTime;
 
-
 class favorInformationPage_Screen extends StatelessWidget {
-  favorInformationPage_Screen({super.key,
-  required this.post,
-  required this.userType,
+  favorInformationPage_Screen({
+    super.key,
+    required this.post,
+    required this.userType,
   });
-  
+
   Post? post;
   String userType;
 
@@ -35,13 +35,14 @@ class favorInformationPage_Screen extends StatelessWidget {
             backgroundColor: favorColors.IntroBg,
             child: SafeArea(
               child: ResponsiveLeayout(
-                mobileBody: favorInformationPage_Screen_M(post: post, userType: userType),
-                tabletBody: favorInformationPage_Screen_T(post: post, userType: userType),
+                mobileBody: favorInformationPage_Screen_M(
+                    post: post, userType: userType),
+                tabletBody: favorInformationPage_Screen_T(
+                    post: post, userType: userType),
               ),
             )));
   }
 }
-
 
 class FavorInformation extends StatelessWidget {
   FavorInformation({
@@ -82,7 +83,9 @@ class FavorInformation extends StatelessWidget {
             overflow: TextOverflow.fade,
           ),
         ),
-        SizedBox(height: 10,),
+        SizedBox(
+          height: 10,
+        ),
         // TIME
         Container(
           child: Row(
@@ -98,7 +101,9 @@ class FavorInformation extends StatelessWidget {
                   size: 24, //
                 ),
               ),
-              SizedBox(width: 8,),
+              SizedBox(
+                width: 8,
+              ),
               // VALUE
               Container(
                 child: Text(
@@ -116,7 +121,9 @@ class FavorInformation extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(height: 10,),
+        SizedBox(
+          height: 10,
+        ),
         // LOCATION
         Container(
           child: Row(
@@ -133,21 +140,23 @@ class FavorInformation extends StatelessWidget {
                   size: 24, //
                 ),
               ),
-              SizedBox(width: 8,),
+              SizedBox(
+                width: 8,
+              ),
               // VALUE
-                Container(
-                  child: Container(
-                    child: Text(
-                      post!.location,
-                      style: TextStyle(
-                        fontSize: 15,
-                        color:Colors.black45,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+              Container(
+                child: Container(
+                  child: Text(
+                    post!.location,
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.black45,
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
+              ),
             ],
           ),
         ),
@@ -165,24 +174,24 @@ class FavorMap extends StatelessWidget {
   Post? post;
   @override
   Widget build(BuildContext context) {
-    return 
-      // MAP
-      // TODO: substitute with an interactive map
-      Container(
-        width: Responsive.width(100, context),
-        height: Responsive.width(40, context),
-        decoration: BoxDecoration(
-            shape: BoxShape.rectangle,
-            image: DecorationImage(
-              image: AssetImage("assets/images/Mappa_Milano.jpg"),
-              fit: BoxFit.cover,
-            ),
-            border: Border.all(
-              color: favorColors.LightGrey,
-              width: 1.0,
-            ),
-            borderRadius: BorderRadius.circular(10)),
-      );
+    return
+        // MAP
+        // TODO: substitute with an interactive map
+        Container(
+      width: Responsive.width(100, context),
+      height: Responsive.width(40, context),
+      decoration: BoxDecoration(
+          shape: BoxShape.rectangle,
+          image: DecorationImage(
+            image: AssetImage("assets/images/Mappa_Milano.jpg"),
+            fit: BoxFit.cover,
+          ),
+          border: Border.all(
+            color: favorColors.LightGrey,
+            width: 1.0,
+          ),
+          borderRadius: BorderRadius.circular(10)),
+    );
   }
 }
 
@@ -229,7 +238,9 @@ class FavorPerson extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(width: 10,),
+            SizedBox(
+              width: 10,
+            ),
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -238,7 +249,7 @@ class FavorPerson extends StatelessWidget {
                 Text(
                   "${post!.name} ${post!.surname}",
                   style: TextStyle(
-                    fontSize: 24, 
+                    fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: favorColors.PrimaryBlue,
                   ),
@@ -248,15 +259,19 @@ class FavorPerson extends StatelessWidget {
                 Text(
                   post!.userType,
                   style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: favorColors.SecondaryBlue),
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: favorColors.SecondaryBlue),
                   textAlign: TextAlign.left,
                 ),
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 // STARS
                 StarsWidget(number: post!.averageRatings),
-                SizedBox(height: 5,),
+                SizedBox(
+                  height: 5,
+                ),
                 // RANK
                 Text(
                   "Ranked as ${post!.rankingPosition}th in ${post!.rankingLocation}",
@@ -370,8 +385,11 @@ class FavorBook extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(CupertinoIcons.bookmark),
-                SizedBox(width: 10,),
-                Text("BOOK",
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  "Book it",
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
@@ -391,53 +409,53 @@ class FavorBook extends StatelessWidget {
   }
 
   // TODO: NOT USED - but don't remove yet
-  Widget chatButton(BuildContext context){
+  Widget chatButton(BuildContext context) {
     return Column(
       children: [
-          // CHAT BUTTON
-          Container(
-            width: Responsive.width(25, context),
-            child: Align(
-              child: Container(
-                width: Responsive.width(12, context),
-                height: Responsive.width(12, context),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: favorColors.LightGrey,
-                    width: 1.0,
+        // CHAT BUTTON
+        Container(
+          width: Responsive.width(25, context),
+          child: Align(
+            child: Container(
+              width: Responsive.width(12, context),
+              height: Responsive.width(12, context),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: favorColors.LightGrey,
+                  width: 1.0,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    spreadRadius: 0.5,
+                    blurRadius: 5,
+                    offset: Offset(0, 1),
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      spreadRadius: 0.5,
-                      blurRadius: 5,
-                      offset: Offset(0, 1),
-                    ),
-                  ],
-                ),
-                child: CupertinoButton(
-                  padding: EdgeInsets.all(0),
-                  color: favorColors.PrimaryBlue,
-                  borderRadius: BorderRadius.circular(90),
-                  child: Icon(CupertinoIcons.chat_bubble_2),
-                  onPressed: () {
-                    print('Pressed: _chatButton');
-                  },
-                ),
+                ],
+              ),
+              child: CupertinoButton(
+                padding: EdgeInsets.all(0),
+                color: favorColors.PrimaryBlue,
+                borderRadius: BorderRadius.circular(90),
+                child: Icon(CupertinoIcons.chat_bubble_2),
+                onPressed: () {
+                  print('Pressed: _chatButton');
+                },
               ),
             ),
           ),
-          Divider(
-            height: Responsive.height(0.5, context),
-            color: Colors.transparent,
+        ),
+        Divider(
+          height: Responsive.height(0.5, context),
+          color: Colors.transparent,
+        ),
+        Text(
+          "chat",
+          style: TextStyle(
+            fontSize: 14,
           ),
-          Text(
-            "chat",
-            style: TextStyle(
-              fontSize: 14,
-            ),
-          ),
+        ),
       ],
     );
   }

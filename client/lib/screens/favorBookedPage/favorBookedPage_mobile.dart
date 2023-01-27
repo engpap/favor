@@ -6,6 +6,7 @@ import 'package:project/models/bookedFavor.dart';
 import 'package:project/models/callerPost.dart';
 import 'package:project/models/post.dart';
 import 'package:project/providers/user_provider.dart';
+import 'package:project/services/favorService.dart';
 import 'package:provider/provider.dart';
 import 'package:project/screens/components/customCard.dart';
 import 'package:project/screens/components/starsWidget.dart';
@@ -95,7 +96,7 @@ class favorBookedPage_Screen_M extends StatelessWidget {
                   children: [
                     Container(
                       height: Responsive.width(12, context),
-                      width: 230,
+                      width: 370,
                       child: CupertinoButton(
                         padding: EdgeInsets.all(0),
                         color: favorColors.PrimaryBlue,
@@ -117,11 +118,12 @@ class favorBookedPage_Screen_M extends StatelessWidget {
                         ),
                         onPressed: () {
                           print('Pressed: _MarkAsCompletedButton');
+                          //FavorService().markFavorAsCompleted(context, bookedFavorId);
                           //TODO:
                         },
                       ),
                     ),
-                    Container(
+                    /*Container(
                       height: Responsive.width(12, context),
                       width: 125,
                       child: CupertinoButton(
@@ -149,7 +151,7 @@ class favorBookedPage_Screen_M extends StatelessWidget {
                           //TODO:
                         },
                       ),
-                    ),
+                    ),*/
                   ]),
             ),
           ),

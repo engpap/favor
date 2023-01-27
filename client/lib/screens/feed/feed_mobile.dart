@@ -29,30 +29,35 @@ class Feed_Screen_M extends StatefulWidget {
 }
 
 class _Feed_Screen_MState extends State<Feed_Screen_M> {
-  late Future<bool> isThereUserToken;
+  // USER DATA
+  late Future<bool> _isThereUserToken;
+  late Future<bool> _userHasBookedSomeFavors;
 
-  // RECOMMEDED
+  // RECOMMENDED FAVORS
   static const _pageSize = 4;
   PagingController<int, Post> _pagingController =
       PagingController(firstPageKey: 1);
   bool _shrinkWrap = true;
-  // BOOKED
-  PagingController<int, BookedFavor> _pagingControllerB =
+
+  // BOOKED FAVORS
+  PagingController<int, BookedFavor> _pagingController_booked_favors =
       PagingController(firstPageKey: 1);
-  late Future<bool> isNotEmptyBookedList;
 
   @override
   void initState() {
-    super.initState();
-    isThereUserToken = Storage.isThereUserToken();
+    _isThereUserToken = Storage.isThereUserToken();
+    // At the beginning, it is false. This would allow to see the home without
+    // having a valid token or having been signed in/up.
+    _userHasBookedSomeFavors = Future.value(false);
 
     _pagingController.addPageRequestListener((pageKey) {
-      fetchPage(context, pageKey);
+      fetch_recommended_favors_page(context, pageKey);
     });
 
-    _pagingControllerB.addPageRequestListener((pageKey) {
-      isNotEmptyBookedList = fetchPageB(pageKey);
+    _pagingController_booked_favors.addPageRequestListener((pageKey) {
+      fetch_booked_favors_page(pageKey);
     });
+    super.initState();
   }
 
   @override
@@ -65,7 +70,8 @@ class _Feed_Screen_MState extends State<Feed_Screen_M> {
           backgroundColor: Colors.white,
           onRefresh: () async {
             _pagingController.refresh();
-            _pagingControllerB.refresh();
+            _pagingController_booked_favors.refresh();
+            refresh_hasUserBookedSomeFavors(context);
             return;
           },
           child: SingleChildScrollView(
@@ -78,56 +84,53 @@ class _Feed_Screen_MState extends State<Feed_Screen_M> {
                   color: Colors.transparent,
                 ),
                 // FAVOR BOOKED
-                FutureBuilder(
-                  future: isThereUserToken,
+                FutureBuilder<bool>(
+                  // if user HAS TOKEN try to show the booked favors
+                  future: _isThereUserToken,
                   builder: ((context, snapshot) {
-                    // if user HAS TOKEN
                     if (snapshot.hasData && snapshot.data != null) {
+                      // user has token
                       if (snapshot.data!) {
-                        return 
-                            /**
-                             * TODO: riprovare a fixarlo
-                            FutureBuilder(
-                              future: isNotEmptyBookedList,
-                              builder: ((context, snapshot) {
-                                // if user HAS BOOKED FAVORS
-                                if (snapshot.hasData && snapshot.data != null) {
-                                  if (snapshot.data!){
-                                    return 
-                            */
-                                    Container(
-                                      height:Responsive.heightFixOver(130, 40, context),
-                                      child: Column(
-                                        children: [
-                                          //HEADING
-                                          customHeading2(
-                                            heading: "${bookedListHeading}",
-                                            size: 22,
-                                          ),
-                                          // BOOKED LIST (scrollable horizontaly)
-                                          Expanded(child: buildBooked(context))
-                                        ],
+                        // show Booked Favors only if the return list from back-end is not empty
+                        return FutureBuilder<bool>(
+                          future: _userHasBookedSomeFavors,
+                          builder: ((context, snapshot) {
+                            if (snapshot.hasData && snapshot.data != null) {
+                              // if user HAS BOOKED FAVORS (list is not empty)
+                              if (snapshot.data!) {
+                                return Container(
+                                  height: Responsive.heightFixOver(
+                                      130, 40, context),
+                                  child: Column(
+                                    children: [
+                                      //HEADING
+                                      customHeading2(
+                                        heading: "${bookedListHeading}",
+                                        size: 22,
                                       ),
-                                    );
-                              /**
-                                  } else {
-                                    // if user HAS NO BOOKED FAVORS
-                                    return Container();
-                                  }
-                                }
-                                return CupertinoActivityIndicator(animating: false, radius: 20);
-                              }),
-                            );
-                            */
-                      } else {
-                        // if user HAS NO TOKEN
-                        return Container();
+                                      // BOOKED LIST (scrollable horizontaly)
+                                      Expanded(
+                                          child: Carousel_BookedFavors_Widget(
+                                              context))
+                                    ],
+                                  ),
+                                );
+                              } else {
+                                return SizedBox.shrink();
+                              }
+                            }
+                            return CupertinoActivityIndicator(
+                                animating: false, radius: 20);
+                          }),
+                        );
                       }
+                    } else {
+                      return SizedBox.shrink();
                     }
                     // WHILE WAITING
-                    return CupertinoActivityIndicator(animating: false, radius: 20);
-                  }
-                  ),
+                    return CupertinoActivityIndicator(
+                        animating: false, radius: 20);
+                  }),
                 ),
                 //
                 Divider(
@@ -150,7 +153,7 @@ class _Feed_Screen_MState extends State<Feed_Screen_M> {
                         color: Colors.transparent,
                       ),
                       // CATEGORY LIST (scrollable horizontaly)
-                      Expanded(child: Carousel_FavorCategoryWidget()),
+                      Expanded(child: Carousel_FavorCategory_Widget()),
                     ],
                   ),
                 ),
@@ -167,7 +170,7 @@ class _Feed_Screen_MState extends State<Feed_Screen_M> {
                 ),
                 // RECOMMENDATION LIST (scrollable vertically)
                 //RecommendedFavorWidgetsList_Widget(shrinkWrap: true),
-                buildRec(context, true),
+                List_RecommendedFavors_Widget(context, true),
               ],
             ),
           ),
@@ -176,8 +179,19 @@ class _Feed_Screen_MState extends State<Feed_Screen_M> {
     );
   }
 
+  Future<void> refresh_hasUserBookedSomeFavors(BuildContext context) async {
+    // Call api if user has a token.
+    bool isThereUserToken = await Storage.isThereUserToken();
+    if (isThereUserToken) {
+      var result = FavorService().hasUserBookedSomeFavors(context);
+      setState(() {
+        _userHasBookedSomeFavors = result;
+      });
+    }
+  }
+
   //RECOMMENDER LIST -------
-  Widget buildRec(BuildContext context, bool shrinkWrap) {
+  Widget List_RecommendedFavors_Widget(BuildContext context, bool shrinkWrap) {
     return PagedListView<int, Post>(
       primary: false, //
       shrinkWrap: _shrinkWrap,
@@ -195,7 +209,8 @@ class _Feed_Screen_MState extends State<Feed_Screen_M> {
     );
   }
 
-  Future<void> fetchPage(BuildContext context, int pageKey) async {
+  Future<void> fetch_recommended_favors_page(
+      BuildContext context, int pageKey) async {
     try {
       final newItems = await PostService().getPosts(context, pageKey);
       final isLastPage = newItems.length < _pageSize;
@@ -211,10 +226,10 @@ class _Feed_Screen_MState extends State<Feed_Screen_M> {
   }
 
   // BOOKED LIST ----
-  Widget buildBooked(BuildContext context) {
+  Widget Carousel_BookedFavors_Widget(BuildContext context) {
     return PagedListView<int, BookedFavor>(
       scrollDirection: Axis.horizontal,
-      pagingController: _pagingControllerB,
+      pagingController: _pagingController_booked_favors,
       builderDelegate: PagedChildBuilderDelegate<BookedFavor>(
         itemBuilder: (context, item, index) => BookedFavorWidget(booked: item),
         firstPageProgressIndicatorBuilder: (_) =>
@@ -223,35 +238,32 @@ class _Feed_Screen_MState extends State<Feed_Screen_M> {
     );
   }
 
-  Future<bool> fetchPageB(int pageKey) async {
+  Future<void> fetch_booked_favors_page(int pageKey) async {
     try {
       final newItems = await FavorService().getBookedFavors(context, pageKey);
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {
-        _pagingControllerB.appendLastPage(newItems);
+        _pagingController_booked_favors.appendLastPage(newItems);
       } else {
         final nextPageKey = pageKey + newItems.length;
-        _pagingControllerB.appendPage(newItems, nextPageKey);
+        _pagingController_booked_favors.appendPage(newItems, nextPageKey);
       }
     } catch (error) {
-      _pagingControllerB.error = error;
+      _pagingController_booked_favors.error = error;
     }
-    // isNotEmptyBookedList
-    printStatus("CI SONO ELEMENTI IN LISTA? -- ${_pagingControllerB.itemList!.isNotEmpty}");
-    return _pagingControllerB.itemList!.isNotEmpty;
   }
 }
 
-class Carousel_FavorCategoryWidget extends StatefulWidget {
-  const Carousel_FavorCategoryWidget({super.key});
+class Carousel_FavorCategory_Widget extends StatefulWidget {
+  const Carousel_FavorCategory_Widget({super.key});
 
   @override
-  State<Carousel_FavorCategoryWidget> createState() =>
-      _Carousel_FavorCategoryWidgetState();
+  State<Carousel_FavorCategory_Widget> createState() =>
+      _Carousel_FavorCategory_WidgetState();
 }
 
-class _Carousel_FavorCategoryWidgetState
-    extends State<Carousel_FavorCategoryWidget> {
+class _Carousel_FavorCategory_WidgetState
+    extends State<Carousel_FavorCategory_Widget> {
   late Future<FavorCategories> favorCategories;
 
   @override
