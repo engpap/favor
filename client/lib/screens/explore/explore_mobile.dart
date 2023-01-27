@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:project/functions/responsive.dart';
 import 'package:project/models/post.dart';
 import 'package:project/screens/feed/feed.dart';
 import 'package:project/screens/home.dart';
