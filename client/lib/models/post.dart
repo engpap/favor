@@ -5,6 +5,7 @@ abstract class Post {
   final String? creatorId;
   final String? name;
   final String? surname;
+  final String? email;
   final Image? profilePicture;
   final String? createdAt;
   final String userType;
@@ -22,6 +23,7 @@ abstract class Post {
     this.createdAt,
     this.name,
     this.surname,
+    this.email,
     this.profilePicture,
     required this.userType,
     required this.taskCategory,
