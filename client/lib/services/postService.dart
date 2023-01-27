@@ -133,7 +133,7 @@ class PostService {
               context,
               CupertinoPageRoute(
                   builder: (context) => favorInformationPage_Screen(
-                        post: ProviderPost.fromJson(jsonDecode(response.body)),
+                        post: CallerPost.fromJson(jsonDecode(response.body)),
                         userType: 'caller',
                       )));
         },
