@@ -3,12 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_launcher_icons/utils.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/functions/showToast.dart';
-import 'package:project/functions/utilities.dart';
 import 'package:project/helpers/storage.dart';
 import 'package:project/models/bookedFavor.dart';
-import 'package:project/models/callerPost.dart'; //to remove
 import 'package:project/models/favorCategories.dart';
-import 'package:project/models/favorConstants.dart';
 import 'package:project/models/post.dart';
 import 'package:project/screens/components/customHeadingDesc.dart';
 import 'package:project/screens/feed/feed.dart';

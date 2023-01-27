@@ -107,7 +107,7 @@ class _Explore_Screen_MState extends State<Explore_Screen_M> {
                         CupertinoIcons.xmark_circle_fill,
                         color: favorColors.Yellow.withOpacity(0.8),
                       ),
-                      onPressed: () => context.watch<ExploreQuery>().clear(),
+                      onPressed: () => context.read<ExploreQuery>().clear(),
                     ),
                     maxLength: 30, // reasonable value
                     maxLines: 1, // reasonable value
