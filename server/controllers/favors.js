@@ -16,6 +16,7 @@ import { createJsonPost } from './utilities/jsonCreators.js';
 export const getBookedFavors = async (request, response) => {
     const { page } = request.query;
     try {
+        console.log(">>> getBookedFavors requested page: " + page);
         const LIMIT = 4;
         const pageStartIndex = (Number(page) - 1) * LIMIT;
         console.log(request.userId)
@@ -57,11 +58,8 @@ export const getBookedFavors = async (request, response) => {
                 }
             }
         }
-        if (newBookedFavors.length == 0)
-            console.log(">>> getBookedFavors: There are no booked favors!")
-
         response.status(200).json({ data: newBookedFavors, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) });
-        console.log(">>> getBookedFavors: Sent "+ bookedFavors.length +" bookedFavors to client.");
+        console.log(">>> getBookedFavors: Sent "+ newBookedFavors.length +" bookedFavors to client.");
         //console.log(">>> getBookedFavors, booked favors are the following: ",bookedFavors)
     } catch (error) {
         response.status(404).json({ message: error.message });
