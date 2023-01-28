@@ -169,3 +169,16 @@ export const getMyUserProfile = async (request, response) => {
     }
 
 }
+
+export const getUserProfileById = async (request, response) => {
+    const {id} = request.params;
+    try{
+        // Select everything except the password
+        const user = await User.findById(id).select("-password");
+        console.log(">>> getUserProfileById: this is the data sent to client -> "+user)
+        return response.status(200).json({...user._doc});
+    }catch(error){
+        response.status(404).json({ message: error.message });
+    }
+
+}
