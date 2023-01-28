@@ -246,7 +246,16 @@ class SignUp_registerButton extends StatelessWidget {
             // Console log
             print('Pressed: SignUp_registerButton');
             print('run: authService.signup');
-
+            // Check possible errors on inputs
+            if (!globals.textControllerName.text.isValidName() || globals.textControllerName.text.length < 1
+            || !globals.textControllerSurname.text.isValidName() || globals.textControllerSurname.text.length < 1
+            || !globals.textControllerEmail.text.isValidEmail() || globals.textControllerEmail.text.length < 1
+            || !globals.textControllerPassword.text.isValidPassword() || globals.textControllerPassword.text.length < 8
+            || !globals.textControllerPasswordConfirm.text.isValidPassword() || globals.textControllerPasswordConfirm.text.length < 8
+            || globals.textControllerPassword.text != globals.textControllerPasswordConfirm.text
+            ) {
+              print("Error not valid fields");
+            } else {
             // Send information to server and wait for response
             globals.authService.signup(
               context: context,
@@ -256,6 +265,7 @@ class SignUp_registerButton extends StatelessWidget {
               password: globals.textControllerPassword.text,
               confirmPassword: globals.textControllerPasswordConfirm.text,
             );
+            }
           },
         ),
       ),

@@ -246,7 +246,7 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
                     textEditingController: globals.bioContoller,
                     textInputAction: TextInputAction.done,
                     customValidator: (value) {
-                      if (value!.length < 1 || !value.isValidJob()) {
+                      if (value!.length < 1) {
                         return LabelSpace().whiteSpace() +
                             "Briefly describe yourself.";
                       }
@@ -295,15 +295,31 @@ class RegisterButton_SignUp2 extends StatelessWidget {
           onPressed: () {
             // Console log
             print('Pressed: RegisterButton_SignUp2');
-            // Send information to server and wait for response
-            globals.authService.insertPersonalInfo(
-              context: context,
-              age: globals.ageContoller.text,
-              gender: globals.genderContoller.text,
-              city: globals.residenceContoller.text,
-              job: globals.jobContoller.text,
-              bio: globals.bioContoller.text,
-            );
+            // Check possible errors on inputs
+            if(globals.bioContoller.text.length < 1 || globals.bioContoller.text.length > 50){
+              print("Error on Bio length");
+            } else if (globals.ageContoller.text.length < 1 || 
+              globals.genderContoller.text.length < 1 || 
+              globals.residenceContoller.text.length < 1 || 
+              globals.jobContoller.text.length < 1) {
+              print("Some fields are empty");
+            } else {
+              // Send information to server and wait for response
+              globals.authService.insertPersonalInfo(
+                context: context,
+                age: globals.ageContoller.text,
+                gender: globals.genderContoller.text,
+                city: globals.residenceContoller.text,
+                job: globals.jobContoller.text,
+                bio: globals.bioContoller.text,
+              );
+              // clear controllers
+              globals.ageContoller.clear();
+              globals.genderContoller.clear();
+              globals.residenceContoller.clear();
+              globals.jobContoller.clear();
+              globals.bioContoller.clear();
+            }            
           },
         ),
       ),

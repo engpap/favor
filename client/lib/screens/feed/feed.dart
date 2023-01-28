@@ -474,7 +474,7 @@ class BookedFavorWidget extends StatelessWidget {
                         children: [
                           // NAME SURNAME
                           Text(
-                            '${booked.post.name} ${booked.post.surname}',
+                            '${booked.post.name} ${booked.post.surname}', //TODO: fix
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold),
                             maxLines: 1,
@@ -485,7 +485,7 @@ class BookedFavorWidget extends StatelessWidget {
                           ),
                           // ROLE
                           Text(
-                            booked.post.userType,
+                            booked.post.userType, //TODO: fix
                             style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.normal,
