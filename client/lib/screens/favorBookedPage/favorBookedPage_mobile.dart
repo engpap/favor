@@ -48,7 +48,7 @@ class favorBookedPage_Screen_M extends StatelessWidget {
       ),
       // FAVOR PERSON
       CustomCard(
-        child: FavorPerson(post: bookedFavor!.post),
+        child: FavorBookPerson(post: bookedFavor!.post, booked: bookedFavor!,),
       ),
     ]));
   }

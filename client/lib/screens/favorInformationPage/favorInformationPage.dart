@@ -259,9 +259,9 @@ class FavorPerson extends StatelessWidget {
                 Text(
                   post!.userType,
                   style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: favorColors.SecondaryBlue),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: favorColors.SecondaryBlue),
                   textAlign: TextAlign.left,
                 ),
                 SizedBox(

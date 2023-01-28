@@ -36,7 +36,7 @@ class favorBookedPage_Screen_T extends StatelessWidget {
                 CustomCard(child: FavorInformation(post: bookedFavor!.post)),
                 // FAVOR PERSON
                 CustomCard(
-                  child: FavorPerson(post: bookedFavor!.post),
+                  child: FavorBookPerson(post: bookedFavor!.post, booked: bookedFavor!,),
                 ),
                 // FAVOR COMPLETED
                 MarkAsCompletedButton(bookedFavor: bookedFavor),

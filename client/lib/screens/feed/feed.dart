@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 
 import 'package:project/functions/responsive.dart';
 import 'package:project/functions/utilities.dart';
+import 'package:project/helpers/storage.dart';
 import 'package:project/models/bookedFavor.dart';
 import 'package:project/models/callerPost.dart';
 import 'package:project/models/post.dart';
+import 'package:project/models/user.dart';
 import 'package:project/screens/components/customCard.dart';
 import 'package:project/screens/components/starsWidget.dart';
 import 'package:project/screens/explore/providerExplore.dart';
@@ -19,6 +21,7 @@ import 'package:project/screens/responsiveLayout.dart';
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/functions/favorTime.dart' as favorTime;
 import 'package:project/functions/tabs.dart' as FavorTab;
+import 'package:project/services/profileService.dart';
 import 'package:provider/provider.dart';
 
 class Feed_Screen extends StatelessWidget {
@@ -383,14 +386,30 @@ class FavorWidget extends StatelessWidget {
   }
 }
 
-class BookedFavorWidget extends StatelessWidget {
+class BookedFavorWidget extends StatefulWidget {
   BookedFavorWidget({
     super.key,
     required this.booked,
   });
-
+  
   BookedFavor booked;
 
+  @override
+  State<BookedFavorWidget> createState() => _BookedFavorWidgetState();
+}
+
+class _BookedFavorWidgetState extends State<BookedFavorWidget> {
+
+  late Future<User?> _provider;
+  late Future<User?> _caller;
+
+  @override
+  void initState() {
+    super.initState();
+    _caller = ProfileService().getUserProfileById(context, widget.booked.callerId);
+    _provider = ProfileService().getUserProfileById(context, widget.booked.providerId);
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -420,7 +439,7 @@ class BookedFavorWidget extends StatelessWidget {
                   context,
                   CupertinoPageRoute(
                       builder: (context) => favorBookedPage_Screen(
-                            bookedFavor: booked,
+                            bookedFavor: widget.booked,
                           )),
                 );
               },
@@ -437,7 +456,7 @@ class BookedFavorWidget extends StatelessWidget {
                         shape: BoxShape.rectangle,
                         image: DecorationImage(
                           image: FeedUtilities.getFavorCategoryImage(
-                              booked.post.taskCategory),
+                              widget.booked.post.taskCategory),
                           fit: BoxFit.cover,
                           opacity: 1,
                         ),
@@ -474,7 +493,7 @@ class BookedFavorWidget extends StatelessWidget {
                         children: [
                           // NAME SURNAME
                           Text(
-                            '${booked.post.name} ${booked.post.surname}', //TODO: fix
+                            '${widget.booked.post.name} ${widget.booked.post.surname}', //TODO: fix
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold),
                             maxLines: 1,
@@ -483,16 +502,47 @@ class BookedFavorWidget extends StatelessWidget {
                           SizedBox(
                             height: 1,
                           ),
-                          // ROLE
-                          Text(
-                            booked.post.userType, //TODO: fix
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal,
-                                color: favorColors.SecondaryBlue),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                          //ROLE - 1/2 
+                          FutureBuilder<User?>(
+                            future: _caller,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                if (widget.booked.post.name == snapshot.data!.name && widget.booked.post.surname == snapshot.data!.surname)
+                                return (Text("caller",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: favorColors.SecondaryBlue),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ));
+                              } else if (snapshot.hasError) {
+                                return Text('${snapshot.error}');
+                              }
+                              // By default, show a loading spinner.
+                              return Container();
+                            }),
+                            // ROLE - 2/2
+                            FutureBuilder<User?>(
+                            future: _provider,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                if (widget.booked.post.name == snapshot.data!.name && widget.booked.post.surname == snapshot.data!.surname)
+                                return (Text("provider",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: favorColors.SecondaryBlue),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ));
+                              } else if (snapshot.hasError) {
+                                return Text('${snapshot.error}');
+                              }
+                              // By default, show a loading spinner.
+                              return Container();
+                            }),
+
                           SizedBox(
                             height: 5,
                           ),
@@ -515,7 +565,7 @@ class BookedFavorWidget extends StatelessWidget {
                                 Container(
                                   child: Text(
                                     Utilities.getHoursAndMinutes(
-                                        booked.bookedAt),
+                                        widget.booked.bookedAt),
                                     style: TextStyle(
                                       fontSize: 18,
                                       color: favorColors.PrimaryBlue,

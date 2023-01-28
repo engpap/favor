@@ -6,12 +6,16 @@ import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/functions/responsive.dart';
 import 'package:project/helpers/storage.dart';
 import 'package:project/models/bookedFavor.dart';
+import 'package:project/models/post.dart';
+import 'package:project/models/user.dart';
+import 'package:project/screens/components/starsWidget.dart';
 
 import 'package:project/screens/favorBookedPage/favorBookedPage_mobile.dart';
 import 'package:project/screens/favorBookedPage/favorBookedPage_tablet.dart';
 
 import 'package:project/screens/responsiveLayout.dart';
 import 'package:project/services/favorService.dart';
+import 'package:project/services/profileService.dart';
 
 class favorBookedPage_Screen extends StatelessWidget {
   favorBookedPage_Screen({
@@ -187,6 +191,208 @@ class _MarkAsCompletedButtonState extends State<MarkAsCompletedButton> {
           )
         ],
       ),
+    );
+  }
+}
+
+class FavorBookPerson extends StatefulWidget {
+  FavorBookPerson({
+    super.key,
+    required this.post,
+    required this.booked,
+  });
+
+  BookedFavor booked;
+  Post? post;
+
+  @override
+  State<FavorBookPerson> createState() => _FavorBookPersonState();
+}
+
+class _FavorBookPersonState extends State<FavorBookPerson> {
+
+  late Future<User?> _provider;
+  late Future<User?> _caller;
+
+  @override
+  void initState() {
+    super.initState();
+    _caller = ProfileService().getUserProfileById(context, widget.booked.callerId);
+    _provider = ProfileService().getUserProfileById(context, widget.booked.providerId);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // 1st ROW - HEADING
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // IMAGE
+            Container(
+              width: Responsive.widthFixOver(80, 20, context),
+              height: Responsive.widthFixOver(80, 20, context),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  //image: AssetImage("assets/images/chris.jpg"),
+                  image: widget.post!.profilePicture!.image,
+                  fit: BoxFit.cover,
+                ),
+                border: Border.all(
+                  color: favorColors.LightGrey,
+                  width: 1.0,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    spreadRadius: 0.5,
+                    blurRadius: 5,
+                    offset: Offset(0, 1),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // NAME AND SURNAME
+                Text(
+                  "${widget.post!.name} ${widget.post!.surname}",
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: favorColors.PrimaryBlue,
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+                //ROLE - 1/2
+                FutureBuilder<User?>(
+                  future: _caller,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      if (widget.booked.post.name == snapshot.data!.name && widget.booked.post.surname == snapshot.data!.surname)
+                      return (Text("caller",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: favorColors.SecondaryBlue),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ));
+                    } else if (snapshot.hasError) {
+                      return Text('${snapshot.error}');
+                    }
+                    // By default, show a loading spinner.
+                    return Container();
+                  }),
+                  // ROLE - 2/2
+                  FutureBuilder<User?>(
+                  future: _provider,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      if (widget.booked.post.name == snapshot.data!.name && widget.booked.post.surname == snapshot.data!.surname)
+                      return (Text("provider",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: favorColors.SecondaryBlue),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ));
+                    } else if (snapshot.hasError) {
+                      return Text('${snapshot.error}');
+                    }
+                    // By default, show a loading spinner.
+                    return Container();
+                  }),
+                SizedBox(
+                  height: 10,
+                ),
+                // STARS
+                StarsWidget(number: widget.post!.averageRatings),
+                SizedBox(
+                  height: 5,
+                ),
+                // RANK
+                widget.post!.rankingPosition != 0
+                    ? Text(
+                        "Ranked as ${widget.post!.rankingPosition}º in ${widget.post!.rankingLocation}",
+                        style: TextStyle(fontSize: 14),
+                      )
+                    : Text(
+                        "Never done a favor in ${widget.post!.rankingLocation}",
+                        style: TextStyle(fontSize: 14),
+                      )
+              ],
+            ),
+          ],
+        ),
+        Divider(
+          height: Responsive.height(1, context),
+          color: Colors.transparent,
+        ),
+        // 2nd ROW - BIO
+        Container(
+          width: Responsive.width(90, context),
+          padding: EdgeInsets.only(left: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Bio",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                widget.post!.bio!,
+                style: TextStyle(fontSize: 18),
+                overflow: TextOverflow.fade,
+              ),
+            ],
+          ),
+        ),
+        Divider(
+          height: Responsive.height(1, context),
+          color: Colors.transparent,
+        ),
+        // 3rd ROW - CONTACT
+        Container(
+          width: Responsive.width(90, context),
+          padding: EdgeInsets.only(left: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Contact",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                widget.post!.email!,
+                style: TextStyle(fontSize: 18),
+                overflow: TextOverflow.fade,
+              ),
+              Text(
+                "+39 347 4567890", // TODO: post!.bio!,
+                style: TextStyle(fontSize: 18),
+                overflow: TextOverflow.fade,
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
