@@ -33,14 +33,19 @@ class _AccountScreenState extends State<AccountScreen> {
           child: Column(
             children: [
               CupertinoButton(
+                child: Text("cambio schermo 2"),
                   //child: Text("${Provider.of<UserProvider>(context, listen: false).user?.name}"),
                   //child: Text("${UserProvider().user?.name.toString()}"),
-                  child: Text("cambio schermo"),
+                onPressed: (() {
+                  tabController.index = 2;
+                  //print(tabController.index);
+                }
+                )),
+                // LOG OUT
+                CupertinoButton(
+                  child: Text("Log Out"),
                   onPressed: (() {
-                    //log out
-                    //AuthService().signout(context: context);
-                    tabController.index = 2;
-                    //print(tabController.index);
+                    AuthService().signout(context: context);
                   }
                 )),
               FutureBuilder<String?>(

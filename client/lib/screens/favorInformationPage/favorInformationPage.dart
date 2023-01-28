@@ -274,7 +274,7 @@ class FavorPerson extends StatelessWidget {
                 ),
                 // RANK
                 Text(
-                  "Ranked as ${post!.rankingPosition}th in ${post!.rankingLocation}",
+                  "Ranked as ${post!.rankingPosition !+ 1}º in ${post!.rankingLocation}",
                   style: TextStyle(fontSize: 14),
                 ),
               ],
@@ -287,7 +287,7 @@ class FavorPerson extends StatelessWidget {
         ),
         // 2nd ROW - BIO
         Container(
-          width: Responsive.width(65, context),
+          width: Responsive.width(90, context),
           padding: EdgeInsets.only(left: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -313,7 +313,7 @@ class FavorPerson extends StatelessWidget {
         ),
         // 3rd ROW - CONTACT
         Container(
-          width: Responsive.width(65, context),
+          width: Responsive.width(90, context),
           padding: EdgeInsets.only(left: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -326,7 +326,7 @@ class FavorPerson extends StatelessWidget {
                 ),
               ),
               Text(
-                "email@site.com", // TODO: post!.bio!,
+                post!.email!,
                 style: TextStyle(fontSize: 18),
                 overflow: TextOverflow.fade,
               ),
@@ -355,56 +355,42 @@ class FavorBook extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Container(
-          margin: EdgeInsets.only(left: 9, right: 9),
-          width: Responsive.widthFixOver(250, 70, context),
-          height: Responsive.widthFixOver(40, 15, context),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: favorColors.LightGrey,
-              width: 1.0,
+    return Container(
+      margin: EdgeInsets.only(left: 9, right: 9),
+      width: Responsive.widthFixOver(350, 70, context),
+      height: Responsive.widthFixOver(45, 15, context),
+      child: CupertinoButton(
+        padding: EdgeInsets.all(0),
+        color: favorColors.PrimaryBlue,
+        borderRadius: BorderRadius.circular(15),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+            margin: EdgeInsets.only(left: 15),
+            child: Icon(CupertinoIcons.bookmark),
             ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                spreadRadius: 0.5,
-                blurRadius: 5,
-                offset: Offset(0, 1),
+            Expanded(
+            child: Container(
+              margin: EdgeInsets.only(right: 30),
+              alignment: Alignment.center,
+              child: Text(
+                'Book it',
+                style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.normal,
               ),
-            ],
-          ),
-          child: CupertinoButton(
-            padding: EdgeInsets.all(0),
-            color: favorColors.PrimaryBlue,
-            borderRadius: BorderRadius.circular(90),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(CupertinoIcons.bookmark),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  "Book it",
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
+              ),
             ),
-            onPressed: () {
-              print('Pressed: _bookButton');
-              PostService()
-                  .bookFavor(context: context, post: post, userType: userType);
-            },
           ),
+          ],
         ),
-      ],
+        onPressed: () {
+          print('Pressed: _bookButton');
+          PostService()
+              .bookFavor(context: context, post: post, userType: userType);
+        },
+      ),
     );
   }
 

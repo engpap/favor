@@ -62,9 +62,9 @@ class _Feed_Screen_MState extends State<Feed_Screen_M> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(left: 8, right: 8),
-      child: Center(
+    return SizedBox.expand(
+      child: Container(
+        padding: EdgeInsets.only(left: 8, right: 8),
         child: RefreshIndicator(
           color: favorColors.PrimaryBlue,
           backgroundColor: Colors.white,
@@ -77,6 +77,7 @@ class _Feed_Screen_MState extends State<Feed_Screen_M> {
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
               children: [
                 //
                 Divider(
