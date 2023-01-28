@@ -165,14 +165,14 @@ class AuthService {
 
           // If response.statusCode is 201, then it means it is a new user
           if (response.statusCode == 201)
-            Navigator.push(
+            Navigator.pushReplacement(
                 context,
                 CupertinoPageRoute(
                     builder: (context) => const SignUp2Screen()));
           else
             // If response.statusCode is 200, then it means it is an
             // already registered user
-            Navigator.push(context,
+            Navigator.pushReplacement(context,
                 CupertinoPageRoute(builder: (context) => HomeScreen()));
         } else {
           httpErrorHandle(
