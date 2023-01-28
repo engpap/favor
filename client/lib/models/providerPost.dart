@@ -50,7 +50,7 @@ class ProviderPost extends Post {
       availabilityStartTime: DateTime.parse(json['availabilityStartTime']),
       availabilityEndTime: DateTime.parse(json['availabilityEndTime']),
       description: json['description'],
-      averageRatings: json['averageRatings'],
+      averageRatings: json['averageRatings'].toInt(),
       rankingPosition: json['rankingPosition'],
       rankingLocation: json['rankingLocation'],
       bio: json['bio'],

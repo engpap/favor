@@ -229,7 +229,7 @@ export const bookFavor = async (request, response) => {
         else
             return response.status(400).json({ message: "Error on userType in the post to book!" });
 
-        const newBookedFavor = new BookedFavor({ bookedAt: new Date().toISOString(), providerId: providerId, callerId: callerId, post: postToBook._doc, isTerminated: false });
+        const newBookedFavor = new BookedFavor({ bookedAt: new Date().toISOString(), providerId: providerId, callerId: callerId, post: postToBook._doc, isCompleted: false });
         await newBookedFavor.save();
         console.log("This is the new booked favor: ", newBookedFavor);
 

@@ -26,8 +26,7 @@ const userSchema = mongoose.Schema({
     job: { type: String, enum: JOBS },
     
     bio: { type: String, default: "Hi, I am available to do favors!" },
-
-    rankingPoints: { type: Number, default: 0 },
+    
     averageRatings: {
         type: Number,
         float: true,

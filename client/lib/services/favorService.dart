@@ -63,8 +63,9 @@ class FavorService {
   /**
    * This method should be called only by PROVIDERS.
    */
-  Future<void> markFavorAsCompleted(
+  Future<bool> markFavorAsCompleted(
       BuildContext context, String bookedFavorId) async {
+    bool result = false;
     try {
       http.Response response = await http.post(
         Uri.parse('$uri/favors/${bookedFavorId}/completeFavor'),
@@ -79,16 +80,18 @@ class FavorService {
           context: context,
           onSuccess: () {
             showToast(context, "You have successfully completed a Favor!");
+            result = true;
           });
     } catch (error) {
       throw Exception(
           ">>> markFavorAsCompleted exception: " + error.toString());
       //showToast(context, error.toString());
     }
+    return result;
   }
 
   Future<void> rateFavor(
-      BuildContext context, int bookedFavorId, double rating) async {
+      BuildContext context, String bookedFavorId, double rating) async {
     try {
       http.Response response = await http.post(
         Uri.parse('$uri/favors/${bookedFavorId}/rateFavor'),
@@ -96,7 +99,9 @@ class FavorService {
           'Content-Type': 'application/json;charset=UTF-8',
           'x-auth-token': await Storage.getUserToken(),
         },
-        body: jsonEncode(rating),
+        body: jsonEncode({
+          'rating': rating,
+        }),
       );
 
       httpErrorHandle(

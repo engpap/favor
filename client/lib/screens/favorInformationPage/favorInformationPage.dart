@@ -273,10 +273,15 @@ class FavorPerson extends StatelessWidget {
                   height: 5,
                 ),
                 // RANK
-                Text(
-                  "Ranked as ${post!.rankingPosition !+ 1}º in ${post!.rankingLocation}",
-                  style: TextStyle(fontSize: 14),
-                ),
+                post!.rankingPosition != 0
+                    ? Text(
+                        "Ranked as ${post!.rankingPosition}º in ${post!.rankingLocation}",
+                        style: TextStyle(fontSize: 14),
+                      )
+                    : Text(
+                        "Never done a favor in ${post!.rankingLocation}",
+                        style: TextStyle(fontSize: 14),
+                      )
               ],
             ),
           ],
@@ -367,22 +372,22 @@ class FavorBook extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-            margin: EdgeInsets.only(left: 15),
-            child: Icon(CupertinoIcons.bookmark),
+              margin: EdgeInsets.only(left: 15),
+              child: Icon(CupertinoIcons.bookmark),
             ),
             Expanded(
-            child: Container(
-              margin: EdgeInsets.only(right: 30),
-              alignment: Alignment.center,
-              child: Text(
-                'Book it',
-                style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.normal,
-              ),
+              child: Container(
+                margin: EdgeInsets.only(right: 30),
+                alignment: Alignment.center,
+                child: Text(
+                  'Book it',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
               ),
             ),
-          ),
           ],
         ),
         onPressed: () {

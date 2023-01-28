@@ -35,8 +35,8 @@ export const getBookedFavors = async (request, response) => {
         // Return the BookedFavor document with side information about the other user.
         var newBookedFavors = []
         for (const document of bookedFavors) {
-            // If the BookedFavor document is not terminated (i.e. the favor has been executed) and the post exists, then fill with side information.
-            if (!document.isTerminated && document.post) {
+            // If the BookedFavor document is not completed (i.e. the favor has been executed) and the post exists, then fill with side information.
+            if (!document.isCompleted && document.post) {
                 var post = await Post.findById(document.post.toHexString());
                 if (post) {
                     var otherUserId;
@@ -75,16 +75,35 @@ export const completeFavor = async (request, response) => {
         const bookedFavorId = id;
         const bookedFavor = await BookedFavor.findById(bookedFavorId);
 
-        console.log(">>> completeFavor: Marking the booked favor as terminated")
-
+        /*
+        TODO: IMPLEMENT THIS LOGIC
         if (bookedFavor.providerId != request.userId)
             return response.status(400).json({ message: "Cannot mark a favor as completed if you are not the provider" });
+        */
+        if(request.userId == bookedFavor.providerId){
+            if(bookedFavor.markedAsCompletedByProvider)
+                return response.status(400).json({ message: "You already have marked it as completed!" });
+            else{
+                bookedFavor.markedAsCompletedByProvider = true;
+                console.log(">>> completeFavor: Marked the booked favor as markedAsCompletedByProvider")
+            }
 
-        bookedFavor.isTerminated = true;
-
+        }
+        else if(request.userId == bookedFavor.callerId){
+            if(bookedFavor.markedAsCompletedByCaller)
+                return response.status(400).json({ message: "You already have marked it as completed!" });
+            else{
+                bookedFavor.markedAsCompletedByCaller = true;
+                console.log(">>> completeFavor: Marked the booked favor as markedAsCompletedByCaller")
+            }
+        }
+        if(bookedFavor.markedAsCompletedByProvider && bookedFavor.markedAsCompletedByCaller){
+            bookedFavor.isCompleted = true;
+            console.log(">>> completeFavor: Marked the booked favor as terminated")
+        }
         await BookedFavor.findByIdAndUpdate(bookedFavorId, bookedFavor, { new: true });
-        console.log(">>> completeFavor: Marked the booked favor as terminated")
-        return response.status(200).json({ message: bookedFavorId + " marked as completed" });
+    
+        return response.status(200).json({ message: bookedFavorId + " updated!" });
 
     } catch (error) {
         response.status(404).json({ message: error.message });
@@ -95,15 +114,15 @@ export const rateFavor = async (request, response) => {
     const { id } = request.params;
     const { rating } = request.body;
     try {
+        if (!request.userId)
+            return response.status(401).json({ message: 'Unauthenticated' });
+       
         const bookedFavorId = id;
 
         const existingRating = await Rating.findOne({ $and: [{ favor: bookedFavorId }, { user: request.userId }] })
 
         if (existingRating)
             return response.status(400).send(`User already rated this favor with id: ${bookedFavorId}`);
-
-        if (!request.userId)
-            return response.status(401).json({ message: 'Unauthenticated' });
 
         if (!mongoose.Types.ObjectId.isValid(bookedFavorId))
             return response.status(400).send(`No booked favor with id: ${bookedFavorId}`);
@@ -113,7 +132,6 @@ export const rateFavor = async (request, response) => {
 
         if (request.userId != bookedFavorToRate.providerId && request.userId != bookedFavorToRate.callerId)
             return response.status(400).json({ message: "Cannot rate other people's favor!" });
-
 
         const newRating = new Rating({ rating: rating, user: userWhosRating._doc, favor: bookedFavorToRate });
         await newRating.save();

@@ -121,7 +121,7 @@ class _Feed_Screen_MState extends State<Feed_Screen_M> {
                               }
                             }
                             return CupertinoActivityIndicator(
-                                animating: false, radius: 20);
+                                animating: false, radius: 10);
                           }),
                         );
                       }
@@ -130,7 +130,7 @@ class _Feed_Screen_MState extends State<Feed_Screen_M> {
                     }
                     // WHILE WAITING
                     return CupertinoActivityIndicator(
-                        animating: false, radius: 20);
+                        animating: false, radius: 10);
                   }),
                 ),
                 //

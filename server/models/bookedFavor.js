@@ -10,7 +10,9 @@ const bookedFavorSchema = mongoose.Schema({
     providerId: { type: String, required: true },
     callerId:  { type: String, required: true },
     post: { type: Schema.Types.ObjectId, ref: 'Post' },
-    isTerminated: { type: Boolean, default:false, required: true},
+    markedAsCompletedByCaller: { type: Boolean, default:false, required: true},
+    markedAsCompletedByProvider: { type: Boolean, default:false, required: true},
+    isCompleted: { type: Boolean, default:false, required: true},
 });
 
 const BookedFavor = mongoose.model('BookedFavor', bookedFavorSchema);

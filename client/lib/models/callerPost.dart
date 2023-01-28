@@ -49,7 +49,7 @@ class CallerPost extends Post {
       location: json['location'],
       favorStartTime: DateTime.parse(json['favorStartTime']),
       description: json['description'],
-      averageRatings: json['averageRatings'],
+      averageRatings: json['averageRatings'].toInt(),
       rankingPosition: json['rankingPosition'],
       rankingLocation: json['rankingLocation'],
       bio: json['bio'],
