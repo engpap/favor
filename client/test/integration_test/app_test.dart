@@ -4,7 +4,7 @@ import 'package:integration_test/integration_test.dart';
 import 'package:project/functions/tabs.dart';
 
 import 'package:project/main.dart' as app;
-import 'package:project/screens/account.dart';
+import 'package:project/screens/account/account.dart';
 import 'package:project/screens/explore/explore.dart';
 import 'package:project/screens/favor/favor.dart';
 import 'package:project/screens/feed/feed_mobile.dart';

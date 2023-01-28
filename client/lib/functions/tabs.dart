@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:project/screens/account.dart';
+import 'package:project/screens/account/account.dart';
 import 'package:project/screens/explore/explore.dart';
 import 'package:project/screens/favor/favor.dart';
 import 'package:project/screens/feed/feed.dart';
