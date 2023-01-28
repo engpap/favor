@@ -32,4 +32,24 @@ class ProfileService {
     }
     return user;
   }
+
+  Future<User?> getUserProfileById(BuildContext context, String id) async {
+    User? user;
+    try {
+      http.Response response =
+          await http.get(Uri.parse('$uri/user/${id}'), headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      });
+
+      httpErrorHandle(
+          response: response,
+          context: context,
+          onSuccess: () {
+            user = User.fromMap(jsonDecode(response.body));
+          });
+    } catch (error) {
+      throw Exception(">>> getMyUserProfile exception: " + error.toString());
+    }
+    return user;
+  }
 }
