@@ -90,21 +90,24 @@ export const createPost = async (req, res) => {
 export const getPosts = async (request, response) => {
     const { page,userType } = request.query;
     try {
+        console.log("-------> ",page);
         const LIMIT = 4;
         const pageStartIndex = (Number(page) - 1) * LIMIT;
 
         const userTypeSearchQuery_RegExp = new RegExp(userType, 'i');
         console.log(">>> getPosts: RegExp of userType searchquery is " + userTypeSearchQuery_RegExp)
- 
-        const total = await Post.countDocuments({userType:userTypeSearchQuery_RegExp});
-
+        
+        // Filter by userType and toHide field
+        const filter = { $and: [{ userType:userTypeSearchQuery_RegExp }, { toHide: false }] };
+        const total = await Post.countDocuments(filter);
+        
         // To return all documents in a collection, omit parameter of find().  
         // To sort posts from newest to oldest order, pass -1 as the parameter of sort().
         // To skip the posts before the current page start index.
-        const posts = await Post.find({userType:userTypeSearchQuery_RegExp}).sort({ _id: -1 }).limit(LIMIT).skip(pageStartIndex);
+        const posts = await Post.find(filter).sort({ _id: -1 }).limit(LIMIT).skip(pageStartIndex);
 
         //TODO: calcola il rankingPosition in maniera dinamica e restituisce la location ranking
-
+        console.log("here:> ",posts.length)
         console.log(">>> getPosts: Updating posts with users data...");
         var newPosts = []
         for (const document of posts) {
