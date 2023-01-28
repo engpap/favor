@@ -64,7 +64,7 @@ class FavorService {
    * This method should be called only by PROVIDERS.
    */
   Future<void> markFavorAsCompleted(
-      BuildContext context, int bookedFavorId) async {
+      BuildContext context, String bookedFavorId) async {
     try {
       http.Response response = await http.post(
         Uri.parse('$uri/favors/${bookedFavorId}/completeFavor'),

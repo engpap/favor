@@ -27,29 +27,30 @@ class favorBookedPage_Screen_M extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
         child: Column(children: [
-          // FAVOR INFORMATION
-          CustomCard(child: FavorInformation(post: bookedFavor!.post)),
-          // FAVOR MAP
-          CustomCard(
-            padding: EdgeInsets.all(0),
-            //margin: EdgeInsets.only(right: 9, left: 9),
-            child: FavorMap(post: bookedFavor!.post),
-          ),
-          // FAVOR COMPLETED
-          FavorCompleted(bookedFavor: bookedFavor),
-          // GOOGLE CALENDAR
-          Consumer<UserProvider>(
-            builder: (context, myProvider, child) {
-              if (myProvider.getGoogleClient() != null) {
-                return AddToGoogleCalendarButton(post: bookedFavor!.post);
-              } else
-                return Container();
-            },
-          ),
-          // FAVOR PERSON
-          CustomCard(child: FavorPerson(post: bookedFavor!.post),),
-        ]
-    ));
+      // FAVOR INFORMATION
+      CustomCard(child: FavorInformation(post: bookedFavor!.post)),
+      // FAVOR MAP
+      CustomCard(
+        padding: EdgeInsets.all(0),
+        //margin: EdgeInsets.only(right: 9, left: 9),
+        child: FavorMap(post: bookedFavor!.post),
+      ),
+      // FAVOR COMPLETED
+      MarkAsCompletedButton(bookedFavor: bookedFavor),
+      // GOOGLE CALENDAR
+      Consumer<UserProvider>(
+        builder: (context, myProvider, child) {
+          if (myProvider.getGoogleClient() != null) {
+            return AddToGoogleCalendarButton(post: bookedFavor!.post);
+          } else
+            return Container();
+        },
+      ),
+      // FAVOR PERSON
+      CustomCard(
+        child: FavorPerson(post: bookedFavor!.post),
+      ),
+    ]));
   }
 }
 
@@ -85,8 +86,7 @@ class AddToGoogleCalendarButton extends StatelessWidget {
             ),
             child: CupertinoButton(
               padding: EdgeInsets.all(0),
-              color:
-                  favorColors.PrimaryBlue,
+              color: favorColors.PrimaryBlue,
               borderRadius: BorderRadius.circular(15),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,

@@ -27,16 +27,19 @@ class favorBookedPage_Screen_T extends StatelessWidget {
         SingleChildScrollView(
           child: ConstrainedBox(
             constraints: BoxConstraints(
-              maxWidth: Responsive.homeColumnWidth(context), //Responsive.fixedWidth(),
+              maxWidth: Responsive.homeColumnWidth(
+                  context), //Responsive.fixedWidth(),
             ),
             child: Column(
               children: [
                 // FAVOR INFORMATION
                 CustomCard(child: FavorInformation(post: bookedFavor!.post)),
                 // FAVOR PERSON
-                CustomCard(child: FavorPerson(post: bookedFavor!.post),),
+                CustomCard(
+                  child: FavorPerson(post: bookedFavor!.post),
+                ),
                 // FAVOR COMPLETED
-                FavorCompleted(bookedFavor: bookedFavor),
+                MarkAsCompletedButton(bookedFavor: bookedFavor),
                 // GOOGLE CALENDAR
                 Consumer<UserProvider>(
                   builder: (context, myProvider, child) {
@@ -50,11 +53,11 @@ class favorBookedPage_Screen_T extends StatelessWidget {
             ),
           ),
         ),
+
         /// RIGHT SCREEN
         // MAP
         FavorMapTablet(post: bookedFavor!.post)
       ],
     );
-    
   }
 }

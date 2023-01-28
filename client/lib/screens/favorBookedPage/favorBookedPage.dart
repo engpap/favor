@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/functions/responsive.dart';
+import 'package:project/helpers/storage.dart';
 import 'package:project/models/bookedFavor.dart';
 
 import 'package:project/screens/favorBookedPage/favorBookedPage_mobile.dart';
@@ -39,8 +40,8 @@ class favorBookedPage_Screen extends StatelessWidget {
   }
 }
 
-class FavorCompleted extends StatefulWidget {
-  FavorCompleted({
+class MarkAsCompletedButton extends StatefulWidget {
+  MarkAsCompletedButton({
     super.key,
     required this.bookedFavor,
   });
@@ -48,10 +49,10 @@ class FavorCompleted extends StatefulWidget {
   BookedFavor? bookedFavor;
 
   @override
-  State<FavorCompleted> createState() => _FavorCompletedState();
+  State<MarkAsCompletedButton> createState() => _MarkAsCompletedButtonState();
 }
 
-class _FavorCompletedState extends State<FavorCompleted> {
+class _MarkAsCompletedButtonState extends State<MarkAsCompletedButton> {
   //initial value of rating
   double _rating = 5;
   bool completed = false;
@@ -88,31 +89,33 @@ class _FavorCompletedState extends State<FavorCompleted> {
             ),
           ],
         ),
-        onPressed: completed ? null : () {
-          print('Pressed: FavorCompleted button');
-          showCupertinoModalPopup(
-            context: context,
-            builder: (context) => CupertinoActionSheet(
-              actions: [buildRatingPicker()],
-              cancelButton: CupertinoActionSheetAction(
-                child: Text("Submit"),
-                onPressed: () {
-                  print("FINAL RATING: ${_rating}");
-                  completed = true;
-                  //TODO: che funzione chiamare ??
-                  //FavorService().markFavorAsCompleted(context, widget.bookedFavor.id);
-                  // il rating è salvato in _rating
-                  
-                  // aggiorno la pagina [per disattivare il bottone]
-                  setState(() {});
-                  // CLOSE POP UP
-                  Navigator.pop(context);
-                  // GO BACK TO FEED - se tolgo questo pop mi resta la pagina del favor con il bottone disattivato
-                  Navigator.pop(context);
-                },
-              ),
-            ));
-        },
+        onPressed: completed
+            ? null
+            : () {
+                print('Pressed: FavorCompleted button');
+                showCupertinoModalPopup(
+                    context: context,
+                    builder: (context) => CupertinoActionSheet(
+                          actions: [buildRatingPicker()],
+                          cancelButton: CupertinoActionSheetAction(
+                            child: Text("Submit"),
+                            onPressed: () {
+                              print("FINAL RATING: ${_rating}");
+                              completed = true;
+                              FavorService().markFavorAsCompleted(
+                                  context, widget.bookedFavor!.id);
+                              // il rating è salvato in _rating
+
+                              // aggiorno la pagina [per disattivare il bottone]
+                              setState(() {});
+                              // CLOSE POP UP
+                              Navigator.pop(context);
+                              // GO BACK TO FEED - se tolgo questo pop mi resta la pagina del favor con il bottone disattivato
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ));
+              },
       ),
     );
   }

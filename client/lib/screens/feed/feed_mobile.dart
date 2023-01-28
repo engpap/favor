@@ -48,7 +48,7 @@ class _Feed_Screen_MState extends State<Feed_Screen_M> {
     _isThereUserToken = Storage.isThereUserToken();
     // At the beginning, it is false. This would allow to see the home without
     // having a valid token or having been signed in/up.
-    _userHasBookedSomeFavors = Future.value(false);
+    _userHasBookedSomeFavors = refresh_hasUserBookedSomeFavors(context);
 
     _pagingController.addPageRequestListener((pageKey) {
       fetch_recommended_favors_page(context, pageKey);
@@ -86,7 +86,7 @@ class _Feed_Screen_MState extends State<Feed_Screen_M> {
                 ),
                 // FAVOR BOOKED
                 FutureBuilder<bool>(
-                  // if user HAS TOKEN try to show the booked favors
+                  // if user HAS TOKEN, then try to show the booked favors
                   future: _isThereUserToken,
                   builder: ((context, snapshot) {
                     if (snapshot.hasData && snapshot.data != null) {
@@ -180,14 +180,20 @@ class _Feed_Screen_MState extends State<Feed_Screen_M> {
     );
   }
 
-  Future<void> refresh_hasUserBookedSomeFavors(BuildContext context) async {
-    // Call api if user has a token.
+  /// Call api if user has a token. Then set the state in order to update
+  /// the widget.
+  /// If user has not the token, then we just return false
+  /// assuming it has not not booked some favors.
+  Future<bool> refresh_hasUserBookedSomeFavors(BuildContext context) async {
     bool isThereUserToken = await Storage.isThereUserToken();
     if (isThereUserToken) {
       var result = FavorService().hasUserBookedSomeFavors(context);
       setState(() {
         _userHasBookedSomeFavors = result;
       });
+      return result;
+    } else {
+      return false;
     }
   }
 
