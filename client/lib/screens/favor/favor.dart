@@ -285,9 +285,9 @@ class _Favor_publishFavorButtonState extends State<Favor_publishFavorButton> {
                       context: context,
                       taskCategory: globals.categoryTextController.text,
                       location: globals.locationTextController.text,
-                      availabilityStartTime: favorTime.formatter.parse(
+                      availabilityStartTime: favorTime.formatterForServer(
                           globals.availabilityStartTimeTextController.text),
-                      availabilityEndTime: favorTime.formatter.parse(
+                      availabilityEndTime: favorTime.formatterForServer(
                           globals.availabilityEndTimeTextController.text),
                       description: globals.boxDescriptionTextController.text,
                     )
@@ -295,8 +295,8 @@ class _Favor_publishFavorButtonState extends State<Favor_publishFavorButton> {
                       context: context,
                       taskCategory: globals.categoryTextController.text,
                       location: globals.locationTextController.text,
-                      favorStartTime: favorTime.formatter
-                          .parse(globals.favorStartTimeTextController.text),
+                      favorStartTime: favorTime.formatterForServer
+                          (globals.favorStartTimeTextController.text),
                       description: globals.boxDescriptionTextController.text,
                     ),
               builder: (context, snapshot) {

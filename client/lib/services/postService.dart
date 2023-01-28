@@ -46,8 +46,8 @@ class PostService {
           'userType': UserMode_inherited.of(context).stateWidget.getUserMode(),
           'taskCategory': taskCategory,
           'location': location,
-          'availabilityStartTime': availabilityStartTime.toIso8601String(),
-          'availabilityEndTime': availabilityEndTime.toIso8601String(),
+          'availabilityStartTime': availabilityStartTime,
+          'availabilityEndTime': availabilityEndTime,
           'description': description
         }),
       );
@@ -112,7 +112,7 @@ class PostService {
           'userType': UserMode_inherited.of(context).stateWidget.getUserMode(),
           'taskCategory': taskCategory,
           'location': location,
-          'favorStartTime': favorStartTime.toIso8601String(),
+          'favorStartTime': favorStartTime,
           'description': description
         }),
       );
