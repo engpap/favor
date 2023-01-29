@@ -20,7 +20,7 @@ class Favor_pickerMenu extends StatefulWidget {
   Favor_pickerMenu(
       {super.key,
       required this.placeholder,
-      required this.heading,
+      this.heading = "",
       required this.contentList,
       required this.prefixIcon,
       required this.textController,
@@ -42,7 +42,7 @@ class _Favor_pickerMenuState extends State<Favor_pickerMenu> {
         child: Column(
           children: [
             // DESCRIPTION
-            SizedBox(
+            (widget.heading == "") ? Container() : SizedBox(
               width: Responsive.width(100, context),
               child: Text(
                 "${widget.heading}",
