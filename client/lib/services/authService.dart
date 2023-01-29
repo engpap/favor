@@ -4,7 +4,6 @@ import 'package:project/helpers/auth_helper.dart';
 import 'package:http/http.dart' as http;
 import 'package:project/helpers/storage.dart';
 import 'package:project/providers/user_provider.dart';
-import 'package:project/screens/favor/favor.dart';
 import 'package:project/screens/home.dart';
 import 'package:project/screens/signin/signin.dart';
 import 'package:project/screens/signup2/signup2.dart';
@@ -12,7 +11,6 @@ import 'package:provider/provider.dart';
 import 'dart:convert';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:project/errors/error_handling.dart';
-import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
 
 class AuthService {
   Future insertPersonalInfo({
@@ -108,6 +106,9 @@ class AuthService {
         context: context,
         onSuccess: () {
           Storage.setUserToken(jsonDecode(response.body)['token']);
+
+          // If it is an admin then set the userId in the storage as "adminId"
+          // and push the user to the AdminScreen.
           if (jsonDecode(response.body)['admin'] == true) {
             Storage.setUserId('adminId');
             Navigator.pushReplacement(
@@ -116,7 +117,10 @@ class AuthService {
                   builder: (context) =>
                       HomeScreen()), //TODO: here should be inserted ADMIN SCREEN
             );
-          } else {
+          } else
+          // If it is not an admin then set the userId in the storage
+          // and push the user to the HomeScreen.
+          {
             Storage.setUserId(jsonDecode(response.body)['_id']);
             Provider.of<UserProvider>(context, listen: false)
                 .setUser(response.body);
@@ -199,11 +203,11 @@ class AuthService {
     Storage.removeUserId();
     Storage.invalidateToken();
     Provider.of<UserProvider>(context, listen: false).clearUser();
-    /*if (Provider.of<UserProvider>(context, listen: false).getGoogleClient() !=
-        null) {
+    try {
       _googleSignIn.signOut();
-      Provider.of<UserProvider>(context, listen: false).setGoogleClient(null);
-    }*/
+    } catch (error) {
+      print("Not signed out as google user");
+    }
     Navigator.pushReplacement(
         context, CupertinoPageRoute(builder: (context) => SignInScreen()));
   }

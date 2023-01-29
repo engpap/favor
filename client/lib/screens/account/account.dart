@@ -294,6 +294,11 @@ class _AccountScreen_TState extends State<AccountScreen_T> {
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     _user = Provider.of<AppProvider>(context).getMyUserProfile(context);
   }
 
