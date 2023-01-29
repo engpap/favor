@@ -290,6 +290,7 @@ class _Carousel_FavorCategory_WidgetState
                 itemCount: snapshot.data!.favorCategories.length,
                 itemBuilder: (context, index) {
                   return FavorCategoryWidget(
+                    key: Key("favor_category_${index}"),
                     categoryName: snapshot.data!.favorCategories[index],
                   );
                 });

@@ -22,7 +22,7 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setGoogleClient(http.Client client) {
+  void setGoogleClient(http.Client? client) {
     _googleClient = client;
     notifyListeners();
   }

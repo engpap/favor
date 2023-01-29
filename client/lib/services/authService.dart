@@ -193,6 +193,11 @@ class AuthService {
     Storage.removeUserId();
     Storage.invalidateToken();
     Provider.of<UserProvider>(context, listen: false).clearUser();
+    /*if (Provider.of<UserProvider>(context, listen: false).getGoogleClient() !=
+        null) {
+      _googleSignIn.signOut();
+      Provider.of<UserProvider>(context, listen: false).setGoogleClient(null);
+    }*/
     Navigator.pushReplacement(
         context, CupertinoPageRoute(builder: (context) => SignInScreen()));
   }
