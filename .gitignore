@@ -2,3 +2,5 @@
 client/ios/Runner.xcodeproj/project.pbxproj
 client/ios/Runner/Info.plist
 
+client/android/app/src/main/AndroidManifest.xml
+client/ios/Runner/AppDelegate.swift

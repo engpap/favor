@@ -48,3 +48,5 @@ app.*.map.json
 lib/constants/
 android/app/build.gradle
 ios/Runner/Info.plist
+android/app/src/main/AndroidManifest.xml
+ios/Runner/AppDelegate.swift
