@@ -1,16 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/models/post.dart';
+import 'package:project/providers/app_provider.dart';
 import 'package:project/screens/favorInformationPage/favorInformationPage_mobile.dart';
 import 'package:project/screens/favorInformationPage/favorInformationPage_tablet.dart';
 import 'package:project/screens/responsiveLayout.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/models/callerPost.dart';
-import 'package:project/services/postService.dart';
 import 'package:project/screens/components/starsWidget.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/functions/favorTime.dart' as favorTime;
+import 'package:provider/provider.dart';
 
 class favorInformationPage_Screen extends StatelessWidget {
   favorInformationPage_Screen({
@@ -259,9 +260,9 @@ class FavorPerson extends StatelessWidget {
                 Text(
                   post!.userType,
                   style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: favorColors.SecondaryBlue),
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: favorColors.SecondaryBlue),
                   textAlign: TextAlign.left,
                 ),
                 SizedBox(
@@ -392,7 +393,7 @@ class FavorBook extends StatelessWidget {
         ),
         onPressed: () {
           print('Pressed: _bookButton');
-          PostService()
+          Provider.of<AppProvider>(context, listen: false)
               .bookFavor(context: context, post: post, userType: userType);
         },
       ),

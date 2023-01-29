@@ -4,6 +4,7 @@ import 'package:project/helpers/auth_helper.dart';
 import 'package:http/http.dart' as http;
 import 'package:project/helpers/storage.dart';
 import 'package:project/providers/user_provider.dart';
+import 'package:project/screens/favor/favor.dart';
 import 'package:project/screens/home.dart';
 import 'package:project/screens/signin/signin.dart';
 import 'package:project/screens/signup2/signup2.dart';
@@ -106,14 +107,24 @@ class AuthService {
         response: response,
         context: context,
         onSuccess: () {
-          Provider.of<UserProvider>(context, listen: false)
-              .setUser(response.body);
           Storage.setUserToken(jsonDecode(response.body)['token']);
-          Storage.setUserId(jsonDecode(response.body)['_id']);
-          Navigator.pushReplacement(
-            context,
-            CupertinoPageRoute(builder: (context) => HomeScreen()),
-          );
+          if (jsonDecode(response.body)['admin'] == true) {
+            Storage.setUserId('adminId');
+            Navigator.pushReplacement(
+              context,
+              CupertinoPageRoute(
+                  builder: (context) =>
+                      HomeScreen()), //TODO: here should be inserted ADMIN SCREEN
+            );
+          } else {
+            Storage.setUserId(jsonDecode(response.body)['_id']);
+            Provider.of<UserProvider>(context, listen: false)
+                .setUser(response.body);
+            Navigator.pushReplacement(
+              context,
+              CupertinoPageRoute(builder: (context) => HomeScreen()),
+            );
+          }
         },
       );
     } catch (error) {
@@ -138,11 +149,6 @@ class AuthService {
       final GoogleSignInAccount? user = await _googleSignIn.signIn();
       if (user != null) {
         final googleAuth = await user.authentication;
-
-        // For google calendar
-        var httpClient = (await _googleSignIn.authenticatedClient())!;
-        Provider.of<UserProvider>(context, listen: false)
-            .setGoogleClient(httpClient);
 
         http.Response response = await http.post(
           Uri.parse('$uri/user/continue'),
@@ -193,6 +199,11 @@ class AuthService {
     Storage.removeUserId();
     Storage.invalidateToken();
     Provider.of<UserProvider>(context, listen: false).clearUser();
+    /*if (Provider.of<UserProvider>(context, listen: false).getGoogleClient() !=
+        null) {
+      _googleSignIn.signOut();
+      Provider.of<UserProvider>(context, listen: false).setGoogleClient(null);
+    }*/
     Navigator.pushReplacement(
         context, CupertinoPageRoute(builder: (context) => SignInScreen()));
   }

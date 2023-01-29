@@ -22,7 +22,7 @@ void main() {
       app.main();
       await tester.pumpAndSettle();
       // Wait for animation to end
-      await Future.delayed(Duration(seconds: 5)); //TODO: check if necessary
+      //await Future.delayed(Duration(seconds: 5)); //TODO: check if necessary
       //debugDumpApp();
 
       final gesture_detector_1 = find.byKey(Key("gesture_detector_intro1"));
@@ -45,7 +45,7 @@ void main() {
       app.main();
       await tester.pumpAndSettle();
       // Wait for animation to end
-      await Future.delayed(Duration(seconds: 5)); //TODO: check if necessary
+      //await Future.delayed(Duration(seconds: 5)); //TODO: check if necessary
 
       final gesture_detector_1 = find.byKey(Key("gesture_detector_intro1"));
       await tester.tap(gesture_detector_1);
@@ -92,6 +92,32 @@ void main() {
       app.main();
       await tester.pumpAndSettle();
       // Wait for animation to end
+      //await Future.delayed(Duration(seconds: 5)); //TODO: check if necessary
+      //debugDumpApp();
+
+      final gesture_detector_1 = find.byKey(Key("gesture_detector_intro1"));
+      await tester.tap(gesture_detector_1);
+      await tester.pumpAndSettle();
+
+      final gesture_detector_2 = find.byKey(Key("gesture_detector_intro2"));
+      await tester.tap(gesture_detector_2);
+      await tester.pumpAndSettle();
+
+      final gesture_detector_3 = find.byKey(Key("gesture_detector_intro3"));
+      await tester.tap(gesture_detector_3);
+      await tester.pumpAndSettle();
+      expect(find.byType(HomeScreen), findsOneWidget);
+
+      expect(find.text("Recommended for you"), findsOneWidget);
+      expect(find.text("Favor Categories"), findsOneWidget);
+    });
+/*
+    testWidgets(
+        "Go to Home Screen,  tap on a favor category and check if Explore Screen is shown",
+        (tester) async {
+      app.main();
+      await tester.pumpAndSettle();
+      // Wait for animation to end
       await Future.delayed(Duration(seconds: 5)); //TODO: check if necessary
       //debugDumpApp();
 
@@ -108,9 +134,10 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byType(HomeScreen), findsOneWidget);
 
-      expect(find.byType(RecommendedFavorWidgetsList_Widget), findsOneWidget);
-      expect(find.byType(Carousel_FavorCategoryWidget), findsOneWidget);
-    });
+      final favor_category_0 = find.byKey(Key("favor_category_0"));
+      await tester.tap(favor_category_0);
+      expect(find.text("Favor Categories"), findsOneWidget);
+    });*/
 
     // Find and tap on "New Favor" item in the bottom navigation bar
 

@@ -39,31 +39,40 @@ export const signup = async (req, res) => {
 
 
 export const signin = async (req, res) => {
-    console.log(">>> SignIn: Signing in");
+    console.log(">>> SignIn: Signing in...");
     const { email, password } = req.body;
 
     try {
+        if (email == 'admin@favor.com' && password == 'Favor123') {
+            const token = jwt.sign({ email: email, id: 'adminID' }, process.env.GOOGLE_CLIENT_SECRET, { expiresIn: "24h" });
+            const admin = true;
+            res.status(200).json({ token,admin });
+            console.log(">>> SignIn: Signed in as admin"); 
+        }
+        else {
 
-        if (!email.toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))
-            return res.status(400).json({ message: "Wrong format of email address", errorType: EMAIL_ERROR });
+            if (!email.toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))
+                return res.status(400).json({ message: "Wrong format of email address", errorType: EMAIL_ERROR });
 
-        const existingUser = await User.findOne({ email: email });
+            const existingUser = await User.findOne({ email: email });
 
-        if (!existingUser)
-            return res.status(404).json({ message: "User does not exists", errorType: EMAIL_ERROR });
+            if (!existingUser)
+                return res.status(404).json({ message: "User does not exists", errorType: EMAIL_ERROR });
 
-        const isPasswordCorrect = await bcrypt.compare(password, existingUser.password);
+            const isPasswordCorrect = await bcrypt.compare(password, existingUser.password);
 
-        if (!isPasswordCorrect)
-            return res.status(400).json({ message: "Wrong password", errorType: PASSWORD_ERROR });
+            if (!isPasswordCorrect)
+                return res.status(400).json({ message: "Wrong password", errorType: PASSWORD_ERROR });
 
-        const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, process.env.GOOGLE_CLIENT_SECRET, { expiresIn: "24h" });
+            const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, process.env.GOOGLE_CLIENT_SECRET, { expiresIn: "24h" });
 
-        //The _doc field lets you access the "raw" document directly, 
-        // which was delivered through the mongodb driver, bypassing mongoose.
-        console.log(">>> SignIn: Sending response to user");
-        //console.log("Following user logged in successfully: ", existingUser._doc);
-        res.status(200).json({ token, ...existingUser._doc });
+            //The _doc field lets you access the "raw" document directly, 
+            // which was delivered through the mongodb driver, bypassing mongoose.
+            console.log(">>> SignIn: Sending response to user");
+            //console.log("Following user logged in successfully: ", existingUser._doc);
+            res.status(200).json({ token, ...existingUser._doc });
+        }
+
 
     } catch (error) {
         return res.status(500).json({ message: "Something went wrong", errorType: SERVER_ERROR });
@@ -159,25 +168,25 @@ export const getProfileConstants = async (request, response) => {
 }
 
 export const getMyUserProfile = async (request, response) => {
-    try{
+    try {
         // Select everything except the password
         const user = await User.findById(request.userId).select("-password");
-        console.log(">>> getMyUserProfile: this is the data sent to client -> "+user)
-        return response.status(200).json({...user._doc});
-    }catch(error){
+        console.log(">>> getMyUserProfile: this is the data sent to client -> " + user)
+        return response.status(200).json({ ...user._doc });
+    } catch (error) {
         response.status(404).json({ message: error.message });
     }
 
 }
 
 export const getUserProfileById = async (request, response) => {
-    const {id} = request.params;
-    try{
+    const { id } = request.params;
+    try {
         // Select everything except the password
         const user = await User.findById(id).select("-password");
-        console.log(">>> getUserProfileById: this is the data sent to client -> "+user)
-        return response.status(200).json({...user._doc});
-    }catch(error){
+        console.log(">>> getUserProfileById: this is the data sent to client -> " + user)
+        return response.status(200).json({ ...user._doc });
+    } catch (error) {
         response.status(404).json({ message: error.message });
     }
 

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/functions/stringExtensions.dart';
+import 'package:project/providers/app_provider.dart';
 import 'package:project/screens/components/customCard.dart';
 import 'package:project/screens/components/customFieldMat.dart';
 import 'package:project/screens/home.dart';
@@ -11,6 +12,7 @@ import 'package:project/screens/responsiveLayout.dart';
 import 'package:project/screens/signup/signup.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
+import 'package:provider/provider.dart';
 import 'globals.dart' as globals;
 
 class SignInScreen extends StatelessWidget {
@@ -161,7 +163,7 @@ class SignIn_loginButton extends StatelessWidget {
           ),
           onPressed: () {
             print('Pressed: SignIn_signUpButton');
-            globals.authService.signin(
+            Provider.of<AppProvider>(context).signin(
                 context: context,
                 email: globals.textControllerEmail.text,
                 password: globals.textControllerPassword.text);
@@ -201,7 +203,7 @@ class SignIn_googleButton extends StatelessWidget {
           onPressed: () {
             // Console log
             print('Pressed: SignIn_googleButton');
-            globals.authService.googleSignIn(context: context);
+           Provider.of<AppProvider>(context, listen: false).googleSignIn(context: context);
           },
         ),
       ),

@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/models/user.dart';
+import 'package:project/providers/app_provider.dart';
 import 'package:project/screens/components/starsWidget.dart';
 import 'package:project/screens/responsiveLayout.dart';
-import 'package:project/services/authService.dart';
-import 'package:project/services/profileService.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
+import 'package:provider/provider.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -17,7 +17,6 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -51,7 +50,12 @@ class _AccountScreen_MState extends State<AccountScreen_M> {
   @override
   void initState() {
     super.initState();
-    _user = ProfileService().getMyUserProfile(context);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _user = Provider.of<AppProvider>(context).getMyUserProfile(context);
   }
 
   @override
@@ -85,7 +89,9 @@ class _AccountScreen_MState extends State<AccountScreen_M> {
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
                                   //image: AssetImage("assets/images/chris.jpg"),
-                                  image: Image.memory(snapshot.data!.profilePicture.bytes).image, 
+                                  image: Image.memory(
+                                          snapshot.data!.profilePicture.bytes)
+                                      .image,
                                   fit: BoxFit.cover,
                                 ),
                                 border: Border.all(
@@ -110,7 +116,8 @@ class _AccountScreen_MState extends State<AccountScreen_M> {
                             Text(
                               "${snapshot.data!.name} ${snapshot.data!.surname}",
                               style: TextStyle(
-                                fontSize: Responsive.widthFixOver(30, 10, context),
+                                fontSize:
+                                    Responsive.widthFixOver(30, 10, context),
                                 fontWeight: FontWeight.bold,
                                 color: favorColors.PrimaryBlue,
                               ),
@@ -120,8 +127,8 @@ class _AccountScreen_MState extends State<AccountScreen_M> {
                             Text(
                               snapshot.data!.email!,
                               style: TextStyle(
-                                fontSize: Responsive.widthFixOver(18, 5, context)
-                              ),
+                                  fontSize:
+                                      Responsive.widthFixOver(18, 5, context)),
                               overflow: TextOverflow.fade,
                             ),
                             //
@@ -228,7 +235,7 @@ class _AccountScreen_MState extends State<AccountScreen_M> {
                               overflow: TextOverflow.fade,
                             ),
                           ],
-                          );
+                        );
                       } else if (snapshot.hasError) {
                         return Text('${snapshot.error}');
                       }
@@ -267,12 +274,12 @@ class _AccountScreen_MState extends State<AccountScreen_M> {
       child: CupertinoButton(
           child: Text("Log Out"),
           onPressed: (() {
-            AuthService().signout(context: context);
+            Provider.of<AppProvider>(context, listen: false)
+                .signout(context: context);
           })),
     );
   }
 }
-
 
 class AccountScreen_T extends StatefulWidget {
   const AccountScreen_T({super.key});
@@ -287,7 +294,7 @@ class _AccountScreen_TState extends State<AccountScreen_T> {
   @override
   void initState() {
     super.initState();
-    _user = ProfileService().getMyUserProfile(context);
+    _user = Provider.of<AppProvider>(context).getMyUserProfile(context);
   }
 
   @override
@@ -323,13 +330,17 @@ class _AccountScreen_TState extends State<AccountScreen_T> {
                                   children: [
                                     // IMAGE
                                     Container(
-                                      width: Responsive.widthFixOver(120, 30, context),
-                                      height: Responsive.widthFixOver(120, 30, context),
+                                      width: Responsive.widthFixOver(
+                                          120, 30, context),
+                                      height: Responsive.widthFixOver(
+                                          120, 30, context),
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                         image: DecorationImage(
                                           //image: AssetImage("assets/images/chris.jpg"),
-                                          image: Image.memory(snapshot.data!.profilePicture.bytes).image, 
+                                          image: Image.memory(snapshot
+                                                  .data!.profilePicture.bytes)
+                                              .image,
                                           fit: BoxFit.cover,
                                         ),
                                         border: Border.all(
@@ -338,7 +349,8 @@ class _AccountScreen_TState extends State<AccountScreen_T> {
                                         ),
                                         boxShadow: [
                                           BoxShadow(
-                                            color: Colors.black.withOpacity(0.1),
+                                            color:
+                                                Colors.black.withOpacity(0.1),
                                             spreadRadius: 0.5,
                                             blurRadius: 5,
                                             offset: Offset(0, 1),
@@ -354,7 +366,8 @@ class _AccountScreen_TState extends State<AccountScreen_T> {
                                     Text(
                                       "${snapshot.data!.name} ${snapshot.data!.surname}",
                                       style: TextStyle(
-                                        fontSize: Responsive.widthFixOver(30, 10, context),
+                                        fontSize: Responsive.widthFixOver(
+                                            30, 10, context),
                                         fontWeight: FontWeight.bold,
                                         color: favorColors.PrimaryBlue,
                                       ),
@@ -364,8 +377,8 @@ class _AccountScreen_TState extends State<AccountScreen_T> {
                                     Text(
                                       snapshot.data!.email!,
                                       style: TextStyle(
-                                        fontSize: Responsive.widthFixOver(18, 5, context)
-                                      ),
+                                          fontSize: Responsive.widthFixOver(
+                                              18, 5, context)),
                                       overflow: TextOverflow.fade,
                                     ),
                                     //
@@ -375,10 +388,11 @@ class _AccountScreen_TState extends State<AccountScreen_T> {
                                     // STARS
                                     StarsWidget(
                                       number: snapshot.data!.averageRatings,
-                                      size: Responsive.widthFixOver(35, 10, context),
+                                      size: Responsive.widthFixOver(
+                                          35, 10, context),
                                     ),
                                   ],
-                                  );
+                                );
                               } else if (snapshot.hasError) {
                                 return Text('${snapshot.error}');
                               }
@@ -434,7 +448,8 @@ class _AccountScreen_TState extends State<AccountScreen_T> {
                                     ),
                                     // PERSONAL SIGN
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
                                       children: [
                                         // AGE
                                         Column(
@@ -507,7 +522,7 @@ class _AccountScreen_TState extends State<AccountScreen_T> {
                                       overflow: TextOverflow.fade,
                                     ),
                                   ],
-                                  );
+                                );
                               } else if (snapshot.hasError) {
                                 return Text('${snapshot.error}');
                               }
@@ -544,7 +559,7 @@ class _AccountScreen_TState extends State<AccountScreen_T> {
       child: CupertinoButton(
           child: Text("Log Out"),
           onPressed: (() {
-            AuthService().signout(context: context);
+            Provider.of<AppProvider>(context).signout(context: context);
           })),
     );
   }
