@@ -1,17 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:project/models/user.dart';
-import 'package:http/http.dart' as http;
 
 class UserProvider extends ChangeNotifier {
   User? _user;
-  //http.Client? _googleClient;
 
   User? get user => _user;
-
-  /*
-  http.Client? getGoogleClient() {
-    return _googleClient;
-  }*/
 
   void setUser(String user) {
     try {
@@ -23,11 +16,16 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  /*
-  void setGoogleClient(http.Client? client) {
-    _googleClient = client;
+  /// Just for testing
+  void setUserByUserObject(User user) {
+    try {
+      _user = user;
+    } catch (e) {
+      throw new Exception("Cannot create user with missing data");
+    }
+
     notifyListeners();
-  }*/
+  }
 
   void clearUser() {
     _user = null;

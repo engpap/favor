@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:project/functions/tabs.dart';
+import '../main_test.dart' as app;
 
-import 'package:project/main.dart' as app;
 import 'package:project/screens/account/account.dart';
 import 'package:project/screens/explore/explore.dart';
 import 'package:project/screens/favor/favor.dart';
@@ -44,8 +44,8 @@ void main() {
         (tester) async {
       app.main();
       await tester.pumpAndSettle();
+      await Future.delayed(Duration(seconds: 5)); //TODO: check if necessary
       // Wait for animation to end
-      //await Future.delayed(Duration(seconds: 5)); //TODO: check if necessary
 
       final gesture_detector_1 = find.byKey(Key("gesture_detector_intro1"));
       await tester.tap(gesture_detector_1);
@@ -86,6 +86,52 @@ void main() {
       expect(find.byType(AccountScreen), findsOneWidget);
     });
 
+    testWidgets(
+        "User enters the app for the first time and navigate through the app using the navigation bottom bar",
+        (tester) async {
+      app.main();
+      await tester.pumpAndSettle();
+      await Future.delayed(Duration(seconds: 5)); //TODO: check if necessary
+      // Wait for animation to end
+
+      final gesture_detector_1 = find.byKey(Key("gesture_detector_intro1"));
+      await tester.tap(gesture_detector_1);
+      await tester.pumpAndSettle();
+
+      final gesture_detector_2 = find.byKey(Key("gesture_detector_intro2"));
+      await tester.tap(gesture_detector_2);
+      await tester.pumpAndSettle();
+
+      final gesture_detector_3 = find.byKey(Key("gesture_detector_intro3"));
+      await tester.tap(gesture_detector_3);
+      await tester.pumpAndSettle();
+      expect(find.byType(HomeScreen), findsOneWidget);
+
+      // Go to "Explore" screen and verity it is built
+      final explore_navbar_item = find.text("Explore");
+      await tester.tap(explore_navbar_item);
+      await tester.pumpAndSettle();
+      expect(find.byType(Explore_Screen), findsOneWidget);
+
+      // Go to "Favor" screen and verity it is built
+      // Find and tap on "New Favor" item in the bottom navigation bar
+      final new_favor_navbar_item = find.text("New Favor");
+      await tester.tap(new_favor_navbar_item);
+      await tester.pumpAndSettle();
+      expect(find.byType(FavorScreen), findsOneWidget);
+
+      // Go to "Leaderboard" screen and verity it is built
+      final leaderboard_navbar_item = find.text("Leaderboard");
+      await tester.tap(leaderboard_navbar_item);
+      await tester.pumpAndSettle();
+      expect(find.byType(Leaderboard_Screen), findsOneWidget);
+
+      // Go to "Account" screen and verity it is built
+      final account_navbar_item = find.text("Account");
+      await tester.tap(account_navbar_item);
+      await tester.pumpAndSettle();
+      expect(find.byType(AccountScreen), findsOneWidget);
+    });
     testWidgets(
         "Go to Home Screen, check if favor categories and carousel are correctly built",
         (tester) async {
