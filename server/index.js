@@ -8,6 +8,7 @@ import userRoutes from './routes/user.js';
 import postRoutes from './routes/posts.js';
 import favorRoutes from './routes/favors.js';
 import leaderboardRoutes from './routes/leaderboards.js';
+import adminRouter from './routes/admin.js';
 
 const app = express();
 dotenv.config();
@@ -21,6 +22,7 @@ app.use('/leaderboards', leaderboardRoutes);
 app.use('/favors', favorRoutes);
 app.use('/posts', postRoutes);
 app.use('/user', userRoutes);
+app.use('/admin',adminRouter)
 
 const PORT = process.env.PORT;
 
