@@ -23,11 +23,11 @@ class Leaderboard_Screen extends StatelessWidget {
           }
         },
         child: CupertinoPageScaffold(
-            //backgroundColor: favorColors.IntroBg,
+            backgroundColor: favorColors.IntroBg,
             child: SafeArea(
           child: ResponsiveLeayout(
             mobileBody: Leaderboard_Screen_M(),
-            tabletBody: Leaderboard_Screen_T(),
+            tabletBody: Leaderboard_Screen_M(),
           ),
         )));
   }
@@ -54,7 +54,7 @@ class LeaderboardCard extends StatelessWidget {
     return Center(
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
@@ -64,19 +64,17 @@ class LeaderboardCard extends StatelessWidget {
             ),
           ],
         ),
-        margin: EdgeInsets.symmetric(vertical: 4), //
+        margin: EdgeInsets.only(left: 9, right:9, top:9), //
         width: Responsive.width(94, context),
         height: 60,
         child: CupertinoButton(
           padding: EdgeInsets.zero,
-          //color: providerStatus ? favorColors.PrimaryBlue : Colors.transparent,
           color: favorColors.IntroBg,
           borderRadius: BorderRadius.circular(10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               // RANK
-
               (leaderboardPosition < 4)
                   // Thropy
                   ? Container(
@@ -134,7 +132,6 @@ class LeaderboardCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-
               // STARS
               Container(
                   child: StarsWidget(

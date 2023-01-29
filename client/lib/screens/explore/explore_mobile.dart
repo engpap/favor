@@ -121,7 +121,7 @@ class _Explore_Screen_MState extends State<Explore_Screen_M> {
         ),
         // clear button
         suffix: CupertinoButton(
-          padding: EdgeInsets.only(top: 0, bottom: 0, left: 0, right: 0),
+          padding: EdgeInsets.zero,
           child: Icon(
             CupertinoIcons.xmark_circle_fill,
             color: favorColors.Yellow.withOpacity(0.8),
