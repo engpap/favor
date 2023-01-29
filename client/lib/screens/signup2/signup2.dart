@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/functions/stringExtensions.dart';
 import 'package:project/models/profileConstants.dart';
+import 'package:project/providers/app_provider.dart';
 import 'package:project/screens/components/customFieldMat.dart';
 import 'package:project/screens/components/customCard.dart';
 import 'package:project/screens/responsiveLayout.dart';
 import 'package:project/screens/signup2/signup2_mobile.dart';
 import 'package:project/screens/signup2/signup2_tablet.dart';
-import 'package:project/services/constantsService.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
+import 'package:provider/provider.dart';
 import 'globals.dart' as globals;
 
 class SignUp2Screen extends StatelessWidget {
@@ -19,34 +20,34 @@ class SignUp2Screen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        FocusScopeNode currentFocus = FocusScope.of(context);
-        if (!currentFocus.hasPrimaryFocus) {
-          currentFocus.unfocus();
-        }
-      },
-      child: Container(
-        //BACKGROUND GRADIENT IMAGE
-        decoration: const BoxDecoration(
-            image: DecorationImage(
-          image: AssetImage("assets/images/bg_blue_gradient.jpg"),
-          fit: BoxFit.cover,
-          opacity: 1,
-          colorFilter: const ColorFilter.mode(
-            Colors.grey,
-            BlendMode.softLight,
-          ),
-        )),
-        //PAGE
-        child: CupertinoPageScaffold(
-          // .withAlpha(180) is used to add transparency, in order to see the bg-image
-          backgroundColor: favorColors.IntroBg.withAlpha(180),
-          child: SafeArea(
-            child: ResponsiveLeayout(
-              mobileBody: SignUp2Screen_M(),
-              tabletBody: SignUp2Screen_T(),
-            ),
-          ))));
+        onTap: () {
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          if (!currentFocus.hasPrimaryFocus) {
+            currentFocus.unfocus();
+          }
+        },
+        child: Container(
+            //BACKGROUND GRADIENT IMAGE
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+              image: AssetImage("assets/images/bg_blue_gradient.jpg"),
+              fit: BoxFit.cover,
+              opacity: 1,
+              colorFilter: const ColorFilter.mode(
+                Colors.grey,
+                BlendMode.softLight,
+              ),
+            )),
+            //PAGE
+            child: CupertinoPageScaffold(
+                // .withAlpha(180) is used to add transparency, in order to see the bg-image
+                backgroundColor: favorColors.IntroBg.withAlpha(180),
+                child: SafeArea(
+                  child: ResponsiveLeayout(
+                    mobileBody: SignUp2Screen_M(),
+                    tabletBody: SignUp2Screen_T(),
+                  ),
+                ))));
   }
 }
 
@@ -66,7 +67,12 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
   @override
   void initState() {
     super.initState();
-    profileConstants = ConstantsService().getProfileConstants();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    profileConstants = Provider.of<AppProvider>(context).getProfileConstants();
   }
 
   @override
@@ -296,16 +302,18 @@ class RegisterButton_SignUp2 extends StatelessWidget {
             // Console log
             print('Pressed: RegisterButton_SignUp2');
             // Check possible errors on inputs
-            if(globals.bioContoller.text.length < 1 || globals.bioContoller.text.length > 50){
+            if (globals.bioContoller.text.length < 1 ||
+                globals.bioContoller.text.length > 50) {
               print("Error on Bio length");
-            } else if (globals.ageContoller.text.length < 1 || 
-              globals.genderContoller.text.length < 1 || 
-              globals.residenceContoller.text.length < 1 || 
-              globals.jobContoller.text.length < 1) {
+            } else if (globals.ageContoller.text.length < 1 ||
+                globals.genderContoller.text.length < 1 ||
+                globals.residenceContoller.text.length < 1 ||
+                globals.jobContoller.text.length < 1) {
               print("Some fields are empty");
             } else {
               // Send information to server and wait for response
-              globals.authService.insertPersonalInfo(
+              Provider.of<AppProvider>(context, listen: false)
+                  .insertPersonalInfo(
                 context: context,
                 age: globals.ageContoller.text,
                 gender: globals.genderContoller.text,
@@ -319,7 +327,7 @@ class RegisterButton_SignUp2 extends StatelessWidget {
               globals.residenceContoller.clear();
               globals.jobContoller.clear();
               globals.bioContoller.clear();
-            }            
+            }
           },
         ),
       ),

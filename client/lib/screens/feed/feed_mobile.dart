@@ -1,21 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_launcher_icons/utils.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/functions/showToast.dart';
 import 'package:project/helpers/storage.dart';
 import 'package:project/models/bookedFavor.dart';
 import 'package:project/models/favorCategories.dart';
 import 'package:project/models/post.dart';
+import 'package:project/providers/app_provider.dart';
 import 'package:project/screens/components/customHeadingDesc.dart';
 import 'package:project/screens/feed/feed.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
-import 'package:project/services/favorService.dart';
-import 'package:project/services/constantsService.dart';
-import 'package:project/services/postService.dart';
 
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:provider/provider.dart';
 
 String bookedListHeading = "Your Booked Favors";
 String categoryListHeading = "Favor Categories";
@@ -187,7 +185,8 @@ class _Feed_Screen_MState extends State<Feed_Screen_M> {
   Future<bool> refresh_hasUserBookedSomeFavors(BuildContext context) async {
     bool isThereUserToken = await Storage.isThereUserToken();
     if (isThereUserToken) {
-      var result = FavorService().hasUserBookedSomeFavors(context);
+      var result = Provider.of<AppProvider>(context, listen: false)
+          .hasUserBookedSomeFavors(context);
       setState(() {
         _userHasBookedSomeFavors = result;
       });
@@ -219,7 +218,8 @@ class _Feed_Screen_MState extends State<Feed_Screen_M> {
   Future<void> fetch_recommended_favors_page(
       BuildContext context, int pageKey) async {
     try {
-      final newItems = await PostService().getPosts(context, pageKey);
+      final newItems = await Provider.of<AppProvider>(context, listen: false)
+          .getPosts(context, pageKey);
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
@@ -247,7 +247,8 @@ class _Feed_Screen_MState extends State<Feed_Screen_M> {
 
   Future<void> fetch_booked_favors_page(int pageKey) async {
     try {
-      final newItems = await FavorService().getBookedFavors(context, pageKey);
+      final newItems = await Provider.of<AppProvider>(context, listen: false)
+          .getBookedFavors(context, pageKey);
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {
         _pagingController_booked_favors.appendLastPage(newItems);
@@ -275,8 +276,13 @@ class _Carousel_FavorCategory_WidgetState
 
   @override
   void initState() {
-    favorCategories = ConstantsService().getFavorCategories();
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    favorCategories = Provider.of<AppProvider>(context).getFavorCategories();
   }
 
   @override

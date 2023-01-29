@@ -4,13 +4,14 @@ import 'package:http/http.dart' as http;
 
 class UserProvider extends ChangeNotifier {
   User? _user;
-  http.Client? _googleClient;
+  //http.Client? _googleClient;
 
   User? get user => _user;
 
+  /*
   http.Client? getGoogleClient() {
     return _googleClient;
-  }
+  }*/
 
   void setUser(String user) {
     try {
@@ -22,10 +23,11 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  /*
   void setGoogleClient(http.Client? client) {
     _googleClient = client;
     notifyListeners();
-  }
+  }*/
 
   void clearUser() {
     _user = null;

@@ -5,11 +5,11 @@ import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/functions/utilities.dart';
 import 'package:project/models/favorConstants.dart';
 import 'package:project/models/leaderboard.dart';
+import 'package:project/providers/app_provider.dart';
 import 'package:project/screens/components/favor_PickerMenu.dart';
 import 'package:project/screens/home.dart';
 import 'package:project/screens/leaderboard/leaderboard.dart';
-import 'package:project/services/constantsService.dart';
-import 'package:project/services/leaderboardService.dart';
+import 'package:provider/provider.dart';
 
 class Leaderboard_Screen_M extends StatefulWidget {
   const Leaderboard_Screen_M({super.key});
@@ -19,7 +19,6 @@ class Leaderboard_Screen_M extends StatefulWidget {
 }
 
 class _Leaderboard_Screen_MState extends State<Leaderboard_Screen_M> {
-
   late Future<FavorConstants> favorConstants;
   Future<Leaderboard?>? leaderboard = null;
 
@@ -31,17 +30,23 @@ class _Leaderboard_Screen_MState extends State<Leaderboard_Screen_M> {
   @override
   void initState() {
     super.initState();
-    favorConstants = ConstantsService().getFavorConstants();
     locationsTextEditingController.addListener(() {
       getLeaderboard();
     });
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    favorConstants = Provider.of<AppProvider>(context).getFavorConstants();
+  }
+
   Future<Leaderboard?> getLeaderboard() {
-    return leaderboard = LeaderboardService().getLeaderboard(
-        context: context,
-        userType: UserMode_inherited.of(context).stateWidget.getUserMode(),
-        location: locationsTextEditingController.text);
+    return leaderboard = Provider.of<AppProvider>(context, listen: false)
+        .getLeaderboard(
+            context: context,
+            userType: UserMode_inherited.of(context).stateWidget.getUserMode(),
+            location: locationsTextEditingController.text);
   }
 
   @override
@@ -58,13 +63,10 @@ class _Leaderboard_Screen_MState extends State<Leaderboard_Screen_M> {
               setState(() {});
               return;
             },
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
+            child: Column(mainAxisSize: MainAxisSize.max, children: [
               // SEARCH BAR
               Container(
-                margin: EdgeInsets.all(9),
-                child: buildLadderBar(context)),
+                  margin: EdgeInsets.all(9), child: buildLadderBar(context)),
               // ITEMS
               // used this method just to rebuild when a userMode change
               UserMode_inherited.of(context).stateWidget.isUserModeAs_caller()
@@ -78,19 +80,20 @@ class _Leaderboard_Screen_MState extends State<Leaderboard_Screen_M> {
   // SEARCH BAR
   Widget buildLadderBar(BuildContext context) {
     return FutureBuilder<FavorConstants>(
-      future: favorConstants,
-      builder: ((context, snapshot) {
-        if (snapshot.hasData) {
-          return Container(
-            child: Favor_pickerMenu(
+        future: favorConstants,
+        builder: ((context, snapshot) {
+          if (snapshot.hasData) {
+            return Container(
+                child: Favor_pickerMenu(
               contentList: snapshot.data!.locations
-                  .map((e) => Utilities.capitalizeFirstWordsLetter(e)).toList(),
+                  .map((e) => Utilities.capitalizeFirstWordsLetter(e))
+                  .toList(),
               placeholder: "Select an Area --->",
               heading: "",
               prefixIcon: CupertinoIcons.location_solid,
               textController: locationsTextEditingController,
             ));
-        } else if (snapshot.hasError) {
+          } else if (snapshot.hasError) {
             return Text('${snapshot.error}');
           }
           return CupertinoActivityIndicator(animating: false, radius: 10);
@@ -102,43 +105,38 @@ class _Leaderboard_Screen_MState extends State<Leaderboard_Screen_M> {
     getLeaderboard();
     return Expanded(
       child: FutureBuilder<Leaderboard?>(
-        future: leaderboard,
-        builder: ((context, snapshot) {
-          if (snapshot.hasData) {
-            return Column(children: [
-              ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemCount:
-                      snapshot.data!.leaderboard.length,
-                  itemBuilder: (context, itemIndex) {
-                    return LeaderboardCard(
-                      personName: snapshot
-                          .data!.leaderboard.keys
-                          .toList()[itemIndex]
-                          .name,
-                      personSurname: snapshot
-                          .data!.leaderboard.keys
-                          .toList()[itemIndex]
-                          .surname,
-                      leaderboardPosition: itemIndex + 1,
-                      personImage: snapshot
-                          .data!.leaderboard.keys
-                          .toList()[itemIndex]
-                          .profilePicture,
-                      starsNumber: snapshot
-                              .data!.leaderboard[
-                          snapshot.data!.leaderboard.keys
-                              .toList()[itemIndex]],
-                    );
-                  })
-            ]);
-          } else if (snapshot.hasError) {
-            return Text('${snapshot.error}');
-          }
-          // Because don't load without an input
-          return Center(child: Text("waiting for your input"));
-        })),
+          future: leaderboard,
+          builder: ((context, snapshot) {
+            if (snapshot.hasData) {
+              return Column(children: [
+                ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: snapshot.data!.leaderboard.length,
+                    itemBuilder: (context, itemIndex) {
+                      return LeaderboardCard(
+                        personName: snapshot.data!.leaderboard.keys
+                            .toList()[itemIndex]
+                            .name,
+                        personSurname: snapshot.data!.leaderboard.keys
+                            .toList()[itemIndex]
+                            .surname,
+                        leaderboardPosition: itemIndex + 1,
+                        personImage: snapshot.data!.leaderboard.keys
+                            .toList()[itemIndex]
+                            .profilePicture,
+                        starsNumber: snapshot.data!.leaderboard[snapshot
+                            .data!.leaderboard.keys
+                            .toList()[itemIndex]],
+                      );
+                    })
+              ]);
+            } else if (snapshot.hasError) {
+              return Text('${snapshot.error}');
+            }
+            // Because don't load without an input
+            return Center(child: Text("waiting for your input"));
+          })),
     );
   }
 }

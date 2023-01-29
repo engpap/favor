@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/functions/stringExtensions.dart';
+import 'package:project/providers/app_provider.dart';
 import 'package:project/screens/components/customCard.dart';
 import 'package:project/screens/components/customFieldMat.dart';
 import 'package:project/screens/responsiveLayout.dart';
@@ -10,6 +11,7 @@ import 'package:project/screens/signup/signup_mobile.dart';
 import 'package:project/screens/signup/signup_tablet.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
+import 'package:provider/provider.dart';
 import 'globals.dart' as globals;
 
 class SignUpScreen extends StatelessWidget {
@@ -247,24 +249,29 @@ class SignUp_registerButton extends StatelessWidget {
             print('Pressed: SignUp_registerButton');
             print('run: authService.signup');
             // Check possible errors on inputs
-            if (!globals.textControllerName.text.isValidName() || globals.textControllerName.text.length < 1
-            || !globals.textControllerSurname.text.isValidName() || globals.textControllerSurname.text.length < 1
-            || !globals.textControllerEmail.text.isValidEmail() || globals.textControllerEmail.text.length < 1
-            || !globals.textControllerPassword.text.isValidPassword() || globals.textControllerPassword.text.length < 8
-            || !globals.textControllerPasswordConfirm.text.isValidPassword() || globals.textControllerPasswordConfirm.text.length < 8
-            || globals.textControllerPassword.text != globals.textControllerPasswordConfirm.text
-            ) {
+            if (!globals.textControllerName.text.isValidName() ||
+                globals.textControllerName.text.length < 1 ||
+                !globals.textControllerSurname.text.isValidName() ||
+                globals.textControllerSurname.text.length < 1 ||
+                !globals.textControllerEmail.text.isValidEmail() ||
+                globals.textControllerEmail.text.length < 1 ||
+                !globals.textControllerPassword.text.isValidPassword() ||
+                globals.textControllerPassword.text.length < 8 ||
+                !globals.textControllerPasswordConfirm.text.isValidPassword() ||
+                globals.textControllerPasswordConfirm.text.length < 8 ||
+                globals.textControllerPassword.text !=
+                    globals.textControllerPasswordConfirm.text) {
               print("Error not valid fields");
             } else {
-            // Send information to server and wait for response
-            globals.authService.signup(
-              context: context,
-              name: globals.textControllerName.text,
-              surname: globals.textControllerSurname.text,
-              email: globals.textControllerEmail.text,
-              password: globals.textControllerPassword.text,
-              confirmPassword: globals.textControllerPasswordConfirm.text,
-            );
+              // Send information to server and wait for response
+              Provider.of<AppProvider>(context).signup(
+                context: context,
+                name: globals.textControllerName.text,
+                surname: globals.textControllerSurname.text,
+                email: globals.textControllerEmail.text,
+                password: globals.textControllerPassword.text,
+                confirmPassword: globals.textControllerPasswordConfirm.text,
+              );
             }
           },
         ),

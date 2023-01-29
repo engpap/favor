@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-
 import 'package:project/screens/explore/explore_mobile.dart';
 import 'package:project/screens/explore/explore_tablet.dart';
 

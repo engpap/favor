@@ -1,6 +1,10 @@
+import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:googleapis/calendar/v3.dart';
 import 'package:project/functions/showToast.dart';
+import 'package:project/helpers/auth_helper.dart';
+import 'package:project/helpers/storage.dart';
 import 'package:provider/provider.dart';
 import 'package:project/providers/user_provider.dart';
 
@@ -15,12 +19,12 @@ class GoogleCalendarApiWrapper {
   /// Create a new Event object and insert it into Google Calendar.
   Future insertEventInGoogleCalendar(BuildContext context, String eventName,
       String eventDescription, DateTime startTime) async {
-    Event event = createEventObject(eventName, eventDescription, startTime);
-    insertEvent(context, event);
+    Event event = _createEventObject(eventName, eventDescription, startTime);
+    _insertEvent(context, event);
   }
 
   /// Create and return a new Event object.
-  Event createEventObject(
+  Event _createEventObject(
       String eventName, String eventDescription, DateTime startTime) {
     Event event = Event(); // Create object of event
     event.summary = eventName; //Setting summary of object
@@ -37,29 +41,35 @@ class GoogleCalendarApiWrapper {
 
   /// Use the Client object provided during GoogleSignIn to add the event into
   /// Google Calendar.
-  void insertEvent(BuildContext context, Event event) async {
-    var client =
-        Provider.of<UserProvider>(context, listen: false).getGoogleClient();
+  void _insertEvent(BuildContext context, Event event) async {
+    // Define the scopes for Google Calendar API
+    GoogleSignIn _googleSignIn = GoogleSignIn(
+      clientId: AuthHelper().clientID(),
+      scopes: [
+        'https://www.googleapis.com/auth/userinfo.email',
+        'openid',
+        'https://www.googleapis.com/auth/userinfo.profile',
+        'https://www.googleapis.com/auth/calendar',
+      ],
+    );
+    await _googleSignIn.signIn();
+    // For google calendar
+    var client = (await _googleSignIn.authenticatedClient())!;
+    var calendar = CalendarApi(client);
+    String calendarId = "primary";
+    try {
+      var value = await calendar.events.insert(event, calendarId);
 
-    if (client != null) {
-      var calendar = CalendarApi(client);
-      String calendarId = "primary";
-      try {
-        var value = await calendar.events.insert(event, calendarId);
-
-        if (value.status == "confirmed") {
-          print(">>> Added event in Google Calendar: ${value.status}");
-          showToast(context,
-              "You have successfully added this event to your Google Calendar!");
-        } else {
-          showToast(
-              context, "Unable to add this event to your Google Calendar!");
-          print(
-              ">>> Unable to add event in Google Calendar: : ${value.status}");
-        }
-      } catch (e) {
-        print(">>> Unable to add event in Google Calendar: " + e.toString());
+      if (value.status == "confirmed") {
+        print(">>> Added event in Google Calendar: ${value.status}");
+        showToast(context,
+            "You have successfully added this event to your Google Calendar!");
+      } else {
+        showToast(context, "Unable to add this event to your Google Calendar!");
+        print(">>> Unable to add event in Google Calendar: : ${value.status}");
       }
+    } catch (e) {
+      print(">>> Unable to add event in Google Calendar: " + e.toString());
     }
   }
 }

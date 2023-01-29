@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/models/post.dart';
+import 'package:project/providers/app_provider.dart';
 import 'package:project/screens/feed/feed.dart';
 import 'package:project/screens/home.dart';
 import 'package:project/functions/favorColors.dart' as favorColors;
-import 'package:project/services/postService.dart';
 
 import 'package:project/screens/explore/providerExplore.dart';
 import 'package:provider/provider.dart';
@@ -22,12 +22,17 @@ class _Explore_Screen_MState extends State<Explore_Screen_M> {
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     // Initial data is just as recommended favors data!
-    posts = PostService().getPosts(context, 1);
+    posts = Provider.of<AppProvider>(context).getPosts(context, 1);
   }
 
   Future<List<Post>> searchPosts() {
-    return posts = PostService().getPostsBySearch(
+    return posts = Provider.of<AppProvider>(context).getPostsBySearch(
         context: context,
         searchQuery: context.read<ExploreQuery>().text,
         userTypeToSearch:

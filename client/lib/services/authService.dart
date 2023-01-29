@@ -109,6 +109,7 @@ class AuthService {
         onSuccess: () {
           Storage.setUserToken(jsonDecode(response.body)['token']);
           if (jsonDecode(response.body)['admin'] == true) {
+            Storage.setUserId('adminId');
             Navigator.pushReplacement(
               context,
               CupertinoPageRoute(
@@ -148,11 +149,6 @@ class AuthService {
       final GoogleSignInAccount? user = await _googleSignIn.signIn();
       if (user != null) {
         final googleAuth = await user.authentication;
-
-        // For google calendar
-        var httpClient = (await _googleSignIn.authenticatedClient())!;
-        Provider.of<UserProvider>(context, listen: false)
-            .setGoogleClient(httpClient);
 
         http.Response response = await http.post(
           Uri.parse('$uri/user/continue'),

@@ -91,7 +91,7 @@ export const completeFavor = async (request, response) => {
         }
         else if(request.userId == bookedFavor.callerId){
             if(bookedFavor.markedAsCompletedByCaller)
-                return response.status(400).json({ message: "You already have marked it as completed!" });
+                return response.status(400).json({ message: "You already have marked it as completed! Waiting for the other user's mark..." });
             else{
                 bookedFavor.markedAsCompletedByCaller = true;
                 console.log(">>> completeFavor: Marked the booked favor as markedAsCompletedByCaller")

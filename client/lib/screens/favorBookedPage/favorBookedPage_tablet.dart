@@ -36,19 +36,15 @@ class favorBookedPage_Screen_T extends StatelessWidget {
                 CustomCard(child: FavorInformation(post: bookedFavor!.post)),
                 // FAVOR PERSON
                 CustomCard(
-                  child: FavorBookPerson(post: bookedFavor!.post, booked: bookedFavor!,),
+                  child: FavorBookPerson(
+                    post: bookedFavor!.post,
+                    booked: bookedFavor!,
+                  ),
                 ),
                 // FAVOR COMPLETED
                 MarkAsCompletedButton(bookedFavor: bookedFavor),
                 // GOOGLE CALENDAR
-                Consumer<UserProvider>(
-                  builder: (context, myProvider, child) {
-                    if (myProvider.getGoogleClient() != null) {
-                      return AddToGoogleCalendarButton(post: bookedFavor!.post);
-                    } else
-                      return Container();
-                  },
-                ),
+                AddToGoogleCalendarButton(post: bookedFavor!.post),
               ],
             ),
           ),

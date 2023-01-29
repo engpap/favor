@@ -1,21 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:googleapis/cloudbuild/v1.dart';
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/functions/responsive.dart';
 import 'package:project/helpers/storage.dart';
 import 'package:project/models/bookedFavor.dart';
+import 'package:project/models/callerPost.dart';
 import 'package:project/models/post.dart';
+import 'package:project/models/providerPost.dart';
 import 'package:project/models/user.dart';
+import 'package:project/providers/app_provider.dart';
 import 'package:project/screens/components/starsWidget.dart';
 
 import 'package:project/screens/favorBookedPage/favorBookedPage_mobile.dart';
 import 'package:project/screens/favorBookedPage/favorBookedPage_tablet.dart';
 
 import 'package:project/screens/responsiveLayout.dart';
-import 'package:project/services/favorService.dart';
-import 'package:project/services/profileService.dart';
+import 'package:provider/provider.dart';
 
 class favorBookedPage_Screen extends StatelessWidget {
   favorBookedPage_Screen({
@@ -96,7 +97,7 @@ class _MarkAsCompletedButtonState extends State<MarkAsCompletedButton> {
         ),
         onPressed: () async {
           print('Pressed: FavorCompleted button');
-          bool result = await FavorService()
+          bool result = await Provider.of<AppProvider>(context, listen: false)
               .markFavorAsCompleted(context, widget.bookedFavor!.id);
           result
               ? showCupertinoModalPopup(
@@ -108,8 +109,9 @@ class _MarkAsCompletedButtonState extends State<MarkAsCompletedButton> {
                           onPressed: () {
                             print("FINAL RATING: ${_rating}");
                             // il rating è salvato in _rating
-                            FavorService().rateFavor(
-                                context, widget.bookedFavor!.id, _rating);
+                            Provider.of<AppProvider>(context, listen: false)
+                                .rateFavor(
+                                    context, widget.bookedFavor!.id, _rating);
                             // aggiorno la pagina [per disattivare il bottone]
                             setState(() {});
                             // CLOSE POP UP
@@ -210,15 +212,21 @@ class FavorBookPerson extends StatefulWidget {
 }
 
 class _FavorBookPersonState extends State<FavorBookPerson> {
-
   late Future<User?> _provider;
   late Future<User?> _caller;
 
   @override
   void initState() {
     super.initState();
-    _caller = ProfileService().getUserProfileById(context, widget.booked.callerId);
-    _provider = ProfileService().getUserProfileById(context, widget.booked.providerId);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _caller = Provider.of<AppProvider>(context)
+        .getUserProfileById(context, widget.booked.callerId);
+    _provider = Provider.of<AppProvider>(context)
+        .getUserProfileById(context, widget.booked.providerId);
   }
 
   @override
@@ -275,44 +283,50 @@ class _FavorBookPersonState extends State<FavorBookPerson> {
                 ),
                 //ROLE - 1/2
                 FutureBuilder<User?>(
-                  future: _caller,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      if (widget.booked.post.name == snapshot.data!.name && widget.booked.post.surname == snapshot.data!.surname)
-                      return (Text("caller",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: favorColors.SecondaryBlue),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ));
-                    } else if (snapshot.hasError) {
-                      return Text('${snapshot.error}');
-                    }
-                    // By default, show a loading spinner.
-                    return Container();
-                  }),
-                  // ROLE - 2/2
-                  FutureBuilder<User?>(
-                  future: _provider,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      if (widget.booked.post.name == snapshot.data!.name && widget.booked.post.surname == snapshot.data!.surname)
-                      return (Text("provider",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: favorColors.SecondaryBlue),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ));
-                    } else if (snapshot.hasError) {
-                      return Text('${snapshot.error}');
-                    }
-                    // By default, show a loading spinner.
-                    return Container();
-                  }),
+                    future: _caller,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        if (widget.booked.post.name == snapshot.data!.name &&
+                            widget.booked.post.surname ==
+                                snapshot.data!.surname)
+                          return (Text(
+                            "caller",
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: favorColors.SecondaryBlue),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ));
+                      } else if (snapshot.hasError) {
+                        return Text('${snapshot.error}');
+                      }
+                      // By default, show a loading spinner.
+                      return Container();
+                    }),
+                // ROLE - 2/2
+                FutureBuilder<User?>(
+                    future: _provider,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        if (widget.booked.post.name == snapshot.data!.name &&
+                            widget.booked.post.surname ==
+                                snapshot.data!.surname)
+                          return (Text(
+                            "provider",
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: favorColors.SecondaryBlue),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ));
+                      } else if (snapshot.hasError) {
+                        return Text('${snapshot.error}');
+                      }
+                      // By default, show a loading spinner.
+                      return Container();
+                    }),
                 SizedBox(
                   height: 10,
                 ),
@@ -393,6 +407,82 @@ class _FavorBookPersonState extends State<FavorBookPerson> {
           ),
         ),
       ],
+    );
+  }
+}
+
+class AddToGoogleCalendarButton extends StatelessWidget {
+  final Post post;
+
+  AddToGoogleCalendarButton({required this.post});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.all(9),
+      child: SafeArea(
+        child: Center(
+          child: // CALENDAR BUTTON
+              Container(
+            width: MediaQuery.of(context).size.width,
+            height: Responsive.width(12, context),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: favorColors.LightGrey,
+                width: 1.0,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  spreadRadius: 0.5,
+                  blurRadius: 5,
+                  offset: Offset(0, 1),
+                ),
+              ],
+            ),
+            child: CupertinoButton(
+              padding: EdgeInsets.all(0),
+              color: favorColors.PrimaryBlue,
+              borderRadius: BorderRadius.circular(15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(left: 15),
+                    child: Icon(CupertinoIcons.add),
+                  ),
+                  Expanded(
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: Text('Add to Google Calendar'),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(right: 15),
+                    child: Image(
+                      image: AssetImage(
+                          "assets/images/google/google_calendar_logo.png"),
+                    ),
+                  ),
+                ],
+              ),
+              onPressed: () async {
+                print('Pressed: _calendarButton');
+                await Provider.of<AppProvider>(context, listen: false)
+                    .insertEventInGoogleCalendar(
+                  context,
+                  post.taskCategory,
+                  post.location,
+                  (post is CallerPost)
+                      ? (post as CallerPost).getFavorStartTime()
+                      : (post as ProviderPost).getAvailabilityStartTime(),
+                );
+              },
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

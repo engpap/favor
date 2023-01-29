@@ -22,10 +22,12 @@ class ResponsiveLeayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (constraints.maxWidth < notSupportedSize || constraints.maxHeight < notSupportedSize2) { //
-          return notSupportedScreen(constraints.maxWidth, constraints.maxHeight);
-        }
-        else if (constraints.maxWidth < mobileMaxWidth) {
+        if (constraints.maxWidth < notSupportedSize ||
+            constraints.maxHeight < notSupportedSize2) {
+          //
+          return notSupportedScreen(
+              constraints.maxWidth, constraints.maxHeight);
+        } else if (constraints.maxWidth < mobileMaxWidth) {
           return mobileBody;
         } else {
           return tabletBody;
@@ -40,21 +42,21 @@ class ResponsiveLeayout extends StatelessWidget {
       height: height,
       color: favorColors.Error.withAlpha(220),
       child: Container(
-        decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/images/logo/logo.png'),
-          fit: BoxFit.contain,
-          opacity: 0.5,
-        )),
-        child: Container(
-          child: Center(
-            child: Stack(
+          decoration: const BoxDecoration(
+              image: DecorationImage(
+            image: AssetImage('assets/images/logo/logo.png'),
+            fit: BoxFit.contain,
+            opacity: 0.5,
+          )),
+          child: Container(
+            child: Center(
+                child: Stack(
               children: [
                 // Implement the stroke
                 Text(
                   'Unsupported Screen',
                   style: TextStyle(
-                    fontSize: min(width, height)/7,
+                    fontSize: min(width, height) / 7,
                     fontWeight: FontWeight.bold,
                     foreground: Paint()
                       ..style = PaintingStyle.stroke
@@ -66,16 +68,14 @@ class ResponsiveLeayout extends StatelessWidget {
                 Text(
                   'Unsupported Screen',
                   style: TextStyle(
-                    fontSize: min(width, height)/7,
+                    fontSize: min(width, height) / 7,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                 ),
               ],
-            )
-          ),
-        )
-      ),
+            )),
+          )),
     );
   }
 }

@@ -4,13 +4,14 @@ import 'package:project/functions/favorTime.dart' as favorTime;
 import 'package:project/functions/responsive.dart';
 import 'package:project/models/favorConstants.dart';
 import 'package:project/models/post.dart';
+import 'package:project/providers/app_provider.dart';
 import 'package:project/screens/components/favor_PickerMenu.dart';
 
 import 'package:project/screens/home.dart';
 import 'package:project/screens/responsiveLayout.dart';
-import 'package:project/services/constantsService.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
+import 'package:provider/provider.dart';
 import 'globals.dart' as globals;
 
 //import 'package:project/screens/favor/favor2.dart';
@@ -51,7 +52,12 @@ class _FavorScreen_M extends State<FavorScreen_M> {
   @override
   void initState() {
     super.initState();
-    favorConstants = ConstantsService().getFavorConstants();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    favorConstants = Provider.of<AppProvider>(context).getFavorConstants();
   }
 
   @override
@@ -281,7 +287,7 @@ class _Favor_publishFavorButtonState extends State<Favor_publishFavorButton> {
               future: UserMode_inherited.of(context)
                       .stateWidget
                       .isUserModeAs_provider() //isUserModeAsProvider()
-                  ? globals.postService.publishProviderFavor(
+                  ? Provider.of<AppProvider>(context, listen: false).publishProviderFavor(
                       context: context,
                       taskCategory: globals.categoryTextController.text,
                       location: globals.locationTextController.text,
@@ -291,12 +297,12 @@ class _Favor_publishFavorButtonState extends State<Favor_publishFavorButton> {
                           globals.availabilityEndTimeTextController.text),
                       description: globals.boxDescriptionTextController.text,
                     )
-                  : globals.postService.publishCallerFavor(
+                  : Provider.of<AppProvider>(context,listen: false).publishCallerFavor(
                       context: context,
                       taskCategory: globals.categoryTextController.text,
                       location: globals.locationTextController.text,
-                      favorStartTime: favorTime.formatterForServer
-                          (globals.favorStartTimeTextController.text),
+                      favorStartTime: favorTime.formatterForServer(
+                          globals.favorStartTimeTextController.text),
                       description: globals.boxDescriptionTextController.text,
                     ),
               builder: (context, snapshot) {
