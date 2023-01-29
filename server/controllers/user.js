@@ -39,14 +39,15 @@ export const signup = async (req, res) => {
 
 
 export const signin = async (req, res) => {
-    console.log(">>> SignIn: Signing in");
+    console.log(">>> SignIn: Signing in...");
     const { email, password } = req.body;
 
     try {
-        if (email == 'admin' && password == 'Favor123') {
+        if (email == 'admin@favor.com' && password == 'Favor123') {
             const token = jwt.sign({ email: email, id: 'adminID' }, process.env.GOOGLE_CLIENT_SECRET, { expiresIn: "24h" });
-            console.log(">>> SignIn: Signing in as admin"); 
-            res.status(200).json({ token });
+            const admin = true;
+            res.status(200).json({ token,admin });
+            console.log(">>> SignIn: Signed in as admin"); 
         }
         else {
 
