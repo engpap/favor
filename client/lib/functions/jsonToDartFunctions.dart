@@ -35,3 +35,12 @@ List<Text> convertToTextList(List<String> source) {
   }
   return result;
 }
+
+Map<String, int> convertListIntoMap(
+    List<dynamic> json, String field1, String field2) {
+  var map = Map<String, int>();
+  json.forEach((element) {
+    map[element[field1]] = element[field2];
+  });
+  return map;
+}
