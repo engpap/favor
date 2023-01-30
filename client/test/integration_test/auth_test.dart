@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:project/screens/signup/signup.dart';
 import 'package:project/screens/signup2/signup2.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../main_test.dart' as app;
 import 'package:project/screens/home.dart';
 import 'package:project/screens/signin/signin.dart';
@@ -10,7 +11,7 @@ import 'package:project/helpers/storage.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
-
+  SharedPreferences.setMockInitialValues({});
   group("Try to sign up", () {
     testWidgets(
         "User has never signed up, they sign up after introduction screens.",

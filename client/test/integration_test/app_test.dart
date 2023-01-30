@@ -38,6 +38,7 @@ import '../utility_for_testing/mocks/services/profile_service_mock.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences.setMockInitialValues({});
 
   group('User has never signed up', () {
     testWidgets(

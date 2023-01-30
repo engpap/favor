@@ -3,8 +3,10 @@ import 'package:project/helpers/storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   tokenRelatedStorageMethods_ShouldWorkCorrectly();
   userIdRelatedStorageMethods_ShouldWorkCorrectly();
+  SharedPreferences.setMockInitialValues({});
 }
 
 void tokenRelatedStorageMethods_ShouldWorkCorrectly() {

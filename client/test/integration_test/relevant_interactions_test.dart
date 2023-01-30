@@ -39,6 +39,8 @@ import '../utility_for_testing/mocks/services/profile_service_mock.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences.setMockInitialValues({});
+  TestWidgetsFlutterBinding.ensureInitialized();
   group("User is signed in", () {
     testWidgets("User signs in, they open a post and book it.", (tester) async {
       await Storage.setUserToken('valid_token');
