@@ -115,6 +115,7 @@ class _Leaderboard_Screen_MState extends State<Leaderboard_Screen_M> {
                     itemCount: snapshot.data!.leaderboard.length,
                     itemBuilder: (context, itemIndex) {
                       return LeaderboardCard(
+                        key: Key("leaderboard_card_${itemIndex}"),
                         personName: snapshot.data!.leaderboard.keys
                             .toList()[itemIndex]
                             .name,

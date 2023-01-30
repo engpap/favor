@@ -204,6 +204,7 @@ class _Feed_Screen_MState extends State<Feed_Screen_M> {
       pagingController: _pagingController,
       builderDelegate: PagedChildBuilderDelegate<Post>(
           itemBuilder: (context, item, index) => FavorWidget(
+                key: Key("favor_widget_${index}"),
                 post: item,
               ),
           firstPageProgressIndicatorBuilder: (_) => Column(
@@ -238,7 +239,10 @@ class _Feed_Screen_MState extends State<Feed_Screen_M> {
       scrollDirection: Axis.horizontal,
       pagingController: _pagingController_booked_favors,
       builderDelegate: PagedChildBuilderDelegate<BookedFavor>(
-        itemBuilder: (context, item, index) => BookedFavorWidget(booked: item),
+        itemBuilder: (context, item, index) => BookedFavorWidget(
+          key: Key("booked_favor_widget_${0}"),
+          booked: item,
+        ),
         firstPageProgressIndicatorBuilder: (_) =>
             Center(child: CupertinoActivityIndicator()),
       ),
@@ -301,7 +305,7 @@ class _Carousel_FavorCategory_WidgetState
                   );
                 });
           } else if (snapshot.hasError) {
-            showToast(context, '${snapshot.error}');
+            return Text('${snapshot.error}');
           }
           // By default, show a loading spinner.
           return CupertinoActivityIndicator(animating: false, radius: 10);

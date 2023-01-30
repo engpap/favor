@@ -77,6 +77,7 @@ class Form_SignUpState extends State<Form_SignUp> {
               children: [
                 /// NAME
                 CustomCard(
+                  key: Key("custom_card_name"),
                   padding: EdgeInsets.zero,
                   margin: EdgeInsets.zero,
                   child: CustomFieldMat(
@@ -104,6 +105,7 @@ class Form_SignUpState extends State<Form_SignUp> {
 
                 /// SURNAME
                 CustomCard(
+                  key: Key("custom_card_surname"),
                   padding: EdgeInsets.zero,
                   margin: EdgeInsets.zero,
                   child: CustomFieldMat(
@@ -130,6 +132,7 @@ class Form_SignUpState extends State<Form_SignUp> {
 
                 /// EMAIL
                 CustomCard(
+                  key: Key("custom_card_email"),
                   padding: EdgeInsets.zero,
                   margin: EdgeInsets.zero,
                   child: CustomFieldMat(
@@ -157,6 +160,7 @@ class Form_SignUpState extends State<Form_SignUp> {
 
                 /// PASSWORD
                 CustomCard(
+                  key: Key("custom_card_password"),
                   padding: EdgeInsets.zero,
                   margin: EdgeInsets.zero,
                   child: CustomFieldMat(
@@ -184,6 +188,7 @@ class Form_SignUpState extends State<Form_SignUp> {
 
                 /// PASSWORD2
                 CustomCard(
+                  key: Key("custom_card_confirm_password"),
                   padding: EdgeInsets.zero,
                   margin: EdgeInsets.zero,
                   child: CustomFieldMat(
@@ -239,6 +244,7 @@ class SignUp_registerButton extends StatelessWidget {
       child: SizedBox(
         width: Responsive.width(65, context),
         child: CupertinoButton(
+          key: Key("SignUp_registerButton"),
           color: favorColors.PrimaryBlue,
           child: const Text(
             "Register",
@@ -264,7 +270,7 @@ class SignUp_registerButton extends StatelessWidget {
               print("Error not valid fields");
             } else {
               // Send information to server and wait for response
-              Provider.of<AppProvider>(context).signup(
+              Provider.of<AppProvider>(context, listen:false).signup(
                 context: context,
                 name: globals.textControllerName.text,
                 surname: globals.textControllerSurname.text,

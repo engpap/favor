@@ -25,11 +25,13 @@ class Storage {
       return TOKEN_NOT_FOUND;
   }
 
-  /// Return true if the token is not null, which means that the user has
-  /// already signed up/in before.
+  /// Return true if the token is not null and is not 'init', which means
+  ///  that the user has already signed up/in before or system has set
+  /// the token to 'init' in order to show the "Introduction Screens" again.
   static Future<bool> isThereUserToken() async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
-    return _prefs.getString('token') != null;
+    return _prefs.getString('token') != null &&
+        _prefs.getString('token') != 'init';
   }
 
   static Future setUserToken(String token) async {

@@ -13,8 +13,8 @@ import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/functions/favorTime.dart' as favorTime;
 import 'package:provider/provider.dart';
 
-class favorInformationPage_Screen extends StatelessWidget {
-  favorInformationPage_Screen({
+class FavorInformationPageScreen extends StatelessWidget {
+  FavorInformationPageScreen({
     super.key,
     required this.post,
     required this.userType,
@@ -366,6 +366,7 @@ class FavorBook extends StatelessWidget {
       width: Responsive.widthFixOver(350, 70, context),
       height: Responsive.widthFixOver(45, 15, context),
       child: CupertinoButton(
+        key: Key("book_it_button"),
         padding: EdgeInsets.all(0),
         color: favorColors.PrimaryBlue,
         borderRadius: BorderRadius.circular(15),

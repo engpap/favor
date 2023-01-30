@@ -352,7 +352,7 @@ class FavorWidget extends StatelessWidget {
                     Navigator.push(
                       context,
                       CupertinoPageRoute(
-                          builder: (context) => favorInformationPage_Screen(
+                          builder: (context) => FavorInformationPageScreen(
                                 post: post,
                                 userType: userType,
                               )),
@@ -576,16 +576,18 @@ class _BookedFavorWidgetState extends State<BookedFavorWidget> {
                                   ),
                                 ),
                                 //actual time
-                                Container(
-                                  child: Text(
-                                    Utilities.getHoursAndMinutes(
-                                        widget.booked.bookedAt),
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      color: favorColors.PrimaryBlue,
+                                Expanded(
+                                  child: Container(
+                                    child: Text(
+                                      Utilities.getHoursAndMinutes(
+                                          widget.booked.bookedAt),
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: favorColors.PrimaryBlue,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ],

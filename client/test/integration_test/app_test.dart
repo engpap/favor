@@ -1,7 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
+import 'package:mockito/mockito.dart';
 import 'package:project/functions/tabs.dart';
+import 'package:project/screens/favorInformationPage/favorInformationPage.dart';
+import 'package:project/screens/feed/feed.dart';
+import 'package:project/screens/signup/signup.dart';
+import 'package:project/screens/signup2/signup2.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../main_test.dart' as app;
 
 import 'package:project/screens/account/account.dart';
@@ -11,19 +17,34 @@ import 'package:project/screens/feed/feed_mobile.dart';
 import 'package:project/screens/home.dart';
 import 'package:project/screens/leaderboard/leaderboard.dart';
 import 'package:project/screens/signin/signin.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:project/errors/error_handling.dart';
+import 'package:project/helpers/storage.dart';
+import 'package:project/main.dart';
+import 'package:http/http.dart' as http;
+import 'package:project/providers/app_provider.dart';
+import 'package:project/providers/user_provider.dart';
+import 'package:project/screens/explore/providerExplore.dart';
+import 'package:provider/provider.dart';
+import '../utility_for_testing/mocks/services/admin_service_mock.dart';
+import '../utility_for_testing/mocks/services/apis/google_calendar_api_wrapper_mock.dart';
+import '../utility_for_testing/mocks/services/auth_service_mock.dart';
+import '../utility_for_testing/mocks/services/constants_service_mock.dart';
+import '../utility_for_testing/mocks/services/favor_service_mock.dart';
+import '../utility_for_testing/mocks/services/leaderboard_service_mock.dart';
+import '../utility_for_testing/mocks/services/post_service_mock.dart';
+import '../utility_for_testing/mocks/services/profile_service_mock.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('end-to-end test', () {
     testWidgets(
-        'In the first start of the app, we see introductions and then the homescreen',
+        "User has never signed up, so see introduction screens and HomeScreen widget is built",
         (tester) async {
       app.main();
       await tester.pumpAndSettle();
-      // Wait for animation to end
-      //await Future.delayed(Duration(seconds: 5)); //TODO: check if necessary
-      //debugDumpApp();
 
       final gesture_detector_1 = find.byKey(Key("gesture_detector_intro1"));
       await tester.tap(gesture_detector_1);
@@ -40,12 +61,42 @@ void main() {
     });
 
     testWidgets(
-        "User enters the app for the first time and navigate through the app using the navigation bottom bar",
+        "User has never signed up, so see introduction screens, open Feed Screen",
         (tester) async {
       app.main();
       await tester.pumpAndSettle();
-      await Future.delayed(Duration(seconds: 5)); //TODO: check if necessary
-      // Wait for animation to end
+
+      final gesture_detector_1 = find.byKey(Key("gesture_detector_intro1"));
+      await tester.tap(gesture_detector_1);
+      await tester.pumpAndSettle();
+
+      final gesture_detector_2 = find.byKey(Key("gesture_detector_intro2"));
+      await tester.tap(gesture_detector_2);
+      await tester.pumpAndSettle();
+
+      final gesture_detector_3 = find.byKey(Key("gesture_detector_intro3"));
+      await tester.tap(gesture_detector_3);
+      await tester.pumpAndSettle();
+
+      // Go to "Home" screen and verify it is built
+      final home_navbar_item = find.text("Home");
+      await tester.tap(home_navbar_item);
+      await tester.pumpAndSettle();
+      expect(find.byType(Feed_Screen), findsOneWidget);
+
+      // Verify that posts are built
+      expect(find.byKey(Key("favor_widget_${0}")), findsOneWidget);
+      // Verify that categories are built
+      expect(find.byKey(Key("favor_category_${0}")), findsOneWidget);
+      // Verify that booked favors are not built since user is not even registered
+      expect(find.byKey(Key("booked_favor_widget_${0}")), findsNothing);
+    });
+
+    testWidgets(
+        "User has never signed up, so see introduction screens, open Explore Screen",
+        (tester) async {
+      app.main();
+      await tester.pumpAndSettle();
 
       final gesture_detector_1 = find.byKey(Key("gesture_detector_intro1"));
       await tester.tap(gesture_detector_1);
@@ -66,33 +117,15 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byType(Explore_Screen), findsOneWidget);
 
-      // Go to "Favor" screen and verity it is built
-      // Find and tap on "New Favor" item in the bottom navigation bar
-      final new_favor_navbar_item = find.text("New Favor");
-      await tester.tap(new_favor_navbar_item);
-      await tester.pumpAndSettle();
-      expect(find.byType(FavorScreen), findsOneWidget);
-
-      // Go to "Leaderboard" screen and verity it is built
-      final leaderboard_navbar_item = find.text("Leaderboard");
-      await tester.tap(leaderboard_navbar_item);
-      await tester.pumpAndSettle();
-      expect(find.byType(Leaderboard_Screen), findsOneWidget);
-
-      // Go to "Account" screen and verity it is built
-      final account_navbar_item = find.text("Account");
-      await tester.tap(account_navbar_item);
-      await tester.pumpAndSettle();
-      expect(find.byType(AccountScreen), findsOneWidget);
+      // Verify that posts are built
+      expect(find.byKey(Key("favor_widget_${0}")), findsOneWidget);
     });
 
     testWidgets(
-        "User enters the app for the first time and navigate through the app using the navigation bottom bar",
+        "User has never signed up, so see introduction screens, open Favor Screen",
         (tester) async {
       app.main();
       await tester.pumpAndSettle();
-      await Future.delayed(Duration(seconds: 5)); //TODO: check if necessary
-      // Wait for animation to end
 
       final gesture_detector_1 = find.byKey(Key("gesture_detector_intro1"));
       await tester.tap(gesture_detector_1);
@@ -106,12 +139,6 @@ void main() {
       await tester.tap(gesture_detector_3);
       await tester.pumpAndSettle();
       expect(find.byType(HomeScreen), findsOneWidget);
-
-      // Go to "Explore" screen and verity it is built
-      final explore_navbar_item = find.text("Explore");
-      await tester.tap(explore_navbar_item);
-      await tester.pumpAndSettle();
-      expect(find.byType(Explore_Screen), findsOneWidget);
 
       // Go to "Favor" screen and verity it is built
       // Find and tap on "New Favor" item in the bottom navigation bar
@@ -120,150 +147,249 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byType(FavorScreen), findsOneWidget);
 
+      // Verify that posts are built
+      expect(find.byKey(Key("column_favor_picker_menus")), findsOneWidget);
+    });
+
+    testWidgets(
+        "User has never signed up, so see introduction screens, open Leaderboard Screen",
+        (tester) async {
+      app.main();
+      await tester.pumpAndSettle();
+
+      final gesture_detector_1 = find.byKey(Key("gesture_detector_intro1"));
+      await tester.tap(gesture_detector_1);
+      await tester.pumpAndSettle();
+
+      final gesture_detector_2 = find.byKey(Key("gesture_detector_intro2"));
+      await tester.tap(gesture_detector_2);
+      await tester.pumpAndSettle();
+
+      final gesture_detector_3 = find.byKey(Key("gesture_detector_intro3"));
+      await tester.tap(gesture_detector_3);
+      await tester.pumpAndSettle();
+      expect(find.byType(HomeScreen), findsOneWidget);
+
       // Go to "Leaderboard" screen and verity it is built
       final leaderboard_navbar_item = find.text("Leaderboard");
       await tester.tap(leaderboard_navbar_item);
       await tester.pumpAndSettle();
       expect(find.byType(Leaderboard_Screen), findsOneWidget);
 
-      // Go to "Account" screen and verity it is built
-      final account_navbar_item = find.text("Account");
-      await tester.tap(account_navbar_item);
-      await tester.pumpAndSettle();
-      expect(find.byType(AccountScreen), findsOneWidget);
+      // Verify that leaderboard cards are built
+      expect(
+          find.byKey(
+            Key("leaderboard_card_${0}"),
+          ),
+          findsOneWidget);
+      expect(
+          find.byKey(
+            Key("leaderboard_card_${1}"),
+          ),
+          findsOneWidget);
     });
-    testWidgets(
-        "Go to Home Screen, check if favor categories and carousel are correctly built",
-        (tester) async {
-      app.main();
-      await tester.pumpAndSettle();
-      // Wait for animation to end
-      //await Future.delayed(Duration(seconds: 5)); //TODO: check if necessary
-      //debugDumpApp();
+  });
 
-      final gesture_detector_1 = find.byKey(Key("gesture_detector_intro1"));
-      await tester.tap(gesture_detector_1);
-      await tester.pumpAndSettle();
+  testWidgets(
+      "User has never signed up, so see introduction screens, open Account Screen. The user is redirected to the Sign In Screen",
+      (tester) async {
+    app.main();
+    await tester.pumpAndSettle();
 
-      final gesture_detector_2 = find.byKey(Key("gesture_detector_intro2"));
-      await tester.tap(gesture_detector_2);
-      await tester.pumpAndSettle();
+    final gesture_detector_1 = find.byKey(Key("gesture_detector_intro1"));
+    await tester.tap(gesture_detector_1);
+    await tester.pumpAndSettle();
 
-      final gesture_detector_3 = find.byKey(Key("gesture_detector_intro3"));
-      await tester.tap(gesture_detector_3);
-      await tester.pumpAndSettle();
-      expect(find.byType(HomeScreen), findsOneWidget);
+    final gesture_detector_2 = find.byKey(Key("gesture_detector_intro2"));
+    await tester.tap(gesture_detector_2);
+    await tester.pumpAndSettle();
 
-      expect(find.text("Recommended for you"), findsOneWidget);
-      expect(find.text("Favor Categories"), findsOneWidget);
-    });
-/*
-    testWidgets(
-        "Go to Home Screen,  tap on a favor category and check if Explore Screen is shown",
-        (tester) async {
-      app.main();
-      await tester.pumpAndSettle();
-      // Wait for animation to end
-      await Future.delayed(Duration(seconds: 5)); //TODO: check if necessary
-      //debugDumpApp();
+    final gesture_detector_3 = find.byKey(Key("gesture_detector_intro3"));
+    await tester.tap(gesture_detector_3);
+    await tester.pumpAndSettle();
+    expect(find.byType(HomeScreen), findsOneWidget);
 
-      final gesture_detector_1 = find.byKey(Key("gesture_detector_intro1"));
-      await tester.tap(gesture_detector_1);
-      await tester.pumpAndSettle();
+    // Go to "Account" screen and verity it is built
+    final account_navbar_item = find.text("Account");
+    await tester.tap(account_navbar_item);
+    await tester.pumpAndSettle();
+    expect(find.byType(SignInScreen), findsOneWidget);
+  });
 
-      final gesture_detector_2 = find.byKey(Key("gesture_detector_intro2"));
-      await tester.tap(gesture_detector_2);
-      await tester.pumpAndSettle();
+  testWidgets(
+      "User has never signed up, so see introduction screens, open Account Screen. The user is redirected to the Sign In Screen and move to the Sign Up Screen.",
+      (tester) async {
+    app.main();
+    await tester.pumpAndSettle();
 
-      final gesture_detector_3 = find.byKey(Key("gesture_detector_intro3"));
-      await tester.tap(gesture_detector_3);
-      await tester.pumpAndSettle();
-      expect(find.byType(HomeScreen), findsOneWidget);
+    final gesture_detector_1 = find.byKey(Key("gesture_detector_intro1"));
+    await tester.tap(gesture_detector_1);
+    await tester.pumpAndSettle();
 
-      final favor_category_0 = find.byKey(Key("favor_category_0"));
-      await tester.tap(favor_category_0);
-      expect(find.text("Favor Categories"), findsOneWidget);
-    });*/
+    final gesture_detector_2 = find.byKey(Key("gesture_detector_intro2"));
+    await tester.tap(gesture_detector_2);
+    await tester.pumpAndSettle();
 
-    // Find and tap on "New Favor" item in the bottom navigation bar
+    final gesture_detector_3 = find.byKey(Key("gesture_detector_intro3"));
+    await tester.tap(gesture_detector_3);
+    await tester.pumpAndSettle();
+    expect(find.byType(HomeScreen), findsOneWidget);
 
-    /*
-      dunno if possible to do beacuse you cannot access the api, THINK ABOUT ANOTHER TEST!
-      // In the Favor Screen, find and tap the publish favor button
-      final publish_favor_button = find.byKey(Key('publish_favor_button'));
-      await tester.tap(publish_favor_button);
-      await tester.pumpAndSettle();
+    // Go to "Account" screen and verity it is built
+    final account_navbar_item = find.text("Account");
+    await tester.tap(account_navbar_item);
+    await tester.pumpAndSettle();
+    expect(find.byType(SignInScreen), findsOneWidget);
 
-      expect(find.byType(SignInScreen), findsOneWidget);
-      ---------------------------------------------------------------------DUNNO 
-      
-      */
+    final signIn_signUpButton = find.byKey(Key("SignIn_signUpButton"));
+    await tester.tap(signIn_signUpButton);
+    await tester.pumpAndSettle();
+    expect(find.byType(SignUpScreen), findsOneWidget);
+  });
 
-    // final addItemFinder =
-    //     await find.byElementPredicate((element) => element.widget. == addItem);
-    //await tester
-    //final BottomNavigationBarItem addIconItem = items[2];
+  testWidgets(
+      "User has never signed up, they sign up after introduction screens.",
+      (tester) async {
+    await Storage.setUserToken('init');
+    app.main();
+    await tester.pumpAndSettle();
 
-    /*final addIconItem = find
-          .byType(BottomNavigationBarItem)
-          .evaluate()
-          .map((e) => print(element));*/
-    //await tester.tap(addIconItem);
+    final gesture_detector_1 = find.byKey(Key("gesture_detector_intro1"));
+    await tester.tap(gesture_detector_1);
+    await tester.pumpAndSettle();
 
-    //expect(find.byType(FavorScreen), findsOneWidget);
+    final gesture_detector_2 = find.byKey(Key("gesture_detector_intro2"));
+    await tester.tap(gesture_detector_2);
+    await tester.pumpAndSettle();
 
-    /*
-      var new_favor_icon;
-      // Find and tap the add button in the HomeScreen.
-      /*
-      final bottomBarItems = find.byType(BottomNavigationBarItem);
+    final gesture_detector_3 = find.byKey(Key("gesture_detector_intro3"));
+    await tester.tap(gesture_detector_3);
+    await tester.pumpAndSettle();
+    expect(find.byType(HomeScreen), findsOneWidget);
 
-      final home_screen_widget = find
-          .byKey(Key("home_screen_widget"))
-          .evaluate()
-          .first
-          .widget as UserMode;
-      final cupertinoTabScaffold =
-          home_screen_widget.child as CupertinoTabScaffold;
-      final tabBar = cupertinoTabScaffold.tabBar;
-      final items = tabBar.items;
-      //final BottomNavigationBarItem addIconItem = items[2];
-      final item2 = find.byType(BottomNavigationBarItem);
-*/
+    // Go to "Account" screen and verity it is built
+    final account_navbar_item = find.text("Account");
+    await tester.tap(account_navbar_item);
+    await tester.pumpAndSettle();
+    expect(find.byType(SignInScreen), findsOneWidget);
 
-      final bottomTabBar = find.byKey(Key("bottom_navigation_bar"));
+    final signIn_signUpButton = find.byKey(Key("SignIn_signUpButton"));
+    await tester.tap(signIn_signUpButton);
+    await tester.pumpAndSettle();
+    expect(find.byType(SignUpScreen), findsOneWidget);
 
-      await tester.tapAt(tester.getCenter(bottomTabBar));
-      await tester.pumpAndSettle();
-      expect(find.byType(DetailScreen), findsOneWidget);
-      
-      final Finder publishButton = find.byKey(Key('publishButton'));
-      await tester.tap(publishButton);
+    await tester.enterText(
+        find.byKey(
+          Key("custom_card_name"),
+        ),
+        'name_test');
 
-      final signInButton = find.byKey(Key("form_sign_in_container"));
+    await tester.enterText(
+        find.byKey(
+          Key("custom_card_surname"),
+        ),
+        'surname_test');
 
-      //await driver.
-      //final bottomNavigationBarItem = find.by
-      // await tester.tap(addIconItem);
-      // await tester.tap(BottomNavigationBarItem);
-      //BottomNavigationBarItem.visitChildElements((element) {
-      //  new_favor_icon = (element as CupertinoTabScaffold).tabBar.items[2];
-      //});
+    await tester.enterText(
+        find.byKey(
+          Key("custom_card_email"),
+        ),
+        'email@test.it');
 
-      // FOR ME:   until finding home_screen_widget it works
+    await tester.enterText(
+        find.byKey(
+          Key("custom_card_password"),
+        ),
+        'Password123');
 
-      //await tester.tap(new_favor_icon);
+    await tester.enterText(
+        find.byKey(
+          Key("custom_card_confirm_password"),
+        ),
+        'Password123');
 
-      //await tester.tap(addButton);
+    final signUp_registerButton = find.byKey(Key("SignUp_registerButton"));
+    await tester.tap(signUp_registerButton);
+    await tester.pumpAndSettle();
+    expect(find.byType(SignUp2Screen), findsOneWidget);
 
-      // Emulate a tap on the publish favor button.
+    await tester.enterText(
+        find.byKey(
+          Key("custom_card_age"),
+        ),
+        '23');
 
-      // Trigger a frame.
-      await tester.pumpAndSettle();
+    await tester.enterText(
+        find.byKey(
+          Key("custom_card_gender"),
+        ),
+        'Male');
 
-      // Verify the we are in the SignInScreen by checking the presence of the
-      // SignUp button
-      expect(find.byKey(Key('SignIn_loginButton')), findsOneWidget);
-      */
+    await tester.enterText(
+        find.byKey(
+          Key("custom_card_city"),
+        ),
+        'Milan');
+
+    await tester.enterText(
+        find.byKey(
+          Key("custom_card_job"),
+        ),
+        'Software Developer');
+
+    await tester.enterText(
+        find.byKey(
+          Key("custom_card_bio"),
+        ),
+        'custom bio');
+
+    // After inserting all correct information, the user is redirected to
+    // the SignInScreen.
+    final registerButton_SignUp = find.byKey(Key("RegisterButton_SignUp2"));
+    await tester.tap(registerButton_SignUp);
+    await tester.pumpAndSettle();
+    expect(find.byType(SignInScreen), findsOneWidget);
+
+    await tester.enterText(
+        find.byKey(
+          Key("custom_card_email_signin"),
+        ),
+        'email@test.it');
+
+    await tester.enterText(
+        find.byKey(
+          Key("custom_card_password_signin"),
+        ),
+        'Password123');
+
+    // After inserting all correct information, the user is redirected to
+    // the HomeScreen.
+    final signIn_loginButton = find.byKey(Key("SignIn_loginButton"));
+    await tester.tap(signIn_loginButton);
+    await tester.pumpAndSettle();
+    expect(find.byType(HomeScreen), findsOneWidget);
+  });
+
+  // TODO
+  testWidgets("User signs in, they open a post.", (tester) async {
+    await Storage.setUserToken('valid_token');
+    app.main();
+    await tester.pumpAndSettle();
+
+    /// Make sure that introduction screens are not shown when user has logged in before
+    final gesture_detector_1 = find.byKey(Key("gesture_detector_intro1"));
+    expect(gesture_detector_1, findsNothing);
+
+    /// Find the first favor widget
+    final favor_widget = find.byType(FavorWidget).first;
+    await tester.tap(favor_widget);
+    await tester.pumpAndSettle();
+    expect(FavorInformationPageScreen, findsOneWidget);
+
+    // Verify that user is redirected to Feed when successfully book a favor
+    final book_it_button = find.byKey(Key("book_it_button"));
+    await tester.tap(book_it_button);
+    await tester.pumpAndSettle();
+    expect(find.byType(Feed_Screen), findsOneWidget);
   });
 }

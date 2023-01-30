@@ -77,6 +77,7 @@ class _Form_SignInState extends State<Form_SignIn> {
               children: [
                 /// EMAIL
                 CustomCard(
+                  key: Key("custom_card_email_signin"),
                   padding: EdgeInsets.zero,
                   margin: EdgeInsets.zero,
                   child: CustomFieldMat(
@@ -104,6 +105,7 @@ class _Form_SignInState extends State<Form_SignIn> {
 
                 /// PASSWORD
                 CustomCard(
+                  key: Key("custom_card_password_signin"),
                   padding: EdgeInsets.zero,
                   margin: EdgeInsets.zero,
                   child: CustomFieldMat(
@@ -203,7 +205,8 @@ class SignIn_googleButton extends StatelessWidget {
           onPressed: () {
             // Console log
             print('Pressed: SignIn_googleButton');
-           Provider.of<AppProvider>(context, listen: false).googleSignIn(context: context);
+            Provider.of<AppProvider>(context, listen: false)
+                .googleSignIn(context: context);
           },
         ),
       ),
@@ -232,6 +235,7 @@ class SignIn_signUpButton extends StatelessWidget {
       child: SizedBox(
         width: Responsive.width(65, context),
         child: CupertinoButton(
+          key: Key("SignIn_signUpButton"),
           color: favorColors.SecondaryBlue,
           child: const Text(
             "Register",

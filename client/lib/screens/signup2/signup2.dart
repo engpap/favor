@@ -92,6 +92,7 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
                     builder: ((context, snapshot) {
                       if (snapshot.hasData) {
                         return CustomCard(
+                          key: Key("custom_card_age"),
                           padding: EdgeInsets.zero,
                           margin: EdgeInsets.zero,
                           child: CustomFieldMat(
@@ -127,6 +128,7 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
                     builder: ((context, snapshot) {
                       if (snapshot.hasData) {
                         return CustomCard(
+                          key: Key("custom_card_gender"),
                           padding: EdgeInsets.zero,
                           margin: EdgeInsets.zero,
                           child: CustomFieldMat(
@@ -160,12 +162,13 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
                 SizedBox(
                   height: 10,
                 ),
-                // RESIDENCE
+                // CITY (RESIDENCE)
                 FutureBuilder<ProfileConstants>(
                     future: profileConstants,
                     builder: ((context, snapshot) {
                       if (snapshot.hasData) {
                         return CustomCard(
+                          key: Key("custom_card_city"),
                           padding: EdgeInsets.zero,
                           margin: EdgeInsets.zero,
                           child: CustomFieldMat(
@@ -207,6 +210,7 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
                     builder: ((context, snapshot) {
                       if (snapshot.hasData) {
                         return CustomCard(
+                          key: Key("custom_card_job"),
                           padding: EdgeInsets.zero,
                           margin: EdgeInsets.zero,
                           child: CustomFieldMat(
@@ -244,6 +248,7 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
                 ),
                 // BIO
                 CustomCard(
+                  key: Key("custom_card_bio"),
                   padding: EdgeInsets.zero,
                   margin: EdgeInsets.zero,
                   child: CustomFieldMat(
@@ -293,6 +298,7 @@ class RegisterButton_SignUp2 extends StatelessWidget {
       child: SizedBox(
         width: Responsive.width(65, context),
         child: CupertinoButton(
+          key: Key("RegisterButton_SignUp2"),
           color: favorColors.PrimaryBlue,
           child: const Text(
             "Register",
@@ -305,11 +311,6 @@ class RegisterButton_SignUp2 extends StatelessWidget {
             if (globals.bioContoller.text.length < 1 ||
                 globals.bioContoller.text.length > 50) {
               print("Error on Bio length");
-            } else if (globals.ageContoller.text.length < 1 ||
-                globals.genderContoller.text.length < 1 ||
-                globals.residenceContoller.text.length < 1 ||
-                globals.jobContoller.text.length < 1) {
-              print("Some fields are empty");
             } else {
               // Send information to server and wait for response
               Provider.of<AppProvider>(context, listen: false)

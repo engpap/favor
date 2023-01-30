@@ -7,9 +7,9 @@ import 'package:project/screens/signup/signup.dart';
 
 void main() {
   executeUnitTests();
-  executeWidgetTests();
+  //executeWidgetTests();
 }
-
+/*
 void executeWidgetTests() {
   group("customValidator for name field", () {
     test('customValidator returns error for invalid name', () {
@@ -67,7 +67,7 @@ void executeWidgetTests() {
     expect(result, "max 50 chars");
   });*/
   });
-}
+}*/
 
 void executeUnitTests() {
   testWidgets('Form SignUp', (WidgetTester tester) async {

@@ -97,6 +97,7 @@ class _FavorScreen_M extends State<FavorScreen_M> {
                   builder: ((context, snapshot) {
                     if (snapshot.hasData) {
                       return Column(
+                        key: Key("column_favor_picker_menus"),
                         children: [
                           //PICKER category
                           Favor_pickerMenu(
@@ -287,7 +288,8 @@ class _Favor_publishFavorButtonState extends State<Favor_publishFavorButton> {
               future: UserMode_inherited.of(context)
                       .stateWidget
                       .isUserModeAs_provider() //isUserModeAsProvider()
-                  ? Provider.of<AppProvider>(context, listen: false).publishProviderFavor(
+                  ? Provider.of<AppProvider>(context, listen: false)
+                      .publishProviderFavor(
                       context: context,
                       taskCategory: globals.categoryTextController.text,
                       location: globals.locationTextController.text,
@@ -297,7 +299,8 @@ class _Favor_publishFavorButtonState extends State<Favor_publishFavorButton> {
                           globals.availabilityEndTimeTextController.text),
                       description: globals.boxDescriptionTextController.text,
                     )
-                  : Provider.of<AppProvider>(context,listen: false).publishCallerFavor(
+                  : Provider.of<AppProvider>(context, listen: false)
+                      .publishCallerFavor(
                       context: context,
                       taskCategory: globals.categoryTextController.text,
                       location: globals.locationTextController.text,
