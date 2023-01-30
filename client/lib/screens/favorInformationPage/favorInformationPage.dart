@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:project/models/post.dart';
 import 'package:project/providers/app_provider.dart';
 import 'package:project/screens/favorInformationPage/favorInformationPage_mobile.dart';
 import 'package:project/screens/favorInformationPage/favorInformationPage_tablet.dart';
+import 'package:project/screens/milan.dart';
 import 'package:project/screens/responsiveLayout.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/models/callerPost.dart';
@@ -172,26 +174,36 @@ class FavorMap extends StatelessWidget {
     required this.post,
   });
 
+  
+  late District district = setDistricts.singleWhere((element) =>  equalsIgnoreCase(element.name, post!.location));
+  late CameraPosition _cameraPosition = district.cameraPos;
+
   Post? post;
   @override
   Widget build(BuildContext context) {
     return
         // MAP
-        // TODO: substitute with an interactive map
         Container(
-      width: Responsive.width(100, context),
-      height: Responsive.width(40, context),
-      decoration: BoxDecoration(
-          shape: BoxShape.rectangle,
-          image: DecorationImage(
-            image: AssetImage("assets/images/Mappa_Milano.jpg"),
-            fit: BoxFit.cover,
+          width: Responsive.width(100, context),
+          height: Responsive.width(40, context),
+          decoration: BoxDecoration(
+            shape: BoxShape.rectangle,
+            border: Border.all(
+              color: favorColors.LightGrey,
+              width: 1.0,
+            ),
+            borderRadius: BorderRadius.circular(10)),
+            child: GoogleMap(
+              myLocationButtonEnabled: false,
+              minMaxZoomPreference: MinMaxZoomPreference(10, 15),
+              zoomControlsEnabled: true,
+              zoomGesturesEnabled: true,
+              onMapCreated: (controller) {
+                controller.setMapStyle(mapStyle);
+              },
+              initialCameraPosition: _cameraPosition,
+              mapType: MapType.normal,
           ),
-          border: Border.all(
-            color: favorColors.LightGrey,
-            width: 1.0,
-          ),
-          borderRadius: BorderRadius.circular(10)),
     );
   }
 }
@@ -277,11 +289,12 @@ class FavorPerson extends StatelessWidget {
                 post!.rankingPosition != 0
                     ? Text(
                         "Ranked as ${post!.rankingPosition}º in ${post!.rankingLocation}",
-                        style: TextStyle(fontSize: 14),
+                        style: TextStyle(fontSize: 14, overflow: TextOverflow.clip),
+                        
                       )
                     : Text(
                         "Never done a favor in ${post!.rankingLocation}",
-                        style: TextStyle(fontSize: 14),
+                        style: TextStyle(fontSize: 14), overflow: TextOverflow.clip,
                       )
               ],
             ),
