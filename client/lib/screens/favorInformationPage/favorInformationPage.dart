@@ -106,17 +106,19 @@ class FavorInformation extends StatelessWidget {
                 width: 8,
               ),
               // VALUE
-              Container(
-                child: Text(
-                  (post is CallerPost)
-                      ? "From: ${favorTime.formatter.format(post!.getFavorStartTime())}"
-                      : "From: ${favorTime.formatter.format(post!.getAvailabilityStartTime())}\nTo: ${favorTime.formatter.format(post!.getAvailabilityEndTime())}",
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.black45,
+              Expanded(
+                child: Container(
+                  child: Text(
+                    (post is CallerPost)
+                        ? "From: ${favorTime.formatter.format(post!.getFavorStartTime())}"
+                        : "From: ${favorTime.formatter.format(post!.getAvailabilityStartTime())}\nTo: ${favorTime.formatter.format(post!.getAvailabilityEndTime())}",
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.black45,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],
@@ -215,28 +217,30 @@ class FavorPerson extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // IMAGE
-            Container(
-              width: Responsive.widthFixOver(80, 20, context),
-              height: Responsive.widthFixOver(80, 20, context),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  //image: AssetImage("assets/images/chris.jpg"),
-                  image: post!.profilePicture!.image,
-                  fit: BoxFit.cover,
-                ),
-                border: Border.all(
-                  color: favorColors.LightGrey,
-                  width: 1.0,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    spreadRadius: 0.5,
-                    blurRadius: 5,
-                    offset: Offset(0, 1),
+            Expanded(
+              child: Container(
+                width: Responsive.widthFixOver(80, 20, context),
+                height: Responsive.widthFixOver(80, 20, context),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    //image: AssetImage("assets/images/chris.jpg"),
+                    image: post!.profilePicture!.image,
+                    fit: BoxFit.cover,
                   ),
-                ],
+                  border: Border.all(
+                    color: favorColors.LightGrey,
+                    width: 1.0,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      spreadRadius: 0.5,
+                      blurRadius: 5,
+                      offset: Offset(0, 1),
+                    ),
+                  ],
+                ),
               ),
             ),
             SizedBox(

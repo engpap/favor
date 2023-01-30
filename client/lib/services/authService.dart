@@ -111,12 +111,10 @@ class AuthService {
           // If it is an admin then set the userId in the storage as "adminId"
           // and push the user to the AdminScreen.
           if (jsonDecode(response.body)['admin'] == true) {
-            Storage.setUserId('adminId');
+            //Storage.setUserId(jsonDecode(response.body)['_id']);
             Navigator.pushReplacement(
               context,
-              CupertinoPageRoute(
-                  builder: (context) =>
-                      AdminScreen()), //TODO: here should be inserted ADMIN SCREEN
+              CupertinoPageRoute(builder: (context) => AdminScreen()),
             );
           } else
           // If it is not an admin then set the userId in the storage

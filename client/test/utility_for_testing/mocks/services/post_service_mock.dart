@@ -49,5 +49,7 @@ class PostServiceMock extends Mock implements PostService {
   Future<void> bookFavor(
       {required BuildContext context,
       required Post? post,
-      required String userType}) async {}
+      required String userType}) async {
+    Navigator.pop(context);
+  }
 }
