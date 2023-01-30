@@ -23,7 +23,16 @@ class Responsive {
 
   static homeColumnWidth(BuildContext context) {
     double contextWidth = MediaQuery.of(context).size.width;
-    double result = min((contextWidth / 3), 370);
+    double result = 370;
+    if (contextWidth <= 360) {
+      result = contextWidth - 20;
+    }
+    if (contextWidth > 360 && contextWidth < 640) {
+      result = 370;
+    }
+    if (contextWidth >= 640 && contextWidth < 780) {
+      result = (contextWidth / 2) - 20;
+    }
     return result.toDouble();
   }
 }

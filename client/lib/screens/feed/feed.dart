@@ -122,8 +122,9 @@ class FavorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomCard(
-      customWidth: MediaQuery.of(context).size.width-20,//Responsive.width(90, context),
-          //Responsive.homeColumnWidth(context), //Responsive.fixedWidth(),
+      customWidth: MediaQuery.of(context).size.width -
+          20, //Responsive.width(90, context),
+      //Responsive.homeColumnWidth(context), //Responsive.fixedWidth(),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -430,6 +431,7 @@ class _BookedFavorWidgetState extends State<BookedFavorWidget> {
               Radius.circular(10),
             ),
             child: ElevatedButton(
+              key: Key("BookedFavorWidget_button"),
               style: ButtonStyle(
                 backgroundColor:
                     MaterialStateProperty.all<Color>(favorColors.IntroBg),
@@ -445,7 +447,7 @@ class _BookedFavorWidgetState extends State<BookedFavorWidget> {
                 Navigator.push(
                   context,
                   CupertinoPageRoute(
-                      builder: (context) => favorBookedPage_Screen(
+                      builder: (context) => BookedFavorPage_Screen(
                             bookedFavor: widget.booked,
                           )),
                 );
