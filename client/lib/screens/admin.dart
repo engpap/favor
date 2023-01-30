@@ -8,7 +8,7 @@ import 'package:project/screens/responsiveLayout.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'milan.dart';
-import 'milan.dart' as milan;
+import 'package:project/screens/milan.dart' as milan;
 import 'package:project/functions/favorColors.dart' as favorColors;
 
 class AdminScreen extends StatefulWidget {
