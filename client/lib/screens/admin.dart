@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/models/statistics.dart';
 import 'package:project/providers/app_provider.dart';
+import 'package:project/screens/components/customCard.dart';
 import 'package:project/screens/responsiveLayout.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
@@ -28,7 +29,7 @@ class _AdminScreenState extends State<AdminScreen> {
           }
         },
         child: CupertinoPageScaffold(
-            backgroundColor: Colors.white,
+            backgroundColor: Color.fromARGB(255, 245, 245, 245),
             child: SafeArea(
               child: ResponsiveLeayout(
                 mobileBody: AdminScreen_M(),
@@ -51,6 +52,7 @@ class _AdminScreen_MState extends State<AdminScreen_M> {
   late final GoogleMapController _googleMapController;
   late Future<Statistics?> statistics;
 
+  // initial state of camera position: Duomo
   CameraPosition _cameraPosition = milan.Duomo.cameraPos;
 
   Marker provaMarker = Marker(
@@ -64,31 +66,38 @@ class _AdminScreen_MState extends State<AdminScreen_M> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    //_markers.add(provaMarker);
     statistics = Provider.of<AppProvider>(context).getStatistics(context);
     print(statistics);
   }
 
   Future<void> _moveToDuomo() async {
     _googleMapController
-        .animateCamera(CameraUpdate.newLatLng(_cameraPosition.target));
+        .animateCamera(CameraUpdate.newLatLngZoom(_cameraPosition.target, _cameraPosition.zoom));
     setState(() {
-      //_markers..clear(); //..add(provaMarker);
     });
     print(statistics);
   }
+
+  Future<void> _moveTo(String districtName) async {
+  District district = milan.setDistricts.singleWhere((element) =>  equalsIgnoreCase(element.name, districtName));
+  //_googleMapController.animateCamera(CameraUpdate.newLatLng(district.cameraPos.target));
+  _googleMapController.animateCamera(CameraUpdate.newLatLngZoom(district.cameraPos.target, district.zoom));
+    setState(() {});
+}
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        Container(
+          
+        ),
         //
         Expanded(
           child: Container(
@@ -114,7 +123,23 @@ class _AdminScreen_MState extends State<AdminScreen_M> {
                   alignment: Alignment.topRight,
                   child: Column(
                     children: [
+                      // LOG OUT
                       FloatingActionButton(
+                        heroTag: null,
+                        onPressed: (() {
+                        Provider.of<AppProvider>(context, listen: false)
+                            .signout(context: context);
+                      }),
+                        backgroundColor: favorColors.Error,
+                        child: const Icon(
+                          Icons.exit_to_app,
+                          size: 30,
+                        ),
+                      ),
+                      SizedBox(height: 15,),
+                      // CENTER MAP
+                      FloatingActionButton(
+                        heroTag: null,
                         onPressed: _moveToDuomo,
                         backgroundColor: favorColors.PrimaryBlue,
                         child: const Icon(
@@ -124,15 +149,37 @@ class _AdminScreen_MState extends State<AdminScreen_M> {
                       )
                     ],
                   ),
+                ),
+                // LOGO FAVOR
+                Container(
+                  padding: EdgeInsets.all(9),
+                    alignment: Alignment.topLeft,
+                    height: Responsive.heightFixOver(80, 20, context),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: Responsive.widthFixOver(70, 25, context),
+                        height: Responsive.heightFixOver(70, 18, context),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/logo/logo.png"),
+                            fit: BoxFit.fitHeight,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 )
               ],
             ),
           ),
         ),
-        //
+        // LEGEND
         Container(
-          height: 100,
-          child: Column(
+          height: 90,
+          child: Row(
             children: [
               Expanded(
                 child: FutureBuilder<Statistics?>(
@@ -146,14 +193,15 @@ class _AdminScreen_MState extends State<AdminScreen_M> {
                           if (marker != null) _markers..add(marker);
                         }
                         return ListView.builder(
-                          scrollDirection: Axis.vertical,
+                          scrollDirection: Axis.horizontal,
                           itemCount: snapshot.data!.stats.length,
                           itemBuilder: (context, index) {
                             var key = snapshot.data!.stats.keys.toList()[index];
-                            return Text('${key}: ${snapshot.data!.stats[key]}');
+                            return buildLegend(context, key, snapshot.data!.stats[key].toString());
                           });
               
                       } else
+                        // If error
                         return Container(
                           width: 50,
                           height: 50,
@@ -167,16 +215,59 @@ class _AdminScreen_MState extends State<AdminScreen_M> {
       ],
     );
   }
+
+   Widget buildLegend(BuildContext context, String district, value) {
+    return Container(
+      child: CustomCard(
+        padding: EdgeInsets.zero,
+          child: ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor:
+                  MaterialStateProperty.all<Color>(favorColors.IntroBg),
+              foregroundColor:
+                  MaterialStateProperty.all<Color>(favorColors.PrimaryBlue),
+              overlayColor:
+                  MaterialStateProperty.all<Color>(favorColors.SecondaryBlue),
+              padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(0)),
+            ),
+            onPressed: (){
+              _moveTo(district);
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(9.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(district,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: Responsive.widthFixOver(18, 5, context),
+                      color: favorColors.PrimaryBlue,
+                      overflow: TextOverflow.fade,
+                    ),
+                  ),
+                  SizedBox(height: 5,),
+                  Text("completed: ${value}"),
+                ],
+              ),
+            ),
+        )
+      ),
+    );
+  }
+
+
 }
 
+
+
 Marker? newFavorMarker(String location, int value) {
-  // from String to District : where District.name == location
   District? district = getDistrictFromName(location);
   if (district != null) {
     return Marker(
         markerId: MarkerId(location),
         position: district.cameraPos.target,
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
         infoWindow: InfoWindow(
           title: value.toString(),
           snippet: location,
