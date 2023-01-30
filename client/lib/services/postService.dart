@@ -240,7 +240,7 @@ class PostService {
     return posts;
   }
 
-  Future<void> bookFavor(
+  Future bookFavor(
       {required BuildContext context,
       required Post? post,
       required String userType}) async {

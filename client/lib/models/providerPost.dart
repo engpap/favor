@@ -26,15 +26,6 @@ class ProviderPost extends Post {
     super.bio,
   });
 
-  Map<String, dynamic> toJson() => {
-        'userType': userType,
-        'taskCategory': taskCategory,
-        'location': location,
-        'availabilityStartTime': availabilityStartTime.toIso8601String(),
-        'availabilityEndTime': availabilityEndTime.toIso8601String(),
-        'description': description,
-      };
-
   static ProviderPost customFromMap(Map<String, dynamic> json) {
     return ProviderPost(
       id: json['_id'],

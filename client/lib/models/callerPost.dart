@@ -25,15 +25,6 @@ class CallerPost extends Post {
     super.bio,
   });
 
-  // FOR INPUT FORM
-  Map<String, dynamic> toJson() => {
-        'userType': userType,
-        'taskCategory': taskCategory,
-        'location': location,
-        'favorStartTime': favorStartTime.toIso8601String(),
-        'description': description,
-      };
-
   // FOR FEED AND INFORMATION PAGE
   static CallerPost customFromMap(Map<String, dynamic> json) {
     return CallerPost(

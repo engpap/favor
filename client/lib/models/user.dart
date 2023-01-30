@@ -50,20 +50,12 @@ class User {
         rankingPoints =
             json['rankingPoints'] != null ? json['rankingPoints'] : 0,
         averageRatings =
-            json['rankingPoints'] != null ? json['rankingPoints'] : 0,
+            json['averageRatings'] != null ? json['averageRatings'] : 0,
         gender = json['gender'],
         age = json['age'],
         city = json['city'],
         job = json['job'],
         bio = json['bio'];
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'surname': surname,
-        'email': email,
-        'token': token,
-      };
 
   factory User.fromJson(String source) => User.fromMap(json.decode(source));
 }

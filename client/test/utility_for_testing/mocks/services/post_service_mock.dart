@@ -9,6 +9,7 @@ import 'package:project/helpers/storage.dart';
 import 'dart:convert';
 
 import 'package:project/screens/favorInformationPage/favorInformationPage.dart';
+import 'package:project/screens/feed/feed.dart';
 import 'package:project/screens/home.dart';
 import 'package:project/constants/globalVars.dart';
 import 'package:project/models/post.dart';
@@ -46,10 +47,11 @@ class PostServiceMock extends Mock implements PostService {
     return [dummy_caller_post, dummy_provider_post];
   }
 
-  Future<void> bookFavor(
+  Future bookFavor(
       {required BuildContext context,
       required Post? post,
       required String userType}) async {
-    Navigator.pop(context);
+    return Navigator.pushReplacement(
+        context, CupertinoPageRoute(builder: (context) => HomeScreen()));
   }
 }

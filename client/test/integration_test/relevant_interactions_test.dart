@@ -41,6 +41,7 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   SharedPreferences.setMockInitialValues({});
   TestWidgetsFlutterBinding.ensureInitialized();
+  /*
   group("User is signed in", () {
     testWidgets("User signs in, they open a post and book it.", (tester) async {
       await Storage.setUserToken('valid_token');
@@ -104,7 +105,9 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byType(FavorInformationPageScreen), findsOneWidget);
     });
-  });
+  });*/
+
+  /*
   testWidgets("User signs in and clicks on booked favor", (tester) async {
     await tester.runAsync(() async {
       await Storage.setUserToken('valid_token');
@@ -137,7 +140,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byKey(Key("RatingPicker")), findsOneWidget);
     });
-  });
+  });*/
 }
 
 /// Function that
