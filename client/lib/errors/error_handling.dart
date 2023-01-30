@@ -20,7 +20,6 @@ void httpErrorHandle({
     Navigator.push(context,
         CupertinoPageRoute(builder: (context) => const SignInScreen()));
   } else if (response.statusCode >= 400 && showToastStatus)
-    showToast(
-        context, /*"Server Error: " + */ jsonDecode(response.body)['message']);
+    showToast(context, "Server Error: " + jsonDecode(response.body)['message']);
   else if (showToastStatus) showToast(context, response.body);
 }

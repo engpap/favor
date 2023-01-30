@@ -56,8 +56,11 @@ class AuthServiceMock extends Mock implements AuthService {
   Future googleSignIn({required BuildContext context}) async {
     Storage.setUserId("userId");
     Storage.setUserToken("valid_token");
-    Navigator.pushReplacement(context,
-        CupertinoPageRoute(builder: (context) => const SignUp2Screen()));
+    Navigator.pushReplacement(
+        context,
+        CupertinoPageRoute(
+          builder: (context) => const SignUp2Screen(),
+        ));
   }
 
   void signout({required BuildContext context}) async {

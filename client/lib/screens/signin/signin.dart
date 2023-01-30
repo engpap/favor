@@ -139,7 +139,7 @@ class _Form_SignInState extends State<Form_SignIn> {
 
 /// SIGNIN BUTTON
 class SignIn_loginButton extends StatelessWidget {
-  const SignIn_loginButton({key: const Key('SignIn_loginButton')});
+  const SignIn_loginButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -158,13 +158,14 @@ class SignIn_loginButton extends StatelessWidget {
       child: SizedBox(
         width: Responsive.width(65, context),
         child: CupertinoButton(
+          key: Key("SignIn_loginButton"),
           color: favorColors.PrimaryBlue,
           child: const Text(
             "Continue",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           onPressed: () {
-            print('Pressed: SignIn_signUpButton');
+            print('Pressed: SignIn_loginButton');
             Provider.of<AppProvider>(context, listen: false).signin(
                 context: context,
                 email: globals.textControllerEmail.text,

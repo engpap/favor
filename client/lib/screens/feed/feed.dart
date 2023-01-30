@@ -337,6 +337,7 @@ class FavorWidget extends StatelessWidget {
                   ],
                 ),
                 child: CupertinoButton(
+                  key: Key("favor_widget_more_button"),
                   padding: EdgeInsets.all(0),
                   color: favorColors.PrimaryBlue,
                   borderRadius: BorderRadius.circular(90),
