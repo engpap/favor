@@ -170,46 +170,6 @@ class FavorInformation extends StatelessWidget {
   }
 }
 
-class FavorMap extends StatelessWidget {
-  FavorMap({
-    super.key,
-    required this.post,
-  });
-
-  
-  late District district = setDistricts.singleWhere((element) =>  equalsIgnoreCase(element.name, post!.location));
-  late CameraPosition _cameraPosition = district.cameraPos;
-
-  Post? post;
-  @override
-  Widget build(BuildContext context) {
-    return
-        // MAP
-        Container(
-          width: Responsive.width(100, context),
-          height: Responsive.width(40, context),
-          decoration: BoxDecoration(
-            shape: BoxShape.rectangle,
-            border: Border.all(
-              color: favorColors.LightGrey,
-              width: 1.0,
-            ),
-            borderRadius: BorderRadius.circular(10)),
-            child: GoogleMap(
-              myLocationButtonEnabled: false,
-              minMaxZoomPreference: MinMaxZoomPreference(10, 15),
-              zoomControlsEnabled: true,
-              zoomGesturesEnabled: true,
-              onMapCreated: (controller) {
-                controller.setMapStyle(mapStyle);
-              },
-              initialCameraPosition: _cameraPosition,
-              mapType: MapType.normal,
-          ),
-    );
-  }
-}
-
 class FavorPerson extends StatelessWidget {
   FavorPerson({
     super.key,

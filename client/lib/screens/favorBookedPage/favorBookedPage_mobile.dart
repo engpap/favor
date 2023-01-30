@@ -29,12 +29,6 @@ class favorBookedPage_Screen_M extends StatelessWidget {
         child: Column(children: [
       // FAVOR INFORMATION
       CustomCard(child: FavorInformation(post: bookedFavor!.post)),
-      // FAVOR MAP
-      CustomCard(
-        padding: EdgeInsets.all(0),
-        //margin: EdgeInsets.only(right: 9, left: 9),
-        child: FavorMap(post: bookedFavor!.post),
-      ),
       // FAVOR COMPLETED
       MarkAsCompletedButton(bookedFavor: bookedFavor),
       // GOOGLE CALENDAR

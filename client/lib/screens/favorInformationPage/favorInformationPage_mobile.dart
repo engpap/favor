@@ -23,12 +23,6 @@ class favorInformationPage_Screen_M extends StatelessWidget {
         CustomCard(child: FavorInformation(post: post)),
         // FAVOR PERSON
         CustomCard(child: FavorPerson(post: post),),
-        // FAVOR MAP
-        CustomCard(
-          padding: EdgeInsets.all(0),
-          //margin: EdgeInsets.only(right: 9, left: 9),
-          child: FavorMap(post: post),
-        ),
         // FAVOR BOOK
         FavorBook(post: post, userType: userType,),
       ]),
