@@ -127,8 +127,8 @@ class _Feed_Screen_MState extends State<Feed_Screen_M> {
                       return SizedBox.shrink();
                     }
                     // WHILE WAITING
-                    return CupertinoActivityIndicator(
-                        animating: false, radius: 10);
+                    //return CupertinoActivityIndicator(animating: false, radius: 10);
+                    return Container();
                   }),
                 ),
                 //

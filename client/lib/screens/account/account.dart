@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/models/user.dart';
 import 'package:project/providers/app_provider.dart';
+import 'package:project/screens/admin.dart';
 import 'package:project/screens/components/starsWidget.dart';
 import 'package:project/screens/responsiveLayout.dart';
 
@@ -564,7 +565,7 @@ class _AccountScreen_TState extends State<AccountScreen_T> {
       child: CupertinoButton(
           child: Text("Log Out"),
           onPressed: (() {
-            Provider.of<AppProvider>(context).signout(context: context);
+            Provider.of<AppProvider>(context, listen: false).signout(context: context);
           })),
     );
   }

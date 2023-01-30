@@ -4,6 +4,7 @@ import 'package:project/helpers/auth_helper.dart';
 import 'package:http/http.dart' as http;
 import 'package:project/helpers/storage.dart';
 import 'package:project/providers/user_provider.dart';
+import 'package:project/screens/admin.dart';
 import 'package:project/screens/home.dart';
 import 'package:project/screens/signin/signin.dart';
 import 'package:project/screens/signup2/signup2.dart';
@@ -115,7 +116,7 @@ class AuthService {
               context,
               CupertinoPageRoute(
                   builder: (context) =>
-                      HomeScreen()), //TODO: here should be inserted ADMIN SCREEN
+                      AdminScreen()), //TODO: here should be inserted ADMIN SCREEN
             );
           } else
           // If it is not an admin then set the userId in the storage

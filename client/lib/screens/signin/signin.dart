@@ -163,7 +163,7 @@ class SignIn_loginButton extends StatelessWidget {
           ),
           onPressed: () {
             print('Pressed: SignIn_signUpButton');
-            Provider.of<AppProvider>(context).signin(
+            Provider.of<AppProvider>(context, listen: false).signin(
                 context: context,
                 email: globals.textControllerEmail.text,
                 password: globals.textControllerPassword.text);
