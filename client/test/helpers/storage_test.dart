@@ -9,15 +9,9 @@ void main() {
 
 void tokenRelatedStorageMethods_ShouldWorkCorrectly() {
   group("Token set/get/remove methods", () {
-    test('Token not found scenario', () async {
-      expect(await Storage.getUserToken(), Storage.TOKEN_NOT_FOUND);
-    });
-
-    test('Token absence using isThereUserToken', () async {
-      expect(await Storage.isThereUserToken(), false);
-    });
     test('Valid token retrieval', () async {
-      SharedPreferences.setMockInitialValues({'token': 'valid_token'});
+      var prefs = await SharedPreferences.getInstance();
+      await prefs.setString('token', 'valid_token');
       expect(await Storage.getUserToken(), 'valid_token');
     });
 

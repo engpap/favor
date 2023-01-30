@@ -73,7 +73,7 @@ class PostService {
           Navigator.push(
               context,
               CupertinoPageRoute(
-                  builder: (context) => favorInformationPage_Screen(
+                  builder: (context) => FavorInformationPageScreen(
                         post: ProviderPost.fromJson(jsonDecode(response.body)),
                         userType: 'provider',
                       )));
@@ -138,7 +138,7 @@ class PostService {
           Navigator.push(
               context,
               CupertinoPageRoute(
-                  builder: (context) => favorInformationPage_Screen(
+                  builder: (context) => FavorInformationPageScreen(
                         post: CallerPost.fromJson(jsonDecode(response.body)),
                         userType: 'caller',
                       )));

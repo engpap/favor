@@ -49,7 +49,6 @@ class _Explore_Screen_MState extends State<Explore_Screen_M> {
             color: favorColors.PrimaryBlue,
             backgroundColor: Colors.white,
             onRefresh: () async {
-              //searchPosts();
               setState(() {});
               return;
             },
@@ -80,7 +79,10 @@ class _Explore_Screen_MState extends State<Explore_Screen_M> {
                   shrinkWrap: true,
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, itemIndex) {
-                    return FavorWidget(post: snapshot.data![itemIndex]);
+                    return FavorWidget(
+                      key: Key("favor_widget_${itemIndex}"),
+                      post: snapshot.data![itemIndex],
+                    );
                   });
             } else if (snapshot.hasError) {
               return Text('${snapshot.error}');
@@ -143,7 +145,6 @@ class _Explore_Screen_MState extends State<Explore_Screen_M> {
         ),
         controller: context.watch<ExploreQuery>().controller,
         onSubmitted: (value) {
-          //searchPosts();
           setState(() {});
           print('Submitted [${context.read<ExploreQuery>()}]: $value');
           this.searchPosts();

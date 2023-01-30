@@ -1,12 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:project/providers/user_provider.dart';
 
 void main() {
   userSetGetClearMethods_ShouldWorkCorrectly();
-  //googleClientSetGetMethods_ShouldWorkCorrectly();
 }
 
 void userSetGetClearMethods_ShouldWorkCorrectly() {
@@ -39,20 +37,3 @@ void userSetGetClearMethods_ShouldWorkCorrectly() {
     });
   });
 }
-
-/*
-TODO: FIX
-void googleClientSetGetMethods_ShouldWorkCorrectly() {
-  group("Set/Get google client methods should work correctly", () {
-    UserProvider userProvider = UserProvider();
-    http.Client googleClient = http.Client();
-    test('Get google client before initializing it', () {
-      expect(userProvider.getGoogleClient(), null);
-    });
-
-    test('Set google client', () {
-      userProvider.setGoogleClient(googleClient);
-      expect(userProvider.getGoogleClient(), googleClient);
-    });
-  });
-}*/
