@@ -18,8 +18,8 @@ import 'package:project/screens/favorBookedPage/favorBookedPage_tablet.dart';
 import 'package:project/screens/responsiveLayout.dart';
 import 'package:provider/provider.dart';
 
-class favorBookedPage_Screen extends StatelessWidget {
-  favorBookedPage_Screen({
+class BookedFavorPage_Screen extends StatelessWidget {
+  BookedFavorPage_Screen({
     super.key,
     required this.bookedFavor,
   });
@@ -70,6 +70,7 @@ class _MarkAsCompletedButtonState extends State<MarkAsCompletedButton> {
       height: Responsive.widthFixOver(45, 15, context),
       width: Responsive.widthFixOver(350, 70, context),
       child: CupertinoButton(
+        key: Key('MarkAsCompleted_button'),
         padding: EdgeInsets.all(0),
         color: favorColors.PrimaryBlue,
         borderRadius: BorderRadius.circular(15),
@@ -129,6 +130,7 @@ class _MarkAsCompletedButtonState extends State<MarkAsCompletedButton> {
 
   Widget buildRatingPicker() {
     return SizedBox(
+      key: Key("RatingPicker"),
       height: Responsive.height(30, context),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
