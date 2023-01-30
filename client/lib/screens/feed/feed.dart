@@ -122,8 +122,8 @@ class FavorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomCard(
-      customWidth:
-          Responsive.homeColumnWidth(context), //Responsive.fixedWidth(),
+      customWidth: MediaQuery.of(context).size.width-20,//Responsive.width(90, context),
+          //Responsive.homeColumnWidth(context), //Responsive.fixedWidth(),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
