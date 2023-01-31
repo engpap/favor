@@ -15,11 +15,11 @@ District Citta_Studi = District("Citta Studi", 45.47815936226321, 9.225742177836
 District Lambrate = District("Lambrate", 45.485014696249756, 9.238284715958756, 15);
 District Dergano = District("Dergano", 45.50477773344957, 9.180029355586573, 15);
 District Loreto = District("Loreto", 45.486237157819296, 9.21685883291871, 15);
-District Brera = District("Brera", 45.4742521036288, 9.18815684296889, 12);
-District Parco_sempione = District("Parco Sempione", 45.4741307597238, 9.17625108249191, 12);
-District Bicocca = District("Bicocca", 45.5189786893546, 9.21281209486847, 12);
-District Lodi = District("Lodi", 45.4364835142404, 9.22844566030333, 12);
-District Porta_genova = District("Porta Genova", 45.4539667385633, 9.16188540813703, 12);
+District Brera = District("Brera", 45.4742521036288, 9.18815684296889, 15);
+District Parco_sempione = District("Parco Sempione", 45.4741307597238, 9.17625108249191, 15);
+District Bicocca = District("Bicocca", 45.5189786893546, 9.21281209486847, 15);
+District Lodi = District("Lodi", 45.4364835142404, 9.22844566030333, 15);
+District Porta_genova = District("Porta Genova", 45.4539667385633, 9.16188540813703, 15);
 
 
 final Set<District> setDistricts = {
