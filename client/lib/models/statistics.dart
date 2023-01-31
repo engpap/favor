@@ -1,6 +1,5 @@
 import 'dart:convert';
-
-import '../functions/jsonToDartFunctions.dart';
+import 'package:project/functions/jsonToDartFunctions.dart';
 
 class Statistics {
   final Map<String, int> stats;

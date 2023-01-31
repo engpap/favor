@@ -100,12 +100,10 @@ class _Favor_pickerMenuState extends State<Favor_pickerMenu> {
     scrollController = FixedExtentScrollController(
       initialItem: selectedValue,
     );
-    //textController = widget.textController;
   }
 
   void dispose() {
     scrollController.dispose();
-    //textController.dispose();
     super.dispose();
   }
 
@@ -114,23 +112,15 @@ class _Favor_pickerMenuState extends State<Favor_pickerMenu> {
         child: StatefulBuilder(
           builder: (context, setState) => CupertinoPicker(
             backgroundColor: Colors.white,
-            /*
-          selectionOverlay: CupertinoPickerDefaultSelectionOverlay(
-            background: favorColors.SecondaryBlue.withOpacity(0.2),
-          ),
-          */
-            itemExtent:
-                32, //Responsive.height(5, context), //height of current item
+            itemExtent: 32, //height of current item
             scrollController: scrollController,
             children: List.generate(widget.contentList.length, (index) {
-              //final isSelected = this.selectedValue == index;
-              //final color = isSelected ? favorColors.PrimaryBlue : Colors.black;
               final item = widget.contentList[index];
               return Center(
                   child: Text(
                 item.data.toString(),
                 style: TextStyle(
-                  fontSize: 24, //color: color
+                  fontSize: 24,
                 ),
               ));
             }),

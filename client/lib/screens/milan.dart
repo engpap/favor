@@ -11,12 +11,9 @@ class District {
 }
 
 District Duomo = District("Duomo", 45.464211, 9.191383, 12);
-District Citta_Studi =
-    District("Citta Studi", 45.47815936226321, 9.225742177836649, 15);
-District Lambrate =
-    District("Lambrate", 45.485014696249756, 9.238284715958756, 15);
-District Dergano =
-    District("Dergano", 45.50477773344957, 9.180029355586573, 15);
+District Citta_Studi = District("Citta Studi", 45.47815936226321, 9.225742177836649, 15);
+District Lambrate = District("Lambrate", 45.485014696249756, 9.238284715958756, 15);
+District Dergano = District("Dergano", 45.50477773344957, 9.180029355586573, 15);
 District Loreto = District("Loreto", 45.486237157819296, 9.21685883291871, 15);
 District Brera = District("Brera", 45.4742521036288, 9.18815684296889, 12);
 District Parco_sempione = District("Parco Sempione", 45.4741307597238, 9.17625108249191, 12);
@@ -55,8 +52,7 @@ bool equalsIgnoreCase(String string1, String string2) {
 
 
 /*
-* FATTI BENE
-
+* WELL FORMATTED
 District Duomo = District ("Duomo", 45.4637071790056, 9.18694829227998, 12);
 District brera = District("Brera", 45.4742521036288, 9.18815684296889, 12);
 District giardini_p_ta_venezia = District("Giardini P.Ta Venezia", 45.4745637403773, 9.20023093081574, 12);
@@ -148,9 +144,8 @@ District parco_bosco_in_citta = District("Parco Bosco In Citta'", lat, lng, 12);
 */
 
 
-
-String mapStyle2 =
-    '[{"featureType": "all","stylers": [{ "color": "#C0C0C0" }]},{"featureType": "road.arterial","elementType": "geometry","stylers": [{ "color": "#CCFFFF" }]},{"featureType": "landscape","elementType": "labels","stylers": [{ "visibility": "off" }]}]';
+//  String mapStyle2 =
+//    '[{"featureType": "all","stylers": [{ "color": "#C0C0C0" }]},{"featureType": "road.arterial","elementType": "geometry","stylers": [{ "color": "#CCFFFF" }]},{"featureType": "landscape","elementType": "labels","stylers": [{ "visibility": "off" }]}]';
 
 String mapStyle =
     "[{\"elementType\":\"geometry\",\"stylers\":[{\"color\":\"#f5f5f5\"}]},{\"elementType\":\"labels.icon\",\"stylers\":[{\"visibility\":\"off\"}]},{\"elementType\":\"labels.text.fill\",\"stylers\":[{\"color\":\"#616161\"}]},{\"elementType\":\"labels.text.stroke\",\"stylers\":[{\"color\":\"#f5f5f5\"}]},{\"featureType\":\"administrative.land_parcel\",\"elementType\":\"labels.text.fill\",\"stylers\":[{\"color\":\"#bdbdbd\"}]},{\"featureType\":\"poi\",\"elementType\":\"geometry\",\"stylers\":[{\"color\":\"#eeeeee\"}]},{\"featureType\":\"poi\",\"elementType\":\"labels.text.fill\",\"stylers\":[{\"color\":\"#757575\"}]},{\"featureType\":\"poi.park\",\"elementType\":\"geometry\",\"stylers\":[{\"color\":\"#e5e5e5\"}]},{\"featureType\":\"poi.park\",\"elementType\":\"labels.text.fill\",\"stylers\":[{\"color\":\"#9e9e9e\"}]},{\"featureType\":\"road\",\"elementType\":\"geometry\",\"stylers\":[{\"color\":\"#ffffff\"}]},{\"featureType\":\"road.arterial\",\"elementType\":\"labels.text.fill\",\"stylers\":[{\"color\":\"#757575\"}]},{\"featureType\":\"road.highway\",\"elementType\":\"geometry\",\"stylers\":[{\"color\":\"#dadada\"}]},{\"featureType\":\"road.highway\",\"elementType\":\"labels.text.fill\",\"stylers\":[{\"color\":\"#616161\"}]},{\"featureType\":\"road.local\",\"elementType\":\"labels.text.fill\",\"stylers\":[{\"color\":\"#9e9e9e\"}]},{\"featureType\":\"transit.line\",\"elementType\":\"geometry\",\"stylers\":[{\"color\":\"#e5e5e5\"}]},{\"featureType\":\"transit.station\",\"elementType\":\"geometry\",\"stylers\":[{\"color\":\"#eeeeee\"}]},{\"featureType\":\"water\",\"elementType\":\"geometry\",\"stylers\":[{\"color\":\"#c9c9c9\"}]},{\"featureType\":\"water\",\"elementType\":\"labels.text.fill\",\"stylers\":[{\"color\":\"#9e9e9e\"}]}]";

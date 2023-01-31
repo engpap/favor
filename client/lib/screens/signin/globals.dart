@@ -1,7 +1,6 @@
 library globals;
 
 import 'package:flutter/cupertino.dart';
-import 'package:project/services/authService.dart';
 
 /// SIGN IN VARIABLES
 /// EMAIL

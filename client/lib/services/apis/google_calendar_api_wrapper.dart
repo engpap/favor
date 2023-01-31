@@ -4,9 +4,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:googleapis/calendar/v3.dart';
 import 'package:project/functions/showToast.dart';
 import 'package:project/helpers/auth_helper.dart';
-import 'package:project/helpers/storage.dart';
-import 'package:provider/provider.dart';
-import 'package:project/providers/user_provider.dart';
 
 /**
  * References:

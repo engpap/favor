@@ -28,8 +28,7 @@ class favorInformationPage_Screen_T extends StatelessWidget {
         SingleChildScrollView(
           child: ConstrainedBox(
             constraints: BoxConstraints(
-              maxWidth: Responsive.homeColumnWidth(
-                  context), //Responsive.fixedWidth(),
+              maxWidth: Responsive.homeColumnWidth(context),
             ),
             child: Column(
               children: [
@@ -48,7 +47,6 @@ class favorInformationPage_Screen_T extends StatelessWidget {
             ),
           ),
         ),
-
         /// RIGHT SCREEN
         // MAP
         FavorMapTablet(post: post)
@@ -70,31 +68,29 @@ class FavorMapTablet extends StatelessWidget {
   Post? post;
   @override
   Widget build(BuildContext context) {
-    return
-        // MAP
-        // TODO: substitute with an interactive map
-        Flexible(
+    return Flexible(
       fit: FlexFit.tight,
       child: Container(
         margin: EdgeInsets.all(9),
         height: Responsive.height(90, context),
         decoration: BoxDecoration(
+          shape: BoxShape.rectangle,
+          border: Border.all(
+            color: favorColors.LightGrey,
+            width: 1.0,
+          ),
+          borderRadius: BorderRadius.circular(10)),
+        child: Container(
+          width: Responsive.width(100, context),
+          height: Responsive.width(40, context),
+          decoration: BoxDecoration(
             shape: BoxShape.rectangle,
             border: Border.all(
               color: favorColors.LightGrey,
               width: 1.0,
             ),
             borderRadius: BorderRadius.circular(10)),
-        child: Container(
-          width: Responsive.width(100, context),
-          height: Responsive.width(40, context),
-          decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              border: Border.all(
-                color: favorColors.LightGrey,
-                width: 1.0,
-              ),
-              borderRadius: BorderRadius.circular(10)),
+          // MAP
           child: GoogleMap(
             myLocationButtonEnabled: false,
             minMaxZoomPreference: MinMaxZoomPreference(10, 15),

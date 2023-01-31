@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/functions/tabs.dart' as FavorTab;
-
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/screens/responsiveLayout.dart';
 
@@ -133,7 +132,7 @@ class UserMode_inherited extends InheritedWidget {
   bool updateShouldNotify(UserMode_inherited oldWidget) =>
       provider != oldWidget.provider ||
       caller != oldWidget.caller ||
-      admin != oldWidget.admin; //|| stateWidget != oldWidget.stateWidget;
+      admin != oldWidget.admin;
 }
 
 class HomeScreen extends StatelessWidget {
@@ -209,8 +208,7 @@ class DetailScreen extends StatelessWidget {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar_favor(
         border: Border(),
-        backgroundColor: Colors
-            .white, //TODO: change image background in order to change also this one. now set Colors.white to match
+        backgroundColor: Colors.white,
         middle: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [

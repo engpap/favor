@@ -1,24 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:project/errors/error_handling.dart';
-import 'package:project/functions/showToast.dart';
-import 'package:project/models/callerPost.dart';
-import 'package:project/models/favorCategories.dart';
 import 'package:project/models/leaderboard.dart';
-import 'package:project/models/providerPost.dart';
-import 'package:project/helpers/storage.dart';
 import 'dart:convert';
-
-import 'package:project/providers/user_provider.dart';
-import 'package:project/screens/favor_information_page/favorInformationPage.dart';
-import 'package:project/screens/feed/feed.dart';
-import 'package:project/screens/home.dart';
-import 'package:project/screens/leaderboard/leaderboard.dart';
-import 'package:project/screens/signin/signin.dart';
-import 'package:provider/provider.dart';
 import 'package:project/constants/globalVars.dart';
-import 'package:project/models/post.dart';
-import 'package:project/models/favorConstants.dart';
+
 
 class LeaderboardService {
   Future<Leaderboard?> getLeaderboard(

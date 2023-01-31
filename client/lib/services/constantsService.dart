@@ -1,11 +1,8 @@
 import 'package:http/http.dart' as http;
 import 'package:project/models/favorCategories.dart';
 import 'package:project/models/favorConstants.dart';
-
 import 'package:project/models/profileConstants.dart';
-
 import 'dart:convert';
-
 import 'package:project/constants/globalVars.dart';
 
 class ConstantsService {

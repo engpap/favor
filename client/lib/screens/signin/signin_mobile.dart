@@ -16,7 +16,7 @@ class SignInScreen_M extends StatelessWidget {
           reverse: false,
           child: ConstrainedBox(
             constraints: BoxConstraints(
-              maxWidth: MediaQuery.of(context).size.width-20, //Responsive.fixedWidth(),
+              maxWidth: MediaQuery.of(context).size.width-20,
             ),
             child: Column(children: [
               // HEADING +  DESCRIPTION

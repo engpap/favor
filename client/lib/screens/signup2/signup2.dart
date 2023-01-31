@@ -9,7 +9,6 @@ import 'package:project/screens/components/customCard.dart';
 import 'package:project/screens/responsiveLayout.dart';
 import 'package:project/screens/signup2/signup2_mobile.dart';
 import 'package:project/screens/signup2/signup2_tablet.dart';
-
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:provider/provider.dart';
 import 'globals.dart' as globals;
@@ -40,7 +39,6 @@ class SignUp2Screen extends StatelessWidget {
             )),
             //PAGE
             child: CupertinoPageScaffold(
-                // .withAlpha(180) is used to add transparency, in order to see the bg-image
                 backgroundColor: favorColors.IntroBg.withAlpha(180),
                 child: SafeArea(
                   child: ResponsiveLayout(
@@ -140,10 +138,6 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
                               if (value == "")
                                 return LabelSpace().whiteSpace() +
                                     "Select a gender from the picker.";
-                              /**
-                              if (!value!.isValidGender()) 
-                                {return LabelSpace().whiteSpace()+"Just insert letter F or M";}
-                              */
                               else {
                                 return null;
                               }
@@ -178,14 +172,7 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
                             readOnly: true,
                             customValidator: (value) {
                               if (value == "")
-                                return LabelSpace().whiteSpace() +
-                                    "Select a city from the picker.";
-                              /**
-                              if (value!.length < 1 || !value.isValidResidence()) 
-                                {return LabelSpace().whiteSpace()+"You can't insert special characters";}
-                              if (value.length > 50) 
-                                {return LabelSpace().whiteSpace()+"max 50 chars";}
-                              */
+                                return LabelSpace().whiteSpace() + "Select a city from the picker.";
                               else {
                                 return null;
                               }
@@ -222,12 +209,6 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
                               if (value == "")
                                 return LabelSpace().whiteSpace() +
                                     "Select your from the picker.";
-                              /*
-                              if (value!.length < 1 || !value.isValidJob()) 
-                                {return LabelSpace().whiteSpace()+"You can't insert number or special characters";}
-                              if (value.length > 50) 
-                                {return LabelSpace().whiteSpace()+"max 50 chars";}
-                              */
                               else {
                                 return null;
                               }

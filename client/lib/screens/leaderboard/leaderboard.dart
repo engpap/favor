@@ -1,13 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/functions/responsive.dart';
-
 import 'package:project/screens/components/starsWidget.dart';
-
 import 'package:project/screens/leaderboard/leaderboard_mobile.dart';
-import 'package:project/screens/leaderboard/leaderboard_tablet.dart';
 import 'package:project/screens/responsiveLayout.dart';
 
 class Leaderboard_Screen extends StatelessWidget {
@@ -92,7 +88,6 @@ class LeaderboardCard extends StatelessWidget {
                   // Number
                   : Container(
                       width: Responsive.width(5, context),
-                      //margin: EdgeInsets.only(left: 9),
                       child: Text(
                         " ${leaderboardPosition}",
                         style: TextStyle(

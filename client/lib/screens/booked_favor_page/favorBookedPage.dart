@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/functions/responsive.dart';
-
 import 'package:project/models/bookedFavor.dart';
 import 'package:project/models/callerPost.dart';
 import 'package:project/models/post.dart';
@@ -109,15 +108,14 @@ class _MarkAsCompletedButtonState extends State<MarkAsCompletedButton> {
                           child: Text("Submit"),
                           onPressed: () {
                             print("FINAL RATING: ${_rating}");
-                            // il rating è salvato in _rating
                             Provider.of<AppProvider>(context, listen: false)
                                 .rateFavor(
                                     context, widget.bookedFavor!.id, _rating);
-                            // aggiorno la pagina [per disattivare il bottone]
+                            // update the screen [to disable the button]
                             setState(() {});
                             // CLOSE POP UP
                             Navigator.pop(context);
-                            // GO BACK TO FEED - se tolgo questo pop mi resta la pagina del favor con il bottone disattivato
+                            // GO BACK TO FEED
                             Navigator.pop(context);
                           },
                         ),
@@ -249,7 +247,6 @@ class _FavorBookPersonState extends State<FavorBookPerson> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    //image: AssetImage("assets/images/chris.jpg"),
                     image: widget.post!.profilePicture!.image,
                     fit: BoxFit.cover,
                   ),
@@ -403,7 +400,7 @@ class _FavorBookPersonState extends State<FavorBookPerson> {
                 overflow: TextOverflow.fade,
               ),
               Text(
-                "+39 347 4567890", // TODO: post!.bio!,
+                "+39 347 4567890", // TODO: post!.phone!,
                 style: TextStyle(fontSize: 18),
                 overflow: TextOverflow.fade,
               ),
@@ -426,8 +423,8 @@ class AddToGoogleCalendarButton extends StatelessWidget {
       margin: EdgeInsets.all(9),
       child: SafeArea(
         child: Center(
-          child: // CALENDAR BUTTON
-              Container(
+          // CALENDAR BUTTON
+          child: Container(
             width: MediaQuery.of(context).size.width,
             height: Responsive.width(12, context),
             decoration: BoxDecoration(

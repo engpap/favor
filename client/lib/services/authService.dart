@@ -196,8 +196,8 @@ class AuthService {
     }
   }
 
-  //TODO: initAuth from https://medium.com/codex/how-to-build-a-google-sign-in-in-flutter-without-firebase-5d0d379b2f64
-
+  // ref initAuth from https://medium.com/codex/how-to-build-a-google-sign-in-in-flutter-without-firebase-5d0d379b2f64
+  
   void signout({required BuildContext context}) async {
     Storage.removeUserId();
     Storage.invalidateToken();

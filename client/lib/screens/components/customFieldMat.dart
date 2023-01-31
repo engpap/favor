@@ -71,7 +71,8 @@ class CustomFieldMat extends StatefulWidget {
 
 class _CustomFieldMatState extends State<CustomFieldMat> {
   // *** START PICKER ***
-  int selectedValue = 0; // initial value 0
+  // initial value = 0
+  int selectedValue = 0;
   late FixedExtentScrollController scrollController;
   // *** END PICKER ***
 
@@ -94,9 +95,6 @@ class _CustomFieldMatState extends State<CustomFieldMat> {
         if (!states.contains(MaterialState.error)) {
           return favorColors.SecondaryBlue;
         }
-        // if (states.contains(MaterialState.focused)) {
-        //   return favorColors.SecondaryBlue;
-        // }
         return Colors.black45;
       });
 
@@ -122,26 +120,20 @@ class _CustomFieldMatState extends State<CustomFieldMat> {
           // DEFAULT BORDER
           border: UnderlineInputBorder(
             borderSide: BorderSide(
-              //color: Colors.black12,
               style: BorderStyle.none,
             ),
-            //borderRadius: BorderRadius.circular(45.0)
           ),
           // ENABLED BORDER
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(
-              //color: Colors.black12,
               style: BorderStyle.none,
             ),
-            //borderRadius: BorderRadius.circular(45.0)
           ),
           // FOCUSED BORDER
           focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(
-              //color: favorColors.SecondaryBlue,
               style: BorderStyle.none,
             ),
-            //borderRadius: BorderRadius.circular(20.0)
           ),
           // ERROR BORDER
           errorBorder: UnderlineInputBorder(
@@ -210,27 +202,18 @@ class _CustomFieldMatState extends State<CustomFieldMat> {
         child: StatefulBuilder(
           builder: (context, setState) => CupertinoPicker(
             backgroundColor: Colors.white,
-            /*
-        selectionOverlay: CupertinoPickerDefaultSelectionOverlay(
-          background: favorColors.SecondaryBlue.withOpacity(0.2),
-        ),
-        */
-            itemExtent:
-                32, //Responsive.height(5, context), //height of current item
+            itemExtent: 32, //height of current item
             scrollController: scrollController,
             children: List.generate(widget.contentList.length, (index) {
-              //final isSelected = this.selectedValue == index;
-              //final color = isSelected ? favorColors.PrimaryBlue : Colors.black;
               final item = widget.contentList[index];
               return Center(
                   child: Text(
                 item.data.toString(),
                 style: TextStyle(
-                  fontSize: 24, //color: color
+                  fontSize: 24,
                 ),
               ));
             }),
-
             onSelectedItemChanged: (int value) {
               widget.textEditingController.text =
                   widget.contentList.elementAt(value).data.toString();
@@ -269,7 +252,6 @@ class _CustomFieldMatState extends State<CustomFieldMat> {
           cursorColor: stateColor(),
           cursorRadius: Radius.circular(8),
           validator: widget.customValidator,
-          //maxLength: maxLength,
         ),
       ),
     );

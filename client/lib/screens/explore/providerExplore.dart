@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class ExploreQuery with ChangeNotifier {
   TextEditingController searchBarTextController = TextEditingController();
 

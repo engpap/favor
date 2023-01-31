@@ -4,7 +4,6 @@ import 'package:project/screens/components/customHeadingDesc.dart';
 import 'package:project/screens/signup/signup.dart';
 import 'package:project/functions/favorColors.dart' as favorColors;
 
-
 class SignUpScreen_M extends StatelessWidget {
   const SignUpScreen_M({super.key});
 
@@ -17,7 +16,7 @@ class SignUpScreen_M extends StatelessWidget {
           reverse: false,
           child: ConstrainedBox(
             constraints: BoxConstraints(
-              maxWidth: MediaQuery.of(context).size.width-20//Responsive.homeColumnWidth(context), //Responsive.fixedWidth(),
+              maxWidth: MediaQuery.of(context).size.width-20,
             ),
             child: Column(
               children: [

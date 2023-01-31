@@ -1,16 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:project/models/post.dart';
 import 'package:project/providers/app_provider.dart';
 import 'package:project/screens/favor_information_page/favorInformationPage_mobile.dart';
 import 'package:project/screens/favor_information_page/favorInformationPage_tablet.dart';
-import 'package:project/screens/milan.dart';
 import 'package:project/screens/responsiveLayout.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/models/callerPost.dart';
 import 'package:project/screens/components/starsWidget.dart';
-
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/functions/favorTime.dart' as favorTime;
 import 'package:provider/provider.dart';
@@ -102,7 +99,7 @@ class FavorInformation extends StatelessWidget {
                 child: Icon(
                   CupertinoIcons.time,
                   color: Colors.black45,
-                  size: 24, //
+                  size: 24,
                 ),
               ),
               SizedBox(
@@ -142,8 +139,7 @@ class FavorInformation extends StatelessWidget {
                 child: Icon(
                   CupertinoIcons.location_solid,
                   color: Colors.black45,
-                  //scolor: favorColors.PrimaryBlue,
-                  size: 24, //
+                  size: 24,
                 ),
               ),
               SizedBox(
@@ -197,7 +193,6 @@ class FavorPerson extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    //image: AssetImage("assets/images/chris.jpg"),
                     image: post!.profilePicture!.image,
                     fit: BoxFit.cover,
                   ),
@@ -316,7 +311,7 @@ class FavorPerson extends StatelessWidget {
                 overflow: TextOverflow.fade,
               ),
               Text(
-                "+39 347 4567890", // TODO: post!.bio!,
+                "+39 347 4567890", // TODO: post!.phone!,
                 style: TextStyle(fontSize: 18),
                 overflow: TextOverflow.fade,
               ),

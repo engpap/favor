@@ -13,8 +13,7 @@ final TextEditingController genderContoller = TextEditingController(text: "");
 
 /// RESIDENCE
 final String LabelResidence = "Your residence";
-final TextEditingController residenceContoller =
-    TextEditingController(text: "");
+final TextEditingController residenceContoller = TextEditingController(text: "");
 
 /// JOB
 final String LabelJob = "Your job";

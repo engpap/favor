@@ -1,20 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project/functions/favorTime.dart' as favorTime;
 import 'package:project/functions/responsive.dart';
 import 'package:project/models/favorConstants.dart';
 import 'package:project/models/post.dart';
 import 'package:project/providers/app_provider.dart';
 import 'package:project/screens/components/favor_PickerMenu.dart';
-
 import 'package:project/screens/home.dart';
 import 'package:project/screens/responsiveLayout.dart';
-
-import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:provider/provider.dart';
+import 'package:project/functions/favorColors.dart' as favorColors;
+import 'package:project/functions/favorTime.dart' as favorTime;
 import 'globals.dart' as globals;
-
-//import 'package:project/screens/favor/favor2.dart';
 
 class FavorScreen extends StatelessWidget {
   const FavorScreen({super.key});
@@ -33,7 +29,6 @@ class FavorScreen extends StatelessWidget {
             child: SafeArea(
               child: ResponsiveLayout(
                 mobileBody: FavorScreen_M(),
-                //TODO do we need tablet?
                 tabletBody: FavorScreen_M(),
               ),
             )));
@@ -147,27 +142,20 @@ class _FavorScreen_M extends State<FavorScreen_M> {
                                     ),
                                     //PICKER availabilityEndTime - PROVIDER
                                     Favor_TimePicker(
-                                      placeholder: globals
-                                          .availabilityEndTimePlaceholder,
-                                      heading:
-                                          globals.availabilityEndTimeHeading,
-                                      prefixIcon:
-                                          globals.availabilityEndTimePrefixIcon,
-                                      textController: globals
-                                          .availabilityEndTimeTextController,
+                                      placeholder: globals.availabilityEndTimePlaceholder,
+                                      heading: globals.availabilityEndTimeHeading,
+                                      prefixIcon: globals.availabilityEndTimePrefixIcon,
+                                      textController: globals.availabilityEndTimeTextController,
                                     )
                                   ],
                                 ))
                               : (
                                   //PICKER favorStartTime - CALLER
                                   Favor_TimePicker(
-                                  //contentList: globals.favorStartTime,
-                                  placeholder:
-                                      globals.favorStartTimePlaceholder,
+                                  placeholder:globals.favorStartTimePlaceholder,
                                   heading: globals.favorStartTimeHeading,
                                   prefixIcon: globals.favorStartTimePrefixIcon,
-                                  textController:
-                                      globals.favorStartTimeTextController,
+                                  textController: globals.favorStartTimeTextController,
                                 )),
 
                           Divider(
@@ -287,7 +275,7 @@ class _Favor_publishFavorButtonState extends State<Favor_publishFavorButton> {
             FutureBuilder<void>(
               future: UserMode_inherited.of(context)
                       .stateWidget
-                      .isUserModeAs_provider() //isUserModeAsProvider()
+                      .isUserModeAs_provider()
                   ? Provider.of<AppProvider>(context, listen: false)
                       .publishProviderFavor(
                       context: context,

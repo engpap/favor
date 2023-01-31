@@ -1,8 +1,6 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
-
-import '../functions/jsonToDartFunctions.dart';
+import 'package:project/functions/jsonToDartFunctions.dart';
 
 class FavorConstants {
   List<Text> _userTypes;

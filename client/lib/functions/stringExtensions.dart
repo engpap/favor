@@ -21,25 +21,11 @@ extension StringValidator on String {
     return RegExp(r'^[A-z.,\s0-9]+$').hasMatch(this);
   }
 
-  // TODO: TO REMOVE, THERE IS SERVER DATA!
   // true: any number between 0 and 99
   bool isValidAge() {
     return RegExp(r'^([0-9]{1,2})$').hasMatch(this);
   }
 
-  // TODO: TO REMOVE, THERE IS SERVER DATA!
-  // true: if 'M', 'm', 'F' or 'f'
-  bool isValidGender() {
-    return RegExp(r'^[MmFf]$').hasMatch(this);
-  }
-
-  // TODO: TO REMOVE, THERE IS SERVER DATA!
-  // true: if letters A-z, numbers 0-9, dot . or comma ,
-  bool isValidResidence() {
-    return RegExp(r'^[A-z.,\s0-9]+$').hasMatch(this);
-  }
-
-  // TODO: TO REMOVE, THERE IS SERVER DATA!
   // true: if string contains just letters
   bool isValidJob() {
     return RegExp(r'^[A-z]+$').hasMatch(this);

@@ -41,7 +41,7 @@ class SignInScreen_T extends StatelessWidget {
                     reverse: true,
                     child: Container(
                       //width: 300,
-                      width: Responsive.homeColumnWidth(context), //Responsive.fixedWidth(),
+                      width: Responsive.homeColumnWidth(context),
                       child: Column(children: [
                         // heading + DESCRIPTION
                           customHeadingDesc(
@@ -63,7 +63,7 @@ class SignInScreen_T extends StatelessWidget {
                   SingleChildScrollView(
                     reverse: true,
                     child: Container(
-                      width: Responsive.homeColumnWidth(context), //Responsive.fixedWidth(),
+                      width: Responsive.homeColumnWidth(context),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.start,

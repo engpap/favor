@@ -46,7 +46,6 @@ class favorBookedPage_Screen_T extends StatelessWidget {
             ),
           ),
         ),
-
         /// RIGHT SCREEN
         // MAP
         FavorMapTablet(post: bookedFavor!.post)

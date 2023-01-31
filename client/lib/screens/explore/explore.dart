@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:project/screens/explore/explore_mobile.dart';
-import 'package:project/screens/explore/explore_tablet.dart';
-
 import 'package:project/screens/responsiveLayout.dart';
 
 class Explore_Screen extends StatelessWidget {
@@ -20,7 +18,6 @@ class Explore_Screen extends StatelessWidget {
             child: SafeArea(
           child: ResponsiveLayout(
             mobileBody: Explore_Screen_M(),
-            //TODO:
             tabletBody: Explore_Screen_M(),
           ),
         )));

@@ -4,7 +4,6 @@ import 'package:project/functions/responsive.dart';
 import 'package:project/models/user.dart';
 import 'package:project/providers/app_provider.dart';
 import 'package:project/screens/components/starsWidget.dart';
-
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:provider/provider.dart';
 
@@ -73,7 +72,6 @@ class _AccountScreen_TState extends State<AccountScreen_T> {
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
                                           image: DecorationImage(
-                                            //image: AssetImage("assets/images/chris.jpg"),
                                             image: Image.memory(snapshot
                                                     .data!.profilePicture.bytes)
                                                 .image,
@@ -266,7 +264,7 @@ class _AccountScreen_TState extends State<AccountScreen_T> {
                                       ),
                                     ),
                                     Text(
-                                      "+39 347 4567890", // TODO: post!.bio!,
+                                      "+39 347 4567890", // TODO: post!.phone!
                                       style: TextStyle(fontSize: 18),
                                       overflow: TextOverflow.fade,
                                     ),

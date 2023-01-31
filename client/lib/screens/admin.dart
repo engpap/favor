@@ -86,7 +86,6 @@ class _AdminScreen_MState extends State<AdminScreen_M> {
   Future<void> _moveTo(String districtName) async {
     District district = milan.setDistricts
         .singleWhere((element) => equalsIgnoreCase(element.name, districtName));
-    //_googleMapController.animateCamera(CameraUpdate.newLatLng(district.cameraPos.target));
     _googleMapController.animateCamera(
         CameraUpdate.newLatLngZoom(district.cameraPos.target, district.zoom));
     setState(() {});

@@ -5,7 +5,6 @@ import 'package:project/providers/app_provider.dart';
 import 'package:project/screens/feed/feed.dart';
 import 'package:project/screens/home.dart';
 import 'package:project/functions/favorColors.dart' as favorColors;
-
 import 'package:project/screens/explore/providerExplore.dart';
 import 'package:provider/provider.dart';
 

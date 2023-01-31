@@ -6,12 +6,10 @@ import 'package:project/models/callerPost.dart';
 import 'package:project/models/providerPost.dart';
 import 'package:project/helpers/storage.dart';
 import 'dart:convert';
-
 import 'package:project/screens/favor_information_page/favorInformationPage.dart';
 import 'package:project/screens/home.dart';
 import 'package:project/constants/globalVars.dart';
 import 'package:project/models/post.dart';
-
 import 'package:project/screens/favor/globals.dart' as globals_favor;
 import 'package:project/functions/favorTime.dart' as favorTime;
 
@@ -56,8 +54,6 @@ class PostService {
         response: response,
         context: context,
         onSuccess: () {
-          // TODO: refresh home
-          // ***
 
           // Reset Variables
           globals_favor.categoryTextController.clear();
@@ -121,8 +117,6 @@ class PostService {
         response: response,
         context: context,
         onSuccess: () {
-          // TODO: refresh home
-          // ***
 
           // Reset Variables
           globals_favor.categoryTextController.clear();
@@ -245,9 +239,7 @@ class PostService {
       required Post? post,
       required String userType}) async {
     try {
-      if (post?.userType ==
-          //UserMode_inherited.of(context).stateWidget.getUserMode() TODO: check it
-          userType) {
+      if (post?.userType == userType) {
         showToast(context,
             "Cannot book favor if User Mode is the same of publisher!");
         return;
@@ -265,15 +257,7 @@ class PostService {
         response: response,
         context: context,
         onSuccess: () {
-          // TODO: refresh home
-          // ***
-
-          /** OLD
-           Navigator.pushReplacement(
-              context, CupertinoPageRoute(builder: (context) => Feed_Screen()));
-          */
-
-          Navigator.pop(context); //TODO: check
+          Navigator.pop(context); 
           showToast(context, "You have successfully booked a favor!");
         },
       );

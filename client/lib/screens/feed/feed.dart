@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:project/functions/responsive.dart';
 import 'package:project/functions/utilities.dart';
-import 'package:project/helpers/storage.dart';
 import 'package:project/models/bookedFavor.dart';
 import 'package:project/models/callerPost.dart';
 import 'package:project/models/post.dart';
@@ -15,7 +13,6 @@ import 'package:project/screens/explore/providerExplore.dart';
 import 'package:project/screens/booked_favor_page/favorBookedPage.dart';
 import 'package:project/screens/favor_information_page/favorInformationPage.dart';
 import 'package:project/screens/feed/feed_mobile.dart';
-import 'package:project/screens/feed/feed_tablet.dart';
 import 'package:project/screens/feed/feed_utilities.dart';
 import 'package:project/screens/home.dart';
 import 'package:project/screens/responsiveLayout.dart';
@@ -37,7 +34,6 @@ class Feed_Screen extends StatelessWidget {
           }
         },
         child: CupertinoPageScaffold(
-            //backgroundColor: favorColors.IntroBg,
             child: SafeArea(
           child: ResponsiveLayout(
             mobileBody: Feed_Screen_M(),
@@ -123,8 +119,7 @@ class FavorWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomCard(
       customWidth: MediaQuery.of(context).size.width -
-          20, //Responsive.width(90, context),
-      //Responsive.homeColumnWidth(context), //Responsive.fixedWidth(),
+          20,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -140,7 +135,6 @@ class FavorWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    //image: AssetImage("assets/images/chris.jpg"),
                     image: post!.profilePicture!.image,
                     fit: BoxFit.cover,
                   ),
@@ -246,8 +240,7 @@ class FavorWidget extends StatelessWidget {
                   child: Icon(
                     CupertinoIcons.time,
                     color: Colors.black45,
-                    //scolor: favorColors.PrimaryBlue,
-                    size: 24, //
+                    size: 24, 
                   ),
                 ),
                 SizedBox(
@@ -287,8 +280,7 @@ class FavorWidget extends StatelessWidget {
                   child: Icon(
                     CupertinoIcons.location_solid,
                     color: Colors.black45,
-                    //scolor: favorColors.PrimaryBlue,
-                    size: 24, //
+                    size: 24, 
                   ),
                 ),
                 SizedBox(
@@ -369,19 +361,6 @@ class FavorWidget extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          /**
-          // RANK
-          Container(
-            child: Text(
-              "${post!.rankingPosition} in ${post!.rankingLocation}",
-              style: TextStyle(
-                fontSize: 14,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          */
         ],
       ),
     );
@@ -423,7 +402,6 @@ class _BookedFavorWidgetState extends State<BookedFavorWidget> {
     return Container(
       child: CustomCard(
         padding: EdgeInsets.all(0),
-        //margin: EdgeInsets.all(0),
         child: Container(
           width: Responsive.widthFixOver(210, 55, context),
           child: ClipRRect(
@@ -502,7 +480,7 @@ class _BookedFavorWidgetState extends State<BookedFavorWidget> {
                         children: [
                           // NAME SURNAME
                           Text(
-                            '${widget.booked.post.name} ${widget.booked.post.surname}', //TODO: fix
+                            '${widget.booked.post.name} ${widget.booked.post.surname}',
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold),
                             maxLines: 1,
@@ -603,73 +581,6 @@ class _BookedFavorWidgetState extends State<BookedFavorWidget> {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-// SEARCH BAR TODO: serve o va rimossa?
-class SearchFavor extends StatelessWidget {
-  SearchFavor({super.key});
-
-  final TextEditingController textController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(left: 9, right: 9),
-      height: Responsive.height(1, context),
-      child: CupertinoTextField(
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          color: favorColors.PrimaryBlue,
-        ),
-        //textInputAction: widget.textInputAction, //widget
-        //keyboardType: widget.textInputType, //widget
-        padding: EdgeInsets.only(top: 9, bottom: 9),
-        decoration: BoxDecoration(
-          color: favorColors.IntroBg,
-          border: Border.all(color: Colors.white),
-          borderRadius: BorderRadius.circular(90),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              spreadRadius: 0.5,
-              blurRadius: 5,
-              offset: Offset(0, 1),
-            ),
-          ],
-        ),
-        cursorColor: favorColors.SecondaryBlue,
-        cursorWidth: 2,
-        cursorRadius: Radius.circular(10),
-        // prefix button
-        prefix: CupertinoButton(
-          padding: EdgeInsets.zero,
-          child: Icon(
-            CupertinoIcons.search,
-            color: favorColors.PrimaryBlue,
-          ),
-          onPressed: null,
-        ),
-        // clear button
-        suffix: CupertinoButton(
-          padding: EdgeInsets.only(top: 0, bottom: 0, left: 0, right: 0),
-          child: Icon(
-            CupertinoIcons.xmark_circle_fill,
-            color: favorColors.Yellow.withOpacity(0.8),
-          ),
-          onPressed: () => textController.clear(),
-        ),
-        maxLength: 30, // reasonable value
-        maxLines: 1, // reasonable value
-        placeholder: "Search favor",
-        placeholderStyle: TextStyle(
-          color: favorColors.SecondaryBlue,
-          fontWeight: FontWeight.normal,
-        ),
-        controller: textController,
-        onSubmitted: (value) => print('Submitted [${textController}]: $value'),
       ),
     );
   }

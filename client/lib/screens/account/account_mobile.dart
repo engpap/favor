@@ -4,7 +4,6 @@ import 'package:project/functions/responsive.dart';
 import 'package:project/models/user.dart';
 import 'package:project/providers/app_provider.dart';
 import 'package:project/screens/components/starsWidget.dart';
-
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:provider/provider.dart';
 
@@ -213,7 +212,7 @@ class _AccountScreen_MState extends State<AccountScreen_M> {
                                 ),
                               ),
                               Text(
-                                "+39 347 4567890", // TODO: post!.bio!,
+                                "+39 347 4567890", // TODO: post!.phone!
                                 style: TextStyle(fontSize: 18),
                                 overflow: TextOverflow.fade,
                               ),

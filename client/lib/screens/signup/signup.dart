@@ -9,7 +9,6 @@ import 'package:project/screens/responsiveLayout.dart';
 import 'package:project/screens/signin/signin.dart';
 import 'package:project/screens/signup/signup_mobile.dart';
 import 'package:project/screens/signup/signup_tablet.dart';
-
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:provider/provider.dart';
 import 'globals.dart' as globals;
@@ -40,7 +39,6 @@ class SignUpScreen extends StatelessWidget {
             )),
             //PAGE
             child: CupertinoPageScaffold(
-                // .withAlpha(180) is used to add transparency, in order to see the bg-image
                 backgroundColor: favorColors.IntroBg.withAlpha(180),
                 child: SafeArea(
                   child: ResponsiveLayout(
@@ -102,7 +100,6 @@ class Form_SignUpState extends State<Form_SignUp> {
                 SizedBox(
                   height: 10,
                 ),
-
                 /// SURNAME
                 CustomCard(
                   key: Key("custom_card_surname"),
@@ -129,7 +126,6 @@ class Form_SignUpState extends State<Form_SignUp> {
                 SizedBox(
                   height: 10,
                 ),
-
                 /// EMAIL
                 CustomCard(
                   key: Key("custom_card_email"),
@@ -157,7 +153,6 @@ class Form_SignUpState extends State<Form_SignUp> {
                 SizedBox(
                   height: 10,
                 ),
-
                 /// PASSWORD
                 CustomCard(
                   key: Key("custom_card_password"),
@@ -185,7 +180,6 @@ class Form_SignUpState extends State<Form_SignUp> {
                 SizedBox(
                   height: 10,
                 ),
-
                 /// PASSWORD2
                 CustomCard(
                   key: Key("custom_card_confirm_password"),

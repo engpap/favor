@@ -5,12 +5,10 @@ import 'package:project/functions/stringExtensions.dart';
 import 'package:project/providers/app_provider.dart';
 import 'package:project/screens/components/customCard.dart';
 import 'package:project/screens/components/customFieldMat.dart';
-import 'package:project/screens/home.dart';
 import 'package:project/screens/signin/signin_mobile.dart';
 import 'package:project/screens/signin/signin_tablet.dart';
 import 'package:project/screens/responsiveLayout.dart';
 import 'package:project/screens/signup/signup.dart';
-
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:provider/provider.dart';
 import 'globals.dart' as globals;
@@ -41,7 +39,6 @@ class SignInScreen extends StatelessWidget {
             )),
             //PAGE
             child: CupertinoPageScaffold(
-                // .withAlpha(180) is used to add transparency, in order to see the bg-image
                 backgroundColor: favorColors.IntroBg.withAlpha(180),
                 child: SafeArea(
                   child: ResponsiveLayout(
@@ -115,8 +112,7 @@ class _Form_SignInState extends State<Form_SignIn> {
                     obcureText: true,
                     customValidator: (value) {
                       if (value!.length < 1 || !value.isValidPassword()) {
-                        return LabelSpace().whiteSpace() +
-                            "This password is not valid.";
+                        return LabelSpace().whiteSpace() + "This password is not valid.";
                       }
                       if (value.length > 50) {
                         return LabelSpace().whiteSpace() + "max 50 chars";
