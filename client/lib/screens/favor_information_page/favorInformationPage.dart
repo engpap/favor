@@ -1,3 +1,6 @@
+import 'dart:ffi';
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/models/post.dart';
@@ -183,6 +186,7 @@ class FavorPerson extends StatelessWidget {
       children: [
         // 1st ROW - HEADING
         Row(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // IMAGE
@@ -214,50 +218,52 @@ class FavorPerson extends StatelessWidget {
             SizedBox(
               width: 10,
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // NAME AND SURNAME
-                Text(
-                  "${post!.name} ${post!.surname}",
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: favorColors.PrimaryBlue,
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-                // ROLE
-                Text(
-                  post!.userType,
-                  style: TextStyle(
-                      fontSize: 18,
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // NAME AND SURNAME
+                  Text(
+                    "${post!.name} ${post!.surname}",
+                    style: TextStyle(
+                      fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: favorColors.SecondaryBlue),
-                  textAlign: TextAlign.left,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                // STARS
-                StarsWidget(number: post!.averageRatings),
-                SizedBox(
-                  height: 5,
-                ),
-                // RANK
-                post!.rankingPosition != 0
-                    ? Text(
-                        "Ranked as ${post!.rankingPosition}º in ${post!.rankingLocation}",
-                        style: TextStyle(
-                            fontSize: 14, overflow: TextOverflow.clip),
-                      )
-                    : Text(
-                        "Never done a favor in ${post!.rankingLocation}",
-                        style: TextStyle(fontSize: 14),
-                        overflow: TextOverflow.clip,
-                      )
-              ],
+                      color: favorColors.PrimaryBlue,
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                  // ROLE
+                  Text(
+                    post!.userType,
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: favorColors.SecondaryBlue),
+                    textAlign: TextAlign.left,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  // STARS
+                  StarsWidget(number: post!.averageRatings),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  // RANK
+                  post!.rankingPosition != 0
+                      ? Text(
+                          "Ranked as ${post!.rankingPosition}º in ${post!.rankingLocation}",
+                          style: TextStyle(
+                              fontSize: 14, overflow: TextOverflow.clip),
+                        )
+                      : Text(
+                          "Never done a favor in ${post!.rankingLocation}",
+                          style: TextStyle(fontSize: 14),
+                          overflow: TextOverflow.clip,
+                        )
+                ],
+              ),
             ),
           ],
         ),
