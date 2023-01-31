@@ -82,7 +82,7 @@ export const completeFavor = async (request, response) => {
         */
         if(request.userId == bookedFavor.providerId){
             if(bookedFavor.markedAsCompletedByProvider)
-                return response.status(400).json({ message: "You already have marked it as completed!" });
+                return response.status(400).json({ message: "You already have marked it as completed! Waiting for the other user's mark..." });
             else{
                 bookedFavor.markedAsCompletedByProvider = true;
                 console.log(">>> completeFavor: Marked the booked favor as markedAsCompletedByProvider")
