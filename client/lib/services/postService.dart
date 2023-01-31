@@ -48,7 +48,7 @@ class PostService {
         onSuccess: () {
           // Reset Variables
           clearInputFields();
-          Navigator.push(
+          Navigator.pushReplacement(
               context,
               CupertinoPageRoute(
                   builder: (context) => FavorInformationPageScreen(
