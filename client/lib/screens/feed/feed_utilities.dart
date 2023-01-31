@@ -23,6 +23,23 @@ class FeedUtilities {
         return AssetImage("assets/images/favor_categories/tech_repair.png");
       case "Take me there":
         return AssetImage("assets/images/favor_categories/take_me_there.png");
+      case "Home Sitting":
+        return AssetImage("assets/images/favor_categories/home_sitting.png");
+      case "Car Washing":
+        return AssetImage("assets/images/favor_categories/car_washing.png");
+      case "Painting":
+        return AssetImage("assets/images/favor_categories/painting.png");
+      case "Furniture Assembly":
+        return AssetImage(
+            "assets/images/favor_categories/furniture_assembly.png");
+      case "Tutoring":
+        return AssetImage("assets/images/favor_categories/tutoring.png");
+      case "Electrician":
+        return AssetImage("assets/images/favor_categories/electrician.png");
+      case "Care Giver":
+        return AssetImage("assets/images/favor_categories/care_giver.png");
+      case "Snow Removal":
+        return AssetImage("assets/images/favor_categories/snow_removal.png");
       default:
         return AssetImage("assets/images/favor_categories/no_category.png");
     }

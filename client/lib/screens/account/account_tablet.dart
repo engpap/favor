@@ -305,7 +305,11 @@ class _AccountScreen_TState extends State<AccountScreen_T> {
       ),
       child: CupertinoButton(
           key: Key("log_out_button"),
-          child: Text("Log Out"),
+          color: favorColors.PrimaryBlue,
+          child: Text(
+            "Log Out",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
           onPressed: (() {
             Provider.of<AppProvider>(context, listen: false)
                 .signout(context: context);

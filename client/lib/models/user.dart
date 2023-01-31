@@ -49,7 +49,7 @@ class User {
         rankingPoints =
             json['rankingPoints'] != null ? json['rankingPoints'] : 0,
         averageRatings =
-            json['averageRatings'] != null ? json['averageRatings'] : 0,
+            json['averageRatings'] != null ? json['averageRatings'].round() : 0,
         gender = json['gender'],
         age = json['age'],
         city = json['city'],
