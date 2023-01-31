@@ -67,7 +67,7 @@ class _MarkAsCompletedButtonState extends State<MarkAsCompletedButton> {
     return Container(
       margin: EdgeInsets.only(left: 9, right: 9),
       height: Responsive.widthFixOver(45, 15, context),
-      width: Responsive.widthFixOver(350, 70, context),
+      width: MediaQuery.of(context).size.width,
       child: CupertinoButton(
         key: Key('MarkAsCompleted_button'),
         padding: EdgeInsets.all(0),
@@ -248,7 +248,7 @@ class _FavorBookPersonState extends State<FavorBookPerson> {
                   shape: BoxShape.circle,
                   image: DecorationImage(
                     image: widget.post!.profilePicture!.image,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.contain,
                   ),
                   border: Border.all(
                     color: favorColors.LightGrey,
@@ -428,7 +428,7 @@ class AddToGoogleCalendarButton extends StatelessWidget {
           // CALENDAR BUTTON
           child: Container(
             width: MediaQuery.of(context).size.width,
-            height: Responsive.width(12, context),
+            height: Responsive.widthFixOver(60, 20, context),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(
@@ -458,7 +458,12 @@ class AddToGoogleCalendarButton extends StatelessWidget {
                   Expanded(
                     child: Container(
                       alignment: Alignment.center,
-                      child: Text('Add to Google Calendar'),
+                      child: Text('Add to Google Calendar',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
                     ),
                   ),
                   Container(
