@@ -17,7 +17,7 @@ void httpErrorHandle({
     onSuccess();
   else if (response.statusCode == 401) {
     showToast(context, jsonDecode(response.body)['message']);
-    Navigator.push(context,
+    Navigator.pushReplacement(context,
         CupertinoPageRoute(builder: (context) => const SignInScreen()));
   } else if (response.statusCode >= 400 && showToastStatus)
     showToast(context, "Server Error: " + jsonDecode(response.body)['message']);
