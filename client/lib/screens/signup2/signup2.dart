@@ -172,7 +172,8 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
                             readOnly: true,
                             customValidator: (value) {
                               if (value == "")
-                                return LabelSpace().whiteSpace() + "Select a city from the picker.";
+                                return LabelSpace().whiteSpace() +
+                                    "Select a city from the picker.";
                               else {
                                 return null;
                               }
@@ -242,8 +243,9 @@ class _Form_SignUp2State extends State<Form_SignUp2> {
                         return LabelSpace().whiteSpace() +
                             "Briefly describe yourself.";
                       }
-                      if (value.length > 50) {
-                        return LabelSpace().whiteSpace() + "max 50 chars";
+                      if (value.length > 500) {
+                        print(value.length);
+                        return LabelSpace().whiteSpace() + "max 500 chars";
                       } else {
                         return null;
                       }
