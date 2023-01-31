@@ -10,7 +10,7 @@ import 'package:project/helpers/storage.dart';
 import 'dart:convert';
 
 import 'package:project/providers/user_provider.dart';
-import 'package:project/screens/favorInformationPage/favorInformationPage.dart';
+import 'package:project/screens/favor_information_page/favorInformationPage.dart';
 import 'package:project/screens/feed/feed.dart';
 import 'package:project/screens/home.dart';
 import 'package:project/screens/leaderboard/leaderboard.dart';

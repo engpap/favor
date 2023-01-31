@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:project/functions/tabs.dart';
-import 'package:project/screens/favorInformationPage/favorInformationPage.dart';
+import 'package:project/screens/favor_information_page/favorInformationPage.dart';
 import 'package:project/screens/feed/feed.dart';
 import 'package:project/screens/signup/signup.dart';
 import 'package:project/screens/signup2/signup2.dart';

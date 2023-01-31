@@ -12,8 +12,8 @@ import 'package:project/models/user.dart';
 import 'package:project/providers/app_provider.dart';
 import 'package:project/screens/components/starsWidget.dart';
 
-import 'package:project/screens/favorBookedPage/favorBookedPage_mobile.dart';
-import 'package:project/screens/favorBookedPage/favorBookedPage_tablet.dart';
+import 'package:project/screens/booked_favor_page/favorBookedPage_mobile.dart';
+import 'package:project/screens/booked_favor_page/favorBookedPage_tablet.dart';
 
 import 'package:project/screens/responsiveLayout.dart';
 import 'package:provider/provider.dart';
@@ -242,28 +242,30 @@ class _FavorBookPersonState extends State<FavorBookPerson> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // IMAGE
-            Container(
-              width: Responsive.widthFixOver(80, 20, context),
-              height: Responsive.widthFixOver(80, 20, context),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  //image: AssetImage("assets/images/chris.jpg"),
-                  image: widget.post!.profilePicture!.image,
-                  fit: BoxFit.cover,
-                ),
-                border: Border.all(
-                  color: favorColors.LightGrey,
-                  width: 1.0,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    spreadRadius: 0.5,
-                    blurRadius: 5,
-                    offset: Offset(0, 1),
+            Expanded(
+              child: Container(
+                width: Responsive.widthFixOver(80, 20, context),
+                height: Responsive.widthFixOver(80, 20, context),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    //image: AssetImage("assets/images/chris.jpg"),
+                    image: widget.post!.profilePicture!.image,
+                    fit: BoxFit.cover,
                   ),
-                ],
+                  border: Border.all(
+                    color: favorColors.LightGrey,
+                    width: 1.0,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      spreadRadius: 0.5,
+                      blurRadius: 5,
+                      offset: Offset(0, 1),
+                    ),
+                  ],
+                ),
               ),
             ),
             SizedBox(

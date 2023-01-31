@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mockito/mockito.dart';
+import 'package:project/functions/showToast.dart';
 import 'package:project/main.dart';
 import 'package:project/providers/app_provider.dart';
 import 'package:project/providers/user_provider.dart';
@@ -16,7 +17,7 @@ import '../utility_for_testing/mocks/mock_navigator.dart';
 
 void main() {
   executeUnitTests();
-  //executeWidgetTests();
+  executeWidgetTests();
 }
 
 void executeUnitTests() {
@@ -35,5 +36,25 @@ void executeUnitTests() {
     var context = mockContext;
     httpErrorHandle(response: response, context: context, onSuccess: onSuccess);
     expect(onSuccessCalled, true);
+  });
+}
+
+void executeWidgetTests() {
+  MockContext mockContext = MockContext();
+  MockNavigator mockNavigator = MockNavigator();
+  when(mockContext.findAncestorStateOfType<NavigatorState>())
+      .thenReturn(mockNavigator);
+  testWidgets(
+      'onSuccess callback is not called when status code is not between 200 and 299',
+      (tester) async {
+    var response = http.Response('', 300);
+    var onSuccessCalled = false;
+    var onSuccess = () {
+      onSuccessCalled = true;
+    };
+
+    var context = mockContext;
+    httpErrorHandle(response: response, context: context, onSuccess: onSuccess);
+    expect(onSuccessCalled, false);
   });
 }

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:project/models/post.dart';
 import 'package:project/providers/app_provider.dart';
-import 'package:project/screens/favorInformationPage/favorInformationPage_mobile.dart';
-import 'package:project/screens/favorInformationPage/favorInformationPage_tablet.dart';
+import 'package:project/screens/favor_information_page/favorInformationPage_mobile.dart';
+import 'package:project/screens/favor_information_page/favorInformationPage_tablet.dart';
 import 'package:project/screens/milan.dart';
 import 'package:project/screens/responsiveLayout.dart';
 import 'package:project/functions/responsive.dart';
@@ -328,8 +328,8 @@ class FavorPerson extends StatelessWidget {
   }
 }
 
-class FavorBook extends StatelessWidget {
-  FavorBook({
+class BookFavorButton extends StatelessWidget {
+  BookFavorButton({
     super.key,
     required this.post,
     required this.userType,
@@ -377,58 +377,6 @@ class FavorBook extends StatelessWidget {
               .bookFavor(context: context, post: post, userType: userType);
         },
       ),
-    );
-  }
-
-  // TODO: NOT USED - but don't remove yet
-  Widget chatButton(BuildContext context) {
-    return Column(
-      children: [
-        // CHAT BUTTON
-        Container(
-          width: Responsive.width(25, context),
-          child: Align(
-            child: Container(
-              width: Responsive.width(12, context),
-              height: Responsive.width(12, context),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: favorColors.LightGrey,
-                  width: 1.0,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    spreadRadius: 0.5,
-                    blurRadius: 5,
-                    offset: Offset(0, 1),
-                  ),
-                ],
-              ),
-              child: CupertinoButton(
-                padding: EdgeInsets.all(0),
-                color: favorColors.PrimaryBlue,
-                borderRadius: BorderRadius.circular(90),
-                child: Icon(CupertinoIcons.chat_bubble_2),
-                onPressed: () {
-                  print('Pressed: _chatButton');
-                },
-              ),
-            ),
-          ),
-        ),
-        Divider(
-          height: Responsive.height(0.5, context),
-          color: Colors.transparent,
-        ),
-        Text(
-          "chat",
-          style: TextStyle(
-            fontSize: 14,
-          ),
-        ),
-      ],
     );
   }
 }

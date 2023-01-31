@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project/screens/favorBookedPage/favorBookedPage.dart';
-import 'package:project/screens/favorInformationPage/favorInformationPage.dart';
+import 'package:project/screens/booked_favor_page/favorBookedPage.dart';
+import 'package:project/screens/favor_information_page/favorInformationPage.dart';
 import 'package:project/services/apis/google_calendar_api_wrapper.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/models/bookedFavor.dart';

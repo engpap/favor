@@ -10,7 +10,7 @@ import 'package:project/screens/components/starsWidget.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:project/functions/favorTime.dart' as favorTime;
-import 'package:project/screens/favorInformationPage/favorInformationPage.dart';
+import 'package:project/screens/favor_information_page/favorInformationPage.dart';
 import 'package:project/screens/milan.dart';
 
 class favorInformationPage_Screen_T extends StatelessWidget {
@@ -45,7 +45,7 @@ class favorInformationPage_Screen_T extends StatelessWidget {
                   child: FavorPerson(post: post),
                 ),
                 // FAVOR BOOK
-                FavorBook(
+                BookFavorButton(
                   post: post,
                   userType: userType,
                 ),

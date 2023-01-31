@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:project/functions/responsive.dart';
 import 'package:project/models/bookedFavor.dart';
 import 'package:project/screens/components/customCard.dart';
-import 'package:project/screens/favorBookedPage/favorBookedPage.dart';
-import 'package:project/screens/favorBookedPage/favorBookedPage_mobile.dart';
-import 'package:project/screens/favorInformationPage/favorInformationPage_tablet.dart';
+import 'package:project/screens/booked_favor_page/favorBookedPage.dart';
+import 'package:project/screens/booked_favor_page/favorBookedPage_mobile.dart';
+import 'package:project/screens/favor_information_page/favorInformationPage_tablet.dart';
 import 'package:provider/provider.dart';
 import 'package:project/providers/user_provider.dart';
-import 'package:project/screens/favorInformationPage/favorInformationPage.dart';
+import 'package:project/screens/favor_information_page/favorInformationPage.dart';
 
 class favorBookedPage_Screen_T extends StatelessWidget {
   favorBookedPage_Screen_T({
