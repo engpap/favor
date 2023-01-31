@@ -104,42 +104,38 @@ class _Leaderboard_Screen_MState extends State<Leaderboard_Screen_M> {
   Widget buildLadder(BuildContext context) {
     getLeaderboard();
     return Expanded(
-      child: SingleChildScrollView(
-        child: FutureBuilder<Leaderboard?>(
-            future: leaderboard,
-            builder: ((context, snapshot) {
-              if (snapshot.hasData) {
-                return Column(children: [
-                  ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: snapshot.data!.leaderboard.length,
-                      itemBuilder: (context, itemIndex) {
-                        return LeaderboardCard(
-                          key: Key("leaderboard_card_${itemIndex}"),
-                          personName: snapshot.data!.leaderboard.keys
-                              .toList()[itemIndex]
-                              .name,
-                          personSurname: snapshot.data!.leaderboard.keys
-                              .toList()[itemIndex]
-                              .surname,
-                          leaderboardPosition: itemIndex + 1,
-                          personImage: snapshot.data!.leaderboard.keys
-                              .toList()[itemIndex]
-                              .profilePicture,
-                          starsNumber: snapshot.data!.leaderboard[snapshot
-                              .data!.leaderboard.keys
-                              .toList()[itemIndex]],
-                        );
-                      })
-                ]);
-              } else if (snapshot.hasError) {
-                return Text('${snapshot.error}');
-              }
-              // Because don't load without an input
-              return Center(child: Text("waiting for your input"));
-            })),
-      ),
+      child: FutureBuilder<Leaderboard?>(
+          future: leaderboard,
+          builder: ((context, snapshot) {
+            if (snapshot.hasData) {
+              return ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: snapshot.data!.leaderboard.length,
+                  itemBuilder: (context, itemIndex) {
+                    return LeaderboardCard(
+                      key: Key("leaderboard_card_${itemIndex}"),
+                      personName: snapshot.data!.leaderboard.keys
+                          .toList()[itemIndex]
+                          .name,
+                      personSurname: snapshot.data!.leaderboard.keys
+                          .toList()[itemIndex]
+                          .surname,
+                      leaderboardPosition: itemIndex + 1,
+                      personImage: snapshot.data!.leaderboard.keys
+                          .toList()[itemIndex]
+                          .profilePicture,
+                      starsNumber: snapshot.data!.leaderboard[snapshot
+                          .data!.leaderboard.keys
+                          .toList()[itemIndex]],
+                    );
+                  });
+            } else if (snapshot.hasError) {
+              return Text('${snapshot.error}');
+            }
+            // Because don't load without an input
+            return Center(child: Text("waiting for your input"));
+          })),
     );
   }
 }
