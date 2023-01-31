@@ -112,7 +112,8 @@ class _Form_SignInState extends State<Form_SignIn> {
                     obcureText: true,
                     customValidator: (value) {
                       if (value!.length < 1 || !value.isValidPassword()) {
-                        return LabelSpace().whiteSpace() + "This password is not valid.";
+                        return LabelSpace().whiteSpace() +
+                            "This password is not valid.";
                       }
                       if (value.length > 50) {
                         return LabelSpace().whiteSpace() + "max 50 chars";
