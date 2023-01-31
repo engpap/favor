@@ -26,14 +26,6 @@ class PostService {
         throw Exception(
             "Trying to publish a favor as Provider but userType is not Provider!");
 
-      /*ProviderPost post = ProviderPost(
-          userType: getUserMode(),
-          taskCategory: taskCategory,
-          location: location,
-          availabilityStartTime: availabilityStartTime,
-          availabilityEndTime: availabilityEndTime,
-          description: description);*/
-
       http.Response response = await http.post(
         Uri.parse('$uri/posts/create'),
         headers: {
@@ -54,18 +46,8 @@ class PostService {
         response: response,
         context: context,
         onSuccess: () {
-
           // Reset Variables
-          globals_favor.categoryTextController.clear();
-          globals_favor.locationTextController.clear();
-          globals_favor.boxDescriptionTextController.clear();
-          globals_favor.availabilityStartTimeTextController.text =
-              favorTime.formatter.format(DateTime.now());
-          globals_favor.availabilityEndTimeTextController.text =
-              favorTime.formatter.format(DateTime.now());
-          globals_favor.favorStartTimeTextController.text =
-              favorTime.formatter.format(DateTime.now());
-
+          clearInputFields();
           Navigator.push(
               context,
               CupertinoPageRoute(
@@ -91,12 +73,6 @@ class PostService {
       if (!UserMode_inherited.of(context).stateWidget.callerStatus_state)
         throw Exception(
             "Trying to publish a favor as Caller but userType is not Caller!");
-      /*CallerPost post = CallerPost(
-          userType: getUserMode(),
-          taskCategory: taskCategory,
-          location: location,
-          favorStartTime: favorStartTime,
-          description: description);*/
 
       http.Response response = await http.post(
         Uri.parse('$uri/posts/create'),
@@ -117,19 +93,9 @@ class PostService {
         response: response,
         context: context,
         onSuccess: () {
-
           // Reset Variables
-          globals_favor.categoryTextController.clear();
-          globals_favor.locationTextController.clear();
-          globals_favor.boxDescriptionTextController.clear();
-          globals_favor.availabilityStartTimeTextController.text =
-              favorTime.formatter.format(DateTime.now());
-          globals_favor.availabilityEndTimeTextController.text =
-              favorTime.formatter.format(DateTime.now());
-          globals_favor.favorStartTimeTextController.text =
-              favorTime.formatter.format(DateTime.now());
-
-          Navigator.push(
+          clearInputFields();
+          Navigator.pushReplacement(
               context,
               CupertinoPageRoute(
                   builder: (context) => FavorInformationPageScreen(
@@ -257,7 +223,7 @@ class PostService {
         response: response,
         context: context,
         onSuccess: () {
-          Navigator.pop(context); 
+          Navigator.pop(context);
           showToast(context, "You have successfully booked a favor!");
         },
       );
@@ -265,4 +231,16 @@ class PostService {
       throw Exception(">>> bookFavor exception: " + error.toString());
     }
   }
+}
+
+void clearInputFields() {
+  globals_favor.categoryTextController.clear();
+  globals_favor.locationTextController.clear();
+  globals_favor.boxDescriptionTextController.clear();
+  globals_favor.availabilityStartTimeTextController.text =
+      favorTime.formatter.format(DateTime.now());
+  globals_favor.availabilityEndTimeTextController.text =
+      favorTime.formatter.format(DateTime.now());
+  globals_favor.favorStartTimeTextController.text =
+      favorTime.formatter.format(DateTime.now());
 }
