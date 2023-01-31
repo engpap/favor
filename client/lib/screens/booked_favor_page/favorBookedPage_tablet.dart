@@ -4,10 +4,7 @@ import 'package:project/functions/responsive.dart';
 import 'package:project/models/bookedFavor.dart';
 import 'package:project/screens/components/customCard.dart';
 import 'package:project/screens/booked_favor_page/favorBookedPage.dart';
-import 'package:project/screens/booked_favor_page/favorBookedPage_mobile.dart';
 import 'package:project/screens/favor_information_page/favorInformationPage_tablet.dart';
-import 'package:provider/provider.dart';
-import 'package:project/providers/user_provider.dart';
 import 'package:project/screens/favor_information_page/favorInformationPage.dart';
 
 class favorBookedPage_Screen_T extends StatelessWidget {

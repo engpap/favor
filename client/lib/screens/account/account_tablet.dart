@@ -4,7 +4,6 @@ import 'package:project/functions/responsive.dart';
 import 'package:project/models/user.dart';
 import 'package:project/providers/app_provider.dart';
 import 'package:project/screens/components/starsWidget.dart';
-import 'package:project/screens/responsiveLayout.dart';
 
 import 'package:project/functions/favorColors.dart' as favorColors;
 import 'package:provider/provider.dart';

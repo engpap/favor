@@ -1,15 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 import 'package:project/functions/responsive.dart';
-import 'package:project/models/callerPost.dart';
 import 'package:project/models/post.dart';
 import 'package:project/screens/components/customCard.dart';
-import 'package:project/screens/components/starsWidget.dart';
-
 import 'package:project/functions/favorColors.dart' as favorColors;
-import 'package:project/functions/favorTime.dart' as favorTime;
 import 'package:project/screens/favor_information_page/favorInformationPage.dart';
 import 'package:project/screens/milan.dart';
 

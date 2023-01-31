@@ -1,9 +1,4 @@
-import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:project/helpers/auth_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 /// This class is a wrapper around the shared preferences library. It makes
 /// easier to use the shared preferences library and its functions, without
