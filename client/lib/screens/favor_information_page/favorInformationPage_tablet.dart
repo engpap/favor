@@ -49,8 +49,7 @@ class favorInformationPage_Screen_T extends StatelessWidget {
         ),
         /// RIGHT SCREEN
         // MAP
-        Container(
-          width: Responsive.homeColumnWidth(context),
+        Expanded(
           child: FavorMapTablet(post: post)),
       ],
     );
