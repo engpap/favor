@@ -48,7 +48,10 @@ class favorBookedPage_Screen_T extends StatelessWidget {
         ),
         /// RIGHT SCREEN
         // MAP
-        FavorMapTablet(post: bookedFavor!.post)
+        // Container(
+        Container( width: Responsive.homeColumnWidth(context),
+          child: FavorMapTablet(post: bookedFavor!.post)
+        ),
       ],
     );
   }

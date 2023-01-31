@@ -116,7 +116,7 @@ class _MarkAsCompletedButtonState extends State<MarkAsCompletedButton> {
                             // CLOSE POP UP
                             Navigator.pop(context);
                             // GO BACK TO FEED
-                            Navigator.pop(context);
+                            //Navigator.pop(context);
                           },
                         ),
                       ))
@@ -268,85 +268,87 @@ class _FavorBookPersonState extends State<FavorBookPerson> {
             SizedBox(
               width: 10,
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // NAME AND SURNAME
-                Text(
-                  "${widget.post!.name} ${widget.post!.surname}",
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: favorColors.PrimaryBlue,
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // NAME AND SURNAME
+                  Text(
+                    "${widget.post!.name} ${widget.post!.surname}",
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: favorColors.PrimaryBlue,
+                    ),
+                    textAlign: TextAlign.left,
                   ),
-                  textAlign: TextAlign.left,
-                ),
-                //ROLE - 1/2
-                FutureBuilder<User?>(
-                    future: _caller,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        if (widget.booked.post.name == snapshot.data!.name &&
-                            widget.booked.post.surname ==
-                                snapshot.data!.surname)
-                          return (Text(
-                            "caller",
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: favorColors.SecondaryBlue),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ));
-                      } else if (snapshot.hasError) {
-                        return Text('${snapshot.error}');
-                      }
-                      // By default, show a loading spinner.
-                      return Container();
-                    }),
-                // ROLE - 2/2
-                FutureBuilder<User?>(
-                    future: _provider,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        if (widget.booked.post.name == snapshot.data!.name &&
-                            widget.booked.post.surname ==
-                                snapshot.data!.surname)
-                          return (Text(
-                            "provider",
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: favorColors.SecondaryBlue),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ));
-                      } else if (snapshot.hasError) {
-                        return Text('${snapshot.error}');
-                      }
-                      // By default, show a loading spinner.
-                      return Container();
-                    }),
-                SizedBox(
-                  height: 10,
-                ),
-                // STARS
-                StarsWidget(number: widget.post!.averageRatings),
-                SizedBox(
-                  height: 5,
-                ),
-                // RANK
-                widget.post!.rankingPosition != 0
-                    ? Text(
-                        "Ranked as ${widget.post!.rankingPosition}º in ${widget.post!.rankingLocation}",
-                        style: TextStyle(fontSize: 14),
-                      )
-                    : Text(
-                        "Never done a favor in ${widget.post!.rankingLocation}",
-                        style: TextStyle(fontSize: 14),
-                      )
-              ],
+                  //ROLE - 1/2
+                  FutureBuilder<User?>(
+                      future: _caller,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          if (widget.booked.post.name == snapshot.data!.name &&
+                              widget.booked.post.surname ==
+                                  snapshot.data!.surname)
+                            return (Text(
+                              "caller",
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: favorColors.SecondaryBlue),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ));
+                        } else if (snapshot.hasError) {
+                          return Text('${snapshot.error}');
+                        }
+                        // By default, show a loading spinner.
+                        return Container();
+                      }),
+                  // ROLE - 2/2
+                  FutureBuilder<User?>(
+                      future: _provider,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          if (widget.booked.post.name == snapshot.data!.name &&
+                              widget.booked.post.surname ==
+                                  snapshot.data!.surname)
+                            return (Text(
+                              "provider",
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: favorColors.SecondaryBlue),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ));
+                        } else if (snapshot.hasError) {
+                          return Text('${snapshot.error}');
+                        }
+                        // By default, show a loading spinner.
+                        return Container();
+                      }),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  // STARS
+                  StarsWidget(number: widget.post!.averageRatings),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  // RANK
+                  widget.post!.rankingPosition != 0
+                      ? Text(
+                          "Ranked as ${widget.post!.rankingPosition}º in ${widget.post!.rankingLocation}",
+                          style: TextStyle(fontSize: 14),
+                        )
+                      : Text(
+                          "Never done a favor in ${widget.post!.rankingLocation}",
+                          style: TextStyle(fontSize: 14),
+                        )
+                ],
+              ),
             ),
           ],
         ),
