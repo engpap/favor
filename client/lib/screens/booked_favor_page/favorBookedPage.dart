@@ -66,7 +66,7 @@ class _MarkAsCompletedButtonState extends State<MarkAsCompletedButton> {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(left: 9, right: 9),
-      height: Responsive.widthFixOver(45, 15, context),
+      height: Responsive.widthFixOver(60, 20, context),
       width: MediaQuery.of(context).size.width,
       child: CupertinoButton(
         key: Key('MarkAsCompleted_button'),
