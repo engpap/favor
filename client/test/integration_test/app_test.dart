@@ -215,7 +215,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byType(HomeScreen), findsOneWidget);
 
-      // Go to "Account" screen and verity it is built
+      // Go to "Account" screen and verity it  redirects the user to SignInScreen
       final account_navbar_item = find.text("Account");
       await tester.tap(account_navbar_item);
       await tester.pumpAndSettle();

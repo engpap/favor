@@ -26,26 +26,34 @@ class favorInformationPage_Screen_T extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      key: Key("favor_information_page"),
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         /// LEFT SCREEN
         SingleChildScrollView(
           child: ConstrainedBox(
             constraints: BoxConstraints(
-              maxWidth: Responsive.homeColumnWidth(context), //Responsive.fixedWidth(),
+              maxWidth: Responsive.homeColumnWidth(
+                  context), //Responsive.fixedWidth(),
             ),
             child: Column(
               children: [
                 // FAVOR INFORMATION
                 CustomCard(child: FavorInformation(post: post)),
                 // FAVOR PERSON
-                CustomCard(child: FavorPerson(post: post),),
+                CustomCard(
+                  child: FavorPerson(post: post),
+                ),
                 // FAVOR BOOK
-                FavorBook(post: post, userType: userType,),
+                FavorBook(
+                  post: post,
+                  userType: userType,
+                ),
               ],
             ),
           ),
         ),
+
         /// RIGHT SCREEN
         // MAP
         FavorMapTablet(post: post)
@@ -60,20 +68,31 @@ class FavorMapTablet extends StatelessWidget {
     required this.post,
   });
 
-  late District district = setDistricts.singleWhere((element) =>  equalsIgnoreCase(element.name, post!.location));
+  late District district = setDistricts
+      .singleWhere((element) => equalsIgnoreCase(element.name, post!.location));
   late CameraPosition _cameraPosition = district.cameraPos;
 
   Post? post;
   @override
   Widget build(BuildContext context) {
-    return 
-      // MAP
-      // TODO: substitute with an interactive map
-      Flexible(
-        fit: FlexFit.tight,
+    return
+        // MAP
+        // TODO: substitute with an interactive map
+        Flexible(
+      fit: FlexFit.tight,
+      child: Container(
+        margin: EdgeInsets.all(9),
+        height: Responsive.height(90, context),
+        decoration: BoxDecoration(
+            shape: BoxShape.rectangle,
+            border: Border.all(
+              color: favorColors.LightGrey,
+              width: 1.0,
+            ),
+            borderRadius: BorderRadius.circular(10)),
         child: Container(
-          margin: EdgeInsets.all(9),
-          height: Responsive.height(90, context),
+          width: Responsive.width(100, context),
+          height: Responsive.width(40, context),
           decoration: BoxDecoration(
               shape: BoxShape.rectangle,
               border: Border.all(
@@ -81,29 +100,19 @@ class FavorMapTablet extends StatelessWidget {
                 width: 1.0,
               ),
               borderRadius: BorderRadius.circular(10)),
-          child: Container(
-          width: Responsive.width(100, context),
-          height: Responsive.width(40, context),
-          decoration: BoxDecoration(
-            shape: BoxShape.rectangle,
-            border: Border.all(
-              color: favorColors.LightGrey,
-              width: 1.0,
-            ),
-            borderRadius: BorderRadius.circular(10)),
-            child: GoogleMap(
-              myLocationButtonEnabled: false,
-              minMaxZoomPreference: MinMaxZoomPreference(10, 15),
-              zoomControlsEnabled: true,
-              zoomGesturesEnabled: true,
-              onMapCreated: (controller) {
-                controller.setMapStyle(mapStyle);
-              },
-              initialCameraPosition: _cameraPosition,
-              mapType: MapType.normal,
+          child: GoogleMap(
+            myLocationButtonEnabled: false,
+            minMaxZoomPreference: MinMaxZoomPreference(10, 15),
+            zoomControlsEnabled: true,
+            zoomGesturesEnabled: true,
+            onMapCreated: (controller) {
+              controller.setMapStyle(mapStyle);
+            },
+            initialCameraPosition: _cameraPosition,
+            mapType: MapType.normal,
           ),
-    ),
         ),
-      );
+      ),
+    );
   }
 }

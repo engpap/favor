@@ -21,7 +21,7 @@ class Introduction2Screen extends StatelessWidget {
         child: CupertinoPageScaffold(
             backgroundColor: favorColors.IntroBg,
             child: SafeArea(
-              child: ResponsiveLeayout(
+              child: ResponsiveLayout(
                 mobileBody: Introduction2Screen_M_T(),
                 tabletBody: Introduction2Screen_M_T(),
               ),

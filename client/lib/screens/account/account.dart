@@ -24,7 +24,7 @@ class _AccountScreenState extends State<AccountScreen> {
         child: CupertinoPageScaffold(
             backgroundColor: Colors.white,
             child: SafeArea(
-              child: ResponsiveLeayout(
+              child: ResponsiveLayout(
                 mobileBody: AccountScreen_M(),
                 tabletBody: AccountScreen_T(),
               ),

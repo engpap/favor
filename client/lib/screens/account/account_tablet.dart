@@ -36,6 +36,7 @@ class _AccountScreen_TState extends State<AccountScreen_T> {
     return Center(
       child: SingleChildScrollView(
         child: Container(
+            key: Key("account_tablet"),
             width: Responsive.width(100, context),
             padding: EdgeInsets.only(left: 8, right: 8),
             child: Row(
@@ -100,6 +101,7 @@ class _AccountScreen_TState extends State<AccountScreen_T> {
                                       ),
                                       // NAME AND SURNAME
                                       Text(
+                                        key: Key("name_surname_text"),
                                         "${snapshot.data!.name} ${snapshot.data!.surname}",
                                         style: TextStyle(
                                           fontSize: Responsive.widthFixOver(
@@ -111,6 +113,7 @@ class _AccountScreen_TState extends State<AccountScreen_T> {
                                       ),
                                       // EMAIL
                                       Text(
+                                        key: Key("email_text"),
                                         snapshot.data!.email!,
                                         style: TextStyle(
                                             fontSize: Responsive.widthFixOver(
@@ -164,7 +167,6 @@ class _AccountScreen_TState extends State<AccountScreen_T> {
                             builder: ((context, snapshot) {
                               if (snapshot.hasData) {
                                 return Column(
-                                  key: Key("column_account"),
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
@@ -177,6 +179,7 @@ class _AccountScreen_TState extends State<AccountScreen_T> {
                                       ),
                                     ),
                                     Text(
+                                      key: Key("bio_text"),
                                       snapshot.data!.bio!,
                                       style: TextStyle(fontSize: 18),
                                       overflow: TextOverflow.fade,
@@ -201,6 +204,7 @@ class _AccountScreen_TState extends State<AccountScreen_T> {
                                                 ),
                                               ),
                                               Text(
+                                                key: Key("age_text"),
                                                 snapshot.data!.age!.toString(),
                                                 style: TextStyle(fontSize: 18),
                                                 overflow: TextOverflow.fade,
@@ -220,6 +224,7 @@ class _AccountScreen_TState extends State<AccountScreen_T> {
                                                 ),
                                               ),
                                               Text(
+                                                key: Key("job_text"),
                                                 snapshot.data!.job!,
                                                 style: TextStyle(fontSize: 18),
                                                 overflow: TextOverflow.fade,
@@ -239,6 +244,7 @@ class _AccountScreen_TState extends State<AccountScreen_T> {
                                                 ),
                                               ),
                                               Text(
+                                                key: Key("city_text"),
                                                 snapshot.data!.city!,
                                                 style: TextStyle(fontSize: 18),
                                                 overflow: TextOverflow.fade,
@@ -301,6 +307,7 @@ class _AccountScreen_TState extends State<AccountScreen_T> {
         ],
       ),
       child: CupertinoButton(
+          key: Key("log_out_button"),
           child: Text("Log Out"),
           onPressed: (() {
             Provider.of<AppProvider>(context, listen: false)

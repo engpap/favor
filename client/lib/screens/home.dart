@@ -142,7 +142,7 @@ class HomeScreen extends StatelessWidget {
   CupertinoTabController tabController = FavorTab.tabController;
 
   Widget build(BuildContext context) {
-    return ResponsiveLeayout(
+    return ResponsiveLayout(
       mobileBody: buildHome(context),
       tabletBody: buildHome(context),
     );
@@ -153,7 +153,7 @@ class HomeScreen extends StatelessWidget {
     return UserMode(
       key: UniqueKey(),
       child: CupertinoTabScaffold(
-        controller: tabController,
+          controller: tabController,
           tabBar: CupertinoTabBar(
             key: Key("cupertino_tab_bar"),
             activeColor: favorColors.PrimaryBlue,
@@ -171,7 +171,8 @@ class HomeScreen extends StatelessWidget {
               // NEW FAVOR
               BottomNavigationBarItem(
                 icon: FavorTab.TabsName.values[2].icon,
-                label: "New Favor", //OLD VALUE: TabsName.values[2].name, TODO: cambiarlo
+                label:
+                    "New Favor", //OLD VALUE: TabsName.values[2].name, TODO: cambiarlo
               ),
               // LEADERBOARD
               BottomNavigationBarItem(

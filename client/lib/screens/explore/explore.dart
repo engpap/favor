@@ -18,7 +18,7 @@ class Explore_Screen extends StatelessWidget {
         },
         child: CupertinoPageScaffold(
             child: SafeArea(
-          child: ResponsiveLeayout(
+          child: ResponsiveLayout(
             mobileBody: Explore_Screen_M(),
             //TODO:
             tabletBody: Explore_Screen_M(),

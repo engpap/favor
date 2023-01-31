@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -39,37 +41,34 @@ import '../utility_for_testing/mocks/services/profile_service_mock.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
-  SharedPreferences.setMockInitialValues({});
-  TestWidgetsFlutterBinding.ensureInitialized();
-  /*
-  group("User is signed in", () {
-    testWidgets("User signs in, they open a post and book it.", (tester) async {
-      await Storage.setUserToken('valid_token');
-      app.main();
-      await tester.pumpAndSettle();
+}
+  /*testWidgets("User signs in, they open a post and book it.", (tester) async {
+    SharedPreferences.setMockInitialValues({'token': 'valid_token'});
+    app.mainAuth();
+    await tester.pumpAndSettle();
 
-      /// Make sure that introduction screens are not shown when user has logged in before
-      final gesture_detector_1 = find.byKey(Key("gesture_detector_intro1"));
-      expect(gesture_detector_1, findsNothing);
+    /// Make sure that introduction screens are not shown when user has logged in before
+    final gesture_detector_1 = find.byKey(Key("gesture_detector_intro1"));
+    expect(gesture_detector_1, findsNothing);
 
-      /// Find the first favor widget
-      final favor_widget_more_button = find
-          .byKey(
-            Key("favor_widget_more_button"),
-          )
-          .first;
-      await tester.ensureVisible(favor_widget_more_button);
-      await tester.pumpAndSettle();
-      await tester.tap(favor_widget_more_button);
-      await tester.pumpAndSettle();
-      expect(find.byType(FavorInformationPageScreen), findsOneWidget);
+    /// Find the first favor widget
+    final favor_widget_more_button =
+        find.byKey(Key("favor_widget_more_button")).first;
+    await tester.ensureVisible(favor_widget_more_button);
+    await tester.tap(favor_widget_more_button);
+    //await pumpUntilFound(tester, find.byKey(Key("favor_information")));
+    await tester.pumpAndSettle();
 
-      // Verify that user is redirected to Feed when successfully book a favor
-      await safeTapByKey(tester, "book_it_button");
-      await tester.pumpAndSettle();
-      expect(find.byType(Feed_Screen), findsOneWidget);
-    });
+    final favor_information_page = find.byKey(Key("favor_information_page"));
+    //await tester.ensureVisible(favor_information);
+    expect(favor_information_page, findsOneWidget);
+
+    // Verify that user is redirected to Feed when successfully book a favor
+    await safeTapByKey(tester, "book_it_button");
+    await tester.pumpAndSettle();
+    expect(find.byType(Feed_Screen), findsOneWidget);
   });
+  /*
 
   testWidgets("User signs in and clicks on favor category", (tester) async {
     await tester.runAsync(() async {
@@ -149,3 +148,31 @@ Future safeTapByKey(WidgetTester tester, String key) async {
   await tester.pumpAndSettle();
   await tester.tap(find.byKey(Key(key)));
 }
+
+Future<void> pumpForSeconds(WidgetTester tester, int seconds) async {
+  bool timerDone = false;
+  Timer(Duration(seconds: seconds), () => timerDone = true);
+  while (timerDone != true) {
+    await tester.pump();
+  }
+}
+
+Future<void> pumpUntilFound(
+  WidgetTester tester,
+  Finder finder, {
+  Duration timeout = const Duration(seconds: 30),
+}) async {
+  bool timerDone = false;
+  final timer =
+      Timer(timeout, () => throw TimeoutException("Pump until has timed out"));
+  while (timerDone != true) {
+    await tester.pump();
+
+    final found = tester.any(finder);
+    if (found) {
+      timerDone = true;
+    }
+  }
+  timer.cancel();
+}
+*/

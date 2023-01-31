@@ -25,11 +25,11 @@ class Leaderboard_Screen extends StatelessWidget {
         child: CupertinoPageScaffold(
             backgroundColor: favorColors.IntroBg,
             child: SafeArea(
-          child: ResponsiveLeayout(
-            mobileBody: Leaderboard_Screen_M(),
-            tabletBody: Leaderboard_Screen_M(),
-          ),
-        )));
+              child: ResponsiveLayout(
+                mobileBody: Leaderboard_Screen_M(),
+                tabletBody: Leaderboard_Screen_M(),
+              ),
+            )));
   }
 }
 
@@ -64,7 +64,7 @@ class LeaderboardCard extends StatelessWidget {
             ),
           ],
         ),
-        margin: EdgeInsets.only(left: 9, right:9, top:9), //
+        margin: EdgeInsets.only(left: 9, right: 9, top: 9), //
         width: Responsive.width(94, context),
         height: 60,
         child: CupertinoButton(

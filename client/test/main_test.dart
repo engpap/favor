@@ -33,3 +33,39 @@ void main() {
     ChangeNotifierProvider(create: (context) => ExploreQuery())
   ], child: const MyApp()));
 }
+
+void mainAuth() {
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(
+        create: (context) => AppProvider(
+              AdminServiceMock(),
+              AuthServiceMock(),
+              ConstantsServiceMock(),
+              FavorServiceMock(),
+              LeaderboardServiceMock(),
+              PostServiceMock(),
+              ProfileServiceMock(),
+              GoogleCalendarApiWrapperMock(),
+            )),
+    ChangeNotifierProvider(create: (context) => UserProvider()),
+    ChangeNotifierProvider(create: (context) => ExploreQuery())
+  ], child: const MyApp()));
+}
+
+void mainAdmin() {
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(
+        create: (context) => AppProvider(
+              AdminServiceMock(),
+              AdminAuthServiceMock(),
+              ConstantsServiceMock(),
+              FavorServiceMock(),
+              LeaderboardServiceMock(),
+              PostServiceMock(),
+              ProfileServiceMock(),
+              GoogleCalendarApiWrapperMock(),
+            )),
+    ChangeNotifierProvider(create: (context) => UserProvider()),
+    ChangeNotifierProvider(create: (context) => ExploreQuery())
+  ], child: const MyApp()));
+}

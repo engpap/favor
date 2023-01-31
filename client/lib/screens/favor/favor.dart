@@ -31,7 +31,7 @@ class FavorScreen extends StatelessWidget {
         child: CupertinoPageScaffold(
             backgroundColor: favorColors.IntroBg,
             child: SafeArea(
-              child: ResponsiveLeayout(
+              child: ResponsiveLayout(
                 mobileBody: FavorScreen_M(),
                 //TODO do we need tablet?
                 tabletBody: FavorScreen_M(),

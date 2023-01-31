@@ -49,172 +49,177 @@ class _AccountScreen_MState extends State<AccountScreen_M> {
                     future: _user,
                     builder: ((context, snapshot) {
                       if (snapshot.hasData) {
-                        return Column(
-                          key: Key("column_account"),
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            // IMAGE
-                            Container(
-                              width: Responsive.widthFixOver(120, 30, context),
-                              height: Responsive.widthFixOver(120, 30, context),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                  //image: AssetImage("assets/images/chris.jpg"),
-                                  image: Image.memory(
-                                          snapshot.data!.profilePicture.bytes)
-                                      .image,
-                                  fit: BoxFit.cover,
+                        if (snapshot.data != null) {
+                          return Column(
+                            key: Key("column_account_mobile"),
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              // IMAGE
+                              Container(
+                                width:
+                                    Responsive.widthFixOver(120, 30, context),
+                                height:
+                                    Responsive.widthFixOver(120, 30, context),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    //image: AssetImage("assets/images/chris.jpg"),
+                                    image: Image.memory(
+                                            snapshot.data!.profilePicture.bytes)
+                                        .image,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  border: Border.all(
+                                    color: favorColors.LightGrey,
+                                    width: 1.0,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.1),
+                                      spreadRadius: 0.5,
+                                      blurRadius: 5,
+                                      offset: Offset(0, 1),
+                                    ),
+                                  ],
                                 ),
-                                border: Border.all(
-                                  color: favorColors.LightGrey,
-                                  width: 1.0,
+                              ),
+                              //
+                              SizedBox(
+                                height: 10,
+                              ),
+                              // NAME AND SURNAME
+                              Text(
+                                "${snapshot.data!.name} ${snapshot.data!.surname}",
+                                style: TextStyle(
+                                  fontSize:
+                                      Responsive.widthFixOver(30, 10, context),
+                                  fontWeight: FontWeight.bold,
+                                  color: favorColors.PrimaryBlue,
                                 ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.1),
-                                    spreadRadius: 0.5,
-                                    blurRadius: 5,
-                                    offset: Offset(0, 1),
+                                textAlign: TextAlign.left,
+                              ),
+                              // EMAIL
+                              Text(
+                                snapshot.data!.email!,
+                                style: TextStyle(
+                                    fontSize: Responsive.widthFixOver(
+                                        18, 5, context)),
+                                overflow: TextOverflow.fade,
+                              ),
+                              //
+                              SizedBox(
+                                height: 15,
+                              ),
+                              // STARS
+                              StarsWidget(
+                                number: snapshot.data!.averageRatings,
+                                size: Responsive.widthFixOver(35, 10, context),
+                              ),
+                              //
+                              SizedBox(
+                                height: 35,
+                              ),
+                              // BIO
+                              Text(
+                                "My Bio",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                snapshot.data!.bio!,
+                                style: TextStyle(fontSize: 18),
+                                overflow: TextOverflow.fade,
+                              ),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              // PERSONAL SIGN
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  // AGE
+                                  Expanded(
+                                      child: Column(
+                                    children: [
+                                      Text(
+                                        "Age",
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        snapshot.data!.age!.toString(),
+                                        style: TextStyle(fontSize: 18),
+                                        overflow: TextOverflow.fade,
+                                      ),
+                                    ],
+                                  )),
+                                  // JOB
+                                  Expanded(
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          "Job",
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Text(
+                                          snapshot.data!.job!,
+                                          style: TextStyle(fontSize: 18),
+                                          overflow: TextOverflow.fade,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  // City
+                                  Expanded(
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          "City",
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Text(
+                                          snapshot.data!.city!,
+                                          style: TextStyle(fontSize: 18),
+                                          overflow: TextOverflow.fade,
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
-                            ),
-                            //
-                            SizedBox(
-                              height: 10,
-                            ),
-                            // NAME AND SURNAME
-                            Text(
-                              "${snapshot.data!.name} ${snapshot.data!.surname}",
-                              style: TextStyle(
-                                fontSize:
-                                    Responsive.widthFixOver(30, 10, context),
-                                fontWeight: FontWeight.bold,
-                                color: favorColors.PrimaryBlue,
-                              ),
-                              textAlign: TextAlign.left,
-                            ),
-                            // EMAIL
-                            Text(
-                              snapshot.data!.email!,
-                              style: TextStyle(
-                                  fontSize:
-                                      Responsive.widthFixOver(18, 5, context)),
-                              overflow: TextOverflow.fade,
-                            ),
-                            //
-                            SizedBox(
-                              height: 15,
-                            ),
-                            // STARS
-                            StarsWidget(
-                              number: snapshot.data!.averageRatings,
-                              size: Responsive.widthFixOver(35, 10, context),
-                            ),
-                            //
-                            SizedBox(
-                              height: 35,
-                            ),
-                            // BIO
-                            Text(
-                              "My Bio",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              snapshot.data!.bio!,
-                              style: TextStyle(fontSize: 18),
-                              overflow: TextOverflow.fade,
-                            ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            // PERSONAL SIGN
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                // AGE
-                                Expanded(
-                                    child: Column(
-                                  children: [
-                                    Text(
-                                      "Age",
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text(
-                                      snapshot.data!.age!.toString(),
-                                      style: TextStyle(fontSize: 18),
-                                      overflow: TextOverflow.fade,
-                                    ),
-                                  ],
-                                )),
-                                // JOB
-                                Expanded(
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        "Job",
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Text(
-                                        snapshot.data!.job!,
-                                        style: TextStyle(fontSize: 18),
-                                        overflow: TextOverflow.fade,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                // City
-                                Expanded(
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        "City",
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Text(
-                                        snapshot.data!.city!,
-                                        style: TextStyle(fontSize: 18),
-                                        overflow: TextOverflow.fade,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
 
-                            //
-                            SizedBox(
-                              height: 65,
-                            ),
-                            // CONTACT
-                            Text(
-                              "Other contacts",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
+                              //
+                              SizedBox(
+                                height: 65,
                               ),
-                            ),
-                            Text(
-                              "+39 347 4567890", // TODO: post!.bio!,
-                              style: TextStyle(fontSize: 18),
-                              overflow: TextOverflow.fade,
-                            ),
-                          ],
-                        );
+                              // CONTACT
+                              Text(
+                                "Other contacts",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                "+39 347 4567890", // TODO: post!.bio!,
+                                style: TextStyle(fontSize: 18),
+                                overflow: TextOverflow.fade,
+                              ),
+                            ],
+                          );
+                        }
                       } else if (snapshot.hasError) {
                         return Text('${snapshot.error}');
                       }
@@ -251,6 +256,7 @@ class _AccountScreen_MState extends State<AccountScreen_M> {
         ],
       ),
       child: CupertinoButton(
+          key: Key("log_out_button"),
           child: Text("Log Out"),
           onPressed: (() {
             Provider.of<AppProvider>(context, listen: false)

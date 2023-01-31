@@ -31,7 +31,7 @@ class _AdminScreenState extends State<AdminScreen> {
         child: CupertinoPageScaffold(
             backgroundColor: Color.fromARGB(255, 245, 245, 245),
             child: SafeArea(
-              child: ResponsiveLeayout(
+              child: ResponsiveLayout(
                 mobileBody: AdminScreen_M(),
                 tabletBody: AdminScreen_M(),
               ),
@@ -77,27 +77,26 @@ class _AdminScreen_MState extends State<AdminScreen_M> {
   }
 
   Future<void> _moveToDuomo() async {
-    _googleMapController
-        .animateCamera(CameraUpdate.newLatLngZoom(_cameraPosition.target, _cameraPosition.zoom));
-    setState(() {
-    });
+    _googleMapController.animateCamera(CameraUpdate.newLatLngZoom(
+        _cameraPosition.target, _cameraPosition.zoom));
+    setState(() {});
     print(statistics);
   }
 
   Future<void> _moveTo(String districtName) async {
-  District district = milan.setDistricts.singleWhere((element) =>  equalsIgnoreCase(element.name, districtName));
-  //_googleMapController.animateCamera(CameraUpdate.newLatLng(district.cameraPos.target));
-  _googleMapController.animateCamera(CameraUpdate.newLatLngZoom(district.cameraPos.target, district.zoom));
+    District district = milan.setDistricts
+        .singleWhere((element) => equalsIgnoreCase(element.name, districtName));
+    //_googleMapController.animateCamera(CameraUpdate.newLatLng(district.cameraPos.target));
+    _googleMapController.animateCamera(
+        CameraUpdate.newLatLngZoom(district.cameraPos.target, district.zoom));
     setState(() {});
-}
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          
-        ),
+        Container(),
         //
         Expanded(
           child: Container(
@@ -127,16 +126,18 @@ class _AdminScreen_MState extends State<AdminScreen_M> {
                       FloatingActionButton(
                         heroTag: null,
                         onPressed: (() {
-                        Provider.of<AppProvider>(context, listen: false)
-                            .signout(context: context);
-                      }),
+                          Provider.of<AppProvider>(context, listen: false)
+                              .signout(context: context);
+                        }),
                         backgroundColor: favorColors.Error,
                         child: const Icon(
                           Icons.exit_to_app,
                           size: 30,
                         ),
                       ),
-                      SizedBox(height: 15,),
+                      SizedBox(
+                        height: 15,
+                      ),
                       // CENTER MAP
                       FloatingActionButton(
                         heroTag: null,
@@ -153,8 +154,8 @@ class _AdminScreen_MState extends State<AdminScreen_M> {
                 // LOGO FAVOR
                 Container(
                   padding: EdgeInsets.all(9),
-                    alignment: Alignment.topLeft,
-                    height: Responsive.heightFixOver(80, 20, context),
+                  alignment: Alignment.topLeft,
+                  height: Responsive.heightFixOver(80, 20, context),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -186,20 +187,23 @@ class _AdminScreen_MState extends State<AdminScreen_M> {
                     future: statistics,
                     builder: ((context, snapshot) {
                       if (snapshot.hasData) {
-                        for (MapEntry<String, int> entry in snapshot.data!.stats.entries) {
+                        for (MapEntry<String, int> entry
+                            in snapshot.data!.stats.entries) {
                           print('${entry.key}: ${entry.value}');
-                          
-                          Marker? marker = newFavorMarker(entry.key, entry.value);
+
+                          Marker? marker =
+                              newFavorMarker(entry.key, entry.value);
                           if (marker != null) _markers..add(marker);
                         }
                         return ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: snapshot.data!.stats.length,
-                          itemBuilder: (context, index) {
-                            var key = snapshot.data!.stats.keys.toList()[index];
-                            return buildLegend(context, key, snapshot.data!.stats[key].toString());
-                          });
-              
+                            scrollDirection: Axis.horizontal,
+                            itemCount: snapshot.data!.stats.length,
+                            itemBuilder: (context, index) {
+                              var key =
+                                  snapshot.data!.stats.keys.toList()[index];
+                              return buildLegend(context, key,
+                                  snapshot.data!.stats[key].toString());
+                            });
                       } else
                         // If error
                         return Container(
@@ -216,10 +220,10 @@ class _AdminScreen_MState extends State<AdminScreen_M> {
     );
   }
 
-   Widget buildLegend(BuildContext context, String district, value) {
+  Widget buildLegend(BuildContext context, String district, value) {
     return Container(
       child: CustomCard(
-        padding: EdgeInsets.zero,
+          padding: EdgeInsets.zero,
           child: ElevatedButton(
             style: ButtonStyle(
               backgroundColor:
@@ -230,7 +234,7 @@ class _AdminScreen_MState extends State<AdminScreen_M> {
                   MaterialStateProperty.all<Color>(favorColors.SecondaryBlue),
               padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(0)),
             ),
-            onPressed: (){
+            onPressed: () {
               _moveTo(district);
             },
             child: Padding(
@@ -238,7 +242,8 @@ class _AdminScreen_MState extends State<AdminScreen_M> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(district,
+                  Text(
+                    district,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: Responsive.widthFixOver(18, 5, context),
@@ -246,20 +251,17 @@ class _AdminScreen_MState extends State<AdminScreen_M> {
                       overflow: TextOverflow.fade,
                     ),
                   ),
-                  SizedBox(height: 5,),
+                  SizedBox(
+                    height: 5,
+                  ),
                   Text("completed: ${value}"),
                 ],
               ),
             ),
-        )
-      ),
+          )),
     );
   }
-
-
 }
-
-
 
 Marker? newFavorMarker(String location, int value) {
   District? district = getDistrictFromName(location);

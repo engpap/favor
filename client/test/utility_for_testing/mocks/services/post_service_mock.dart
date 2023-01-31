@@ -51,7 +51,7 @@ class PostServiceMock extends Mock implements PostService {
       {required BuildContext context,
       required Post? post,
       required String userType}) async {
-    return Navigator.pushReplacement(
+    Navigator.pushReplacement(
         context, CupertinoPageRoute(builder: (context) => HomeScreen()));
   }
 }

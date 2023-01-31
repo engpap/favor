@@ -43,7 +43,7 @@ class SignUp2Screen extends StatelessWidget {
                 // .withAlpha(180) is used to add transparency, in order to see the bg-image
                 backgroundColor: favorColors.IntroBg.withAlpha(180),
                 child: SafeArea(
-                  child: ResponsiveLeayout(
+                  child: ResponsiveLayout(
                     mobileBody: SignUp2Screen_M(),
                     tabletBody: SignUp2Screen_T(),
                   ),

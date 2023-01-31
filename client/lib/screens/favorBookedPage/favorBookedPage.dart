@@ -38,7 +38,7 @@ class BookedFavorPage_Screen extends StatelessWidget {
         child: CupertinoPageScaffold(
             backgroundColor: favorColors.IntroBg,
             child: SafeArea(
-              child: ResponsiveLeayout(
+              child: ResponsiveLayout(
                 mobileBody: favorBookedPage_Screen_M(bookedFavor: bookedFavor),
                 tabletBody: favorBookedPage_Screen_T(bookedFavor: bookedFavor),
               ),

@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:project/functions/favorColors.dart' as favorColors;
 
-class ResponsiveLeayout extends StatelessWidget {
+class ResponsiveLayout extends StatelessWidget {
   // screen max width for a mobile app
   final double mobileMaxWidth = 640; //780
   final double notSupportedSize = 300;
@@ -12,7 +12,7 @@ class ResponsiveLeayout extends StatelessWidget {
   final Widget mobileBody;
   final Widget tabletBody;
 
-  const ResponsiveLeayout({
+  const ResponsiveLayout({
     super.key,
     required this.mobileBody,
     required this.tabletBody,

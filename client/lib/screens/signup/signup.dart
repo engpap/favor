@@ -43,7 +43,7 @@ class SignUpScreen extends StatelessWidget {
                 // .withAlpha(180) is used to add transparency, in order to see the bg-image
                 backgroundColor: favorColors.IntroBg.withAlpha(180),
                 child: SafeArea(
-                  child: ResponsiveLeayout(
+                  child: ResponsiveLayout(
                     mobileBody: SignUpScreen_M(),
                     tabletBody: SignUpScreen_T(),
                   ),
@@ -270,7 +270,7 @@ class SignUp_registerButton extends StatelessWidget {
               print("Error not valid fields");
             } else {
               // Send information to server and wait for response
-              Provider.of<AppProvider>(context, listen:false).signup(
+              Provider.of<AppProvider>(context, listen: false).signup(
                 context: context,
                 name: globals.textControllerName.text,
                 surname: globals.textControllerSurname.text,

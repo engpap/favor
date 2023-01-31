@@ -37,7 +37,7 @@ class FavorInformationPageScreen extends StatelessWidget {
         child: CupertinoPageScaffold(
             backgroundColor: favorColors.IntroBg,
             child: SafeArea(
-              child: ResponsiveLeayout(
+              child: ResponsiveLayout(
                 mobileBody: favorInformationPage_Screen_M(
                     post: post, userType: userType),
                 tabletBody: favorInformationPage_Screen_T(
@@ -58,6 +58,7 @@ class FavorInformation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      key: Key("favor_information"),
       children: [
         // HEADING - TASKCATEGORY
         SizedBox(
@@ -253,12 +254,13 @@ class FavorPerson extends StatelessWidget {
                 post!.rankingPosition != 0
                     ? Text(
                         "Ranked as ${post!.rankingPosition}º in ${post!.rankingLocation}",
-                        style: TextStyle(fontSize: 14, overflow: TextOverflow.clip),
-                        
+                        style: TextStyle(
+                            fontSize: 14, overflow: TextOverflow.clip),
                       )
                     : Text(
                         "Never done a favor in ${post!.rankingLocation}",
-                        style: TextStyle(fontSize: 14), overflow: TextOverflow.clip,
+                        style: TextStyle(fontSize: 14),
+                        overflow: TextOverflow.clip,
                       )
               ],
             ),

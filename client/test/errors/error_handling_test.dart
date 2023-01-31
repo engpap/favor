@@ -11,18 +11,8 @@ import 'package:project/screens/home.dart';
 import 'package:project/screens/signin/signin.dart';
 import 'package:project/errors/error_handling.dart';
 import 'package:http/http.dart' as http;
-import 'package:project/services/adminService.dart';
-import 'package:provider/provider.dart';
 import '../utility_for_testing/mocks/mock_build_context.dart';
 import '../utility_for_testing/mocks/mock_navigator.dart';
-import '../utility_for_testing/mocks/services/admin_service_mock.dart';
-import '../utility_for_testing/mocks/services/apis/google_calendar_api_wrapper_mock.dart';
-import '../utility_for_testing/mocks/services/auth_service_mock.dart';
-import '../utility_for_testing/mocks/services/constants_service_mock.dart';
-import '../utility_for_testing/mocks/services/favor_service_mock.dart';
-import '../utility_for_testing/mocks/services/leaderboard_service_mock.dart';
-import '../utility_for_testing/mocks/services/post_service_mock.dart';
-import '../utility_for_testing/mocks/services/profile_service_mock.dart';
 
 void main() {
   executeUnitTests();

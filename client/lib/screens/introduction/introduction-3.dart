@@ -22,7 +22,7 @@ class Introduction3Screen extends StatelessWidget {
         child: CupertinoPageScaffold(
             backgroundColor: favorColors.IntroBg,
             child: SafeArea(
-              child: ResponsiveLeayout(
+              child: ResponsiveLayout(
                 mobileBody: Introduction3Screen_M_T(),
                 tabletBody: Introduction3Screen_M_T(),
               ),
@@ -46,6 +46,7 @@ class Introduction3Screen_M_T extends StatelessWidget {
               Navigator.pushReplacement(
                 context,
                 CupertinoPageRoute(builder: (context) => HomeScreen()),
+
                 /// HomeScreen is pushed so the users can see how the app looks like and eventually sign up.
               );
             },

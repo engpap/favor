@@ -39,7 +39,7 @@ class Feed_Screen extends StatelessWidget {
         child: CupertinoPageScaffold(
             //backgroundColor: favorColors.IntroBg,
             child: SafeArea(
-          child: ResponsiveLeayout(
+          child: ResponsiveLayout(
             mobileBody: Feed_Screen_M(),
             tabletBody: Feed_Screen_M(),
           ),

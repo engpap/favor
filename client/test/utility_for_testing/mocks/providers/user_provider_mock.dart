@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
+import 'package:mockito/mockito.dart';
 import 'package:project/models/user.dart';
 import 'package:project/providers/user_provider.dart';
 
-import '../mock_build_context.dart';
-
-class UserProviderMock extends MockContext implements UserProvider {
+class UserProviderMock extends Mock implements UserProvider {
   User? _user;
+
+  UserProviderMock(this._user);
 
   User? get user => _user;
 
