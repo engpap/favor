@@ -197,7 +197,7 @@ class FavorPerson extends StatelessWidget {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   image: post!.profilePicture!.image,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.contain,
                 ),
                 border: Border.all(
                   color: favorColors.LightGrey,
