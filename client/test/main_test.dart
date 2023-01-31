@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import 'package:project/main.dart';
 
@@ -52,20 +53,28 @@ void mainAuth() {
   ], child: const MyApp()));
 }
 
-void mainAdmin() {
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(
-        create: (context) => AppProvider(
-              AdminServiceMock(),
-              AdminAuthServiceMock(),
-              ConstantsServiceMock(),
-              FavorServiceMock(),
-              LeaderboardServiceMock(),
-              PostServiceMock(),
-              ProfileServiceMock(),
-              GoogleCalendarApiWrapperMock(),
-            )),
-    ChangeNotifierProvider(create: (context) => UserProvider()),
-    ChangeNotifierProvider(create: (context) => ExploreQuery())
-  ], child: const MyApp()));
-}
+MultiProvider getWidgetToTest(Widget widget) => MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+            create: (context) => AppProvider(
+                  AdminServiceMock(),
+                  AdminAuthServiceMock(),
+                  ConstantsServiceMock(),
+                  FavorServiceMock(),
+                  LeaderboardServiceMock(),
+                  PostServiceMock(),
+                  ProfileServiceMock(),
+                  GoogleCalendarApiWrapperMock(),
+                )),
+        ChangeNotifierProvider(create: (context) => UserProvider()),
+        ChangeNotifierProvider(create: (context) => ExploreQuery())
+      ],
+      child: CupertinoApp(
+        localizationsDelegates: [
+          DefaultMaterialLocalizations.delegate,
+          DefaultCupertinoLocalizations.delegate,
+          DefaultWidgetsLocalizations.delegate,
+        ],
+        home: widget,
+      ),
+    );

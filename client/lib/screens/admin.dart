@@ -124,6 +124,7 @@ class _AdminScreen_MState extends State<AdminScreen_M> {
                     children: [
                       // LOG OUT
                       FloatingActionButton(
+                        key: Key("log_out_button_floating"),
                         heroTag: null,
                         onPressed: (() {
                           Provider.of<AppProvider>(context, listen: false)
@@ -140,6 +141,7 @@ class _AdminScreen_MState extends State<AdminScreen_M> {
                       ),
                       // CENTER MAP
                       FloatingActionButton(
+                        key: Key("center_map_button"),
                         heroTag: null,
                         onPressed: _moveToDuomo,
                         backgroundColor: favorColors.PrimaryBlue,
@@ -153,6 +155,7 @@ class _AdminScreen_MState extends State<AdminScreen_M> {
                 ),
                 // LOGO FAVOR
                 Container(
+                  key: Key("logo_container"),
                   padding: EdgeInsets.all(9),
                   alignment: Alignment.topLeft,
                   height: Responsive.heightFixOver(80, 20, context),
@@ -222,6 +225,7 @@ class _AdminScreen_MState extends State<AdminScreen_M> {
 
   Widget buildLegend(BuildContext context, String district, value) {
     return Container(
+      key: Key("legend_${district}"),
       child: CustomCard(
           padding: EdgeInsets.zero,
           child: ElevatedButton(
