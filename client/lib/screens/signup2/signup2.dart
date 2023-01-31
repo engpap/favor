@@ -292,7 +292,7 @@ class RegisterButton_SignUp2 extends StatelessWidget {
             print('Pressed: RegisterButton_SignUp2');
             // Check possible errors on inputs
             if (globals.bioContoller.text.length < 1 ||
-                globals.bioContoller.text.length > 50) {
+                globals.bioContoller.text.length > 500) {
               print("Error on Bio length");
             } else {
               // Send information to server and wait for response
