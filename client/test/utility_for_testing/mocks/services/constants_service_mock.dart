@@ -1,14 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
 import 'package:project/models/favorCategories.dart';
 import 'package:project/models/favorConstants.dart';
-
 import 'package:project/models/profileConstants.dart';
-
-import 'dart:convert';
-
-import 'package:project/constants/globalVars.dart';
 import 'package:project/services/constantsService.dart';
 
 class ConstantsServiceMock extends Mock implements ConstantsService {

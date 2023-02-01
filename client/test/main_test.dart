@@ -1,12 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:project/main.dart';
-
 import 'package:project/providers/app_provider.dart';
 import 'package:project/providers/user_provider.dart';
 import 'package:project/screens/explore/providerExplore.dart';
-
 import 'package:provider/provider.dart';
 import 'utility_for_testing/mocks/services/admin_service_mock.dart';
 import 'utility_for_testing/mocks/services/apis/google_calendar_api_wrapper_mock.dart';

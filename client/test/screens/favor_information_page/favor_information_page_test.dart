@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:project/models/post.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:project/screens/favor_information_page/favorInformationPage.dart';
 

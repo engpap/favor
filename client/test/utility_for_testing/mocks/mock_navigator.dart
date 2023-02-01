@@ -1,21 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:mockito/mockito.dart';
 
-/*
-class MockNavigator extends Mock implements NavigatorState {
-  /// If the following method is not overriden then an error will show up.
-  /// The reason is the following: toString method in the Mock class is not a
-  ///  valid implementation of
-  ///  the toString method in the Diagnosticable interface, because the method
-  ///  signature is different. The Mock class's toString method takes
-  ///  no arguments, while the Diagnosticable interface's toString method
-  ///  takes a single argument minLevel.
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.debug}) {
-    return 'MockNavigator';
-  }
-}*/
-
 class MockNavigator extends Mock implements NavigatorState {
   final List<Route<dynamic>> _routes = <Route<dynamic>>[];
 

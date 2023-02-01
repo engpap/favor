@@ -1,17 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:http/http.dart' as http;
-import 'package:matcher/matcher.dart';
 import 'package:mockito/mockito.dart';
-import 'package:project/errors/error_handling.dart';
-import 'package:project/functions/showToast.dart';
 import 'package:project/models/bookedFavor.dart';
-import 'dart:convert';
-import 'package:project/constants/globalVars.dart';
-import 'package:project/helpers/storage.dart';
-import 'package:project/providers/user_provider.dart';
 import 'package:project/services/favorService.dart';
-import 'package:provider/provider.dart';
-
 import '../dummy_models.dart';
 
 class FavorServiceMock extends Mock implements FavorService {

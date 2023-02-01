@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:mockito/mockito.dart';
-import 'package:project/errors/error_handling.dart';
 import 'package:project/models/user.dart';
 import 'package:project/screens/signin/signin.dart';
 import 'package:project/services/profileService.dart';
-import 'package:http/http.dart' as http;
 import '../dummy_models.dart';
 
 class ProfileServiceMock extends Mock implements ProfileService {

@@ -1,23 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
-import 'package:project/errors/error_handling.dart';
-import 'package:project/functions/showToast.dart';
-import 'package:project/models/callerPost.dart';
-import 'package:project/models/providerPost.dart';
-import 'package:project/helpers/storage.dart';
-import 'dart:convert';
-
-import 'package:project/screens/favor_information_page/favorInformationPage.dart';
-import 'package:project/screens/feed/feed.dart';
 import 'package:project/screens/home.dart';
-import 'package:project/constants/globalVars.dart';
 import 'package:project/models/post.dart';
-
-import 'package:project/screens/favor/globals.dart' as globals_favor;
-import 'package:project/functions/favorTime.dart' as favorTime;
 import 'package:project/services/postService.dart';
-
 import '../dummy_models.dart';
 
 class PostServiceMock extends Mock implements PostService {

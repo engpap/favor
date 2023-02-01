@@ -8,7 +8,6 @@ import 'package:project/screens/signin/signin.dart';
 import 'package:project/screens/signup2/signup2.dart';
 import 'package:project/services/authService.dart';
 import 'package:provider/provider.dart';
-
 import '../dummy_models.dart';
 
 /// Assumptions: Server works properly

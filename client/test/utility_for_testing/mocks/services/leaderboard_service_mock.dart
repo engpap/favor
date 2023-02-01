@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:mockito/mockito.dart';
 import 'package:project/models/leaderboard.dart';
 import 'package:project/services/leaderboardService.dart';
-
 import '../dummy_models.dart';
 
 class LeaderboardServiceMock extends Mock implements LeaderboardService {

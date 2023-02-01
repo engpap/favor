@@ -1,10 +1,8 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:project/providers/user_provider.dart';
 import 'package:project/screens/leaderboard/leaderboard.dart';
-
 import 'package:project/functions/favorColors.dart' as favorColors;
 import '../../utility_for_testing/utilities.dart';
 

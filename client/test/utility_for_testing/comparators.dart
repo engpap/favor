@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 bool textListEquals(List<dynamic>? a, List<dynamic>? b) {
   if (a == null) {
     return b == null;

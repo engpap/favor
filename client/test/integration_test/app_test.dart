@@ -1,40 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:mockito/mockito.dart';
-import 'package:project/functions/tabs.dart';
-import 'package:project/screens/favor_information_page/favorInformationPage.dart';
 import 'package:project/screens/feed/feed.dart';
-import 'package:project/screens/signup/signup.dart';
-import 'package:project/screens/signup2/signup2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../main_test.dart' as app;
-
-import 'package:project/screens/account/account.dart';
 import 'package:project/screens/explore/explore.dart';
 import 'package:project/screens/favor/favor.dart';
-import 'package:project/screens/feed/feed_mobile.dart';
 import 'package:project/screens/home.dart';
 import 'package:project/screens/leaderboard/leaderboard.dart';
 import 'package:project/screens/signin/signin.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:project/errors/error_handling.dart';
 import 'package:project/helpers/storage.dart';
-import 'package:project/main.dart';
-import 'package:http/http.dart' as http;
-import 'package:project/providers/app_provider.dart';
-import 'package:project/providers/user_provider.dart';
-import 'package:project/screens/explore/providerExplore.dart';
-import 'package:provider/provider.dart';
-import '../utility_for_testing/mocks/services/admin_service_mock.dart';
-import '../utility_for_testing/mocks/services/apis/google_calendar_api_wrapper_mock.dart';
-import '../utility_for_testing/mocks/services/auth_service_mock.dart';
-import '../utility_for_testing/mocks/services/constants_service_mock.dart';
-import '../utility_for_testing/mocks/services/favor_service_mock.dart';
-import '../utility_for_testing/mocks/services/leaderboard_service_mock.dart';
-import '../utility_for_testing/mocks/services/post_service_mock.dart';
-import '../utility_for_testing/mocks/services/profile_service_mock.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();

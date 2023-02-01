@@ -1,18 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:project/screens/account/account.dart';
-import 'package:project/screens/account/account_mobile.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
-
-import 'package:project/main.dart';
-
-import 'package:project/providers/app_provider.dart';
-import 'package:project/providers/user_provider.dart';
-import 'package:project/screens/explore/providerExplore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../utility_for_testing/mocks/dummy_models.dart';
 import '../main_test.dart' as app;
 

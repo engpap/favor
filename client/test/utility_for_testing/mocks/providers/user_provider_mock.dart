@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:mockito/mockito.dart';
 import 'package:project/models/user.dart';
 import 'package:project/providers/user_provider.dart';
