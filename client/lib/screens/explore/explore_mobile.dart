@@ -31,7 +31,7 @@ class _Explore_Screen_MState extends State<Explore_Screen_M> {
   }
 
   Future<List<Post>> searchPosts() {
-    return posts = Provider.of<AppProvider>(context).getPostsBySearch(
+    return posts = Provider.of<AppProvider>(context, listen: false).getPostsBySearch(
         context: context,
         searchQuery: context.read<ExploreQuery>().text,
         userTypeToSearch:
