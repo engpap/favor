@@ -10,7 +10,8 @@ The project consists of the development of a cross-platform Flutter mobile appli
 ## The Essence of "Favor"
 At its core, Favor serves as a conduit between individuals requiring assistance and those willing to provide help. The app's simplicity redefines the process of favor exchanges, making it intuitive and user-friendly.
 
-For an in-depth exploration of our project, please refer to the [project presentation](https://github.com/engpap/deliverables/presentation.pdf).
+For an overview of our project, please refer to the [project presentation](https://github.com/engpap/deliverables/presentation.pdf).
+For an in-depth exploration of our project, please refer to the [design document](https://github.com/engpap/deliverables/design_document.pdf).
 
 ## Project Team
 * [Nicholas Nicolis](https://github.com/NicholasNicolis)
